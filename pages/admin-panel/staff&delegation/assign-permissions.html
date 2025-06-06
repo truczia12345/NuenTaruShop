@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gán quyền | Admin Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@fortawesome/fontawesome-free/js/all.js" defer></script>
+</head>
+<body class="bg-gray-100 p-8 font-sans">
+<div class="p-6">
+  <!-- Tiêu đề -->
+  <div class="mb-6">
+    <h1 class="text-2xl font-semibold flex items-center gap-2">
+      <i class="fas fa-user-cog text-blue-600"></i>
+      Gán quyền
+    </h1>
+    <p class="text-gray-500 text-sm">Gán và điều chỉnh quyền truy cập cho admin theo từng chức năng.</p>
+  </div>
+
+  <!-- Chọn admin và nhóm quyền -->
+  <div class="bg-white p-4 rounded-lg shadow mb-6 grid md:grid-cols-2 gap-4">
+    <div>
+      <label class="block text-sm font-medium mb-1">Chọn Admin</label>
+      <select class="w-full p-2 border rounded">
+        <option>-- Chọn admin --</option>
+        <option>Nguyễn Quang Minh (#AD001)</option>
+        <option>Trần Thị Hoa (#AD002)</option>
+      </select>
+    </div>
+    <div>
+      <label class="block text-sm font-medium mb-1">Nhóm vai trò</label>
+      <select class="w-full p-2 border rounded">
+        <option>-- Chọn nhóm vai trò --</option>
+        <option>Super Admin</option>
+        <option>Quản lý đơn hàng</option>
+        <option>Chăm sóc khách hàng</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Phân quyền theo module -->
+  <div class="bg-white p-4 rounded-lg shadow mb-6">
+    <h2 class="text-lg font-semibold mb-4">Phân quyền chi tiết</h2>
+    <table class="w-full text-sm">
+      <thead class="bg-gray-100 text-gray-600 text-xs uppercase">
+        <tr>
+          <th class="p-3 text-left">Module</th>
+          <th class="p-3 text-center">Xem</th>
+          <th class="p-3 text-center">Tạo</th>
+          <th class="p-3 text-center">Sửa</th>
+          <th class="p-3 text-center">Xóa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-t hover:bg-gray-50">
+          <td class="p-3">Quản lý người dùng</td>
+          <td class="text-center"><input type="checkbox" checked></td>
+          <td class="text-center"><input type="checkbox"></td>
+          <td class="text-center"><input type="checkbox"></td>
+          <td class="text-center"><input type="checkbox"></td>
+        </tr>
+        <tr class="border-t hover:bg-gray-50">
+          <td class="p-3">Quản lý sản phẩm</td>
+          <td class="text-center"><input type="checkbox" checked></td>
+          <td class="text-center"><input type="checkbox" checked></td>
+          <td class="text-center"><input type="checkbox"></td>
+          <td class="text-center"><input type="checkbox"></td>
+        </tr>
+        <tr class="border-t hover:bg-gray-50">
+          <td class="p-3">Đơn hàng & Giao hàng</td>
+          <td class="text-center"><input type="checkbox" checked></td>
+          <td class="text-center"><input type="checkbox"></td>
+          <td class="text-center"><input type="checkbox" checked></td>
+          <td class="text-center"><input type="checkbox"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Nút lưu -->
+  <div class="text-right">
+    <button class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
+      <i class="fas fa-save mr-2"></i> Lưu phân quyền
+    </button>
+  </div>
+</div>
+</body>
+</html>

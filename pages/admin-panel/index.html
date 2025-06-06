@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #fff;
+      color: #111;
+    }
+    /* Scrollbar for sidebar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: #888;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h1 class="text-2xl font-semibold tracking-wide">Admin Panel</h1>
+      </div>
+      <nav class="flex-1 overflow-y-auto px-4 py-6">
+        <ul class="space-y-4">
+          <li>
+            <button type="button" class="w-full flex justify-between items-center px-4 py-2 font-semibold text-left text-gray-900 hover:bg-gray-100 rounded-md" aria-expanded="false" aria-controls="dashboard-submenu" onclick="toggleSubmenu('dashboard-submenu')">
+              Dashboard
+              <span class="ml-2 text-sm font-normal">+</span>
+            </button>
+            <ul id="dashboard-submenu" class="mt-2 ml-4 hidden space-y-2 text-gray-700">
+              <li><a href="dashboard/dashboard.html" class="block px-2 py-1 rounded hover:bg-gray-200">Tổng quan</a></li>
+              <li><a href="dashboard/revenue.html" class="block px-2 py-1 rounded hover:bg-gray-200">Doanh thu</a></li>
+              <li><a href="dashboard/orders.html" class="block px-2 py-1 rounded hover:bg-gray-200">Đơn hàng</a></li>
+              <li><a href="dashboard/new-user.html" class="block px-2 py-1 rounded hover:bg-gray-200">Người dùng mới</a></li>
+              <li><a href="dashboard/hot-products.html" class="block px-2 py-1 rounded hover:bg-gray-200">Sản phẩm hot</a></li>
+            </ul>
+          </li>
+          <li>
+            <button type="button" class="w-full flex justify-between items-center px-4 py-2 font-semibold text-left text-gray-900 hover:bg-gray-100 rounded-md" aria-expanded="false" aria-controls="user-management-submenu" onclick="toggleSubmenu('user-management-submenu')">
+              Quản lý người dùng
+              <span class="ml-2 text-sm font-normal">+</span>
+            </button>
+            <ul id="user-management-submenu" class="mt-2 ml-4 hidden space-y-2 text-gray-700">
+              <li><a href="user-management/users-list.html" class="block px-2 py-1 rounded hover:bg-gray-200">Danh sách người dùng</a></li>
+              <li><a href="user-management/user-reports.html" class="block px-2 py-1 rounded hover:bg-gray-200">Báo cáo người dùng</a></li>
+              <li><a href="user-management/user-roles.html" class="block px-2 py-1 rounded hover:bg-gray-200">Phân loại (buyer/seller)</a></li>
+              <li><a href="user-management/user-ban.html" class="block px-2 py-1 rounded hover:bg-gray-200">Khóa tài khoản</a></li>
+            </ul>
+          </li>
+          <li>
+            <button type="button" class="w-full flex justify-between items-center px-4 py-2 font-semibold text-left text-gray-900 hover:bg-gray-100 rounded-md" aria-expanded="false" aria-controls="seller-management-submenu" onclick="toggleSubmenu('seller-management-submenu')">
+              Quản lý người bán
+              <span class="ml-2 text-sm font-normal">+</span>
+            </button>
+            <ul id="seller-management-submenu" class="mt-2 ml-4 hidden space-y-2 text-gray-700">
+              <li><a href="seller-management/seller-approve.html" class="block px-2 py-1 rounded hover:bg-gray-200">Duyệt seller</a></li>
+              <li><a href="seller-management/seller-list.html" class="block px-2 py-1 rounded hover:bg-gray-200">Danh sách seller</a></li>
+              <li><a href="seller-management/seller-reports.html" class="block px-2 py-1 rounded hover:bg-gray-200">Báo cáo seller</a></li>
+              <li><a href="seller-management/seller-profile.html" class="block px-2 py-1 rounded hover:bg-gray-200">Hồ sơ seller</a></li>
+              <li><a href="seller-management/locked-shops.html" class="block px-2 py-1 rounded hover:bg-gray-200">Cửa hàng bị khóa</a></li>
+            </ul>
+          </li>
+          <li>
+            <button type="button" class="w-full flex justify-between items-center px-4 py-2 font-semibold text-left text-gray-900 hover:bg-gray-100 rounded-md" aria-expanded="false" aria-controls="product-management-submenu" onclick="toggleSubmenu('product-management-submenu')">
+              Quản lý sản phẩm
+              <span class="ml-2 text-sm font-normal">+</span>
+            </button>
+            <ul id="product-management-submenu" class="mt-2 ml-4 hidden space-y-2 text-gray-700">
+              <li><a href="product-management/products-list.html" class="block px-2 py-1 rounded hover:bg-gray-200">Danh sách sản phẩm</a></li>
+              <li><a href="product-management/new-products-approval.html" class="block px-2 py-1 rounded hover:bg-gray-200">Duyệt sản phẩm mới</a></li>
+              <li><a href="product-management/reported-products.html" class="block px-2 py-1 rounded hover:bg-gray-200">Báo cáo sản phẩm</a></li>
+              <li><a href="product-management/product-categories.html" class="block px-2 py-1 rounded hover:bg-gray-200">Danh mục</a></li>
+              <li><a href="product-management/product-attributes.html" class="block px-2 py-1 rounded hover:bg-gray-200">Thuộc tính</a></li>
+            </ul>
+          </li>
+          <li>
+            <button type="button" class="w-full flex justify-between items-center px-4 py-2 font-semibold text-left text-gray-900 hover:bg-gray-100 rounded-md" aria-expanded="false" aria-controls="order-management-submenu" onclick="toggleSubmenu('order-management-submenu')">
+              Đơn hàng &amp; Giao hàng
+              <span class="ml-2 text-sm font-normal">+</span>
+            </button>
+            <ul id="order-management-submenu" class="mt-2 ml-4 hidden space-y-2 text-gray-700">
+              <li><a href="orders&delivery/all-orders.html" class="block px-2 py-1 rounded hover:bg-gray-200">Tất cả đơn hàng</a></li>
+              <li><a href="orders&delivery/shipping-status.html" class="block px-2 py-1 rounded hover:bg-gray-200">Trạng thái giao hàng</a></li>
+              <li><a href="orders&delivery/cancellations-refunds.html" class="block px-2 py-1 rounded hover:bg-gray-200">Hủy hàng / hoàn tiền</a></li>
+              <li><a href="orders&delivery/pending-orders.html" class="block px-2 py-1 rounded hover:bg-gray-200">Đơn cần xử lý</a></li>
+            </ul>
+          </li>
+          <li>
+            <button type="button" class="w-full flex justify-between items-center px-4 py-2 font-semibold text-left text-gray-900 hover:bg-gray-100 rounded-md" aria-expanded="false" aria-controls="marketing-submenu" onclick="toggleSubmenu('marketing-submenu')">
+              Khuyến mãi &amp; Voucher
+              <span class="ml-2 text-sm font-normal">+</span>
+            </button>
+            <ul id="marketing-submenu" class="mt-2 ml-4 hidden space-y-2 text-gray-700">
+              <li><a href="promotions&vouchers/create-voucher.html" class="block px-2 py-1 rounded hover:bg-gray-200">Tạo voucher</a></li>
+              <li><a href="promotions&vouchers/flash-sale.html" class="block px-2 py-1 rounded hover:bg-gray-200">Flash Sale</a></li>
+              <li><a href="promotions&vouchers/approve-seller-campaigns.html" class="block px-2 py-1 rounded hover:bg-gray-200">Duyệt chương trình seller</a></li>
+              <li><a href="promotions&vouchers/marketing-campaigns.html" class="block px-2 py-1 rounded hover:bg-gray-200">Chiến dịch marketing</a></li>
+            </ul>
+          </li>
+          <li>
+            <button type="button" class="w-full flex justify-between items-center px-4 py-2 font-semibold text-left text-gray-900 hover:bg-gray-100 rounded-md" aria-expanded="false" aria-controls="report-submenu" onclick="toggleSubmenu('report-submenu')">
+              Marketing &amp; Quảng cáo
+              <span class="ml-2 text-sm font-normal">+</span>
+            </button>
+            <ul id="report-submenu" class="mt-2 ml-4 hidden space-y-2 text-gray-700">
+              <li><a href="marketing&ad/marketing-campaigns.html" class="block px-2 py-1 rounded hover:bg-gray-200">Chiến dịch marketing</a></li>
+              <li><a href="marketing&ad/ad-campaign.html" class="block px-2 py-1 rounded hover:bg-gray-200">Quảng cáo</a></li>
+              <li><a href="marketing&ad/revenue-ad.html" class="block px-2 py-1 rounded hover:bg-gray-200">Doanh thu</a></li>
+              <li><a href="marketing&ad/in&ex.html" class="block px-2 py-1 rounded hover:bg-gray-200">Thu chi</a></li>
+            </ul>
+          </li>
+          <li>
+            <button type="button" class="w-full flex justify-between items-center px-4 py-2 font-semibold text-left text-gray-900 hover:bg-gray-100 rounded-md" aria-expanded="false" aria-controls="payment-submenu" onclick="toggleSubmenu('payment-submenu')">
+              Thanh toán &amp; Doanh thu
+              <span class="ml-2 text-sm font-normal">+</span>
+            </button>
+            <ul id="payment-submenu" class="mt-2 ml-4 hidden space-y-2 text-gray-700">
+              <li><a href="payment&revenue/payment-history.html" class="block px-2 py-1 rounded hover:bg-gray-200">Lịch sử thanh toán</a></li>
+              <li><a href="payment&revenue/payments.html" class="block px-2 py-1 rounded hover:bg-gray-200">Thanh toán</a></li>
+              <li><a href="payment&revenue/system-revenue.html" class="block px-2 py-1 rounded hover:bg-gray-200">Doanh thu hệ thống</a></li>
+              <li><a href="payment&revenue/debt-management.html" class="block px-2 py-1 rounded hover:bg-gray-200">Công nợ</a></li>
+            </ul>
+          </li>
+          <li>
+            <button type="button" class="w-full flex justify-between items-center px-4 py-2 font-semibold text-left text-gray-900 hover:bg-gray-100 rounded-md" aria-expanded="false" aria-controls="report-submenu" onclick="toggleSubmenu('report-submenu')">
+              Quản lý báo cáo / khiếu nại
+              <span class="ml-2 text-sm font-normal">+</span>
+            </button>
+            <ul id="report-submenu" class="mt-2 ml-4 hidden space-y-2 text-gray-700">
+              <li><a href="rp&cpmng/user-reports.html" class="block px-2 py-1 rounded hover:bg-gray-200">Người dùng báo cáo</a></li>
+              <li><a href="rp&cpmng/order-disputes.html" class="block px-2 py-1 rounded hover:bg-gray-200">Tranh chấp đơn hàng</a></li>
+              <li><a href="rp&cpmng/resolution-history.html" class="block px-2 py-1 rounded hover:bg-gray-200">Lịch sử xử lý</a></li>
+            </ul>
+          </li>
+          <li>
+            <button type="button" class="w-full flex justify-between items-center px-4 py-2 font-semibold text-left text-gray-900 hover:bg-gray-100 rounded-md" aria-expanded="false" aria-controls="staff-submenu" onclick="toggleSubmenu('staff-submenu')">
+              Nhân viên &amp; phân quyền
+              <span class="ml-2 text-sm font-normal">+</span>
+            </button>
+            <ul id="staff-submenu" class="mt-2 ml-4 hidden space-y-2 text-gray-700">
+              <li><a href="staff&delegation/admin-list.html" class="block px-2 py-1 rounded hover:bg-gray-200">Danh sách admin</a></li>
+              <li><a href="staff&delegation/assign-permissions.html" class="block px-2 py-1 rounded hover:bg-gray-200">Gán quyền</a></li>
+              <li><a href="staff&delegation/activity-log.html" class="block px-2 py-1 rounded hover:bg-gray-200">Lịch sử hoạt động</a></li>
+              <li><a href="staff&delegation/role-groups.html" class="block px-2 py-1 rounded hover:bg-gray-200">Nhóm vai trò</a></li>
+            </ul>
+          </li>
+          <li>
+            <button type="button" class="w-full flex justify-between items-center px-4 py-2 font-semibold text-left text-gray-900 hover:bg-gray-100 rounded-md" aria-expanded="false" aria-controls="system-config-submenu" onclick="toggleSubmenu('system-config-submenu')">
+              Cấu hình hệ thống
+              <span class="ml-2 text-sm font-normal">+</span>
+            </button>
+            <ul id="system-config-submenu" class="mt-2 ml-4 hidden space-y-2 text-gray-700">
+              <li><a href="system-configuration/theme-settings.html" class="block px-2 py-1 rounded hover:bg-gray-200">Giao diện</a></li>
+              <li><a href="system-configuration/email-sms.html" class="block px-2 py-1 rounded hover:bg-gray-200">Email/SMS</a></li>
+              <li><a href="system-configuration/commission-settings.html" class="block px-2 py-1 rounded hover:bg-gray-200">Hoa hồng</a></li>
+              <li><a href="system-configuration/shipping-settings.html" class="block px-2 py-1 rounded hover:bg-gray-200">Vận chuyển</a></li>
+              <li><a href="system-configuration/maintenance-mode.html" class="block px-2 py-1 rounded hover:bg-gray-200">Bảo trì hệ thống</a></li>
+            </ul>
+          </li>
+          <li>
+            <button type="button" class="w-full flex justify-between items-center px-4 py-2 font-semibold text-left text-gray-900 hover:bg-gray-100 rounded-md" aria-expanded="false" aria-controls="content-cms-submenu" onclick="toggleSubmenu('content-cms-submenu')">
+              Nội dung &amp; CMS
+              <span class="ml-2 text-sm font-normal">+</span>
+            </button>
+            <ul id="content-cms-submenu" class="mt-2 ml-4 hidden space-y-2 text-gray-700">
+              <li><a href="content&CMS/banners.html" class="block px-2 py-1 rounded hover:bg-gray-200">Banner</a></li>
+              <li><a href="content&CMS/popups.html" class="block px-2 py-1 rounded hover:bg-gray-200">Popup</a></li>
+              <li><a href="content&CMS/system-notifications.html" class="block px-2 py-1 rounded hover:bg-gray-200">Thông báo hệ thống</a></li>
+              <li><a href="content&CMS/pages-policy.html" class="block px-2 py-1 rounded hover:bg-gray-200">Chính sách/Giới thiệu/Điều khoản</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <script>
+      function toggleSubmenu(id) {
+        const submenu = document.getElementById(id);
+        const expanded = submenu.classList.contains('hidden');
+        if (expanded) {
+          submenu.classList.remove('hidden');
+        } else {
+          submenu.classList.add('hidden');
+        }
+      }
+    </script>
+
+  <!-- Main content -->
+  <!--Thêm iframe và nhúng dashboard.hyml vào đây-->
+  <iframe src="dashboard/dashboard.html" class="flex-grow-1 h-full w-full" frameborder="0"></iframe>
+  
+  <script>
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+          label: 'Sales',
+          data: [1200, 1900, 1500, 2500, 2200, 2800],
+          borderColor: '#111',
+          backgroundColor: 'rgba(0,0,0,0.1)',
+          tension: 0.4,
+          fill: true,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Sản phẩm hot - Dashboard Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@fortawesome/fontawesome-free/js/all.js" defer></script>
+</head>
+<body class="bg-gray-100 p-8 font-sans">
+
+  <!-- Tiêu đề -->
+  <section class="p-6">
+    <h1 class="text-2xl font-bold mb-1 flex items-center gap-2">
+      <i class="fas fa-fire text-red-500"></i>
+      Sản phẩm hot
+    </h1>
+    <p class="text-sm text-gray-500 mb-4">Xem danh sách các sản phẩm bán chạy nhất hệ thống.</p>
+
+    <!-- Bộ lọc -->
+    <div class="bg-white p-4 rounded-lg shadow flex flex-wrap gap-4 mb-6">
+      <input type="text" placeholder="Tên sản phẩm..." class="border rounded px-3 py-2 w-full sm:w-1/3">
+      <select class="border rounded px-3 py-2 w-full sm:w-1/4">
+        <option>Tất cả danh mục</option>
+        <option>Điện tử</option>
+        <option>Thời trang</option>
+        <option>Game</option>
+      </select>
+      <input type="month" class="border rounded px-3 py-2 w-full sm:w-1/4">
+      <button class="bg-red-600 text-white rounded px-5 py-2 hover:bg-red-700">Lọc</button>
+    </div>
+
+    <!-- Danh sách sản phẩm hot -->
+    <div class="bg-white p-5 rounded-lg shadow">
+      <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+        <i class="fas fa-star text-yellow-500"></i>
+        Top sản phẩm bán chạy
+      </h2>
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm text-left text-gray-700">
+          <thead class="text-xs text-gray-500 uppercase border-b">
+            <tr>
+              <th class="py-3">Hình</th>
+              <th class="py-3">Tên sản phẩm</th>
+              <th class="py-3">Danh mục</th>
+              <th class="py-3">Giá</th>
+              <th class="py-3">Đã bán</th>
+              <th class="py-3 text-center">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b hover:bg-gray-50">
+              <td class="py-3">
+                <img src="https://via.placeholder.com/50" alt="sp1" class="w-10 h-10 rounded">
+              </td>
+              <td class="py-3">Máy chơi game PS5</td>
+              <td class="py-3">Điện tử</td>
+              <td class="py-3 text-red-600 font-semibold">14.990.000đ</td>
+              <td class="py-3">350</td>
+              <td class="py-3 text-center">
+                <button onclick="viewProduct('1')" class="text-blue-600 hover:underline text-sm btn-view-product">
+                  <i class="fas fa-eye"></i> Xem
+                </button>
+              </td>
+            </tr>
+            <!-- Thêm dòng khác tại đây nếu cần -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Phân trang -->
+      <div class="flex justify-between items-center mt-6">
+        <p class="text-sm text-gray-500">Hiển thị 1–10 trên 40 sản phẩm</p>
+        <div class="flex space-x-2">
+          <button class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 text-sm">&laquo;</button>
+          <button class="px-3 py-1 rounded bg-red-600 text-white text-sm font-medium">1</button>
+          <button class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 text-sm">2</button>
+          <button class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 text-sm">&raquo;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal Chi tiết Sản phẩm -->
+  <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg max-w-xl w-full p-6 relative">
+      <button onclick="closeProductModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">&times;</button>
+      <h2 class="text-xl font-semibold mb-4">Chi tiết sản phẩm</h2>
+      <div id="productDetail" class="space-y-3 text-sm text-gray-700">
+        <!-- Nội dung chi tiết sẽ render bằng JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Script xử lý modal -->
+  <script>
+    function viewProduct(productId) {
+      const content = `
+        <p><strong>Tên sản phẩm:</strong> Máy chơi game PS5</p>
+        <p><strong>Danh mục:</strong> Điện tử</p>
+        <p><strong>Giá:</strong> 14.990.000đ</p>
+        <p><strong>Số lượng đã bán:</strong> 350</p>
+        <p><strong>Mô tả:</strong> Sản phẩm hot nhất tháng 5 với hiệu năng vượt trội và trải nghiệm chơi game mượt mà.</p>
+        <img src="https://via.placeholder.com/300x180" alt="ps5" class="rounded shadow mt-2">
+      `;
+      document.getElementById("productDetail").innerHTML = content;
+      document.getElementById("productModal").classList.remove("hidden");
+      document.getElementById("productModal").classList.add("flex");
+    }
+
+    function closeProductModal() {
+      document.getElementById("productModal").classList.add("hidden");
+    }
+  </script>
+
+</body>
+</html>

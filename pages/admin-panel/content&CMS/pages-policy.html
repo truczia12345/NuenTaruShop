@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chính sách / Giới thiệu / Điều khoản | Nội dung & CMS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@fortawesome/fontawesome-free/js/all.js" defer></script>
+</head>
+<body class="bg-gray-100 p-8 font-sans">
+  <div class="p-6">
+    <!-- Tiêu đề -->
+    <div class="mb-6 flex justify-between items-start flex-wrap gap-4">
+      <div>
+        <h1 class="text-2xl font-semibold flex items-center gap-2">
+          <i class="fas fa-file-alt text-blue-600"></i>
+          Chính sách / Giới thiệu / Điều khoản
+        </h1>
+        <p class="text-gray-500 text-sm">Quản lý nội dung các trang chính sách, điều khoản và giới thiệu trên hệ thống.</p>
+      </div>
+      <div class="flex gap-2">
+        <button onclick="openPolicyModal()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center gap-2 text-sm">
+          <i class="fas fa-plus"></i> Thêm mới
+        </button>
+        <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 flex items-center gap-2 text-sm">
+          <i class="fas fa-file-export"></i> Xuất dữ liệu
+        </button>
+      </div>
+    </div>
+
+    <!-- Danh sách chính sách -->
+    <div class="bg-white rounded-lg shadow overflow-x-auto">
+      <table class="min-w-full text-sm text-left">
+        <thead class="bg-gray-100 text-xs uppercase text-gray-600">
+          <tr>
+            <th class="p-3">Tiêu đề</th>
+            <th class="p-3">Loại</th>
+            <th class="p-3">Ngày cập nhật</th>
+            <th class="p-3 text-center">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t hover:bg-gray-50">
+            <td class="p-3 font-medium">Chính sách bảo mật</td>
+            <td class="p-3">Chính sách</td>
+            <td class="p-3">06/06/2025</td>
+            <td class="p-3 flex justify-center gap-2 text-sm text-white">
+              <button onclick="openPolicyModal()" class="bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded" title="Chỉnh sửa">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="bg-red-500 hover:bg-red-600 px-2 py-1 rounded" title="Xóa">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+          <tr class="border-t hover:bg-gray-50">
+            <td class="p-3 font-medium">Giới thiệu về sàn thương mại</td>
+            <td class="p-3">Giới thiệu</td>
+            <td class="p-3">01/06/2025</td>
+            <td class="p-3 flex justify-center gap-2 text-sm text-white">
+              <button onclick="openPolicyModal()" class="bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded" title="Chỉnh sửa">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="bg-red-500 hover:bg-red-600 px-2 py-1 rounded" title="Xóa">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal tạo/sửa chính sách -->
+  <div id="policyModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl">
+      <h2 class="text-xl font-semibold mb-4">Tạo / Sửa nội dung</h2>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium">Tiêu đề</label>
+          <input type="text" class="w-full p-2 border rounded" placeholder="Nhập tiêu đề">
+        </div>
+        <div>
+          <label class="block text-sm font-medium">Loại nội dung</label>
+          <select class="w-full p-2 border rounded">
+            <option>Chính sách</option>
+            <option>Giới thiệu</option>
+            <option>Điều khoản</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium">Nội dung chi tiết</label>
+          <textarea rows="8" class="w-full p-2 border rounded" placeholder="Nhập nội dung đầy đủ..."></textarea>
+        </div>
+      </div>
+      <div class="mt-6 flex justify-end gap-2">
+        <button onclick="closePolicyModal()" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Hủy</button>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Lưu</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openPolicyModal() {
+      document.getElementById('policyModal').classList.remove('hidden');
+    }
+    function closePolicyModal() {
+      document.getElementById('policyModal').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>

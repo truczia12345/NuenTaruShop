@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard - Shopee Clone</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #ee4d2d;
+            --secondary-color: #f53d2d;
+            --sidebar-width: 250px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Chat and Notification Panel Styles */
+        .notification-panel, .chat-panel {
+            position: fixed;
+            top: 60px;
+            right: -400px;
+            width: 400px;
+            height: calc(100vh - 60px);
+            background: white;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .notification-panel.show, .chat-panel.show {
+            right: 0;
+        }
+
+        /* Notification Panel Specific Styles */
+        .notification-header {
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-header h5 {
+            margin: 0;
+            color: #ee4d2d;
+            font-size: 1.1rem;
+        }
+
+        .notification-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+        }
+
+        .notification-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            color: #666;
+            border-bottom: 2px solid transparent;
+            font-size: 0.9rem;
+        }
+
+        .notification-tab.active {
+            color: #ee4d2d;
+            border-bottom-color: #ee4d2d;
+        }
+
+        .notification-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f5f5f5;
+            cursor: pointer;
+        }
+
+        .notification-content {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            background: #fef6f5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ee4d2d;
+        }
+
+        .notification-text {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+
+        .notification-time {
+            color: #999;
+            font-size: 0.8rem;
+            margin-top: 4px;
+        }
+
+        .notification-link {
+            color: #1890ff;
+            font-size: 0.85rem;
+            text-decoration: none;
+            margin-top: 4px;
+            display: inline-block;
+        }
+
+        /* Chat Panel Specific Styles */
+        .chat-header {
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-search {
+            padding: 12px 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .chat-search-input {
+            position: relative;
+        }
+
+        .chat-search input {
+            width: 100%;
+            padding: 8px 12px;
+            padding-right: 100px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .chat-filter {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            cursor: pointer;
+            padding: 4px 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.9rem;
+        }
+
+        .chat-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .chat-item {
+            padding: 12px 16px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            border-bottom: 1px solid #f5f5f5;
+            cursor: pointer;
+        }
+
+        .chat-item:hover {
+            background-color: #f8f8f8;
+        }
+
+        .chat-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .chat-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .chat-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-message {
+            font-size: 0.9rem;
+            color: #666;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-time {
+            font-size: 0.8rem;
+            color: #999;
+            white-space: nowrap;
+        }
+
+        .webchat-button {
+            padding: 16px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+
+        .webchat-button a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #1890ff;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        /* Header action buttons */
+        .notification-header-actions button,
+        .chat-header .btn-link {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+
+        .notification-header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Dashboard Container */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Top Navigation Bar */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            right: 0;
+            height: 60px;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+        }
+
+        .top-nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .top-nav-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            position: relative;
+            padding: 8px;
+            color: #666;
+        }
+
+        .top-nav-btn .badge {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            position: absolute;
+            top: -4px;
+            right: -4px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav li {
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar-nav .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-nav .nav-link:hover,
+        .sidebar-nav .nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .sidebar-nav .nav-link i {
+            width: 20px;
+            margin-right: 10px;
+        }
+
+        /* Account Dropdown Styles */
+        .account-dropdown {
+            position: relative;
+        }
+
+        .account-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: white;
+            border-radius: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .account-toggle:hover {
+            background-color: #f8f9fa;
+        }
+
+        .profile-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .account-menu {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 280px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1002;
+        }
+
+        .account-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .account-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-img-large {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .account-links {
+            padding: 8px 0;
+        }
+
+        .account-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .account-link:hover {
+            background-color: #f8f9fa;
+            color: var(--primary-color);
+        }
+
+        .account-link i {
+            width: 16px;
+            text-align: center;
+            color: #666;
+        }
+
+        .account-link.text-danger i {
+            color: #dc3545;
+        }
+
+        .account-link.text-danger:hover {
+            background-color: #fff5f5;
+            color: #dc3545;
+        }
+
+        /* Submenu Styles */
+        .submenu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--primary-color);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+            will-change: max-height;
+        }
+
+        .submenu.show {
+            max-height: 250px; /* Adjust this value based on your content */
+        }
+
+        /* Submenu item styles */
+        .submenu a {
+            display: block;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            color: #333;
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 1;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--primary-color);
+        }
+
+        .submenu > * {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .submenu.show > * {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dropdown-btn {
+            width: 100%;
+            text-align: left;
+            border: none;
+            background: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            color: inherit;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .dropdown-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-btn .fa-chevron-down {
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+            display: inline-block;
+        }
+
+        .dropdown-btn.active .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-btn.active {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Submenu nav-link styles */
+
+        .submenu .nav-link {
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            transition: all 0.2s ease;
+        }
+
+        .submenu .nav-link:hover {
+            opacity: 1;
+            padding-left: 3rem;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Breadcrumb Styles */
+        .breadcrumb {
+            font-size: 13px;
+            margin: 0;
+        }
+        
+        .breadcrumb-item + .breadcrumb-item::before {
+            content: "›";
+            font-size: 18px;
+            line-height: 0;
+            padding: 0 8px;
+            color: #999;
+            font-weight: 300;
+        }
+
+        .breadcrumb-item a:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .breadcrumb-item.active {
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 1001;
+                background: white;
+                border: none;
+                border-radius: 4px;
+                padding: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+
+            .top-nav {
+                left: 0;
+            }
+
+            .top-nav-left h5 {
+                display: none;
+            }
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            margin-top: 60px;
+            padding: 1rem;
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Notification Panel -->
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">
+            <h5>Thông báo</h5>
+            <div class="notification-header-actions">
+                <button><i class="fas fa-sync-alt"></i></button>
+                <button><i class="fas fa-ellipsis-v"></i></button>
+            </div>
+        </div>
+        <div class="notification-tabs">
+            <div class="notification-tab active">Cập nhật Shopee</div>
+            <div class="notification-tab">Marketing</div>
+            <div class="notification-tab">Shop</div>
+        </div>
+        <div class="notification-list">
+            <div class="notification-item">
+                <div class="notification-content">
+                    <div class="notification-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <div class="notification-text">
+                        VOUCHER MIỄN LÃI - THOẢI MÁI VAY
+                        <div class="notification-time">20:25 27/05/2025</div>
+                        <a href="#" class="notification-link">Hiển thị đầy đủ</a>
+                    </div>
+                </div>
+            </div>
+            <div class="notification-item">
+                <div class="notification-content">
+                    <div class="notification-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="notification-text">
+                        ĐỘC QUYỀN ƯU ĐÃI CÙNG SHOPEE
+                        <div class="notification-time">16:16 27/05/2025</div>
+                        <a href="#" class="notification-link">Hiển thị đầy đủ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Panel -->
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-header">
+            <h5>Chat</h5>
+            <div class="dropdown">
+                <button class="btn btn-link text-dark p-0" data-bs-toggle="dropdown">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+            </div>
+        </div>
+        <div class="chat-search">
+            <div class="chat-search-input">
+                <input type="text" placeholder="Tìm theo tên khách hàng">
+                <div class="chat-filter">
+                    <span>Tất cả</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+        <div class="chat-list">
+            <div class="chat-item">
+                <img src="https://via.placeholder.com/48" alt="TV box 24h Store" class="chat-avatar">
+                <div class="chat-info">
+                    <div class="chat-name">TV box 24h Store</div>
+                    <div class="chat-message">Còn box nguyên seal thì sẽ phải đóng cước...</div>
+                </div>
+                <div class="chat-time">30/12/24</div>
+            </div>
+            <div class="chat-item">
+                <img src="https://via.placeholder.com/48" alt="linhkienhnh281" class="chat-avatar">
+                <div class="chat-info">
+                    <div class="chat-name">linhkienhnh281</div>
+                    <div class="chat-message">[Hình ảnh] máy em Pixel4xl mà đặt nhầm...</div>
+                </div>
+                <div class="chat-time">20/05/24</div>
+            </div>
+        </div>
+        <div class="webchat-button">
+            <a href="#"><i class="fas fa-desktop"></i> Webchat</a>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+        <!-- Top Navigation Bar -->
+        <header class="top-nav">
+            <div class="top-nav-left d-flex align-items-center gap-3">
+                <a href="index.html" class="text-decoration-none d-flex align-items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Shopee.svg/2560px-Shopee.svg.png" alt="Logo" style="height: 28px; object-fit: contain;">
+                </a>
+                <nav style="--bs-breadcrumb-divider: '›';" aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 ps-3 border-start ms-3" style="border-color: #e8e8e8;">
+                        <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">Trang chủ</a></li> &nbsp;&nbsp;&nbsp;>
+                        <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">Kênh Marketing</a></li> >
+                        <li class="breadcrumb-item active" aria-current="page">Mã Giảm Giá Của Shop</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="top-nav-right">
+                <!-- Chat Button -->
+                <button class="top-nav-btn chat-btn" onclick="handleChatClick(event)">
+                    <i class="fas fa-comment-dots"></i>
+                    <span class="badge">3</span>
+                </button>
+                
+                <!-- Notification Button -->
+                <button class="top-nav-btn notification-btn" onclick="handleNotificationClick(event)">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">5</span>
+                </button>
+                <!-- Account Dropdown -->
+                <div class="account-dropdown">
+                    <div class="account-toggle" onclick="toggleAccountMenu()">
+                        <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=32&h=32" alt="Profile" class="profile-img">
+                        <span class="account-name">truczia123</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="account-menu">
+                        <div class="account-header">
+                            <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=64&h=64" alt="Profile" class="profile-img-large">
+                            <div class="account-info">
+                                <h6 class="mb-0">truczia123</h6>
+                                <small class="text-muted">Seller Account</small>
+                            </div>
+                        </div>
+                        <div class="account-links">
+                            <a href="#" class="account-link">
+                                <i class="fas fa-store"></i>
+                                Shop Profile
+                            </a>
+                            <a href="settings.html" class="account-link">
+                                <i class="fas fa-cog"></i>
+                                Settings
+                            </a>
+                            <a href="#" class="account-link">
+                                <i class="fas fa-globe"></i>
+                                Language: Vietnamese
+                            </a>
+                            <a href="/index.html" class="account-link text-danger">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Sign Out
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h4 class="mb-0">Seller Dashboard</h4>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html" class="nav-link active">
+                            <i class="fas fa-home"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <button class="nav-link dropdown-btn" onclick="toggleSubmenu(this, 'productsSubmenu')">
+                            <i class="fas fa-box"></i>
+                            Products
+                            <i class="fas fa-chevron-down ms-auto"></i>
+                        </button>
+                        <ul id="productsSubmenu" class="submenu">
+                            <li>
+                                <a href="products/all-products.html" class="nav-link">
+                                    <i class="fas fa-boxes"></i>
+                                    All Products
+                                </a>
+                            </li>
+                            <li>
+                                <a href="products/add-products.html" class="nav-link">
+                                    <i class="fas fa-plus"></i>
+                                    Add Product
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <button class="nav-link dropdown-btn" onclick="toggleSubmenu(this, 'ordersSubmenu')">
+                            <i class="fas fa-shopping-cart"></i>
+                            Orders
+                            <i class="fas fa-chevron-down ms-auto"></i>
+                        </button>
+                        <ul id="ordersSubmenu" class="submenu">
+                            <li>
+                                <a href="orders/orders.html" class="nav-link">
+                                    <i class="fas fa-list"></i>
+                                    All Orders
+                                </a>
+                            </li>
+                            <li>
+                                <a href="orders/batch-shipping.html" class="nav-link">
+                                    <i class="fas fa-truck"></i>
+                                    Batch Shipping
+                                </a>
+                            </li>
+                            <li>
+                                <a href="orders/delivery-list.html" class="nav-link">
+                                    <i class="fas fa-clipboard-list"></i>
+                                    Order Delivery List
+                                </a>
+                            </li>
+                            <li>
+                                <a href="orders/returns-cancellations.html" class="nav-link">
+                                    <i class="fas fa-undo"></i>
+                                    Returns & Cancellations
+                                </a>
+                            </li>
+                            <li>
+                                <a href="orders/shipping-settings.html" class="nav-link">
+                                    <i class="fas fa-cog"></i>
+                                    Shipping Settings
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="analytics.html" class="nav-link">
+                            <i class="fas fa-chart-line"></i>
+                            Analytics
+                        </a>
+                    </li>
+                    <li>
+                        <a href="customers.html" class="nav-link">
+                            <i class="fas fa-users"></i>
+                            Customers
+                        </a>
+                    </li>
+                    <li>
+                        <button class="nav-link dropdown-btn" onclick="toggleSubmenu(this, 'marketingSubmenu')">
+                            <i class="fas fa-bullhorn"></i>
+                            Marketing
+                            <i class="fas fa-chevron-down ms-auto"></i>
+                        </button>
+                        <ul id="marketingSubmenu" class="submenu">
+                            <li>
+                                <a href="marketing/vouchers.html" class="nav-link">
+                                    <i class="fas fa-ticket-alt"></i>
+                                    Shop Vouchers
+                                </a>
+                            </li>
+                            <li>
+                                <a href="marketing/flash-sale.html" class="nav-link">
+                                    <i class="fas fa-bolt"></i>
+                                    Flash Sale
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="settings.html" class="nav-link">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <iframe id="contentFrame" name="contentFrame" src="dashboard.html" 
+                    style="width: 100%; height: calc(100vh - 4rem); border: none;"></iframe>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize event listeners for notification tabs and account menu
+            document.querySelectorAll('.notification-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.notification-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Close panels when clicking outside
+            document.addEventListener('click', function(e) {
+                const notificationPanel = document.getElementById('notificationPanel');
+                const chatPanel = document.getElementById('chatPanel');
+                
+                if (!e.target.closest('.notification-panel') && 
+                    !e.target.closest('.notification-btn') && 
+                    !e.target.closest('.chat-panel') && 
+                    !e.target.closest('.chat-btn')) {
+                    notificationPanel?.classList.remove('show');
+                    chatPanel?.classList.remove('show');
+                }
+
+                // Close account menu when clicking outside
+                if (!e.target.closest('.account-dropdown')) {
+                    document.querySelector('.account-menu')?.classList.remove('show');
+                }
+            });
+
+            // Initialize active menu state based on current path
+            const currentPath = window.location.pathname;
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                    // If in submenu, expand parent
+                    const submenu = link.closest('.submenu');
+                    if (submenu) {
+                        submenu.classList.add('show');
+                        submenu.previousElementSibling.classList.add('active');
+                    }
+                }
+            });
+        });
+
+        // Toggle account menu
+        function toggleAccountMenu() {
+            const accountMenu = document.querySelector('.account-menu');
+            if (accountMenu) {
+                accountMenu.classList.toggle('show');
+            }
+        }
+
+        // Toggle submenu
+        function toggleSubmenu(button, submenuId) {
+            const submenu = document.getElementById(submenuId);
+            if (!submenu) return;
+
+            // Remove any existing event listeners
+            button.removeEventListener('click', toggleSubmenu);
+
+            const isShown = submenu.classList.contains('show');
+
+            // Close all other submenus
+            document.querySelectorAll('.submenu').forEach(menu => {
+                if (menu !== submenu && menu.classList.contains('show')) {
+                    menu.classList.remove('show');
+                    const btn = menu.previousElementSibling;
+                    if (btn) {
+                        btn.classList.remove('active');
+                        btn.querySelector('.fa-chevron-down').style.transform = 'rotate(0)';
+                    }
+                }
+            });
+
+            // Toggle current submenu
+            if (!isShown) {
+                submenu.classList.add('show');
+                button.classList.add('active');
+                button.querySelector('.fa-chevron-down').style.transform = 'rotate(180deg)';
+            } else {
+                submenu.classList.remove('show');
+                button.classList.remove('active');
+                button.querySelector('.fa-chevron-down').style.transform = 'rotate(0)';
+            }
+
+            // Prevent event bubbling
+            event.stopPropagation();
+        }
+
+        // Handle notification button click
+        function handleNotificationClick(event) {
+            event.stopPropagation();
+            const notificationPanel = document.getElementById('notificationPanel');
+            const chatPanel = document.getElementById('chatPanel');
+            
+            chatPanel.classList.remove('show');
+            notificationPanel.classList.toggle('show');
+        }
+
+        // Handle chat button click
+        function handleChatClick(event) {
+            event.stopPropagation();
+            const chatPanel = document.getElementById('chatPanel');
+            const notificationPanel = document.getElementById('notificationPanel');
+            
+            notificationPanel.classList.remove('show');
+            chatPanel.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

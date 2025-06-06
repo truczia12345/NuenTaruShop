@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #ee4d2d;
+            --secondary-color: #f53d2d;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: 100%;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .trend-up {
+            color: #28a745;
+        }
+
+        .trend-down {
+            color: #dc3545;
+        }
+
+        .date-filter {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Header -->
+    <div class="page-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Analytics Dashboard</h4>
+        <div class="date-filter d-flex gap-2 align-items-center">
+            <select class="form-select">
+                <option>Last 7 Days</option>
+                <option>Last 30 Days</option>
+                <option>Last 3 Months</option>
+                <option>Last Year</option>
+                <option>Custom Range</option>
+            </select>
+            <button class="btn btn-primary">Apply</button>
+        </div>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <h3>$15,350</h3>
+                <p class="text-muted mb-2">Total Revenue</p>
+                <small class="trend-up">
+                    <i class="fas fa-arrow-up"></i> 12.5% vs last period
+                </small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <h3>156</h3>
+                <p class="text-muted mb-2">Total Orders</p>
+                <small class="trend-up">
+                    <i class="fas fa-arrow-up"></i> 8.2% vs last period
+                </small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>1,240</h3>
+                <p class="text-muted mb-2">Total Customers</p>
+                <small class="trend-up">
+                    <i class="fas fa-arrow-up"></i> 5.3% vs last period
+                </small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <h3>2.4%</h3>
+                <p class="text-muted mb-2">Conversion Rate</p>
+                <small class="trend-down">
+                    <i class="fas fa-arrow-down"></i> 1.2% vs last period
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Revenue Chart -->
+    <div class="chart-card">
+        <h5 class="mb-4">Revenue Overview</h5>
+        <canvas id="revenueChart"></canvas>
+    </div>
+
+    <!-- Orders & Customers -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-6">
+            <div class="chart-card h-100">
+                <h5 class="mb-4">Orders by Status</h5>
+                <canvas id="ordersChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="chart-card h-100">
+                <h5 class="mb-4">Customer Growth</h5>
+                <canvas id="customersChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Products & Categories -->
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="chart-card h-100">
+                <h5 class="mb-4">Top Products</h5>
+                <canvas id="productsChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="chart-card h-100">
+                <h5 class="mb-4">Sales by Category</h5>
+                <canvas id="categoriesChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        // Revenue Chart
+        new Chart(document.getElementById('revenueChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Revenue',
+                    data: [1200, 1900, 1500, 2500, 2200, 2800],
+                    borderColor: '#ee4d2d',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+
+        // Orders Chart
+        new Chart(document.getElementById('ordersChart').getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'],
+                datasets: [{
+                    data: [15, 25, 20, 30, 10],
+                    backgroundColor: ['#ffc107', '#17a2b8', '#28a745', '#007bff', '#dc3545']
+                }]
+            }
+        });
+
+        // Customers Chart
+        new Chart(document.getElementById('customersChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'New Customers',
+                    data: [65, 59, 80, 81, 56, 55],
+                    backgroundColor: '#ee4d2d'
+                }]
+            }
+        });
+
+        // Products Chart
+        new Chart(document.getElementById('productsChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Product A', 'Product B', 'Product C', 'Product D', 'Product E'],
+                datasets: [{
+                    label: 'Sales',
+                    data: [300, 250, 200, 150, 100],
+                    backgroundColor: '#ee4d2d'
+                }]
+            },
+            options: {
+                indexAxis: 'y'
+            }
+        });
+
+        // Categories Chart
+        new Chart(document.getElementById('categoriesChart').getContext('2d'), {
+            type: 'pie',
+            data: {
+                labels: ['Electronics', 'Fashion', 'Home', 'Beauty', 'Sports'],
+                datasets: [{
+                    data: [30, 25, 20, 15, 10],
+                    backgroundColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8', '#dc3545']
+                }]
+            }
+        });
+    </script>
+</body>
+</html>

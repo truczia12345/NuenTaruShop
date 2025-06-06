@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tất cả trạng thái giao hàng</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8 font-sans">
+
+  <div class="p-6">
+
+    <!-- Tiêu đề + nút thao tác -->
+    <div class="mb-6 flex justify-between items-start">
+      <div>
+        <h1 class="text-2xl font-semibold flex items-center gap-2">
+          <i class="fas fa-truck text-lime-600"></i>
+          Trạng thái giao hàng
+        </h1>
+        <p class="text-gray-500 text-sm">Quản lý các trạng thái đơn hàng trong quá trình giao hàng.</p>
+      </div>
+      <button class="bg-lime-600 text-white px-4 py-2 rounded hover:bg-lime-700">
+        <i class="fas fa-plus mr-1"></i> Thêm trạng thái
+      </button>
+    </div>
+
+    <!-- Bảng trạng thái giao hàng -->
+    <div class="overflow-x-auto bg-white rounded-lg shadow">
+      <table class="min-w-full text-sm">
+        <thead class="bg-gray-50 text-left text-gray-700 font-semibold">
+          <tr>
+            <th class="p-3">Tên trạng thái</th>
+            <th class="p-3">Mã màu</th>
+            <th class="p-3">Mô tả</th>
+            <th class="p-3">Thứ tự</th>
+            <th class="p-3">Sử dụng</th>
+            <th class="p-3 text-center">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t">
+            <td class="p-3">Chờ xác nhận</td>
+            <td class="p-3 text-red-600">#FF4D4F</td>
+            <td class="p-3">Đơn hàng mới, đang chờ duyệt</td>
+            <td class="p-3">1</td>
+            <td class="p-3">
+              <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">Đang dùng</span>
+            </td>
+            <td class="p-3 text-center">
+              <button class="text-blue-600 hover:underline text-sm mr-2"><i class="fas fa-edit"></i></button>
+              <button class="text-red-600 hover:underline text-sm"><i class="fas fa-trash-alt"></i></button>
+            </td>
+          </tr>
+
+          <tr class="border-t">
+            <td class="p-3">Đang giao</td>
+            <td class="p-3 text-yellow-600">#FACC15</td>
+            <td class="p-3">Shipper đang giao đến người nhận</td>
+            <td class="p-3">2</td>
+            <td class="p-3">
+              <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">Đang dùng</span>
+            </td>
+            <td class="p-3 text-center">
+              <button class="text-blue-600 hover:underline text-sm mr-2"><i class="fas fa-edit"></i></button>
+              <button class="text-red-600 hover:underline text-sm"><i class="fas fa-trash-alt"></i></button>
+            </td>
+          </tr>
+
+          <tr class="border-t">
+            <td class="p-3">Đã giao</td>
+            <td class="p-3 text-green-600">#10B981</td>
+            <td class="p-3">Người nhận đã nhận hàng thành công</td>
+            <td class="p-3">3</td>
+            <td class="p-3">
+              <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">Đang dùng</span>
+            </td>
+            <td class="p-3 text-center">
+              <button class="text-blue-600 hover:underline text-sm mr-2"><i class="fas fa-edit"></i></button>
+              <button class="text-red-600 hover:underline text-sm"><i class="fas fa-trash-alt"></i></button>
+            </td>
+          </tr>
+
+          <tr class="border-t">
+            <td class="p-3">Đã hủy</td>
+            <td class="p-3 text-gray-500">#6B7280</td>
+            <td class="p-3">Đơn hàng bị hủy bởi người dùng hoặc hệ thống</td>
+            <td class="p-3">4</td>
+            <td class="p-3">
+              <span class="bg-gray-200 text-gray-600 px-2 py-1 rounded-full text-xs">Ngừng dùng</span>
+            </td>
+            <td class="p-3 text-center">
+              <button class="text-blue-600 hover:underline text-sm mr-2"><i class="fas fa-edit"></i></button>
+              <button class="text-red-600 hover:underline text-sm"><i class="fas fa-trash-alt"></i></button>
+            </td>
+          </tr>
+
+          <!-- Thêm dòng khác nếu cần -->
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</body>
+</html>

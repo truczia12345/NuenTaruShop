@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Email/SMS | Cấu hình hệ thống</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@fortawesome/fontawesome-free/js/all.js" defer></script>
+</head>
+<body class="bg-gray-100 p-8 font-sans">
+  <div class="p-6">
+    <!-- Tiêu đề -->
+    <div class="mb-6">
+      <h1 class="text-2xl font-semibold flex items-center gap-2">
+        <i class="fas fa-envelope text-purple-600"></i>
+        Email/SMS
+      </h1>
+      <p class="text-gray-500 text-sm">Cấu hình thông báo qua email và tin nhắn SMS.</p>
+    </div>
+
+    <!-- Form cấu hình -->
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+      <h2 class="text-lg font-semibold mb-4">Thiết lập Email</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Email gửi đi</label>
+          <input type="email" placeholder="no-reply@example.com" class="mt-1 w-full p-2 border rounded" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Tên hiển thị</label>
+          <input type="text" placeholder="Hệ thống quản trị" class="mt-1 w-full p-2 border rounded" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">SMTP Host</label>
+          <input type="text" placeholder="smtp.example.com" class="mt-1 w-full p-2 border rounded" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">SMTP Port</label>
+          <input type="number" placeholder="587" class="mt-1 w-full p-2 border rounded" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Tên đăng nhập</label>
+          <input type="text" placeholder="admin@example.com" class="mt-1 w-full p-2 border rounded" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Mật khẩu</label>
+          <input type="password" placeholder="••••••••" class="mt-1 w-full p-2 border rounded" />
+        </div>
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-gray-700">Tiêu đề Email</label>
+          <input type="text" placeholder="Tiêu đề nội dung email" class="mt-1 w-full p-2 border rounded" />
+        </div>
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-gray-700">Nội dung Email</label>
+          <textarea rows="4" placeholder="Nội dung mẫu gửi cho người dùng..." class="mt-1 w-full p-2 border rounded"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold mb-4">Thiết lập SMS</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Nhà cung cấp dịch vụ</label>
+          <select class="mt-1 w-full p-2 border rounded">
+            <option>Chọn nhà cung cấp</option>
+            <option>Twilio</option>
+            <option>VNPT</option>
+            <option>FPT</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">API Key</label>
+          <input type="text" placeholder="Nhập API Key..." class="mt-1 w-full p-2 border rounded" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Brand name</label>
+          <input type="text" placeholder="Tên thương hiệu gửi SMS" class="mt-1 w-full p-2 border rounded" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Số điện thoại thử nghiệm</label>
+          <input type="text" placeholder="0901234567" class="mt-1 w-full p-2 border rounded" />
+        </div>
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-gray-700">Nội dung SMS mẫu</label>
+          <textarea rows="3" placeholder="Nội dung SMS gửi cho người dùng..." class="mt-1 w-full p-2 border rounded"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-right mt-6">
+      <button class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+        Lưu cấu hình
+      </button>
+    </div>
+  </div>
+</body>
+</html>

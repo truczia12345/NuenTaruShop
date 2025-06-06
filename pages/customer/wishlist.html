@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách yêu thích - Shopee Clone</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #ee4d2d;
+            --secondary-color: #f53d2d;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .navbar-custom {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        }
+        
+        .wishlist-container {
+            margin: 40px auto;
+        }
+        
+        .product-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            height: 100%;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .product-image {
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        
+        .wishlist-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .wishlist-icon:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .price {
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .rating {
+            color: #ffc107;
+        }
+        
+        .empty-wishlist {
+            text-align: center;
+            padding: 3rem;
+        }
+        
+        .empty-wishlist i {
+            font-size: 4rem;
+            color: #dee2e6;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Shopee</a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="shop.html">Cửa hàng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">Giới thiệu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Liên hệ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="faq.html">Hỏi đáp</a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="cart.html"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user"></i> Tài khoản
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="profile.html">Thông tin tài khoản</a></li>
+                            <li><a class="dropdown-item" href="orders.html">Đơn hàng của tôi</a></li>
+                            <li><a class="dropdown-item active" href="wishlist.html">Danh sách yêu thích</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="login.html">Đăng xuất</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Wishlist Section -->
+    <div class="container wishlist-container">
+        <h2 class="mb-4">Danh sách yêu thích</h2>
+        
+        <!-- Products Grid -->
+        <div class="row g-4">
+            <!-- Product Card 1 -->
+            <div class="col-md-3">
+                <div class="product-card">
+                    <div class="position-relative">
+                        <img src="https://images.pexels.com/photos/404280/pexels-photo-404280.jpeg" alt="Tai nghe không dây Pro" class="product-image w-100">
+                        <span class="discount-badge">-20%</span>
+                        <div class="wishlist-icon">
+                            <i class="fas fa-heart text-danger"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Tai nghe không dây Pro</h5>
+                        <div class="rating mb-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="text-muted ms-2">(120)</span>
+                        </div>
+                        <div class="mb-3">
+                            <span class="price me-2">2.990.000₫</span>
+                            <span class="original-price">3.790.000₫</span>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary">Thêm vào giỏ</button>
+                            <button class="btn btn-outline-danger">Xóa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Card 2 -->
+            <div class="col-md-3">
+                <div class="product-card">
+                    <div class="position-relative">
+                        <img src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg" alt="Đồng hồ thông minh Pro" class="product-image w-100">
+                        <span class="discount-badge">-15%</span>
+                        <div class="wishlist-icon">
+                            <i class="fas fa-heart text-danger"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Đồng hồ thông minh Pro</h5>
+                        <div class="rating mb-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="text-muted ms-2">(85)</span>
+                        </div>
+                        <div class="mb-3">
+                            <span class="price me-2">5.990.000₫</span>
+                            <span class="original-price">6.990.000₫</span>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary">Thêm vào giỏ</button>
+                            <button class="btn btn-outline-danger">Xóa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Card 3 -->
+            <div class="col-md-3">
+                <div class="product-card">
+                    <div class="position-relative">
+                        <img src="https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg" alt="Ống kính máy ảnh" class="product-image w-100">
+                        <span class="discount-badge">-25%</span>
+                        <div class="wishlist-icon">
+                            <i class="fas fa-heart text-danger"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Ống kính máy ảnh Pro</h5>
+                        <div class="rating mb-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span class="text-muted ms-2">(42)</span>
+                        </div>
+                        <div class="mb-3">
+                            <span class="price me-2">12.990.000₫</span>
+                            <span class="original-price">15.990.000₫</span>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary">Thêm vào giỏ</button>
+                            <button class="btn btn-outline-danger">Xóa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty Column for "Add More" Card -->
+            <div class="col-md-3">
+                <div class="product-card h-100 d-flex align-items-center justify-content-center">
+                    <a href="shop.html" class="text-decoration-none text-center p-4">
+                        <i class="fas fa-plus-circle fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">Thêm sản phẩm</h5>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty Wishlist State (Hidden by default) -->
+        <div class="empty-wishlist d-none">
+            <i class="far fa-heart"></i>
+            <h4>Danh sách yêu thích trống</h4>
+            <p class="text-muted">Hãy thêm những sản phẩm bạn yêu thích vào đây</p>
+            <a href="shop.html" class="btn btn-primary">Khám phá sản phẩm</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Remove from wishlist
+        document.querySelectorAll('.btn-outline-danger').forEach(button => {
+            button.addEventListener('click', function() {
+                if (confirm('Bạn có chắc muốn xóa sản phẩm này khỏi danh sách yêu thích?')) {
+                    const card = this.closest('.col-md-3');
+                    card.remove();
+                    
+                    // Check if wishlist is empty
+                    const remainingProducts = document.querySelectorAll('.product-card').length;
+                    if (remainingProducts <= 1) { // Only "Add More" card remains
+                        document.querySelector('.row').classList.add('d-none');
+                        document.querySelector('.empty-wishlist').classList.remove('d-none');
+                    }
+                }
+            });
+        });
+
+        // Add to cart
+        document.querySelectorAll('.btn-primary').forEach(button => {
+            button.addEventListener('click', function() {
+                const productName = this.closest('.card-body').querySelector('.card-title').textContent;
+                alert(`Đã thêm ${productName} vào giỏ hàng!`);
+            });
+        });
+    </script>
+</body>
+</html>

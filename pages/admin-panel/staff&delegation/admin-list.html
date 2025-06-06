@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Danh sách Admin | Admin Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@fortawesome/fontawesome-free/js/all.js" defer></script>
+</head>
+<body class="bg-gray-100 p-8 font-sans">
+  <div class="p-6">
+
+    <!-- Tiêu đề & thao tác góc phải -->
+    <div class="mb-6 flex justify-between flex-wrap gap-4 items-start">
+      <div>
+        <h1 class="text-2xl font-semibold flex items-center gap-2">
+          <i class="fas fa-user-shield text-purple-600"></i>
+          Danh sách Admin
+        </h1>
+        <p class="text-gray-500 text-sm">Quản lý tài khoản quản trị viên hệ thống.</p>
+      </div>
+      <div class="flex gap-2">
+        <button class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 text-sm flex items-center gap-2">
+          <i class="fas fa-user-plus"></i> Tạo admin
+        </button>
+        <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 text-sm flex items-center gap-2">
+          <i class="fas fa-file-export"></i> Xuất danh sách
+        </button>
+      </div>
+    </div>
+
+    <!-- Thanh tìm kiếm & lọc -->
+    <div class="bg-white p-4 rounded-lg shadow mb-6 flex flex-wrap gap-4 items-center">
+      <input type="text" placeholder="Tìm theo tên, email..." class="w-full md:w-1/3 p-2 border rounded" />
+      <select class="p-2 border rounded">
+        <option>Tất cả vai trò</option>
+        <option>Super Admin</option>
+        <option>Quản lý người dùng</option>
+        <option>Quản lý đơn hàng</option>
+        <option>Quản lý sản phẩm</option>
+        <option>CSKH</option>
+      </select>
+      <select class="p-2 border rounded">
+        <option>Tất cả trạng thái</option>
+        <option>Đang hoạt động</option>
+        <option>Đã bị khóa</option>
+      </select>
+      <button class="bg-blue-600 text-white px-4 py-2 rounded">Lọc</button>
+    </div>
+
+    <!-- Bảng danh sách admin -->
+    <div class="bg-white rounded-lg shadow overflow-x-auto">
+      <table class="min-w-full text-sm text-left">
+        <thead class="bg-gray-100 text-xs uppercase text-gray-600">
+          <tr>
+            <th class="p-3">Mã Admin</th>
+            <th class="p-3">Thông tin</th>
+            <th class="p-3">Vai trò</th>
+            <th class="p-3">Ngày tạo</th>
+            <th class="p-3">Trạng thái</th>
+            <th class="p-3 text-center">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t hover:bg-gray-50">
+            <td class="p-3 font-semibold text-gray-800">#AD001</td>
+            <td class="p-3 flex items-center gap-3">
+              <img src="https://i.pravatar.cc/40?img=31" class="w-10 h-10 rounded-full" alt="avatar">
+              <div>
+                <p class="font-medium">Nguyễn Quang Minh</p>
+                <p class="text-sm text-gray-500">minhadmin@example.com</p>
+              </div>
+            </td>
+            <td class="p-3">Super Admin</td>
+            <td class="p-3 text-sm text-gray-500">01/05/2024</td>
+            <td class="p-3">
+              <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">Đang hoạt động</span>
+            </td>
+            <td class="p-3 text-center flex justify-center gap-2 text-white text-sm">
+              <button class="bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded" title="Xem">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="bg-yellow-500 hover:bg-yellow-600 px-2 py-1 rounded" title="Chỉnh sửa">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="bg-red-500 hover:bg-red-600 px-2 py-1 rounded" title="Khóa">
+                <i class="fas fa-lock"></i>
+              </button>
+            </td>
+          </tr>
+          <!-- Thêm dòng khác nếu cần -->
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</body>
+</html>

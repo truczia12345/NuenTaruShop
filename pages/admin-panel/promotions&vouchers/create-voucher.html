@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tạo Voucher</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8 font-sans">
+
+  <div class="p-6">
+
+    <!-- Tiêu đề và thao tác -->
+    <div class="mb-6 flex justify-between items-start">
+      <div>
+        <h1 class="text-2xl font-semibold flex items-center gap-2">
+          <i class="fas fa-ticket-alt text-red-600"></i>
+          Tạo Voucher
+        </h1>
+        <p class="text-gray-500 text-sm">Thêm voucher mới để áp dụng chương trình khuyến mãi cho khách hàng.</p>
+        <p class="text-gray-400 text-sm mt-1">Voucher có thể được giới hạn theo giá trị đơn hàng tối thiểu, thời gian hiệu lực và số lượng sử dụng.</p>
+      </div>
+      <a href="voucher-list.html" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 text-sm">
+        <i class="fas fa-list mr-1"></i> Xem danh sách voucher
+      </a>
+    </div>
+
+    <!-- Form tạo voucher -->
+    <form class="bg-white p-6 rounded-lg shadow grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <label class="block mb-1 font-medium">Mã voucher</label>
+        <input type="text" class="w-full p-2 border rounded" placeholder="NHAPMA2025" />
+      </div>
+      <div>
+        <label class="block mb-1 font-medium">Tên chương trình</label>
+        <input type="text" class="w-full p-2 border rounded" placeholder="Giảm 20k đơn từ 200k" />
+      </div>
+      <div>
+        <label class="block mb-1 font-medium">Giảm giá</label>
+        <input type="number" class="w-full p-2 border rounded" placeholder="20000" />
+      </div>
+      <div>
+        <label class="block mb-1 font-medium">Đơn tối thiểu</label>
+        <input type="number" class="w-full p-2 border rounded" placeholder="200000" />
+      </div>
+      <div>
+        <label class="block mb-1 font-medium">Ngày bắt đầu</label>
+        <input type="date" class="w-full p-2 border rounded" />
+      </div>
+      <div>
+        <label class="block mb-1 font-medium">Ngày kết thúc</label>
+        <input type="date" class="w-full p-2 border rounded" />
+      </div>
+      <div>
+        <label class="block mb-1 font-medium">Số lượng</label>
+        <input type="number" class="w-full p-2 border rounded" placeholder="1000" />
+      </div>
+      <div>
+        <label class="block mb-1 font-medium">Trạng thái</label>
+        <select class="w-full p-2 border rounded">
+          <option>Đang hoạt động</option>
+          <option>Chưa kích hoạt</option>
+          <option>Đã hết hạn</option>
+        </select>
+      </div>
+
+      <!-- Ô mô tả chương trình -->
+      <div class="md:col-span-2">
+        <label class="block mb-1 font-medium">Mô tả chương trình</label>
+        <textarea rows="4" class="w-full p-2 border rounded"
+          placeholder="Ví dụ: Voucher chỉ áp dụng cho đơn hàng từ 200.000đ trở lên, không áp dụng cho sản phẩm flash sale..."></textarea>
+      </div>
+
+      <!-- Nút submit -->
+      <div class="md:col-span-2 flex justify-end">
+        <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
+          <i class="fas fa-check mr-1"></i> Tạo voucher
+        </button>
+      </div>
+    </form>
+
+  </div>
+
+</body>
+</html>

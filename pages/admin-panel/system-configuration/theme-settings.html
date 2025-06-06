@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Giao diện | Admin Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@fortawesome/fontawesome-free/js/all.js" defer></script>
+</head>
+<body class="bg-gray-100 p-8 font-sans">
+  <div class="p-6">
+
+    <!-- Tiêu đề -->
+    <div class="mb-6 flex justify-between items-start flex-wrap gap-4">
+      <div>
+        <h1 class="text-2xl font-semibold flex items-center gap-2">
+          <i class="fas fa-paint-brush text-purple-600"></i>
+          Giao diện hệ thống
+        </h1>
+        <p class="text-gray-500 text-sm">Tùy chỉnh logo, màu sắc và bố cục hiển thị cho giao diện hệ thống.</p>
+      </div>
+      <div class="flex gap-2">
+        <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center gap-2 text-sm">
+          <i class="fas fa-save"></i> Lưu thay đổi
+        </button>
+        <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 flex items-center gap-2 text-sm">
+          <i class="fas fa-undo"></i> Khôi phục mặc định
+        </button>
+      </div>
+    </div>
+
+    <!-- Cấu hình giao diện -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-lg font-semibold mb-4">Logo hệ thống</h3>
+        <div class="flex items-center gap-4">
+          <img src="https://via.placeholder.com/120x60?text=Logo" alt="Logo hiện tại" class="border rounded shadow">
+          <input type="file" class="p-2 border rounded">
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-lg font-semibold mb-4">Màu sắc chủ đạo</h3>
+        <div class="flex gap-4 items-center">
+          <label class="flex flex-col text-sm text-gray-600">
+            Màu chính:
+            <input type="color" value="#2563eb" class="w-16 h-10 border rounded">
+          </label>
+          <label class="flex flex-col text-sm text-gray-600">
+            Màu phụ:
+            <input type="color" value="#4b5563" class="w-16 h-10 border rounded">
+          </label>
+        </div>
+      </div>
+
+      <div class="md:col-span-2 bg-white rounded-lg shadow p-6">
+        <h3 class="text-lg font-semibold mb-4">Chọn bố cục</h3>
+        <div class="flex flex-wrap gap-6">
+          <label class="cursor-pointer">
+            <input type="radio" name="layout" class="hidden peer" checked>
+            <div class="peer-checked:ring-2 ring-blue-500 rounded border p-4">
+              <img src="https://via.placeholder.com/200x100?text=Layout+1" alt="Layout 1" class="mb-2">
+              <p class="text-sm text-center">Bố cục mặc định</p>
+            </div>
+          </label>
+          <label class="cursor-pointer">
+            <input type="radio" name="layout" class="hidden peer">
+            <div class="peer-checked:ring-2 ring-blue-500 rounded border p-4">
+              <img src="https://via.placeholder.com/200x100?text=Layout+2" alt="Layout 2" class="mb-2">
+              <p class="text-sm text-center">Bố cục tối giản</p>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

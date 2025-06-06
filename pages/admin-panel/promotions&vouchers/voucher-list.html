@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Danh sách voucher</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8 font-sans">
+  <div class="p-6">
+
+    <!-- Tiêu đề -->
+    <div class="mb-6 flex justify-between items-start">
+      <div>
+        <h1 class="text-2xl font-semibold flex items-center gap-2">
+          <i class="fas fa-tags text-pink-600"></i>
+          Danh sách Voucher
+        </h1>
+        <p class="text-gray-500 text-sm">Quản lý tất cả voucher hệ thống và voucher từ nhà bán hàng.</p>
+      </div>
+      <a href="#" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 text-sm">
+        <i class="fas fa-plus-circle mr-1"></i> Tạo voucher mới
+      </a>
+    </div>
+
+    <!-- Tabs -->
+    <div class="mb-6 border-b border-gray-200">
+      <ul class="flex text-sm font-medium text-center text-gray-500">
+        <li class="mr-4">
+          <button class="tab-link active text-pink-600 border-b-2 border-pink-600 pb-2" onclick="openTab(event, 'system')">
+            Voucher hệ thống
+          </button>
+        </li>
+        <li>
+          <button class="tab-link text-gray-500 hover:text-pink-600 hover:border-pink-600 pb-2" onclick="openTab(event, 'seller')">
+            Voucher nhà bán hàng
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Tab: Voucher hệ thống -->
+    <div id="system" class="tab-content">
+      <div class="bg-white p-4 rounded-lg shadow mb-6 flex flex-wrap gap-4 items-center">
+        <input type="text" placeholder="Tìm theo tên hoặc mã voucher..." class="w-full md:w-1/3 p-2 border rounded" />
+        <select class="p-2 border rounded">
+          <option>Tất cả trạng thái</option>
+          <option>Đang hoạt động</option>
+          <option>Chưa kích hoạt</option>
+          <option>Hết hạn</option>
+        </select>
+        <button class="bg-pink-600 text-white px-4 py-2 rounded">Lọc</button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-lg shadow text-sm">
+          <thead class="bg-gray-100 font-semibold text-left">
+            <tr>
+              <th class="p-4">Mã</th>
+              <th class="p-4">Tên chương trình</th>
+              <th class="p-4">Giảm</th>
+              <th class="p-4">Thời gian</th>
+              <th class="p-4">Trạng thái</th>
+              <th class="p-4 text-center">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t">
+              <td class="p-4 font-mono">HT2025</td>
+              <td class="p-4">Hè Siêu Giảm 50K</td>
+              <td class="p-4">50.000đ</td>
+              <td class="p-4">01/06 - 15/06</td>
+              <td class="p-4"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs">Đang hoạt động</span></td>
+              <td class="p-4 text-center"><button class="text-blue-600 hover:underline">Xem</button></td>
+            </tr>
+            <tr class="border-t">
+              <td class="p-4 font-mono">HT2024</td>
+              <td class="p-4">Cuối Năm Rực Rỡ</td>
+              <td class="p-4">20%</td>
+              <td class="p-4">15/12 - 31/12</td>
+              <td class="p-4"><span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs">Hết hạn</span></td>
+              <td class="p-4 text-center"><button class="text-blue-600 hover:underline">Xem</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tab: Voucher nhà bán hàng -->
+    <div id="seller" class="tab-content hidden">
+      <div class="bg-white p-4 rounded-lg shadow mb-6 flex flex-wrap gap-4 items-center">
+        <input type="text" placeholder="Tìm theo tên hoặc mã voucher..." class="w-full md:w-1/3 p-2 border rounded" />
+        <select class="p-2 border rounded">
+          <option>Tất cả trạng thái</option>
+          <option>Chưa duyệt</option>
+          <option>Đang hoạt động</option>
+          <option>Hết hạn</option>
+        </select>
+        <button class="bg-pink-600 text-white px-4 py-2 rounded">Lọc</button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-lg shadow text-sm">
+          <thead class="bg-gray-100 font-semibold text-left">
+            <tr>
+              <th class="p-4">Mã</th>
+              <th class="p-4">Tên chương trình</th>
+              <th class="p-4">Người tạo</th>
+              <th class="p-4">Giảm</th>
+              <th class="p-4">Thời gian</th>
+              <th class="p-4">Trạng thái</th>
+              <th class="p-4 text-center">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t">
+              <td class="p-4 font-mono">SHOP50</td>
+              <td class="p-4">Voucher Giảm 50K</td>
+              <td class="p-4">
+                <div class="flex items-center gap-2">
+                  <img src="https://i.pravatar.cc/32?img=8" class="w-6 h-6 rounded-full" />
+                  <div>
+                    <p class="text-sm font-medium">Nguyễn Văn A</p>
+                    <p class="text-xs text-gray-500">nguyenvana@gmail.com</p>
+                  </div>
+                </div>
+              </td>
+              <td class="p-4">50.000đ</td>
+              <td class="p-4">05/06 - 20/06</td>
+              <td class="p-4"><span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs">Chưa duyệt</span></td>
+              <td class="p-4 text-center"><button class="text-blue-600 hover:underline">Duyệt</button></td>
+            </tr>
+            <tr class="border-t">
+              <td class="p-4 font-mono">SELLER2025</td>
+              <td class="p-4">Deal tháng 6</td>
+              <td class="p-4">
+                <div class="flex items-center gap-2">
+                  <img src="https://i.pravatar.cc/32?img=11" class="w-6 h-6 rounded-full" />
+                  <div>
+                    <p class="text-sm font-medium">Lê Thị B</p>
+                    <p class="text-xs text-gray-500">lethibshop@gmail.com</p>
+                  </div>
+                </div>
+              </td>
+              <td class="p-4">30.000đ</td>
+              <td class="p-4">01/06 - 10/06</td>
+              <td class="p-4"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs">Đang hoạt động</span></td>
+              <td class="p-4 text-center"><button class="text-blue-600 hover:underline">Xem</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function openTab(evt, tabId) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+      document.getElementById(tabId).classList.remove('hidden');
+      document.querySelectorAll('.tab-link').forEach(btn => {
+        btn.classList.remove('active', 'text-pink-600', 'border-pink-600');
+        btn.classList.add('text-gray-500');
+      });
+      evt.currentTarget.classList.add('active', 'text-pink-600', 'border-b-2', 'border-pink-600');
+    }
+  </script>
+</body>
+</html>

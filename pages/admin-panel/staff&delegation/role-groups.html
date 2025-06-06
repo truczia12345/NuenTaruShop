@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nhóm vai trò | Admin Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@fortawesome/fontawesome-free/js/all.js" defer></script>
+</head>
+<body class="bg-gray-100 p-8 font-sans">
+  <div class="p-6">
+
+    <!-- Tiêu đề -->
+    <div class="mb-6 flex justify-between items-center">
+      <div>
+        <h1 class="text-2xl font-semibold flex items-center gap-2">
+          <i class="fas fa-users-cog text-indigo-600"></i>
+          Nhóm vai trò
+        </h1>
+        <p class="text-gray-500 text-sm">Quản lý các nhóm vai trò và quyền hạn tương ứng trong hệ thống.</p>
+      </div>
+      <div>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm flex items-center gap-2">
+          <i class="fas fa-plus-circle"></i> Thêm nhóm mới
+        </button>
+      </div>
+    </div>
+
+    <!-- Bảng nhóm vai trò -->
+    <div class="bg-white rounded-lg shadow overflow-x-auto">
+      <table class="min-w-full text-sm text-left">
+        <thead class="bg-gray-100 text-xs uppercase text-gray-600">
+          <tr>
+            <th class="p-3">Tên nhóm</th>
+            <th class="p-3">Mô tả</th>
+            <th class="p-3">Số lượng thành viên</th>
+            <th class="p-3">Ngày tạo</th>
+            <th class="p-3 text-center">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t hover:bg-gray-50">
+            <td class="p-3 font-medium text-indigo-700">Quản trị hệ thống</td>
+            <td class="p-3">Toàn quyền truy cập và quản lý toàn bộ hệ thống</td>
+            <td class="p-3">4</td>
+            <td class="p-3 text-sm">01/06/2024</td>
+            <td class="p-3 text-center">
+              <div class="flex justify-center gap-2 text-sm">
+                <button onclick="openModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded" title="Xem chi tiết">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded" title="Chỉnh sửa">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded" title="Xóa">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr class="border-t hover:bg-gray-50">
+            <td class="p-3 font-medium text-indigo-700">Hỗ trợ khách hàng</td>
+            <td class="p-3">Xử lý yêu cầu và phản hồi từ người dùng</td>
+            <td class="p-3">7</td>
+            <td class="p-3 text-sm">20/04/2024</td>
+            <td class="p-3 text-center">
+              <div class="flex justify-center gap-2 text-sm">
+                <button class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded" title="Xem chi tiết">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded" title="Chỉnh sửa">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded" title="Xóa">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Modal chi tiết nhóm -->
+    <div id="groupModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+      <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+        <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+          <i class="fas fa-info-circle text-purple-600"></i>
+          Chi tiết nhóm vai trò
+        </h3>
+        <p><strong>Tên nhóm:</strong> Quản trị viên</p>
+        <p><strong>Mô tả:</strong> Nhóm có toàn quyền truy cập hệ thống</p>
+        <p><strong>Quyền:</strong></p>
+        <ul class="list-disc list-inside text-sm text-gray-700 mb-4">
+          <li>Quản lý người dùng</li>
+          <li>Quản lý sản phẩm</li>
+          <li>Xem báo cáo hệ thống</li>
+          <li>Gán quyền nhân viên</li>
+        </ul>
+        <div class="text-right">
+          <button onclick="closeModal()" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">
+            Đóng
+          </button>
+        </div>
+        <button onclick="closeModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      function openModal() {
+        document.getElementById("groupModal").classList.remove("hidden");
+      }
+      function closeModal() {
+        document.getElementById("groupModal").classList.add("hidden");
+      }
+    </script>
+
+  </div>
+</body>
+</html>

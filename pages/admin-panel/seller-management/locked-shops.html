@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cửa hàng bị khóa</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="bg-gray-100 p-8 font-sans">
+    <div class="p-6">
+        <!-- Tiêu đề và nút góc trên bên phải -->
+  <div class="flex justify-between items-center mb-6">
+    <div>
+            <h1 class="text-2xl font-semibold flex items-center gap-2">
+                <i class="fas fa-lock text-red-600"></i>
+                Danh sách Seller
+            </h1>
+            <p class="text-gray-500 text-sm">Danh sách tất cả người bán đã được duyệt trên hệ thống.</p>
+        </div>
+    <div class="space-x-2">
+      <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        Xuất danh sách
+      </button>
+      <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+        Xóa vĩnh viễn
+      </button>
+    </div>
+  </div>
+
+  <!-- Thanh tìm kiếm và lọc -->
+  <div class="bg-white p-4 rounded-lg shadow mb-6 flex flex-wrap gap-4 items-center">
+    <input type="text"
+           placeholder="Tìm theo tên người bán, cửa hàng hoặc email..."
+           class="w-full md:w-1/3 p-2 border rounded" />
+    <select class="p-2 border rounded">
+      <option>Tất cả</option>
+      <option>Bị khóa gần đây</option>
+      <option>Bị khóa lâu</option>
+    </select>
+    <button class="bg-blue-600 text-white px-4 py-2 rounded">Lọc</button>
+  </div>
+
+  <!-- Danh sách cửa hàng bị khóa -->
+  <div class="bg-white rounded-lg shadow p-4 overflow-x-auto">
+    <table class="min-w-full table-auto text-sm text-left">
+      <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
+        <tr>
+          <th class="px-4 py-3">ID</th>
+          <th class="px-4 py-3">Thông tin</th>
+          <th class="px-4 py-3">Email</th>
+          <th class="px-4 py-3">Trạng thái</th>
+          <th class="px-4 py-3">Ngày bị khóa</th>
+          <th class="px-4 py-3">Hành động</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-700">
+        <tr class="border-t">
+          <td class="px-4 py-3">001</td>
+          <td class="px-4 py-3 flex items-center gap-3">
+            <img src="https://i.pravatar.cc/40?img=10" alt="Avatar" class="w-10 h-10 rounded-full" />
+            <div>
+              <p class="font-medium">Shop Hoa Công Nghệ</p>
+              <p class="text-sm text-gray-500">Lê Thị Hoa</p>
+            </div>
+          </td>
+          <td class="px-4 py-3">hoacongnghe@gmail.com</td>
+          <td class="px-4 py-3">
+            <span class="inline-block px-3 py-1 text-xs font-semibold bg-red-100 text-red-700 rounded-full">
+              Đã bị khóa
+            </span>
+          </td>
+          <td class="px-4 py-3">01/06/2025</td>
+          <td class="px-4 py-3 space-x-2">
+            <button class="text-blue-600 hover:underline text-sm">Xem</button>
+            <button class="text-green-600 hover:underline text-sm">Mở khóa</button>
+          </td>
+        </tr>
+
+        <tr class="border-t">
+          <td class="px-4 py-3">002</td>
+          <td class="px-4 py-3 flex items-center gap-3">
+            <img src="https://i.pravatar.cc/40?img=12" alt="Avatar" class="w-10 h-10 rounded-full" />
+            <div>
+              <p class="font-medium">Shop Giày Dép Công Nghệ</p>
+              <p class="text-sm text-gray-500">Trần Thị Hảo</p>
+            </div>
+          </td>
+          <td class="px-4 py-3">haogiaydep@gmail.com</td>
+          <td class="px-4 py-3">
+            <span class="inline-block px-3 py-1 text-xs font-semibold bg-red-100 text-red-700 rounded-full">
+              Đã bị khóa
+            </span>
+          </td>
+          <td class="px-4 py-3">28/05/2025</td>
+          <td class="px-4 py-3 space-x-2">
+            <button class="text-blue-600 hover:underline text-sm">Xem</button>
+            <button class="text-green-600 hover:underline text-sm">Mở khóa</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo cáo người bán - Admin Panel</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body class="bg-gray-100 p-8 font-sans">
+    <div class="p-6">
+        <!-- Tiêu đề và nút chức năng -->
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h1 class="text-2xl font-semibold flex items-center gap-2">
+                <i class="fas fa-flag text-red-600"></i>
+                Báo cáo người bán
+            </h1>
+            <p class="text-gray-500 text-sm">Danh sách các seller bị người
+                dùng báo cáo vi phạm.</p>
+        </div>
+        <div class="flex gap-2">
+            <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
+                <i class="fas fa-file-alt mr-1"></i> Xuất báo cáo
+            </button>
+            <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                <i class="fas fa-ban mr-1"></i> Khóa hàng loạt
+            </button>
+        </div>
+    </div>
+
+    <!-- Thanh tìm kiếm và lọc -->
+    <div class="bg-white p-4 rounded-lg shadow mb-6 flex flex-wrap gap-4 items-center">
+        <input type="text" placeholder="Tìm theo tên, email hoặc shop..." class="w-full md:w-1/3 p-2 border rounded" />
+        <select class="p-2 border rounded">
+            <option>Tất cả tình trạng</option>
+            <option>Chờ xử lý</option>
+            <option>Đã xử lý</option>
+        </select>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded">Lọc</button>
+    </div>
+
+    <!-- Bảng danh sách báo cáo -->
+    <div class="bg-white shadow rounded-lg overflow-x-auto">
+        <table class="w-full table-auto text-sm">
+            <thead class="bg-gray-100 text-gray-600 uppercase text-left">
+                <tr>
+                    <th class="p-4">ID</th>
+                    <th class="p-4">Người báo cáo</th>
+                    <th class="p-4">Seller bị báo cáo</th>
+                    <th class="p-4">Lý do</th>
+                    <th class="p-4">Ngày báo cáo</th>
+                    <th class="p-4">Tình trạng</th>
+                    <th class="p-4 text-center">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-t hover:bg-gray-50">
+                    <td class="p-4 font-medium text-gray-700">#RPT-2024-001</td>
+                    <td class="p-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <img class="h-8 w-8 rounded-full" src="https://randomuser.me/api/portraits/men/32.jpg" alt>
+                            <div class="ml-3">
+                                <div class="text-sm font-medium text-gray-900">Nguyễn
+                                    Văn A</div>
+                                <div class="text-xs text-gray-500">nguyenvana@gmail.com</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="p-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <img class="h-8 w-8 rounded-full" src="https://i.pravatar.cc/40?img=5"
+                                alt>
+                            <div class="ml-3">
+                                <div class="text-sm font-medium text-gray-900">Lê Thị Hoa</div>
+                                <div class="text-xs text-gray-500">Shop Hoa Công Nghệ</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="p-4">
+                        Giao hàng sai sản phẩm
+                    </td>
+                    <td class="p-4">01/06/2025</td>
+                    <td class="p-4">
+                        <span class="text-yellow-600 font-medium">Chờ xử
+                            lý</span>
+                    </td>
+                    <td class="p-4 text-center">
+                        <div class="flex justify-center gap-3">
+                            <button title="Xem chi tiết" class="text-blue-600 hover:text-blue-800 text-lg">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button title="Đánh dấu đã xử lý" class="text-green-600 hover:text-green-800 text-lg">
+                                <i class="fas fa-check-circle"></i>
+                            </button>
+                            <button title="Khóa seller" class="text-red-600 hover:text-red-800 text-lg">
+                                <i class="fas fa-user-lock"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <!-- Có thể thêm các dòng báo cáo khác tại đây -->
+            </tbody>
+        </table>
+
+        <!-- Phân trang -->
+        <div class="p-4 border-t text-sm text-gray-600 flex justify-between items-center">
+            <div>Hiển thị 1 đến 10 trong 32 báo cáo</div>
+            <div class="flex gap-1">
+                <button class="px-3 py-1 border rounded hover:bg-gray-100">&laquo;</button>
+                <button class="px-3 py-1 border rounded bg-blue-600 text-white">1</button>
+                <button class="px-3 py-1 border rounded hover:bg-gray-100">2</button>
+                <button class="px-3 py-1 border rounded hover:bg-gray-100">&raquo;</button>
+            </div>
+        </div>
+    </div>
+    </div>    
+
+</body>
+
+</html>

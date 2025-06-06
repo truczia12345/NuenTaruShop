@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shipping Settings</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary-color: #ee4d2d;
+            --secondary-color: #f53d2d;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .nav-tabs .nav-link {
+            color: #666;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .settings-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .settings-section {
+            margin-bottom: 2rem;
+        }
+
+        .settings-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .settings-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .carrier-card {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .carrier-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .carrier-logo {
+            width: 80px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .pickup-address-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 1rem;
+        }
+
+        .pickup-address-card h5 {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h4 class="mb-4">Shipping Settings</h4>
+
+    <ul class="nav nav-tabs mb-3" id="settingsTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">Cài đặt chung</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="shipping-tab" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab" aria-controls="shipping" aria-selected="false">Cài đặt vận chuyển</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="settingsTabsContent">
+        <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+            <div class="settings-card">
+                <div class="settings-section">
+                    <div class="settings-title">Shipping Carriers</div>
+                    
+                    <!-- DHL -->
+                    <div class="carrier-card">
+                        <div class="carrier-header">
+                            <div class="d-flex align-items-center gap-3">
+                                <img src="https://www.dhl.com/content/dam/dhl/global/core/images/logos/dhl-logo.svg" alt="DHL" class="carrier-logo" />
+                                <div>
+                                    <h6 class="mb-1">DHL Express</h6>
+                                    <small class="text-muted">International shipping</small>
+                                </div>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" checked />
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Account Number</label>
+                                <input type="text" class="form-control" value="DHL123456789" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">API Key</label>
+                                <input type="password" class="form-control" value="••••••••••••" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FedEx -->
+                    <div class="carrier-card">
+                        <div class="carrier-header">
+                            <div class="d-flex align-items-center gap-3">
+                                <img src="https://www.fedex.com/content/dam/fedex-com/logos/FedEx-Logo.svg" alt="FedEx" class="carrier-logo" />
+                                <div>
+                                    <h6 class="mb-1">FedEx</h6>
+                                    <small class="text-muted">Domestic & International shipping</small>
+                                </div>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" />
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Account Number</label>
+                                <input type="text" class="form-control" placeholder="Enter account number" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">API Key</label>
+                                <input type="password" class="form-control" placeholder="Enter API key" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
+            <div class="pickup-address-card">
+                <h5>Pickup Address</h5>
+                <p><strong>Nguyễn Tam Truc</strong> | 84964758700</p>
+                <p>108/3/26, Mẹ Suốt<br />Phường Hòa Khánh Nam<br />Quận Liên Chiểu<br />Đà Nẵng</p>
+                <a href="#" class="btn btn-outline-primary btn-sm mt-2">Edit Address</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lịch sử thanh toán | Admin Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@fortawesome/fontawesome-free/js/all.js" defer></script>
+</head>
+<body class="bg-gray-100 p-8 font-sans">
+  <div class="p-6">
+    <!-- Tiêu đề -->
+    <div class="mb-6">
+      <h1 class="text-2xl font-semibold flex items-center gap-2">
+        <i class="fas fa-file-invoice-dollar text-green-600"></i>
+        Lịch sử thanh toán
+      </h1>
+      <p class="text-gray-500 text-sm">Theo dõi lịch sử thanh toán cho seller, khách hàng và đơn vị vận chuyển.</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="mb-6">
+      <ul class="flex border-b text-sm font-medium">
+        <li class="mr-6">
+          <a href="#seller" class="tab-link text-blue-600 border-b-2 border-blue-600 py-2 px-4 inline-block">Thanh toán cho seller</a>
+        </li>
+        <li class="mr-6">
+          <a href="#customer" class="tab-link text-gray-600 hover:text-blue-600 py-2 px-4 inline-block">Hoàn tiền khách hàng</a>
+        </li>
+        <li>
+          <a href="#shipper" class="tab-link text-gray-600 hover:text-blue-600 py-2 px-4 inline-block">Thanh toán cho đơn vị vận chuyển</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Tab: Thanh toán cho Seller -->
+    <div id="seller" class="tab-content">
+      <div class="bg-white p-4 rounded-lg shadow mb-6 flex flex-wrap gap-4 items-center">
+        <input type="text" placeholder="Tìm theo mã giao dịch, người nhận..." class="w-full md:w-1/3 p-2 border rounded" />
+        <select class="p-2 border rounded">
+          <option>Tất cả trạng thái</option>
+          <option>Thành công</option>
+          <option>Chờ xử lý</option>
+          <option>Thất bại</option>
+        </select>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded">Lọc</button>
+      </div>
+      <div class="overflow-x-auto bg-white rounded-lg shadow">
+        <table class="w-full text-sm text-left">
+          <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
+            <tr>
+              <th class="p-3">Mã giao dịch</th>
+              <th class="p-3">Người nhận</th>
+              <th class="p-3">Số tiền</th>
+              <th class="p-3">Thời gian</th>
+              <th class="p-3">Trạng thái</th>
+              <th class="p-3">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t hover:bg-gray-50">
+              <td class="p-3 font-semibold text-gray-800">#TX1001</td>
+              <td class="p-3">Nguyễn Văn A (Seller)</td>
+              <td class="p-3 text-green-600 font-medium">₫850.000</td>
+              <td class="p-3 text-sm text-gray-500">01/06/2025 14:30</td>
+              <td class="p-3"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">Thành công</span></td>
+              <td class="p-3 flex gap-2 text-lg text-gray-600">
+                <button class="bg-blue-100 hover:bg-blue-200 text-blue-600 px-2 py-1 rounded"><i class="fas fa-eye"></i></button>
+                <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-1 rounded"><i class="fas fa-download"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tab: Hoàn tiền khách hàng -->
+    <div id="customer" class="tab-content hidden">
+      <div class="bg-white p-4 rounded-lg shadow mb-6 flex flex-wrap gap-4 items-center">
+        <input type="text" placeholder="Tìm theo mã giao dịch, khách hàng..." class="w-full md:w-1/3 p-2 border rounded" />
+        <select class="p-2 border rounded">
+          <option>Tất cả trạng thái</option>
+          <option>Đã hoàn tiền</option>
+          <option>Chờ xử lý</option>
+          <option>Thất bại</option>
+        </select>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded">Lọc</button>
+      </div>
+      <div class="overflow-x-auto bg-white rounded-lg shadow">
+        <table class="w-full text-sm text-left">
+          <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
+            <tr>
+              <th class="p-3">Mã hoàn tiền</th>
+              <th class="p-3">Khách hàng</th>
+              <th class="p-3">Số tiền</th>
+              <th class="p-3">Thời gian</th>
+              <th class="p-3">Trạng thái</th>
+              <th class="p-3">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t hover:bg-gray-50">
+              <td class="p-3 font-semibold text-gray-800">#RF2001</td>
+              <td class="p-3">Trần Thị B (Buyer)</td>
+              <td class="p-3 text-red-600 font-medium">₫1.000.000</td>
+              <td class="p-3 text-sm text-gray-500">02/06/2025 10:20</td>
+              <td class="p-3"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-xs">Chờ xử lý</span></td>
+              <td class="p-3 flex gap-2 text-lg text-gray-600">
+                <button class="bg-blue-100 hover:bg-blue-200 text-blue-600 px-2 py-1 rounded"><i class="fas fa-eye"></i></button>
+                <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-1 rounded"><i class="fas fa-undo"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tab: Thanh toán đơn vị vận chuyển -->
+    <div id="shipper" class="tab-content hidden">
+      <div class="bg-white p-4 rounded-lg shadow mb-6 flex flex-wrap gap-4 items-center">
+        <input type="text" placeholder="Tìm theo mã thanh toán, đơn vị..." class="w-full md:w-1/3 p-2 border rounded" />
+        <select class="p-2 border rounded">
+          <option>Tất cả trạng thái</option>
+          <option>Đã thanh toán</option>
+          <option>Chờ xử lý</option>
+          <option>Thất bại</option>
+        </select>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded">Lọc</button>
+      </div>
+      <div class="overflow-x-auto bg-white rounded-lg shadow">
+        <table class="w-full text-sm text-left">
+          <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
+            <tr>
+              <th class="p-3">Mã thanh toán</th>
+              <th class="p-3">Đơn vị vận chuyển</th>
+              <th class="p-3">Số tiền</th>
+              <th class="p-3">Thời gian</th>
+              <th class="p-3">Trạng thái</th>
+              <th class="p-3">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t hover:bg-gray-50">
+              <td class="p-3 font-semibold text-gray-800">#DL3001</td>
+              <td class="p-3">GHN Express</td>
+              <td class="p-3 text-blue-600 font-medium">₫25.000</td>
+              <td class="p-3 text-sm text-gray-500">03/06/2025 09:00</td>
+              <td class="p-3"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">Đã thanh toán</span></td>
+              <td class="p-3 flex gap-2 text-lg text-gray-600">
+                <button class="bg-blue-100 hover:bg-blue-200 text-blue-600 px-2 py-1 rounded"><i class="fas fa-eye"></i></button>
+                <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-1 rounded"><i class="fas fa-receipt"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll(".tab-link");
+    const contents = document.querySelectorAll(".tab-content");
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", (e) => {
+        e.preventDefault();
+        tabs.forEach((t) => t.classList.remove("text-blue-600", "border-b-2", "border-blue-600"));
+        contents.forEach((c) => c.classList.add("hidden"));
+        tab.classList.add("text-blue-600", "border-b-2", "border-blue-600");
+        const target = document.querySelector(tab.getAttribute("href"));
+        target.classList.remove("hidden");
+      });
+    });
+  </script>
+</body>
+</html>

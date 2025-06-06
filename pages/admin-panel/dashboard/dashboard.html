@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 p-6">
+
+  <!-- Header -->
+  <div class="mb-6">
+    <h1 class="text-3xl font-semibold">Tổng quan hệ thống</h1>
+    <p class="text-gray-500">Thông tin thống kê tổng quát hôm nay</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white shadow rounded-xl p-5">
+      <h2 class="text-sm font-semibold text-gray-500 mb-1">Người dùng mới</h2>
+      <p class="text-2xl font-bold text-blue-600">+350</p>
+    </div>
+    <div class="bg-white shadow rounded-xl p-5">
+      <h2 class="text-sm font-semibold text-gray-500 mb-1">Đơn hàng hôm nay</h2>
+      <p class="text-2xl font-bold text-green-600">1.245</p>
+    </div>
+    <div class="bg-white shadow rounded-xl p-5">
+      <h2 class="text-sm font-semibold text-gray-500 mb-1">Tổng doanh thu</h2>
+      <p class="text-2xl font-bold text-purple-600">₫75,200,000</p>
+    </div>
+    <div class="bg-white shadow rounded-xl p-5">
+      <h2 class="text-sm font-semibold text-gray-500 mb-1">Sản phẩm đang bán</h2>
+      <p class="text-2xl font-bold text-orange-500">8.456</p>
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div class="bg-white shadow rounded-xl p-6">
+    <h2 class="text-lg font-semibold mb-4">Biểu đồ doanh thu 6 tháng gần đây</h2>
+    <canvas id="revenueChart" height="100"></canvas>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Th1', 'Th2', 'Th3', 'Th4', 'Th5', 'Th6'],
+        datasets: [{
+          label: 'Doanh thu',
+          data: [12, 19, 14, 25, 22, 30],
+          borderColor: '#4F46E5',
+          backgroundColor: 'rgba(79,70,229,0.1)',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 4,
+          pointHoverRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: value => '₫' + value + 'M'
+            }
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
