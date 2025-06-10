@@ -17,18 +17,61 @@
     <!-- Custom CSS -->
     <style>
         :root {
-            --primary-color: #ee4d2d;
-            --secondary-color: #f53d2d;
-        }
-        
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f8f9fa;
-        }
-        
-        .navbar-custom {
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-        }
+        --primary-color: #6cb4ee;
+        --secondary-color: #3a8fd3;
+      }
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: #f8f9fa;
+      }
+
+      /* Header Navbar Styling */
+      .topbar {
+        background-color: #4d7799;
+        font-size: 0.9rem;
+        padding: 6px 0;
+      }
+      .topbar .top-links a {
+        color: #fff;
+        text-decoration: none;
+        margin-left: 15px;
+      }
+      .navbar-custom {
+        background: linear-gradient(to right, #112637, var(--secondary-color));
+      }
+      .nav-link {
+        color: var(--bs-navbar-brand-color);
+      }
+      .search-bar {
+        display: flex;
+        width: 100%;
+      }
+      .search-input {
+        flex: 1;
+        border-radius: 30px 0 0 30px;
+        border: none;
+        padding-left: 20px;
+        height: 42px;
+      }
+      .search-button {
+        border-radius: 0 30px 30px 0;
+        background-color: var(--secondary-color);
+        color: white;
+        border: none;
+        width: 48px;
+        height: 42px;
+      }
+      .header-quicklink {
+        text-align: center;
+        padding: 10px;
+        background: white;
+        border-bottom: 1px solid #ddd;
+      }
+      .header-quicklink a {
+        margin: 0 10px;
+        color: #444;
+        text-decoration: none;
+      }
         
         .login-container {
             max-width: 400px;
@@ -84,41 +127,58 @@
     </style>
 </head>
 <body>
-    <!-- Top Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-        <div class="container">
-            <a class="navbar-brand" href="index.html">Shopee</a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="shop.html">Cửa hàng</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">Giới thiệu</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Liên hệ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="faq.html">Hỏi đáp</a>
-                    </li>
-                </ul>
-                
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="cart.html"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="login.html"><i class="fas fa-user"></i> Đăng nhập</a>
-                    </li>
-                </ul>
-            </div>
+    <div class="topbar d-flex justify-content-between align-items-center px-4">
+      <div class="text-white fw-semibold">
+        <i class="fas fa-phone-alt me-1"></i> Hotline: 1900 1234
+      </div>
+      <div class="top-links">
+        <a href="#"><i class="fas fa-bell"></i> Thông báo</a>
+        <a href="#"><i class="fas fa-question-circle"></i> Hỗ trợ</a>
+      </div>
+    </div>
+
+    <header class="navbar navbar-expand-lg navbar-dark navbar-custom">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="#">NuenTaru</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <div class="search-bar mx-4">
+            <input
+              type="text"
+              class="form-control search-input"
+              placeholder="Tìm kiếm sản phẩm..."
+            />
+            <button class="search-button"><i class="fas fa-search"></i></button>
+          </div>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#"
+                ><i class="fas fa-shopping-cart"></i> Giỏ hàng</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"
+                ><i class="fas fa-user"></i> Đăng nhập</a
+              >
+            </li>
+          </ul>
         </div>
+      </div>
+    </header>
+
+    <nav class="header-quicklink">
+      <a href="#">Hàng mới về</a>
+      <a href="#">Giảm giá sốc</a>
+      <a href="#">Hàng cao cấp</a>
+      <a href="#">Phổ biến nhất</a>
+      <a href="#">Gợi ý hôm nay</a>
     </nav>
 
     <!-- Login Section -->
