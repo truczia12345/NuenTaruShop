@@ -1,1193 +1,935 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>NuenTaru - Online Shopping Platform</title>
-
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-
-    <!-- Font Awesome for icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    />
-
-    <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Custom CSS -->
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Shop - Trang mua sắm trực tuyến</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-      :root {
-        --primary-color: #6cb4ee;
-        --secondary-color: #3a8fd3;
-      }
-      body {
-        font-family: "Segoe UI", sans-serif;
-        background-color: #f8f9fa;
-      }
 
-      /* Header Navbar Styling */
-      .topbar {
-        background-color: #4d7799;
-        font-size: 0.9rem;
-        padding: 6px 0;
-      }
-      .topbar .top-links a {
-        color: #fff;
-        text-decoration: none;
-        margin-left: 15px;
-      }
-      .navbar-custom {
-        background: linear-gradient(to right, #112637, var(--secondary-color));
-      }
-      .nav-link {
-        color: var(--bs-navbar-brand-color);
-      }
-      .search-bar {
-        display: flex;
-        width: 100%;
-      }
-      .search-input {
-        flex: 1;
-        border-radius: 30px 0 0 30px;
-        border: none;
-        padding-left: 20px;
-        height: 42px;
-      }
-      .search-button {
-        border-radius: 0 30px 30px 0;
-        background-color: var(--secondary-color);
-        color: white;
-        border: none;
-        width: 48px;
-        height: 42px;
-      }
-      .header-quicklink {
-        text-align: center;
-        padding: 10px;
-        background: white;
-        border-bottom: 1px solid #ddd;
-      }
-      .header-quicklink a {
-        margin: 0 10px;
-        color: #444;
-        text-decoration: none;
-      }
-
-      /* Carousel flash sale item styles */
-      .carousel-item .product-card {
-        margin: 0 5px;
-      }
-
-      .carousel-control-next,
-      .carousel-control-prev {
-        width: 5%;
-      }
-
-      /* Category Icons Grid */
-      .category-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      }
-
-      .category-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 1rem;
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-        cursor: pointer;
-      }
-
-      .category-item:hover {
-        transform: translateY(-5px);
-      }
-
-      .category-icon {
-        width: 48px;
-        height: 48px;
-        margin-bottom: 0.5rem;
-      }
-
-      .category-name {
-        text-align: center;
-        font-size: 0.9rem;
-        color: #333;
-      }
-
-      /* Flash Sale Section */
-      .flash-sale-section {
-        background: #fffdfd;
-        border: 1px solid var(--flash-sale-color);
-        border-radius: 10px;
-        padding: 1.5rem 1rem;
-        margin-bottom: 3rem;
-      }
-
-      .flash-sale-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 1rem;
-        flex-wrap: wrap;
-      }
-
-      .flash-sale-header h2 {
-        color: red;
-        font-weight: 700;
-        margin: 0;
-        font-size: 1.8rem;
-        position: relative;
-        z-index: 2;
-      }
-
-      /* Flash Sale Card Badge */
-      .flash-badge {
-        position: absolute;
-        top: 8px;
-        left: 8px;
-        background-color: red;
-        color: white;
-        font-weight: 700;
-        font-size: 0.75rem;
-        padding: 3px 8px;
-        border-radius: 20px;
-        user-select: none;
-        z-index: 10;
-        box-shadow: 0 2px 6px rgba(230, 0, 0, 0.5);
-      }
-
-      /* Price in flash sale card */
-      .flash-price {
-        font-weight: 700;
-        font-size: 1.1rem;
-        color: red;
-        margin-right: 0.5rem;
-      }
-
-      .flash-old-price {
-        text-decoration: line-through;
-        color: #999;
-        font-size: 0.85rem;
-      }
-
-      /* Adjust carousel inner spacing */
-      #flashSaleCarousel .carousel-inner {
-        padding: 10px 0;
-      }
-
-      .flash-sale-carousel-col {
-        flex: 0 0 16.66%;
-        max-width: 16.66%;
-      }
-
-      /* Ensure single row of flash sale products */
-      #flashSaleCarousel .carousel-inner .d-flex {
-        flex-wrap: nowrap !important;
-        overflow-x: auto;
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      /* Hide scrollbar in Webkit browsers */
-      #flashSaleCarousel .carousel-inner .d-flex::-webkit-scrollbar {
-        display: none;
-      }
-
-      /* Hide scrollbar in Firefox */
-      #flashSaleCarousel .carousel-inner .d-flex {
-        scrollbar-width: none;
-      }
-
-      /* Product Grid */
-      .product-grid {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        gap: 1rem;
-        padding: 1rem;
-      }
-
-      .product-card {
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        transition: transform 0.3s ease;
-        position: relative;
-      }
-
-      .product-card:hover {
-        transform: translateY(-5px);
-      }
-
-      .product-image {
-        width: 100%;
-        height: 150px;
-        object-fit: cover;
-      }
-
-      .product-info {
-        padding: 0.8rem;
-      }
-
-      .product-name {
-        font-size: 0.9rem;
-        margin-bottom: 0.5rem;
-        color: #333;
-        height: 2.7em;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-      }
-
-      .product-price {
-        color: var(--primary-color);
-        font-weight: 600;
-        font-size: 1rem;
-        margin-bottom: 0.5rem;
-      }
-
-      .rating {
-        color: #ffc107;
-        font-size: 0.8rem;
-      }
-
-      /* Footer */
-      .footer {
-        background-color: #fbfbfb;
-        padding: 40px 0;
-        margin-top: 40px;
-      }
-
-      .countdown {
-        position: absolute;
-        left: 9rem;
-        background: rgba(255, 62, 62, 0.1);
-        color: var(--flash-sale-color);
-        font-weight: 700;
-        font-size: 1rem;
-        font-family: monospace;
-        border-radius: 12px;
-        padding: 3px 10px;
-        user-select: none;
-        top: 50%;
-        transform: translateY(-50%);
-        white-space: nowrap;
-        z-index: 1;
-      }
-
-      .view-all {
-        color: var(--primary-color);
-        font-weight: 600;
-        text-decoration: none;
-        cursor: pointer;
-      }
-
-      @media (max-width: 1200px) {
-        .product-grid {
-          grid-template-columns: repeat(4, 1fr);
+        /* Header */
+        .pb-3 img {
+          width: 120px;
+          height: 120px;
         }
-      }
 
-      @media (max-width: 768px) {
-        .product-grid {
-          grid-template-columns: repeat(2, 1fr);
+      /*Slider */
+      .slider-container {
+            overflow: hidden;
+            position: relative;
         }
-      }
+        .slider-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slide {
+            min-width: 100%;
+        }
+        .slide-content {
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+        }
+        .slide-1 { background-image: url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'); }
+        .slide-2 { background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'); }
+        .slide-3 { background-image: url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1399&q=80'); }
+        
+        .nav-dot.active {
+            background-color: white;
+            opacity: 1;
+        }
+        .slide-overlay {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        .slide-btn {
+            transition: all 0.3s ease;
+        }
+        .slide-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
 
-      @media (max-width: 1200px) {
-        .flash-sale-carousel-col {
-          flex: 0 0 33.33%;
-          max-width: 33.33%;
+        .flex.transition-transform {
+            will-change: transform;
         }
-      }
 
-      @media (max-width: 768px) {
-        .flash-sale-carousel-col {
-          flex: 0 0 50%;
-          max-width: 50%;
+        /* Flash Sale Progress Bar */
+        .flash-sale-progress {
+            height: 4px;
+            background: linear-gradient(90deg, #ff424f 70%, #f3f4f6 30%);
         }
-      }
 
-      @media (max-width: 576px) {
-        .flash-sale-carousel-col {
-          flex: 0 0 100%;
-          max-width: 100%;
+        /* Category */
+        .category-item:hover .category-icon {
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
         }
-        .flash-sale-header {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 0.5rem;
-          position: relative;
+
+        /* Product Card */
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
-        .countdown {
-          position: static;
-          transform: none;
-          margin-top: 0.5rem;
-          white-space: normal;
-          order: 1;
-        }
-      }
+
+        /* banner ads */
+        
     </style>
-  </head>
-  <body>
-    <!-- Top Navigation -->
-    <div class="topbar d-flex justify-content-between align-items-center px-4">
-      <div class="text-white fw-semibold">
-        <i class="fas fa-phone-alt me-1"></i> Hotline: 1900 1234
-      </div>
-      <div class="top-links">
-        <a href="#"><i class="fas fa-bell"></i> Thông báo</a>
-        <a href="#"><i class="fas fa-question-circle"></i> Hỗ trợ</a>
-      </div>
+</head>
+<body class="bg-gray-50">
+    <!-- Header với trending searches -->
+<header class="bg-[#ff424f] text-white shadow-md">
+    <div class="container mx-auto px-4">
+        <!-- Top Row: User Actions -->
+        <div class="flex justify-end items-center py-2 space-x-6 text-sm">
+            <a href="#" class="hover:text-yellow-200 flex items-center">
+                <i class="fas fa-bell mr-1"></i>
+                <span>Thông báo</span>
+            </a>
+            <a href="#" class="hover:text-yellow-200 flex items-center">
+                <i class="fas fa-tag mr-1"></i>
+                <span>Khuyến mãi</span>
+            </a>
+            <a href="#" class="hover:text-yellow-200 flex items-center">
+                <i class="fas fa-headset mr-1"></i>
+                <span>Hỗ trợ</span>
+            </a>
+        </div>
+
+        <!-- Main Header: Logo + Search -->
+        <div class="flex items-center justify-between pb-3">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <a href="/" class="text-2xl font-bold">
+                  <img src="image/logo/nuentaru1.png" alt="">
+                </a>
+            </div>
+
+            <!-- Search Bar with Trending Searches -->
+            <div class="flex-1 mx-8">
+                <!-- Search Bar -->
+                <div class="relative mb-1">
+                    <input type="text" placeholder="Tìm kiếm sản phẩm..." 
+                           class="w-full py-2 px-4 rounded-full text-gray-800 focus:outline-none">
+                    <button class="absolute right-0 top-0 h-full px-4 bg-yellow-400 rounded-r-full text-gray-800">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <!-- Trending Searches -->
+                <div class="flex items-center text-xs space-x-4 ml-4">
+                    <span class="text-yellow-200">Tìm kiếm hàng đầu:</span>
+                    <div class="flex space-x-3 overflow-x-auto py-1 hide-scrollbar">
+                        <a href="#" class="hover:text-yellow-200 whitespace-nowrap">iPhone 15</a>
+                        <a href="#" class="hover:text-yellow-200 whitespace-nowrap">Áo thun nam</a>
+                        <a href="#" class="hover:text-yellow-200 whitespace-nowrap">Giày thể thao</a>
+                        <a href="#" class="hover:text-yellow-200 whitespace-nowrap">Tai nghe Bluetooth</a>
+                        <a href="#" class="hover:text-yellow-200 whitespace-nowrap">Laptop gaming</a>
+                        <a href="#" class="hover:text-yellow-200 whitespace-nowrap">Áo thun nữ</a>
+                        <a href="#" class="hover:text-yellow-200 whitespace-nowrap">Túi xách</a>
+                        <a href="#" class="hover:text-yellow-200 whitespace-nowrap">Tivi</a>
+                        <a href="#" class="hover:text-yellow-200 whitespace-nowrap">Đồ chơi</a>
+                        <a href="#" class="hover:text-yellow-200 whitespace-nowrap">Quần jean</a>
+                        <a href="#" class="hover:text-yellow-200 whitespace-nowrap">Máy giặt</a>
+                        <a href="#" class="hover:text-yellow-200 whitespace-nowrap">Phụ kiện</a>
+                        <a href="#" class="hover:text-yellow-200 whitespace-nowrap">Đồ lót</a>
+                        <a href="#" class="hover:text-yellow-200 whitespace-nowrap">Máy giặt</a>
+                        <a href="#" class="hover:text-yellow-200 whitespace-nowrap">Quạt điện</a>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Actions -->
+            <div class="flex items-center space-x-6">
+                <a href="#" class="flex flex-col items-center">
+                    <i class="fas fa-user text-xl"></i>
+                    <span class="text-xs mt-1">Tài khoản</span>
+                </a>
+                <a href="#" class="flex flex-col items-center relative">
+                    <i class="fas fa-shopping-cart text-xl"></i>
+                    <span class="text-xs mt-1">Giỏ hàng</span>
+                    <span class="absolute -top-2 -right-2 bg-yellow-400 text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- Banner Slider -->
+    <div class="slider-container rounded-xl overflow-hidden mb-8">
+        <!-- Slider Track -->
+        <div class="slider-track">
+            <!-- Slide 1 -->
+            <div class="slide">
+                <div class="slide-content slide-1 relative">
+                    <div class="slide-overlay absolute inset-0 flex items-center justify-center">
+                        <div class="text-center text-white px-8 max-w-2xl">
+                            <h2 class="text-4xl font-bold mb-4">Siêu Sale Mùa Hè</h2>
+                            <p class="text-xl mb-6">Giảm giá lên đến 70% cho tất cả sản phẩm</p>
+                            <button class="bg-white text-red-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition text-lg">
+                                Mua ngay <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 2 -->
+            <div class="slide">
+                <div class="slide-content slide-2 relative">
+                    <div class="slide-overlay absolute inset-0 flex items-center justify-center">
+                        <div class="text-center text-white px-8 max-w-2xl">
+                            <h2 class="text-4xl font-bold mb-4">Thời Trang Mới</h2>
+                            <p class="text-xl mb-6">Bộ sưu tập hè 2023 với nhiều ưu đãi</p>
+                            <button class="bg-white text-blue-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition text-lg">
+                                Khám phá <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 3 -->
+            <div class="slide">
+                <div class="slide-content slide-3 relative">
+                    <div class="slide-overlay absolute inset-0 flex items-center justify-center">
+                        <div class="text-center text-white px-8 max-w-2xl">
+                            <h2 class="text-4xl font-bold mb-4">Công Nghệ Mới</h2>
+                            <p class="text-xl mb-6">Điện thoại, laptop với giá tốt nhất</p>
+                            <button class="bg-white text-green-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition text-lg">
+                                Xem ngay <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation Dots -->
+        <div class="absolute bottom-6 left-0 right-0 flex justify-center space-x-2">
+            <button class="nav-dot w-3 h-3 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100 focus:outline-none transition active"></button>
+            <button class="nav-dot w-3 h-3 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100 focus:outline-none transition"></button>
+            <button class="nav-dot w-3 h-3 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100 focus:outline-none transition"></button>
+        </div>
+        
+        <!-- Navigation Arrows -->
+        <button class="slide-btn prev-btn absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-3 focus:outline-none text-white">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="slide-btn next-btn absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-3 focus:outline-none text-white">
+            <i class="fas fa-chevron-right"></i>
+        </button>
     </div>
 
-    <header class="navbar navbar-expand-lg navbar-dark navbar-custom">
-      <div class="container">
-        <a class="navbar-brand fw-bold" href="#">NuenTaru</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <div class="search-bar mx-4">
-            <input
-              type="text"
-              class="form-control search-input"
-              placeholder="Tìm kiếm sản phẩm..."
-            />
-            <button class="search-button"><i class="fas fa-search"></i></button>
+    <!-- Banner Ads -->
+        <div class="grid grid-cols-2 gap-6 mb-8">
+          <!-- Banner 1 Slider -->
+          <div class="banner-container relative">
+              <div class="overflow-hidden rounded-xl h-40 bg-gradient-to-r from-indigo-500 to-purple-500">
+                  <div class="flex transition-transform duration-500 ease-in-out h-full">
+                      <!-- Slide 1 -->
+                      <div class="min-w-full flex items-center justify-center relative">
+                          <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" 
+                              alt="Banner 1 - Slide 1" 
+                              class="absolute inset-0 w-full h-full object-cover opacity-70">
+                          <div class="relative text-white text-center px-4">
+                              <h3 class="text-xl font-bold mb-1">Siêu Sale Cuối Tuần</h3>
+                              <p class="text-sm mb-2">Giảm đến 50%</p>
+                          </div>
+                      </div>
+                      
+                      <!-- Slide 2 -->
+                      <div class="min-w-full flex items-center justify-center relative">
+                          <img src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                              alt="Banner 1 - Slide 2" 
+                              class="absolute inset-0 w-full h-full object-cover opacity-70">
+                          <div class="relative text-white text-center px-4">
+                              <h3 class="text-xl font-bold mb-1">Ưu Đãi Đặc Biệt</h3>
+                              <p class="text-sm mb-2">Mua 1 tặng 1</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              
+              <!-- Banner 1 Navigation -->
+              <button class="banner1-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-70 rounded-full p-1 text-indigo-600 focus:outline-none">
+                  <i class="fas fa-chevron-left text-sm"></i>
+              </button>
+              <button class="banner1-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-70 rounded-full p-1 text-indigo-600 focus:outline-none">
+                  <i class="fas fa-chevron-right text-sm"></i>
+              </button>
           </div>
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="#"
-                ><i class="fas fa-shopping-cart"></i> Giỏ hàng</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#"
-                ><i class="fas fa-user"></i> Đăng nhập</a
-              >
-            </li>
-          </ul>
-        </div>
+          
+          <!-- Banner 2 Slider -->
+          <div class="relative">
+              <div class="overflow-hidden rounded-xl h-40 bg-gradient-to-r from-pink-500 to-red-500">
+                  <div class="flex transition-transform duration-500 ease-in-out h-full">
+                      <!-- Slide 1 -->
+                      <div class="min-w-full flex items-center justify-center relative">
+                          <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                              alt="Banner 2 - Slide 1" 
+                              class="absolute inset-0 w-full h-full object-cover opacity-70">
+                          <div class="relative text-white text-center px-4">
+                              <h3 class="text-xl font-bold mb-1">Sản Phẩm Mới</h3>
+                              <p class="text-sm mb-2">Bộ sưu tập 2023</p>
+                          </div>
+                      </div>
+                      
+                      <!-- Slide 2 -->
+                      <div class="min-w-full flex items-center justify-center relative">
+                          <img src="https://images.unsplash.com/photo-1483982258113-b72862e6cff6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                              alt="Banner 2 - Slide 2" 
+                              class="absolute inset-0 w-full h-full object-cover opacity-70">
+                          <div class="relative text-white text-center px-4">
+                              <h3 class="text-xl font-bold mb-1">Thời Trang Hè</h3>
+                              <p class="text-sm mb-2">Nhiều mẫu mã mới</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              
+              <!-- Banner 2 Navigation -->
+              <button class="banner2-prev absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-70 rounded-full p-1 text-pink-600 focus:outline-none">
+                  <i class="fas fa-chevron-left text-sm"></i>
+              </button>
+              <button class="banner2-next absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-70 rounded-full p-1 text-pink-600 focus:outline-none">
+                  <i class="fas fa-chevron-right text-sm"></i>
+              </button>
+          </div>
       </div>
-    </header>
 
-    <nav class="header-quicklink">
-      <a href="#">Hàng mới về</a>
-      <a href="#">Giảm giá sốc</a>
-      <a href="#">Hàng cao cấp</a>
-      <a href="#">Phổ biến nhất</a>
-      <a href="#">Gợi ý hôm nay</a>
-    </nav>
-
-    <!-- Main Banner Carousel -->
-    <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-indicators">
-        <button
-          type="button"
-          data-bs-target="#mainCarousel"
-          data-bs-slide-to="0"
-          class="active"
-          aria-current="true"
-          aria-label="Slide 1"
-        ></button>
-        <button
-          type="button"
-          data-bs-target="#mainCarousel"
-          data-bs-slide-to="1"
-          aria-label="Slide 2"
-        ></button>
-        <button
-          type="button"
-          data-bs-target="#mainCarousel"
-          data-bs-slide-to="2"
-          aria-label="Slide 3"
-        ></button>
-      </div>
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img
-            src="https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg"
-            class="d-block w-100"
-            alt="Shopping Banner"
-            style="height: 400px; object-fit: cover"
-          />
+        <!-- Categories -->
+        <div class="grid grid-cols-10 gap-4 mb-8">
+            <a href="#" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md">
+                <div class="category-icon bg-red-100 p-3 rounded-full mb-2">
+                    <i class="fas fa-mobile-alt text-red-500 text-xl"></i>
+                </div>
+                <span class="text-xs text-center">Điện thoại</span>
+            </a>
+            <a href="#" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md">
+                <div class="category-icon bg-blue-100 p-3 rounded-full mb-2">
+                    <i class="fas fa-laptop text-blue-500 text-xl"></i>
+                </div>
+                <span class="text-xs text-center">Laptop</span>
+            </a>
+            <a href="#" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md">
+                <div class="category-icon bg-green-100 p-3 rounded-full mb-2">
+                    <i class="fas fa-tshirt text-green-500 text-xl"></i>
+                </div>
+                <span class="text-xs text-center">Thời trang</span>
+            </a>
+            <a href="#" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md">
+                <div class="category-icon bg-yellow-100 p-3 rounded-full mb-2">
+                    <i class="fas fa-home text-yellow-500 text-xl"></i>
+                </div>
+                <span class="text-xs text-center">Nhà cửa</span>
+            </a>
+            <a href="#" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md">
+                <div class="category-icon bg-purple-100 p-3 rounded-full mb-2">
+                    <i class="fas fa-heart text-purple-500 text-xl"></i>
+                </div>
+                <span class="text-xs text-center">Sức khỏe</span>
+            </a>
+            <a href="#" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md">
+                <div class="category-icon bg-pink-100 p-3 rounded-full mb-2">
+                    <i class="fas fa-child text-pink-500 text-xl"></i>
+                </div>
+                <span class="text-xs text-center">Mẹ & Bé</span>
+            </a>
+            <a href="#" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md">
+                <div class="category-icon bg-indigo-100 p-3 rounded-full mb-2">
+                    <i class="fas fa-gamepad text-indigo-500 text-xl"></i>
+                </div>
+                <span class="text-xs text-center">Đồ chơi</span>
+            </a>
+            <a href="#" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md">
+                <div class="category-icon bg-orange-100 p-3 rounded-full mb-2">
+                    <i class="fas fa-utensils text-orange-500 text-xl"></i>
+                </div>
+                <span class="text-xs text-center">Thực phẩm</span>
+            </a>
+            <a href="#" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md">
+                <div class="category-icon bg-teal-100 p-3 rounded-full mb-2">
+                    <i class="fas fa-car text-teal-500 text-xl"></i>
+                </div>
+                <span class="text-xs text-center">Ô tô</span>
+            </a>
+            <a href="#" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md">
+                <div class="category-icon bg-gray-100 p-3 rounded-full mb-2">
+                    <i class="fas fa-ellipsis-h text-gray-500 text-xl"></i>
+                </div>
+                <span class="text-xs text-center">Xem thêm</span>
+            </a>
         </div>
-        <div class="carousel-item">
-          <img
-            src="https://images.pexels.com/photos/5632397/pexels-photo-5632397.jpeg"
-            class="d-block w-100"
-            alt="Fashion Banner"
-            style="height: 400px; object-fit: cover"
-          />
-        </div>
-        <div class="carousel-item">
-          <img
-            src="https://images.pexels.com/photos/5632398/pexels-photo-5632398.jpeg"
-            class="d-block w-100"
-            alt="Electronics Banner"
-            style="height: 400px; object-fit: cover"
-          />
-        </div>
-      </div>
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-bs-target="#mainCarousel"
-        data-bs-slide="prev"
-        aria-label="Previous"
-      >
-        <span class="carousel-control-prev-icon"></span>
-      </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-bs-target="#mainCarousel"
-        data-bs-slide="next"
-        aria-label="Next"
-      >
-        <span class="carousel-control-next-icon"></span>
-      </button>
-    </div>
 
-    <!-- Flash Sale Section with Carousel Slide showing 6 products in one row -->
-    <section class="container my-5 flash-sale-section" aria-label="Flash Sale">
-      <div class="flash-sale-header position-relative">
-        <h2>Flash Sale</h2>
-        <div
-          id="countdown"
-          class="countdown"
-          aria-live="polite"
-          aria-atomic="true"
-          aria-relevant="timer"
-        ></div>
-        <a href="#" class="view-all position-relative" style="z-index: 2"
-          >Xem tất cả</a
-        >
-      </div>
-      <div
-        id="flashSaleCarousel"
-        class="carousel slide"
-        data-bs-ride="carousel"
-        data-bs-interval="10000"
-        tabindex="0"
-        aria-label="Flash sale products carousel"
-      >
-        <div class="carousel-inner">
-          <!-- Slide 1 with 6 products -->
-          <div class="carousel-item active">
-            <div class="d-flex flex-nowrap justify-content-center">
-              <div class="flex-shrink-0" style="width: 16.66%">
-                <a href="/product/slug" class="text-decoration-none text-dark">
-                  <div class="product-card" tabindex="0">
-                    <div class="flash-badge" aria-label="45 percent off">
-                      -50%
+        <!-- Flash Sale -->
+        <div class="bg-white rounded-xl shadow-md p-4 mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center">
+                    <div class="bg-red-500 text-white px-3 py-1 rounded-md mr-3">
+                        <span class="font-bold">FLASH SALE</span>
                     </div>
-                    <img
-                      src="https://cdn.sforum.vn/sforum/wp-content/uploads/2020/09/Apple-Watch-Series-6-1.jpg"
-                      class="product-image"
-                      alt="Apple Watch"
-                    />
-                    <div class="product-info">
-                      <h5 class="product-name">Apple Watch</h5>
-                      <span class="flash-price">$49.99</span>
-                      <span class="flash-old-price">$99.99</span>
-
-                      <div class="rating" aria-label="4.5 out of 5 stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="fas fa-star-half-alt"></i>
-                      </div>
+                    <div class="flex items-center">
+                        <div class="bg-black text-white px-2 py-1 rounded-md text-center mr-1">
+                            <span class="text-sm font-bold">12</span>
+                        </div>
+                        <span class="text-red-500 mr-1">:</span>
+                        <div class="bg-black text-white px-2 py-1 rounded-md text-center mr-1">
+                            <span class="text-sm font-bold">45</span>
+                        </div>
+                        <span class="text-red-500 mr-1">:</span>
+                        <div class="bg-black text-white px-2 py-1 rounded-md text-center">
+                            <span class="text-sm font-bold">32</span>
+                        </div>
                     </div>
-                  </div>
+                </div>
+                <a href="#" class="text-red-500 text-sm flex items-center">
+                    Xem tất cả <i class="fas fa-chevron-right ml-1"></i>
                 </a>
-              </div>
-              <div class="flex-shrink-0" style="width: 16.66%">
-                <a href="/product/slug" class="text-decoration-none text-dark">
-                  <div class="product-card" tabindex="0">
-                    <div class="flash-badge" aria-label="50 percent off">
-                      -50%
-                    </div>
-                    <img
-                      src="https://cdn.tgdd.vn/Files/2021/12/28/1407380/airpods-1.jpg"
-                      class="product-image"
-                      alt="AirPods"
-                    />
-                    <div class="product-info">
-                      <h5 class="product-name">AirPods</h5>
-                      <span class="flash-price">$149.99</span>
-                      <span class="flash-old-price">$299.99</span>
-                      <div class="rating" aria-label="5 out of 5 stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="fas fa-star"></i>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div class="flex-shrink-0" style="width: 16.66%">
-                <a href="/product/slug" class="text-decoration-none text-dark">
-                  <div class="product-card" tabindex="0">
-                    <div class="flash-badge" aria-label="40 percent off">
-                      -40%
-                    </div>
-                    <img
-                      src="https://images.pexels.com/photos/18105/pexels-photo.jpg"
-                      class="product-image"
-                      alt="Backpack"
-                    />
-                    <div class="product-info">
-                      <h5 class="product-name">Backpack</h5>
-                      <span class="flash-price">$112.49</span>
-                      <span class="flash-old-price">$149.99</span>
-
-                      <div class="rating" aria-label="4 out of 5 stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="far fa-star"></i>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div class="flex-shrink-0" style="width: 16.66%">
-                <a href="/product/slug" class="text-decoration-none text-dark">
-                  <div class="product-card" tabindex="0">
-                    <div class="flash-badge" aria-label="35 percent off">
-                      -35%
-                    </div>
-                    <img
-                      src="https://images.pexels.com/photos/1072824/pexels-photo-1072824.jpeg"
-                      class="product-image"
-                      alt="Gaming Headphones"
-                    />
-                    <div class="product-info">
-                      <h5 class="product-name">Gaming Headphones</h5>
-                      <span class="flash-price">$194.99</span>
-                      <span class="flash-old-price">$299.99</span>
-
-                      <div class="rating" aria-label="4 out of 5 stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="far fa-star"></i>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div class="flex-shrink-0" style="width: 16.66%">
-                <a href="/product/slug" class="text-decoration-none text-dark">
-                  <div class="product-card" tabindex="0">
-                    <div class="flash-badge" aria-label="20 percent off">
-                      -20%
-                    </div>
-                    <img
-                      src="https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg"
-                      class="product-image"
-                      alt="Storage Box"
-                    />
-                    <div class="product-info">
-                      <h5 class="product-name">Storage Box</h5>
-                      <span class="flash-price">$1039.99</span>
-                      <span class="flash-old-price">$1299.99</span>
-                      <div class="rating" aria-label="4 out of 5 stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="far fa-star"></i>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div
-                class="flex-shrink-0 d-none d-xl-block"
-                style="width: 16.66%"
-              >
-                <a href="/product/slug" class="text-decoration-none text-dark">
-                  <div class="product-card" tabindex="0">
-                    <div class="flash-badge" aria-label="30 percent off">
-                      -30%
-                    </div>
-                    <img
-                      src="https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg"
-                      class="product-image"
-                      alt="Smartphone"
-                    />
-                    <div class="product-info">
-                      <h5 class="product-name">Smartphone</h5>
-                      <span class="flash-price">$244.99</span>
-                      <span class="flash-old-price">$349.99</span>
-                      <div class="rating" aria-label="4.5 out of 5 stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="fas fa-star-half-alt"></i>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
             </div>
-          </div>
-          <!-- Slide 2 with 6 more products -->
-          <div class="carousel-item">
-            <div class="d-flex flex-nowrap justify-content-center">
-              <!-- Add additional products here for slide 2 -->
-              <div class="flex-shrink-0" style="width: 16.66%">
-                <a href="/product/slug" class="text-decoration-none text-dark">
-                  <div class="product-card" tabindex="0">
-                    <div class="flash-badge" aria-label="50 percent off">
-                      -50%
+            
+            <div class="flash-sale-progress mb-4 rounded-full"></div>
+            
+            <div class="grid grid-cols-6 gap-4">
+                <!-- Product Item 1 -->
+                <a href="">
+                  <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                    <div class="relative mb-3">
+                        <img src="https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-4-750x500.jpg" alt="Product" class="w-full h-32 object-contain">
+                        <div class="absolute top-0 left-0 bg-red-500 text-white text-xs px-2 py-1 rounded-br-md">50%</div>
                     </div>
-                    <img
-                      src="https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg"
-                      class="product-image"
-                      alt="Bluetooth Speaker"
-                    />
-                    <div class="product-info">
-                      <h5 class="product-name">Bluetooth Speaker</h5>
-                      <span class="flash-price">$57.49</span>
-                      <span class="flash-old-price">$114.99</span>
-
-                      <div class="rating" aria-label="5 out of 5 stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="fas fa-star"></i>
-                      </div>
+                    <div class="text-center">
+                        <h3 class="text-sm font-semibold mb-1 line-clamp-2">Điện thoại iPhone 13 Pro Max 128GB</h3>
+                        <div class="text-red-500 font-bold mb-1">12.990.000đ</div>
+                        <div class="text-gray-400 text-xs line-through">25.990.000đ</div>
+                        <div class="bg-red-50 text-red-500 text-xs mt-2 py-1 rounded">Đã bán 1.2k</div>
                     </div>
-                  </div>
+                </div>
                 </a>
-              </div>
-              <div class="flex-shrink-0" style="width: 16.66%">
-                <a href="/product/slug" class="text-decoration-none text-dark">
-                  <div class="product-card" tabindex="0">
-                    <div class="flash-badge" aria-label="15 percent off">
-                      -50%
+                
+                <!-- Product Item 2 -->
+                <a href="">
+                  <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                    <div class="relative mb-3">
+                        <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/t/e/text_ng_n_7__2_224.png?_gl=1*1q1btdk*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTEzODEkajU3JGwwJGgyMDM1MTE1NDc." alt="Product" class="w-full h-32 object-contain">
+                        <div class="absolute top-0 left-0 bg-red-500 text-white text-xs px-2 py-1 rounded-br-md">30%</div>
                     </div>
-                    <img
-                      src="https://images.pexels.com/photos/125779/pexels-photo-125779.jpeg"
-                      class="product-image"
-                      alt="Fitness Tracker"
-                    />
-                    <div class="product-info">
-                      <h5 class="product-name">Fitness Tracker</h5>
-                      <span class="flash-price">$57.99</span>
-                      <span class="flash-old-price">$114.99</span>
-                      <div class="rating" aria-label="4 out of 5 stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="far fa-star"></i>
-                      </div>
+                    <div class="text-center">
+                        <h3 class="text-sm font-semibold mb-1 line-clamp-2">Laptop Dell XPS 13 9350 71058714</h3>
+                        <div class="text-red-500 font-bold mb-1">41.990.000đ</div>
+                        <div class="text-gray-400 text-xs line-through">59.990.000đ</div>
+                        <div class="bg-red-50 text-red-500 text-xs mt-2 py-1 rounded">Đã bán 845</div>
                     </div>
-                  </div>
+                </div>
                 </a>
-              </div>
-              <div class="flex-shrink-0" style="width: 16.66%">
-                <a href="/product/slug" class="text-decoration-none text-dark">
-                  <div class="product-card" tabindex="0">
-                    <div class="flash-badge" aria-label="10 percent off">
-                      -40%
+                
+                <!-- Product Item 3 -->
+                <a href="">
+                  <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                    <div class="relative mb-3">
+                        <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/a/p/apple-airpods-pro-2-usb-c_8_.png?_gl=1*j9pahl*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTEyNzMkajU3JGwwJGgyMDM1MTE1NDc." alt="Product" class="w-full h-32 object-contain">
+                        <div class="absolute top-0 left-0 bg-red-500 text-white text-xs px-2 py-1 rounded-br-md">60%</div>
                     </div>
-                    <img
-                      src="https://images.pexels.com/photos/1034653/pexels-photo-1034653.jpeg"
-                      class="product-image"
-                      alt="Desk Lamp"
-                    />
-                    <div class="product-info">
-                      <h5 class="product-name">Desk Lamp</h5>
-                      <span class="flash-price">$35.99</span>
-                      <span class="flash-old-price">$59.99</span>
-                      <div class="rating" aria-label="3.5 out of 5 stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="fas fa-star"></i
-                        ><i class="fas fa-star-half-alt"></i
-                        ><i class="far fa-star"></i>
-                      </div>
+                    <div class="text-center">
+                        <h3 class="text-sm font-semibold mb-1 line-clamp-2">Tai nghe AirPods Pro 2</h3>
+                        <div class="text-red-500 font-bold mb-1">2.476.000đ</div>
+                        <div class="text-gray-400 text-xs line-through">6.190.000đ</div>
+                        <div class="bg-red-50 text-red-500 text-xs mt-2 py-1 rounded">Đã bán 2.5k</div>
                     </div>
-                  </div>
+                </div>
                 </a>
-              </div>
-              <div class="flex-shrink-0" style="width: 16.66%">
-                <a href="/product/slug" class="text-decoration-none text-dark">
-                  <div class="product-card" tabindex="0">
-                    <div class="flash-badge" aria-label="60 percent off">
-                      -35%
+                
+                <!-- Product Item 4 -->
+                <a href="">
+                  <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                    <div class="relative mb-3">
+                        <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/s/m/smart-tivi-nanocell-lg-4k-43-inch-43nano76sqa_1__1_1.png?_gl=1*1n04yze*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTE0MDckajMxJGwwJGgyMDM1MTE1NDc." alt="Product" class="w-full h-32 object-contain">
+                        <div class="absolute top-0 left-0 bg-red-500 text-white text-xs px-2 py-1 rounded-br-md">45%</div>
                     </div>
-                    <img
-                      src="https://images.pexels.com/photos/374870/pexels-photo-374870.jpeg"
-                      class="product-image"
-                      alt="DSLR Camera"
-                    />
-                    <div class="product-info">
-                      <h5 class="product-name">DSLR Camera</h5>
-                      <span class="flash-price">$64.99</span>
-                      <span class="flash-old-price">$99.99</span>
-                      <div class="rating" aria-label="4.5 out of 5 stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="fas fa-star-half-alt"></i>
-                      </div>
+                    <div class="text-center">
+                        <h3 class="text-sm font-semibold mb-1 line-clamp-2">Smart Tivi LG 4K 55 inch</h3>
+                        <div class="text-red-500 font-bold mb-1">12.490.000đ</div>
+                        <div class="text-gray-400 text-xs line-through">22.990.000đ</div>
+                        <div class="bg-red-50 text-red-500 text-xs mt-2 py-1 rounded">Đã bán 632</div>
                     </div>
-                  </div>
+                </div>
                 </a>
-              </div>
-              <div class="flex-shrink-0" style="width: 16.66%">
-                <a href="/product/slug" class="text-decoration-none text-dark">
-                  <div class="product-card" tabindex="0">
-                    <div class="flash-badge" aria-label="18 percent off">
-                      -20%
+                
+                <!-- Product Item 5 -->
+                <a href="">
+                  <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                    <div class="relative mb-3">
+                        <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/3/_/3_19.png?_gl=1*1spzxtq*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTE0NDUkajU2JGwwJGgyMDM1MTE1NDc." alt="Product" class="w-full h-32 object-contain">
+                        <div class="absolute top-0 left-0 bg-red-500 text-white text-xs px-2 py-1 rounded-br-md">55%</div>
                     </div>
-                    <img
-                      src="https://images.pexels.com/photos/5380598/pexels-photo-5380598.jpeg"
-                      class="product-image"
-                      alt="Electric Kettle"
-                    />
-                    <div class="product-info">
-                      <h5 class="product-name">Electric Kettle</h5>
-                      <span class="flash-price">$15.99</span>
-                      <span class="flash-old-price">$19.99</span>
-                      <div class="rating" aria-label="4 out of 5 stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="far fa-star"></i>
-                      </div>
+                    <div class="text-center">
+                        <h3 class="text-sm font-semibold mb-1 line-clamp-2">Máy lọc không khí Xiaomi</h3>
+                        <div class="text-red-500 font-bold mb-1">2.990.000đ</div>
+                        <div class="text-gray-400 text-xs line-through">6.990.000đ</div>
+                        <div class="bg-red-50 text-red-500 text-xs mt-2 py-1 rounded">Đã bán 1.8k</div>
                     </div>
-                  </div>
+                </div>
                 </a>
-              </div>
-              <div
-                class="flex-shrink-0 d-none d-xl-block"
-                style="width: 16.66%"
-              >
-                <a href="/product/slug" class="text-decoration-none text-dark">
-                  <div class="product-card" tabindex="0">
-                    <div class="flash-badge" aria-label="28 percent off">
-                      -30%
+                
+                <!-- Product Item 6 -->
+                <a href="">
+                  <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                    <div class="relative mb-3">
+                        <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/b/a/ban-phim-co-khong-day-dareu-ek868-brown-switch-2_2.png?_gl=1*1p5osoc*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTE0ODYkajE1JGwwJGgyMDM1MTE1NDc." alt="Product" class="w-full h-32 object-contain">
+                        <div class="absolute top-0 left-0 bg-red-500 text-white text-xs px-2 py-1 rounded-br-md">70%</div>
                     </div>
-                    <img
-                      src="https://images.pexels.com/photos/844923/pexels-photo-844923.jpeg"
-                      class="product-image"
-                      alt="Tablet"
-                    />
-                    <div class="product-info">
-                      <h5 class="product-name">Tablet</h5>
-                      <span class="flash-price">$349.99</span>
-                      <span class="flash-old-price">$499.99</span>
-                      <div class="rating" aria-label="4.5 out of 5 stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                        ><i class="fas fa-star-half-alt"></i>
-                      </div>
+                    <div class="text-center">
+                        <h3 class="text-sm font-semibold mb-1 line-clamp-2">Bàn phím cơ Dareu EK868</h3>
+                        <div class="text-red-500 font-bold mb-1">690.000đ</div>
+                        <div class="text-gray-400 text-xs line-through">2.290.000đ</div>
+                        <div class="bg-red-50 text-red-500 text-xs mt-2 py-1 rounded">Đã bán 3.4k</div>
                     </div>
-                  </div>
+                </div>
                 </a>
-              </div>
             </div>
-          </div>
         </div>
-        <button
-          class="carousel-control-prev"
-          type="button"
-          data-bs-target="#flashSaleCarousel"
-          data-bs-slide="prev"
-          aria-label="Previous flash sale slide"
-        >
-          <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button
-          class="carousel-control-next"
-          type="button"
-          data-bs-target="#flashSaleCarousel"
-          data-bs-slide="next"
-          aria-label="Next flash sale slide"
-        >
-          <span class="carousel-control-next-icon"></span>
-        </button>
-      </div>
-    </section>
 
-    <!-- Categories Section -->
-    <section class="container my-5" aria-label="Categories">
-      <h2 class="mb-4">Mua sắm theo danh mục</h2>
-      <div class="category-grid">
-        <div class="category-item">
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/2121/2121106.png"
-            alt="Thời trang nam"
-            class="category-icon"
-          />
-          <span class="category-name">Thời trang nam</span>
-        </div>
-        <div class="category-item">
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/3893/3893175.png"
-            alt="Thời trang nữ"
-            class="category-icon"
-          />
-          <span class="category-name">Thời trang nữ</span>
-        </div>
-        <div class="category-item">
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/2972/2972531.png"
-            alt="Đồng hồ"
-            class="category-icon"
-          />
-          <span class="category-name">Đồng hồ</span>
-        </div>
-        <div class="category-item">
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/2261/2261538.png"
-            alt="Nhà cửa & cuộc sống"
-            class="category-icon"
-          />
-          <span class="category-name">Nhà cửa & cuộc sống</span>
-        </div>
-        <div class="category-item">
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/545/545245.png"
-            alt="Điện thoại & phụ kiện"
-            class="category-icon"
-          />
-          <span class="category-name">Điện thoại & phụ kiện</span>
-        </div>
-        <div class="category-item">
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/3659/3659899.png"
-            alt="Thiết bị điện tử"
-            class="category-icon"
-          />
-          <span class="category-name">Thiết bị điện tử</span>
-        </div>
-        <div class="category-item">
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/2935/2935045.png"
-            alt="Thiết bị gia dụng"
-            class="category-icon"
-          />
-          <span class="category-name">Thiết bị gia dụng</span>
-        </div>
-        <div class="category-item">
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/3655/3655596.png"
-            alt="Máy tính & laptop"
-            class="category-icon"
-          />
-          <span class="category-name">Máy tính & laptop</span>
-        </div>
-        <div class="category-item">
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/1042/1042339.png"
-            alt="Máy ảnh & máy quay phim"
-            class="category-icon"
-          />
-          <span class="category-name">Máy ảnh & máy quay phim</span>
-        </div>
-        <div class="category-item">
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/1785/1785210.png"
-            alt="Giày dép nam"
-            class="category-icon"
-          />
-          <span class="category-name">Giày dép nam</span>
-        </div>
-        <div class="category-item">
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/1940/1940922.png"
-            alt="Giày dép nữ"
-            class="category-icon"
-          />
-          <span class="category-name">Giày dép nữ</span>
-        </div>
-        <div class="category-item">
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/3774/3774278.png"
-            alt="Ô tô - xe máy - xe đạp"
-            class="category-icon"
-          />
-          <span class="category-name">Ô tô - xe máy - xe đạp</span>
-        </div>
-        <div class="category-item">
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/1005/1005769.png"
-            alt="Sắc đẹp"
-            class="category-icon"
-          />
-          <span class="category-name">Sắc đẹp</span>
-        </div>
-        <div class="category-item">
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/3475/3475360.png"
-            alt="Đồ chơi"
-            class="category-icon"
-          />
-          <span class="category-name">Đồ chơi</span>
-        </div>
-      </div>
-    </section>
-
-    
-
-    <!-- Products Section -->
-    <section class="container my-5" aria-label="Popular Products">
-      <h2 class="mb-4">Sản phẩm phổ biến</h2>
-      <div class="product-grid">
-        <a href="/product/slug" class="text-decoration-none text-dark">
-          <div class="product-card" tabindex="0">
-            <img
-              src="https://images.pexels.com/photos/404280/pexels-photo-404280.jpeg"
-              class="product-image"
-              alt="Wireless Headphones"
-            />
-            <div class="product-info">
-              <h5 class="product-name">Wireless Headphones</h5>
-              <p class="product-price">$99.99</p>
-              <div class="rating" aria-label="4.5 out of 5 stars">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i
-                ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                ><i class="fas fa-star-half-alt"></i>
-              </div>
+        <!-- Category Section -->
+        <div class="grid grid-cols-4 gap-6 mb-8">
+            <!-- Category 1 -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-blue-500 text-white p-3">
+                    <h2 class="font-bold text-lg">Điện thoại - Máy tính bảng</h2>
+                </div>
+                <div class="p-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <a href="#" class="text-sm hover:text-blue-500">iPhone</a>
+                        <a href="#" class="text-sm hover:text-blue-500">Samsung</a>
+                        <a href="#" class="text-sm hover:text-blue-500">Xiaomi</a>
+                        <a href="#" class="text-sm hover:text-blue-500">Oppo</a>
+                        <a href="#" class="text-sm hover:text-blue-500">Realme</a>
+                        <a href="#" class="text-sm hover:text-blue-500">iPad</a>
+                    </div>
+                </div>
+                <div class="p-4 border-t">
+                    <a href="#" class="text-blue-500 text-sm flex items-center justify-center">
+                        Xem tất cả <i class="fas fa-chevron-right ml-1"></i>
+                    </a>
+                </div>
             </div>
-          </div>
-        </a>
-
-        <a href="/product/slug" class="text-decoration-none text-dark">
-          <div class="product-card" tabindex="0">
-            <img
-              src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg"
-              class="product-image"
-              alt="Smart Watch"
-            />
-            <div class="product-info">
-              <h5 class="product-name">Smart Watch</h5>
-              <p class="product-price">$199.99</p>
-              <div class="rating" aria-label="5 out of 5 stars">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i
-                ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                ><i class="fas fa-star"></i>
-              </div>
+            
+            <!-- Category 2 -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-green-500 text-white p-3">
+                    <h2 class="font-bold text-lg">Thời trang nam nữ</h2>
+                </div>
+                <div class="p-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <a href="#" class="text-sm hover:text-green-500">Áo thun</a>
+                        <a href="#" class="text-sm hover:text-green-500">Quần jean</a>
+                        <a href="#" class="text-sm hover:text-green-500">Giày thể thao</a>
+                        <a href="#" class="text-sm hover:text-green-500">Túi xách</a>
+                        <a href="#" class="text-sm hover:text-green-500">Đồ lót</a>
+                        <a href="#" class="text-sm hover:text-green-500">Phụ kiện</a>
+                    </div>
+                </div>
+                <div class="p-4 border-t">
+                    <a href="#" class="text-green-500 text-sm flex items-center justify-center">
+                        Xem tất cả <i class="fas fa-chevron-right ml-1"></i>
+                    </a>
+                </div>
             </div>
-          </div>
-        </a>
-
-        <a href="/product/slug" class="text-decoration-none text-dark">
-          <div class="product-card" tabindex="0">
-            <img
-              src="https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg"
-              class="product-image"
-              alt="Camera Lens"
-            />
-            <div class="product-info">
-              <h5 class="product-name">Camera Lens</h5>
-              <p class="product-price">$299.99</p>
-              <div class="rating" aria-label="4 out of 5 stars">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i
-                ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                ><i class="far fa-star"></i>
-              </div>
+            
+            <!-- Category 3 -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-yellow-500 text-white p-3">
+                    <h2 class="font-bold text-lg">Điện gia dụng</h2>
+                </div>
+                <div class="p-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <a href="#" class="text-sm hover:text-yellow-500">Tủ lạnh</a>
+                        <a href="#" class="text-sm hover:text-yellow-500">Máy giặt</a>
+                        <a href="#" class="text-sm hover:text-yellow-500">Điều hòa</a>
+                        <a href="#" class="text-sm hover:text-yellow-500">Quạt điện</a>
+                        <a href="#" class="text-sm hover:text-yellow-500">Bếp từ</a>
+                        <a href="#" class="text-sm hover:text-yellow-500">Lò vi sóng</a>
+                    </div>
+                </div>
+                <div class="p-4 border-t">
+                    <a href="#" class="text-yellow-500 text-sm flex items-center justify-center">
+                        Xem tất cả <i class="fas fa-chevron-right ml-1"></i>
+                    </a>
+                </div>
             </div>
-          </div>
-        </a>
-
-        <a href="/product/slug" class="text-decoration-none text-dark">
-          <div class="product-card" tabindex="0">
-            <img
-              src="https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg"
-              class="product-image"
-              alt="Running Shoes"
-            />
-            <div class="product-info">
-              <h5 class="product-name">Running Shoes</h5>
-              <p class="product-price">$79.99</p>
-              <div class="rating" aria-label="4 out of 5 stars">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i
-                ><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i
-                ><i class="far fa-star"></i>
-              </div>
+            
+            <!-- Category 4 -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-purple-500 text-white p-3">
+                    <h2 class="font-bold text-lg">Mẹ & Bé</h2>
+                </div>
+                <div class="p-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <a href="#" class="text-sm hover:text-purple-500">Tã bỉm</a>
+                        <a href="#" class="text-sm hover:text-purple-500">Sữa công thức</a>
+                        <a href="#" class="text-sm hover:text-purple-500">Đồ chơi</a>
+                        <a href="#" class="text-sm hover:text-purple-500">Xe đẩy</a>
+                        <a href="#" class="text-sm hover:text-purple-500">Đồ dùng ăn dặm</a>
+                        <a href="#" class="text-sm hover:text-purple-500">Chăm sóc mẹ</a>
+                    </div>
+                </div>
+                <div class="p-4 border-t">
+                    <a href="#" class="text-purple-500 text-sm flex items-center justify-center">
+                        Xem tất cả <i class="fas fa-chevron-right ml-1"></i>
+                    </a>
+                </div>
             </div>
-          </div>
-        </a>
+        </div>
 
-        <a href="/product/slug" class="text-decoration-none text-dark">
-          <div class="product-card" tabindex="0">
-            <img
-              src="https://images.pexels.com/photos/4295985/pexels-photo-4295985.jpeg"
-              class="product-image"
-              alt="Laptop"
-            />
-            <div class="product-info">
-              <h5 class="product-name">Premium Laptop</h5>
-              <p class="product-price">$1299.99</p>
-              <div class="rating" aria-label="5 out of 5 stars">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i
-                ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                ><i class="fas fa-star"></i>
-              </div>
+        <!-- Featured Products -->
+        <div class="bg-white rounded-xl shadow-md p-4 mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold">Sản phẩm nổi bật</h2>
+                <a href="#" class="text-blue-500 text-sm flex items-center">
+                    Xem tất cả <i class="fas fa-chevron-right ml-1"></i>
+                </a>
             </div>
-          </div>
-        </a>
+            
+            <div class="grid grid-cols-6 gap-4">
+                <!-- Product Item 1 -->
+                <a href="">
+                  <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                    <div class="relative mb-3">
+                        <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/t/e/text_ng_n_11__5_48.png?_gl=1*1xqg71b*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTE1NzEkajE3JGwwJGgyMDM1MTE1NDc." alt="Product" class="w-full h-32 object-contain">
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-sm font-semibold mb-1 line-clamp-2">Máy ảnh Sony Alpha A7 III</h3>
+                        <div class="text-red-500 font-bold mb-1">29.990.000đ</div>
+                        <div class="flex items-center justify-center text-yellow-400 text-xs mb-1">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="text-gray-500 ml-1">(128)</span>
+                        </div>
+                        <div class="text-green-500 text-xs">Miễn phí vận chuyển</div>
+                    </div>
+                </div>
+                </a>
+                
+                <!-- Product Item 2 -->
+                <a href="">
+                  <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                    <div class="relative mb-3">
+                        <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/l/o/loa-bluetooth-jbl-charge-5_1_1.jpg?_gl=1*396xoa*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTE1OTgkajU3JGwwJGgyMDM1MTE1NDc." alt="Product" class="w-full h-32 object-contain">
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-sm font-semibold mb-1 line-clamp-2">Loa Bluetooth JBL Charge 5</h3>
+                        <div class="text-red-500 font-bold mb-1">3.490.000đ</div>
+                        <div class="flex items-center justify-center text-yellow-400 text-xs mb-1">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span class="text-gray-500 ml-1">(256)</span>
+                        </div>
+                        <div class="text-green-500 text-xs">Miễn phí vận chuyển</div>
+                    </div>
+                </div>
+                </a>
+                
+                <!-- Product Item 3 -->
+                <a href="">
+                  <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                    <div class="relative mb-3">
+                        <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/s/m/sm-l705_001_front_titanium_silve.png?_gl=1*1ouhadj*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTE2MjMkajMyJGwwJGgyMDM1MTE1NDc." alt="Product" class="w-full h-32 object-contain">
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-sm font-semibold mb-1 line-clamp-2">Đồng hồ thông minh Galaxy Watch 4</h3>
+                        <div class="text-red-500 font-bold mb-1">5.990.000đ</div>
+                        <div class="flex items-center justify-center text-yellow-400 text-xs mb-1">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="text-gray-500 ml-1">(512)</span>
+                        </div>
+                        <div class="text-green-500 text-xs">Miễn phí vận chuyển</div>
+                    </div>
+                </div>
+                </a>
+                
+                <!-- Product Item 4 -->
+                <a href="">
+                  <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                    <div class="relative mb-3">
+                        <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/m/a/may-doc-sach-kindle-paperwhite-6-16gb_2__3.png?_gl=1*14mkn1d*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTE2NTEkajQkbDAkaDIwMzUxMTU0Nw.." alt="Product" class="w-full h-32 object-contain">
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-sm font-semibold mb-1 line-clamp-2">Máy đọc sách Kindle Paperwhite</h3>
+                        <div class="text-red-500 font-bold mb-1">3.290.000đ</div>
+                        <div class="flex items-center justify-center text-yellow-400 text-xs mb-1">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="text-gray-500 ml-1">(384)</span>
+                        </div>
+                        <div class="text-green-500 text-xs">Miễn phí vận chuyển</div>
+                    </div>
+                </div>
+                </a>
+                
+                <!-- Product Item 5 -->
+                <a href="">
+                  <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                    <div class="relative mb-3">
+                        <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/g/r/group_165_5_.png?_gl=1*m29d8d*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTE2NzUkajU4JGwwJGgyMDM1MTE1NDc." alt="Product" class="w-full h-32 object-contain">
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-sm font-semibold mb-1 line-clamp-2">Bàn phím cơ Logitech G Pro X</h3>
+                        <div class="text-red-500 font-bold mb-1">2.990.000đ</div>
+                        <div class="flex items-center justify-center text-yellow-400 text-xs mb-1">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span class="text-gray-500 ml-1">(192)</span>
+                        </div>
+                        <div class="text-green-500 text-xs">Miễn phí vận chuyển</div>
+                    </div>
+                </div>
+                </a>
 
-        <a href="/product/slug" class="text-decoration-none text-dark">
-          <div class="product-card" tabindex="0">
-            <img
-              src="https://images.pexels.com/photos/3780681/pexels-photo-3780681.jpeg"
-              class="product-image"
-              alt="Smart Speaker"
-            />
-            <div class="product-info">
-              <h5 class="product-name">Smart Speaker</h5>
-              <p class="product-price">$149.99</p>
-              <div class="rating" aria-label="4.5 out of 5 stars">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i
-                ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                ><i class="fas fa-star-half-alt"></i>
-              </div>
+                <!-- Product Item 6-->
+                 <a href="">
+                  <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                    <div class="relative mb-3">
+                        <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/5698/334320/singpc-minipc-i12450h682-w-i5-12450h-den-1-638750531627392750-750x500.jpg" alt="Product" class="w-full h-32 object-contain">
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-sm font-semibold mb-1 line-clamp-2">Bộ Máy Tính I5 Siêu nhanh</h3>
+                        <div class="text-red-500 font-bold mb-1">4.595.000đ</div>
+                        <div class="flex items-center justify-center text-yellow-400 text-xs mb-1">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span class="text-gray-500 ml-1">(379)</span>
+                        </div>
+                        <div class="text-green-500 text-xs">Miễn phí vận chuyển</div>
+                    </div>
+                </div>
+                 </a>
             </div>
-          </div>
-        </a>
-      </div>
-    </section>
+        </div>
+
+        
+    </main>
 
     <!-- Footer -->
-    <footer class="footer">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-3 mb-4">
-            <h5>Customer Service</h5>
-            <ul class="list-unstyled">
-              <li>
-                <a href="#" class="text-decoration-none text-dark"
-                  >Help Center</a
-                >
-              </li>
-              <li>
-                <a href="#" class="text-decoration-none text-dark"
-                  >Contact Us</a
-                >
-              </li>
-              <li>
-                <a href="#" class="text-decoration-none text-dark"
-                  >Returns & Refunds</a
-                >
-              </li>
-              <li>
-                <a href="#" class="text-decoration-none text-dark"
-                  >Shipping Info</a
-                >
-              </li>
-            </ul>
-          </div>
-          <div class="col-md-3 mb-4">
-            <h5>About Us</h5>
-            <ul class="list-unstyled">
-              <li>
-                <a href="#" class="text-decoration-none text-dark"
-                  >About Shopee</a
-                >
-              </li>
-              <li>
-                <a href="#" class="text-decoration-none text-dark">Careers</a>
-              </li>
-              <li>
-                <a href="#" class="text-decoration-none text-dark"
-                  >Terms & Conditions</a
-                >
-              </li>
-              <li>
-                <a href="#" class="text-decoration-none text-dark"
-                  >Privacy Policy</a
-                >
-              </li>
-            </ul>
-          </div>
-          <div class="col-md-3 mb-4">
-            <h5>Payment Methods</h5>
-            <ul class="list-unstyled">
-              <li><i class="fab fa-cc-visa me-2"></i>Visa</li>
-              <li><i class="fab fa-cc-mastercard me-2"></i>Mastercard</li>
-              <li><i class="fab fa-cc-paypal me-2"></i>PayPal</li>
-              <li>
-                <i class="fas fa-money-bill-wave me-2"></i>Cash on Delivery
-              </li>
-            </ul>
-          </div>
-          <div class="col-md-3 mb-4">
-            <h5>Follow Us</h5>
-            <div class="social-links">
-              <a href="#" class="text-dark me-3"
-                ><i class="fab fa-facebook-f"></i
-              ></a>
-              <a href="#" class="text-dark me-3"
-                ><i class="fab fa-twitter"></i
-              ></a>
-              <a href="#" class="text-dark me-3"
-                ><i class="fab fa-instagram"></i
-              ></a>
-              <a href="#" class="text-dark"><i class="fab fa-youtube"></i></a>
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-4 gap-8 mb-8">
+                <!-- Column 1 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Về chúng tôi</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Giới thiệu</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Tuyển dụng</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Điều khoản</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 2 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Dành cho khách hàng</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Trung tâm trợ giúp</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Hướng dẫn mua hàng</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Thanh toán</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Vận chuyển</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 3 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Liên hệ</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span class="text-gray-300">Hà Nội, Việt Nam</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2"></i>
+                            <span class="text-gray-300">1900 1234</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2"></i>
+                            <span class="text-gray-300">support@eshop.com</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Column 4 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Kết nối với chúng tôi</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="bg-blue-400 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="bg-red-600 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Tải ứng dụng</h4>
+                        <div class="flex space-x-2">
+                            <a href="#" class="bg-black p-2 rounded">
+                                <i class="fab fa-apple text-xl"></i>
+                            </a>
+                            <a href="#" class="bg-black p-2 rounded">
+                                <i class="fab fa-google-play text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+            
+            <div class="border-t border-gray-700 pt-6 text-center text-gray-400">
+                <p>© 2023 E-Shop. Tất cả các quyền được bảo lưu.</p>
+            </div>
         </div>
-        <hr />
-        <div class="row">
-          <div class="col-12 text-center">
-            <p class="mb-0">&copy; 2024 NuenTaru. All rights reserved.</p>
-          </div>
-        </div>
-      </div>
     </footer>
 
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
-
     <script>
-      // Flash Sale Countdown Timer
-      function startCountdown(durationSeconds, display) {
-        let timer = durationSeconds,
-          hours,
-          minutes,
-          seconds;
-        const interval = setInterval(() => {
-          hours = Math.floor(timer / 3600);
-          minutes = Math.floor((timer % 3600) / 60);
-          seconds = timer % 60;
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hàm chung để khởi tạo slider
+        function initSlider(config) {
+            const {
+                trackSelector,
+                slideSelector,
+                prevBtnSelector,
+                nextBtnSelector,
+                dotSelector,
+                containerSelector,
+                autoPlayDelay = 5000
+            } = config;
+            
+            const track = document.querySelector(trackSelector);
+            const slides = document.querySelectorAll(slideSelector);
+            const prevBtn = document.querySelector(prevBtnSelector);
+            const nextBtn = document.querySelector(nextBtnSelector);
+            const dots = dotSelector ? document.querySelectorAll(dotSelector) : [];
+            const container = document.querySelector(containerSelector);
+            
+            let currentSlide = 0;
+            const slideCount = slides.length;
+            let slideInterval;
+            
+            function updateSlider() {
+                track.style.transform = `translateX(-${currentSlide * 100}%)`;
+                
+                // Cập nhật dots nếu có
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlide);
+                });
+            }
+            
+            function startSlideShow() {
+                slideInterval = setInterval(() => {
+                    currentSlide = (currentSlide + 1) % slideCount;
+                    updateSlider();
+                }, autoPlayDelay);
+            }
+            
+            function pauseSlideShow() {
+                clearInterval(slideInterval);
+            }
+            
+            // Sự kiện nút điều hướng
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+                    updateSlider();
+                    pauseSlideShow();
+                    startSlideShow();
+                });
+            }
+            
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    currentSlide = (currentSlide + 1) % slideCount;
+                    updateSlider();
+                    pauseSlideShow();
+                    startSlideShow();
+                });
+            }
+            
+            // Sự kiện dots nếu có
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    currentSlide = index;
+                    updateSlider();
+                    pauseSlideShow();
+                    startSlideShow();
+                });
+            });
+            
+            // Pause on hover
+            if (container) {
+                container.addEventListener('mouseenter', pauseSlideShow);
+                container.addEventListener('mouseleave', startSlideShow);
+            }
+            
+            // Khởi động
+            updateSlider();
+            startSlideShow();
+        }
 
-          display.textContent =
-            (hours < 10 ? "0" + hours : hours) +
-            ":" +
-            (minutes < 10 ? "0" + minutes : minutes) +
-            ":" +
-            (seconds < 10 ? "0" + seconds : seconds);
+        // 1. Khởi tạo banner lớn
+        initSlider({
+            trackSelector: '.slider-track',
+            slideSelector: '.slide',
+            prevBtnSelector: '.prev-btn',
+            nextBtnSelector: '.next-btn',
+            dotSelector: '.nav-dot',
+            containerSelector: '.slider-container',
+            autoPlayDelay: 5000
+        });
 
-          if (--timer < 0) {
-            clearInterval(interval);
-            display.textContent = "Sale ended";
-          }
-        }, 1000);
-      }
+        // 2. Khởi tạo các banner nhỏ
+        const smallBanners = [
+            {
+                trackSelector: '.grid-cols-2 > div:first-child .flex.transition-transform',
+                slideSelector: '.grid-cols-2 > div:first-child .min-w-full',
+                prevBtnSelector: '.banner1-prev',
+                nextBtnSelector: '.banner1-next',
+                containerSelector: '.grid-cols-2 > div:first-child',
+                autoPlayDelay: 5000
+            },
+            {
+                trackSelector: '.grid-cols-2 > div:last-child .flex.transition-transform',
+                slideSelector: '.grid-cols-2 > div:last-child .min-w-full',
+                prevBtnSelector: '.banner2-prev',
+                nextBtnSelector: '.banner2-next',
+                containerSelector: '.grid-cols-2 > div:last-child',
+                autoPlayDelay: 6000
+            }
+        ];
 
-      window.onload = function () {
-        // Set countdown for 4 hours (14400 seconds) for demo
-        const countdownElement = document.getElementById("countdown");
-        startCountdown(14400, countdownElement);
-      };
-    </script>
-  </body>
+        smallBanners.forEach(banner => initSlider(banner));
+    });
+</script>
+</body>
 </html>
