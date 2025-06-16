@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký - E-Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ff424f;
+            --primary-hover: #e53e3e;
+            --text-color: #2d3748;
+            --light-bg: #f8f9fa;
+            --border-color: #e2e8f0;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .auth-header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .auth-logo {
+            height: 50px;
+        }
+        
+        .auth-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 0;
+        }
+        
+        .auth-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+        }
+        
+        .auth-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 18px 0;
+            font-weight: 600;
+            color: #718096;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .auth-tab.active {
+            color: var(--primary-color);
+        }
+        
+        .auth-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-color);
+        }
+        
+        .auth-form {
+            padding: 30px;
+        }
+        
+        .form-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        
+        .form-subtitle {
+            color: #718096;
+            margin-bottom: 25px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 66, 79, 0.1);
+            outline: none;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            cursor: pointer;
+        }
+        
+        .password-strength {
+            height: 5px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        
+        .strength-meter {
+            height: 100%;
+            width: 0;
+            transition: all 0.3s;
+        }
+        
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(255, 66, 79, 0.3);
+        }
+        
+        .submit-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 66, 79, 0.4);
+        }
+        
+        .divider {
+            text-align: center;
+            position: relative;
+            margin: 25px 0;
+        }
+        
+        .divider::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: var(--border-color);
+            z-index: 1;
+        }
+        
+        .divider span {
+            background-color: white;
+            position: relative;
+            z-index: 2;
+            padding: 0 15px;
+            color: #718096;
+        }
+        
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            transition: all 0.3s;
+            border: 1px solid var(--border-color);
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        .fb-btn {
+            background-color: #3b5998;
+        }
+        
+        .gg-btn {
+            background-color: #db4437;
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #718096;
+        }
+        
+        .login-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .terms-text {
+            font-size: 14px;
+            color: #718096;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .terms-text a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .terms-text a:hover {
+            text-decoration: underline;
+        }
+        
+        .auth-footer {
+            background-color: white;
+            padding: 20px 0;
+            text-align: center;
+            color: #718096;
+            font-size: 14px;
+            margin-top: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .auth-container {
+                padding: 20px;
+            }
+            
+            .auth-card {
+                max-width: 100%;
+            }
+            
+            .auth-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="auth-header py-4 bg-[#ff424f]">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center">
+                <a href="/" class="text-xl font-bold">
+  <img src="/assets/img/logo/nuentaru1.png" alt="E-Shop Logo" class="h-12">
+</a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Auth Container -->
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- Tabs for switching between login/register -->
+            <div class="auth-tabs">
+                <div class="auth-tab" id="login-tab">Đăng nhập</div>
+                <div class="auth-tab active" id="register-tab">Đăng ký</div>
+            </div>
+            
+            <!-- Login Form (Hidden by default) -->
+            <div class="auth-form" id="login-form" style="display: none;">
+                <!-- Form đăng nhập sẽ ẩn trên trang đăng ký -->
+            </div>
+            
+            <!-- Register Form -->
+            <div class="auth-form" id="register-form">
+                <h2 class="form-title">Tạo tài khoản mới</h2>
+                <p class="form-subtitle">Tham gia E-Shop để có trải nghiệm tốt nhất</p>
+                
+                <form id="registerForm">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" class="form-input" placeholder="Họ và tên" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" class="form-input" placeholder="Email" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" class="form-input" placeholder="Số điện thoại" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" class="form-input" id="reg-password" placeholder="Mật khẩu" required>
+                        <span class="password-toggle" id="reg-toggle">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                        <div class="password-strength">
+                            <div class="strength-meter" id="strength-meter"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" class="form-input" id="confirm-password" placeholder="Xác nhận mật khẩu" required>
+                    </div>
+                    
+                    <div class="checkbox-container mb-6">
+                        <input type="checkbox" id="terms" class="mr-2" required>
+                        <label for="terms">Tôi đồng ý với <a href="#" class="text-red-500">Điều khoản dịch vụ</a> và <a href="#" class="text-red-500">Chính sách bảo mật</a></label>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Đăng ký</button>
+                </form>
+                
+                <div class="divider">
+                    <span>Hoặc đăng ký bằng</span>
+                </div>
+                
+                <div class="social-login">
+                    <a href="#" class="social-btn fb-btn" aria-label="Đăng ký bằng Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-btn gg-btn" aria-label="Đăng ký bằng Google">
+                        <i class="fab fa-google"></i>
+                    </a>
+                </div>
+                
+                <div class="terms-text">
+                    Bằng việc đăng ký, bạn đã đồng ý với E-Shop về <a href="#">Điều khoản dịch vụ</a> & <a href="#">Chính sách bảo mật</a>
+                </div>
+                
+                <div class="login-link">
+                    Đã có tài khoản? <a href="login.html">Đăng nhập ngay</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-4 gap-8 mb-8">
+                <!-- Column 1 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Về chúng tôi</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/gioi-thieu" class="text-gray-300 hover:text-white">Giới thiệu</a></li>
+                        <li><a href="/tuyen-dung" class="text-gray-300 hover:text-white">Tuyển dụng</a></li>
+                        <li><a href="/dieu-khoan" class="text-gray-300 hover:text-white">Điều khoản</a></li>
+                        <li><a href="/chinh-sach-bao-mat" class="text-gray-300 hover:text-white">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 2 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Dành cho khách hàng</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/trung-tam-tro-giup" class="text-gray-300 hover:text-white">Trung tâm trợ giúp</a></li>
+                        <li><a href="/huong-dan-mua-hang" class="text-gray-300 hover:text-white">Hướng dẫn mua hàng</a></li>
+                        <li><a href="/thanh-toan" class="text-gray-300 hover:text-white">Thanh toán</a></li>
+                        <li><a href="/van-chuyen" class="text-gray-300 hover:text-white">Vận chuyển</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 3 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Liên hệ</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">Đà Nẵng, Việt Nam</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">1900 1234</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">support@eshop.com</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Column 4 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Kết nối với chúng tôi</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="https://facebook.com/your-eshop" class="bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Facebook">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://instagram.com/your-eshop" class="bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Instagram">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://twitter.com/your-eshop" class="bg-blue-400 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Twitter">
+                            <i class="fab fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://youtube.com/your-eshop" class="bg-red-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="YouTube">
+                            <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Tải ứng dụng</h4>
+                        <div class="flex space-x-2">
+                            <a href="https://apps.apple.com/app/your-eshop" class="bg-black p-2 rounded" aria-label="Tải ứng dụng trên App Store">
+                                <i class="fab fa-apple text-xl" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://play.google.com/store/apps/details?id=com.youreshop" class="bg-black p-2 rounded" aria-label="Tải ứng dụng trên Google Play">
+                                <i class="fab fa-google-play text-xl" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-6 text-center text-gray-400">
+                <p>© 2025 NuenTaru-Shop. Tất cả các quyền được bảo lưu.</p>
+                <p class="mt-2 text-sm">Số ĐKKD: 0123456789 | Ngày cấp: 01/01/2025 | Nơi cấp: Sở Kế hoạch và Đầu tư Đà Nẵng</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // Tabs event listeners
+        const loginTab = document.getElementById('login-tab');
+        const registerTab = document.getElementById('register-tab');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        
+        loginTab.addEventListener('click', () => {
+            // Chuyển hướng sang trang đăng nhập
+            window.location.href = 'login.html';
+        });
+        
+        registerTab.addEventListener('click', () => {
+            // Đã ở trang đăng ký, không cần làm gì
+        });
+        
+        // Password toggle visibility
+        const passwordInput = document.getElementById('reg-password');
+        const passwordToggle = document.getElementById('reg-toggle');
+        
+        if (passwordInput && passwordToggle) {
+            passwordToggle.addEventListener('click', () => {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                passwordToggle.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+            });
+        }
+        
+        // Password strength indicator
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        const strengthMeter = document.getElementById('strength-meter');
+        
+        if (passwordInput && strengthMeter) {
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+                
+                // Check password criteria
+                if (password.length >= 8) strength += 25;
+                if (/[A-Z]/.test(password)) strength += 25;
+                if (/[0-9]/.test(password)) strength += 25;
+                if (/[^A-Za-z0-9]/.test(password)) strength += 25;
+                
+                strengthMeter.style.width = `${strength}%`;
+                
+                // Update color
+                if (strength < 50) {
+                    strengthMeter.style.backgroundColor = '#ef4444';
+                } else if (strength < 75) {
+                    strengthMeter.style.backgroundColor = '#f59e0b';
+                } else {
+                    strengthMeter.style.backgroundColor = '#10b981';
+                }
+            });
+        }
+        
+        // Form submission
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                alert('Mật khẩu xác nhận không khớp!');
+                return;
+            }
+            
+            if (!document.getElementById('terms').checked) {
+                alert('Vui lòng đồng ý với điều khoản dịch vụ');
+                return;
+            }
+            
+            alert('Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.');
+            this.reset();
+            strengthMeter.style.width = '0';
+        });
+
+        // Thêm vào script mobile menu
+document.querySelectorAll('#mobile-menu a').forEach(link => {
+  link.addEventListener('click', function() {
+    document.querySelectorAll('#mobile-menu a').forEach(el => el.removeAttribute('aria-current'));
+    this.setAttribute('aria-current', 'page');
+  });
+});
+    </script>
+</body>
+</html>
