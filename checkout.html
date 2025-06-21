@@ -1,1187 +1,1476 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Checkout - Shopee Clone</title>
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/inputmask.min.js"></script>
-
-  <!-- Custom CSS -->
-  <style>
-    :root {
-      --primary-color: #6cb4ee;
-      --secondary-color: #3a8fd3;
-    }
-
-    body {
-      font-family: "Segoe UI", sans-serif;
-      background-color: #f8f9fa;
-    }
-
-    /* Header Navbar Styling */
-    .navbar-custom {
-      background: linear-gradient(to right, #112637, var(--secondary-color));
-    }
-
-    .nav-link {
-      color: var(--bs-navbar-brand-color);
-    }
-
-    .container-checkout {
-      max-width: 1200px;
-      margin: 40px auto;
-      display: flex;
-      gap: 24px;
-    }
-
-    .left-column {
-      flex: 2;
-    }
-
-    .right-column {
-      flex: 1;
-    }
-
-    .section-box {
-      background: #fff;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    }
-
-    .section-title {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 15px;
-    }
-
-    .product-item {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 16px;
-      align-items: center;
-    }
-
-    .product-item img {
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 6px;
-    }
-
-    .radio-label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .radio-label-div {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .discount-summary,
-    .checkout-summary {
-      font-size: 14px;
-    }
-
-    .discount-badge {
-      font-size: 12px;
-      padding: 2px 6px;
-      background-color: #eee;
-      border-radius: 4px;
-      margin-left: 6px;
-    }
-
-    .btn-apply-discount {
-      font-size: 14px;
-    }
-
-    .total-price {
-      font-size: 20px;
-      font-weight: bold;
-      color: red;
-    }
-
-    .btn-checkout {
-      width: 100%;
-      font-size: 16px;
-      margin-top: 15px;
-    }
-
-    .address-popup,
-    .discount-popup {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1050;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      width: 500px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .popup-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      display: none;
-      z-index: 1040;
-    }
-
-    .voucher-box {
-      border: 2px solid transparent;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      padding: 12px;
-      margin-bottom: 10px;
-    }
-
-    .voucher-box img {
-      width: 48px;
-      height: 48px;
-      margin-right: 12px;
-    }
-
-    .voucher-box.active {
-      background: #e7f3ff;
-      border-color: #007bff;
-    }
-
-    .voucher-box .info {
-      flex: 1;
-    }
-
-    .voucher-box .action {
-      margin-left: auto;
-    }
-
-    .tag-disabled {
-      font-size: 12px;
-      color: #aaa;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      padding: 2px 5px;
-      margin-left: 8px;
-    }
-
-    .total-price {
-      font-size: 20px;
-      font-weight: bold;
-      color: red;
-    }
-
-    .btn-checkout {
-      width: 100%;
-      font-size: 16px;
-      margin-top: 15px;
-    }
-
-    .popup-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      display: none;
-      z-index: 1040;
-    }
-
-    .card-popup {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1050;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      width: 90vw;
-      /* responsive width */
-      max-width: 600px;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .credit-card-visual {
-      width: 100%;
-      max-width: 280px;
-      height: 170px;
-      perspective: 1000px;
-      margin: 0 auto;
-      /* căn giữa trong col-md-6 */
-    }
-
-    .credit-card-container {
-      width: 100%;
-      height: 100%;
-      position: relative;
-    }
-
-    .credit-card-inner {
-      width: 100%;
-      height: 100%;
-      border-radius: 12px;
-      background: #999;
-      position: absolute;
-      transition: transform 0.8s;
-      transform-style: preserve-3d;
-    }
-
-    .flipped .credit-card-inner {
-      transform: rotateY(180deg);
-    }
-
-    .credit-card-front,
-    .credit-card-back {
-      backface-visibility: hidden;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: 12px;
-      padding: 20px;
-      box-sizing: border-box;
-      color: white;
-      font-weight: bold;
-    }
-
-    .credit-card-front {
-      background-color: #999;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: background 0.5s ease;
-    }
-
-    .chip {
-      width: 40px;
-      height: 30px;
-      background-image: url(image/icon/checkout/chip.svg);
-      background-repeat: no-repeat;
-    background-size: contain;
-      border-radius: 6px;
-    }
-
-    .top-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .card-logo {
-      width: 60px;
-      height: 32px;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: right center;
-    }
-
-    .card-back-logo {
-      margin-top: auto;
-      height: 30px;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      margin-bottom: 12px;
-    }
-
-
-
-    .card-number {
-      font-size: 18px;
-      letter-spacing: 2px;
-      margin-top: 10px;
-    }
-
-    .bottom-info-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-top: auto;
-      padding-top: 10px;
-    }
-
-    .card-holder-section {
-      display: flex;
-      flex-direction: column;
-      font-size: 13px;
-    }
-
-    .card-holder-label {
-      font-size: 12px;
-      color: #ccc;
-      margin-bottom: 2px;
-    }
-
-    .card-holder {
-      font-size: 14px;
-      color: #fff;
-      font-weight: 500;
-    }
-
-    .expiry-section {
-      font-size: 12px;
-      color: #ccc;
-    }
-
-    .expiry-date {
-      font-size: 14px;
-      color: #fff;
-      font-weight: 500;
-    }
-
-
-    .credit-card-back {
-      background-color: #999;
-      transform: rotateY(180deg);
-      display: flex;
-      flex-direction: column;
-      border-radius: 12px;
-      box-sizing: border-box;
-      height: 100%;
-      padding: 0;
-    }
-
-    .magnetic-strip {
-      margin-top: 12px;
-      height: 50px;
-      background-color: #221b19;
-      width: 100%;
-      border-radius: 4px 4px 0 0;
-    }
-
-    /* Vị trí chữ ký nằm gần sát bên trái và ngay dưới magnetic strip */
-    .signature-cvv {
-      margin-top: 10px;
-      margin-left: 3%;
-    }
-
-    .signature-box {
-      background: #fff;
-      width: 80%;
-      /* Chiều rộng phù hợp hình */
-      height: 36px;
-      position: relative;
-      padding: 5px 10px;
-      box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.2);
-    }
-
-    .signature-lines {
-      height: 100%;
-      background: repeating-linear-gradient(to bottom,
-          #f8f8f8,
-          #f8f8f8 4px,
-          #ffe58f 4px,
-          #ffe58f 6px);
-      border-radius: 2px;
-    }
-
-    .cvv-code {
-      position: absolute;
-      right: 10px;
-      top: 6px;
-      font-size: 16px;
-      font-weight: bold;
-      color: #111;
-    }
-
-
-    .btn-close-popup {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-    }
-
-    .credit-icons {
-      height: 15px;
-      margin-bottom: 30px;
-    }
-
-    .credit-icons img {
-      width: 30px;
-      height: 30px;
-      margin-right: 5px;
-    }
-
-    input.form-control {
-  border: 1px solid #ced4da;
-  border-radius: 6px;
-  padding: 10px 12px;
-  font-size: 14px;
-  box-shadow: none;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-input.form-control:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 0.15rem rgba(108, 180, 238, 0.3);
-  outline: none;
-}
-
-
-/* === Thông báo lỗi khi nhập sai định dạng === */
-.input-error {
-  border-color: #dc3545 !important;
-  box-shadow: 0 0 0 0.15rem rgba(220, 53, 69, 0.25);
-}
-
-.error-message {
-  font-size: 12px;
-  color: #dc3545;
-  margin-top: 4px;
-}
-
-
-    .search-bar {
-      width: 100%;
-      max-width: 800px;
-    }
-
-    .checkout-form {
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    }
-
-    .summary-card {
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    }
-
-    .footer {
-      background-color: #fbfbfb;
-      padding: 40px 0;
-      margin-top: 40px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh Toán | E-Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c5c5c5;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        /* Animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .animate-pulse-custom {
+            animation: pulse 1.5s infinite;
+        }
+        
+        /* Checkout Button */
+        .checkout-btn {
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
+        }
+        
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(239, 68, 68, 0.4);
+        }
+        
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #4a5568;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.375rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #ff424f;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+        }
+        
+        .form-select {
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+        }
+        
+        /* Payment Methods */
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .payment-method:hover {
+            border-color: #ff424f;
+        }
+        
+        .payment-method.selected {
+            border-color: #ff424f;
+            background-color: #fff5f5;
+        }
+        
+        /* Progress Steps */
+        .progress-steps {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+        
+        .progress-line {
+            position: absolute;
+            top: 16px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: #e5e7eb;
+            z-index: 0;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #ff424f;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .step.completed .step-number {
+            background-color: #ff424f;
+        }
+        
+        .step.active .step-number {
+            background-color: #ff424f;
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2);
+        }
+        
+        .step.inactive .step-number {
+            background-color: #9ca3af;
+        }
+        
+        .step-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #4b5563;
+        }
+        
+        .step.active .step-label {
+            color: #1f2937;
+            font-weight: 600;
+        }
+        
+        /* Address Card */
+        .address-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .address-card:hover {
+            border-color: #ff424f;
+        }
+        
+        .address-card.selected {
+            border-color: #ff424f;
+            background-color: #fff5f5;
+        }
+        
+        .address-card .edit-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: #3b82f6;
+        }
+        
+        .address-card .edit-btn:hover {
+            color: #2563eb;
+        }
+        
+        /* Applied Coupon */
+        .applied-coupon {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .coupon-type {
+            font-weight: 600;
+            color: #166534;
+        }
+        
+        .coupon-value {
+            color: #166534;
+            font-weight: 500;
+        }
+
+        /* Seller Group */
+        .seller-group {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            background-color: #f9fafb;
+        }
+        
+        .seller-header {
+            display: flex;
+            align-items: center;
+            padding-bottom: 0.75rem;
+            margin-bottom: 0.75rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .seller-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        
+        .seller-name {
+            font-weight: 600;
+            color: #4b5563;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        /* Order Confirmation */
+        .confirmation-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+        
+        .confirmation-icon {
+            font-size: 5rem;
+            color: #10b981;
+            margin-bottom: 1.5rem;
+        }
+        
+        .order-details-box {
+            background-color: #f9fafb;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        
+        .order-info-row {
+            display: flex;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .order-info-label {
+            width: 40%;
+            font-weight: 500;
+            color: #4b5563;
+        }
+        
+        .order-info-value {
+            width: 60%;
+            font-weight: 600;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1023px) {
+            .checkout-container {
+                flex-direction: column;
+            }
+            
+            .checkout-form {
+                width: 100%;
+                margin-right: 0;
+            }
+            
+            .order-summary {
+                width: 100%;
+                margin-top: 2rem;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .checkout-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .checkout-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .order-item {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .order-image {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .order-details {
+                width: 100%;
+            }
+            
+            .order-info-row {
+                flex-direction: column;
+            }
+            
+            .order-info-label, .order-info-value {
+                width: 100%;
+            }
+            
+            .order-info-label {
+                margin-bottom: 0.25rem;
+            }
+        }
+    </style>
 </head>
-
-<body>
-  <!-- Top Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-    <div class="container">
-      <a class="navbar-brand" href="index.html">NuenTaru</a>
-
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="shop.html">Shop</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact.html">Contact</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="faq.html">FAQ</a>
-          </li>
-        </ul>
-        <form class="d-flex search-bar mx-auto">
-          <input class="form-control me-2" type="search" placeholder="Search for products..." />
-          <button class="btn btn-light" type="submit">
-            <i class="fas fa-search"></i>
-          </button>
-        </form>
-
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#"><i class="fas fa-user"></i> Login</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <main class="container-checkout">
-    <div class="left-column">
-      <h2>Thanh toán</h2>
-      <div class="section-box">
-        <h2 class="section-title">Sản phẩm</h2>
-        <div class="product-item">
-          <img src="https://images.pexels.com/photos/404280/pexels-photo-404280.jpeg" alt="Sản phẩm" />
-          <div>
-            <div class="fw-semibold">Gel Uống Bổ Sung GU Energy</div>
-            <div class="text-muted small">Giao thứ 4, trước 19h, 11/06</div>
-            <div class="text-decoration-line-through text-muted small">
-              45.000đ
-            </div>
-            <div class="text-danger">27.000đ</div>
-          </div>
-        </div>
-        <div class="product-item">
-          <img src="https://images.pexels.com/photos/404280/pexels-photo-404280.jpeg" alt="Sản phẩm" />
-          <div>
-            <div class="fw-semibold">Gel Uống Bổ Sung GU Energy</div>
-            <div class="text-muted small">Giao thứ 4, trước 19h, 11/06</div>
-            <div class="text-decoration-line-through text-muted small">
-              45.000đ
-            </div>
-            <div class="text-danger">27.000đ</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="section-box">
-        <h2 class="section-title">Chọn hình thức giao hàng</h2>
-        <label class="radio-label"><input type="radio" name="shipping" checked /> Giao tiết
-          kiệm</label>
-      </div>
-      <div class="section-box">
-        <h2 class="section-title">Chọn hình thức thanh toán</h2>
-        <label class="radio-label">
-          <input type="radio" name="payment" checked />
-          <span class="label">
-            <div class="radio-label-div">
-              <img class="method-icon"
-                src="https://salt.tikicdn.com/ts/upload/92/b2/78/1b3b9cda5208b323eb9ec56b84c7eb87.png" width="32"
-                height="32" alt="icon" />
-              <div class="method-content">
-                <span>Thanh toán tiền mặt</span>
-              </div>
-            </div>
-          </span>
-        </label>
-        <label class="radio-label">
-          <input type="radio" name="payment" checked />
-          <span class="label">
-            <div class="radio-label-div">
-              <img class="method-icon"
-                src="https://salt.tikicdn.com/ts/upload/5f/f9/75/d7ac8660aae903818dd7da8e4772e145.png" width="32"
-                height="32" alt="icon" />
-              <div class="method-content">
-                <span>Viettel Money</span>
-              </div>
-            </div>
-          </span>
-        </label>
-        <label class="radio-label">
-          <input type="radio" name="payment" checked />
-          <span class="label">
-            <div class="radio-label-div">
-              <img class="method-icon"
-                src="https://salt.tikicdn.com/ts/upload/ce/f6/e8/ea880ef285856f744e3ffb5d282d4b2d.jpg" width="32"
-                height="32" alt="icon" />
-              <div class="method-content">
-                <span>MoMo</span>
-              </div>
-            </div>
-          </span>
-        </label>
-        <label class="radio-label">
-          <input type="radio" name="payment" checked />
-          <span class="label">
-            <div class="radio-label-div">
-              <img class="method-icon"
-                src="https://salt.tikicdn.com/ts/upload/2f/43/da/dd7ded6d3659036f15f95fe81ac76d93.png" width="32"
-                height="32" alt="icon" />
-              <div class="method-content">
-                <span>Ví ZaloPay</span>
-              </div>
-            </div>
-          </span>
-        </label>
-        <label class="radio-label">
-          <input type="radio" name="payment" checked />
-          <span class="label">
-            <div class="radio-label-div">
-              <img class="method-icon"
-                src="https://salt.tikicdn.com/ts/upload/77/6a/df/a35cb9c62b9215dbc6d334a77cda4327.png" width="32"
-                height="32" alt="icon" />
-              <div class="method-content">
-                <span>VNPAY</span>
-              </div>
-            </div>
-          </span>
-        </label>
-        <div>
-          <label class="radio-label">
-            <input type="radio" name="payment" checked />
-            <span class="label">
-              <div class="radio-label-div">
-                <img class="method-icon"
-                  src="https://salt.tikicdn.com/ts/upload/7e/48/50/7fb406156d0827b736cf0fe66c90ed78.png" width="32"
-                  height="32" alt="icon" />
-                <div class="method-content">
-                  <span>Thẻ tín dụng/Ghi nợ</span>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-[#ff424f] text-white shadow-md">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between py-3">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
+                        <img src="assets/img/logo/nuentaru1.png" alt="E-Shop" class="h-10">
+                    </a>
                 </div>
-              </div>
-              <span><img alt="credit-card"
-                  src="image/icon/checkout/0c02ea827b71cd89ffadb7a22babbdd6.png" height="24"
-                  width="auto" srcset="
-                      image/icon/checkout/0c02ea827b71cd89ffadb7a22babbdd6.png
-                    " class="sc-82b4dcf2-0 ldcZGa" /></span>
-            </span>
-          </label>
-          <!-- existing content -->
-          <div class="popup-overlay" id="overlay"></div>
-          <button class="btn btn-outline-secondary" onclick="togglePopup('cardPopup', event)">
-            Thêm thẻ mới
-          </button>
-          <div class="card-popup" id="cardPopup">
-            <button class="btn btn-sm btn-danger btn-close-popup" onclick="closePopup('cardPopup')">
-              ×
-            </button>
-            <h5>Thêm Thẻ Tín Dụng/ Ghi Nợ Quốc Tế</h5>
-            <div class="credit-icons">
-              <img src="image/icon/checkout/icon-visa.png" alt="">
-              <img src="image/icon/checkout/icon-payment-credit-type-mastercard.svg" alt="">
-              <img src="image/icon/checkout/icon-payment-credit-type-jcb.svg" alt="">
-            </div>
-            <div class="row">
-              <div class="col-12 col-md-6 mb-4">
-                <div class="mb-3">
-                  <label>Số thẻ:</label>
-                  <input type="text" class="form-control" id="cardNumber" maxlength="19"
-                    placeholder="VD: 4123 4567 8901 2345" oninput="formatCardNumber(this); updateCardDisplay()" />
-                </div>
-                <div class="mb-3">
-                  <label>Tên in trên thẻ:</label>
-                  <input type="text" class="form-control" id="cardName" placeholder="VD: NGUYEN VAN A"
-                    oninput="updateCardDisplay()" />
-                </div>
-                <div class="mb-3">
-                  <label>Ngày hết hạn:</label>
-                  <input type="text" class="form-control" id="cardExpiry" placeholder="MM/YY" maxlength="5"
-                    oninput="formatExpiry(this); updateCardDisplay()" />
-                </div>
-                <div class="mb-3">
-                  <label>Mã bảo mật:</label>
-                  <input type="text" class="form-control input-cvc" id="cardCVC" placeholder="VD: 123" maxlength="3"
-                    oninput="limitCVC(this); updateCardDisplay()" onfocus="flipCard(true)" onblur="flipCard(false)" />
-                </div>
-              </div>
-              <div class="col-12 col-md-6 mb-4">
-                <div class="credit-card-visual">
-                  <div class="credit-card-container" id="cardContainer">
-                    <div class="credit-card-inner" id="cardVisual">
-                      <!-- FRONT -->
-                      <div class="credit-card-front">
-                        <div class="top-row">
-                          <div class="chip"></div>
-                          <div class="card-logo" id="cardLogo"></div>
-                        </div>
-                        <div id="cardVisualNumber" class="card-number">•••• •••• •••• ••••</div>
 
-                        <div class="bottom-info-row">
-                          <div class="card-holder-section">
-                            <div class="card-holder-label">TÊN CHỦ THẺ</div>
-                            <div id="cardVisualName" class="card-holder"></div>
-                          </div>
-                          <div class="expiry-section text-end">
-                            <div class="expiry-label">Hiệu lực đến</div>
-                            <div id="cardVisualExpiry" class="expiry-date">••/••</div>
-                          </div>
-                        </div>
-
-                      </div>
-
-                      <!-- BACK -->
-                      <div class="credit-card-back">
-                        <div class="magnetic-strip"></div>
-                        <div class="signature-cvv">
-                          <div class="signature-box">
-                            <div class="signature-lines"></div>
-                            <div class="cvv-code" id="cardVisualCVC"></div>
-                          </div>
-                        </div>
-                        <div class="card-back-logo" id="cardBackLogo"></div>
-                      </div>
-
-
+                <!-- Search Bar -->
+                <div class="flex-1 mx-4 md:mx-8">
+                    <div class="relative">
+                        <input type="text" placeholder="Tìm kiếm sản phẩm..." 
+                            class="w-full py-2 px-4 rounded-full text-gray-800 focus:outline-none"
+                            aria-label="Tìm kiếm sản phẩm">
+                        <button class="absolute right-0 top-0 h-full px-4 bg-yellow-400 rounded-r-full text-gray-800" aria-label="Tìm kiếm">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </button>
                     </div>
-                  </div>
                 </div>
-              </div>
+
+                <!-- User Actions -->
+                <div class="flex items-center space-x-4 md:space-x-6">
+                    <a href="/tai-khoan" class="hidden md:flex flex-col items-center" aria-label="Tài khoản">
+                        <i class="fas fa-user text-xl" aria-hidden="true"></i>
+                        <span class="text-xs mt-1">Tài khoản</span>
+                    </a>
+                    <a href="/gio-hang" class="flex flex-col items-center relative" aria-label="Giỏ hàng">
+                        <i class="fas fa-shopping-cart text-xl" aria-hidden="true"></i>
+                        <span class="text-xs mt-1">Giỏ hàng</span>
+                        <span class="absolute -top-2 -right-2 bg-yellow-400 text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+                    </a>
+                </div>
             </div>
-            <p class="mt-3 small bg-light p-2 rounded border">
-              Chúng tôi không trực tiếp lưu thẻ của bạn. Để đảm bảo an toàn, thông
-              tin thẻ của bạn chỉ được lưu bởi CyberSource, công ty quản lý
-              thanh toán lớn nhất thế giới (thuộc tổ chức VISA)
-            </p>
-            <div class="text-end">
-              <button class="btn btn-outline-primary" onclick="closePopup('cardPopup')">
-                Trở lại
-              </button>
-              <button class="btn btn-primary" onclick="validateCardFields()">Xác nhận</button>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-
-    <div class="right-column">
-      <div class="section-box mt-5">
-        <div class="d-flex justify-content-between">
-          <div>
-            <strong>Giao tới</strong><br />
-            <small id="current-address">Nguyễn Tam Trực<br />Số 163, Thôn Nam
-              Hà 1, Quảng Nam</small>
-          </div>
-          <a href="#" class="text-primary" onclick="togglePopup('addressPopup', event)">Thay đổi</a>
-        </div>
-      </div>
-      <div class="section-box">
-        <h2 class="section-title">Tiki Khuyến Mãi</h2>
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Nhập mã giảm giá" />
-          <button class="btn btn-outline-secondary">Áp dụng</button>
-        </div>
-
-        <button class="btn btn-outline-secondary" onclick="togglePopup('discountPopup', event)">
-          Chọn mã giảm giá
-        </button>
-        <div class="discount-summary">
-          <div>
-            Chưa áp dụng giảm giá <span class="discount-badge">0</span>
-          </div>
-          <div>
-            Chưa áp dụng giảm giá vận chuyển
-            <span class="discount-badge">0</span>
-          </div>
-        </div>
-      </div>
-      <div class="section-box">
-        <label><input type="checkbox" /> Yêu cầu hóa đơn điện tử</label>
-      </div>
-      <div class="section-box">
-        <h2 class="section-title">Đơn hàng</h2>
-        <div class="checkout-summary">
-          <div class="d-flex justify-content-between">
-            <span>Tổng tiền hàng</span><span>45.000đ</span>
-          </div>
-          <div class="d-flex justify-content-between">
-            <span>Phí vận chuyển</span><span>32.700đ</span>
-          </div>
-          <div class="d-flex justify-content-between">
-            <span>Giảm giá</span><span class="text-success">-18.000đ</span>
-          </div>
-          <hr />
-          <div class="d-flex justify-content-between">
-            <span class="fw-bold">Tổng tiền thanh toán</span>
-            <span class="total-price">59.700đ</span>
-          </div>
-        </div>
-        <button class="btn btn-danger btn-checkout">Đặt hàng</button>
-      </div>
-    </div>
-  </main>
-
-  <div class="popup-overlay" id="overlay" onclick="closeAllPopups()"></div>
-  <div class="address-popup" id="addressPopup">
-    <h5>Địa chỉ hiện tại</h5>
-    <div class="mb-2">
-      <p id="existingAddress">
-        Nguyễn Tam Trực<br />Số 163, Thôn Nam Hà 1, Quảng Nam
-        <a href="#" class="text-primary" data-bs-toggle="collapse" data-bs-target="#editAddressForm">Sửa</a>
-      </p>
-    </div>
-    <div class="collapse" id="editAddressForm">
-      <div class="mb-3">
-        <label class="form-label">Tên người nhận</label>
-        <input type="text" class="form-control" value="Nguyễn Tam Trực" />
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Địa chỉ</label>
-        <textarea class="form-control" rows="2">
-Số 163, Thôn Nam Hà 1, Quảng Nam</textarea>
-      </div>
-      <div class="text-end">
-        <button class="btn btn-secondary me-2" onclick="closeAllPopups()">
-          Hủy
-        </button>
-        <button class="btn btn-primary">Lưu</button>
-      </div>
-    </div>
-    <button class="btn btn-outline-primary w-100 mt-3" data-bs-toggle="collapse" data-bs-target="#newAddressForm">
-      Thêm địa chỉ mới
-    </button>
-    <div class="collapse mt-3" id="newAddressForm">
-      <div class="mb-3">
-        <label class="form-label">Tên người nhận</label>
-        <input type="text" class="form-control" placeholder="Nhập tên người nhận" />
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Địa chỉ</label>
-        <textarea class="form-control" rows="2" placeholder="Nhập địa chỉ mới"></textarea>
-      </div>
-      <div class="text-end">
-        <button class="btn btn-secondary me-2" onclick="closeAllPopups()">
-          Hủy
-        </button>
-        <button class="btn btn-primary">Lưu</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="discount-popup" id="discountPopup">
-    <h5>Tiki Khuyến Mãi</h5>
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Nhập mã giảm giá" />
-      <button class="btn btn-outline-secondary">Áp dụng</button>
-    </div>
-    <div class="voucher-box active">
-      <img src="https://cdn-icons-png.flaticon.com/512/5977/5977575.png" alt="logo" />
-      <div class="info">
-        <div><strong>Giảm 150K</strong> - Cho đơn hàng từ 30 triệu</div>
-        <div class="text-muted small">HSD: 30/06/25</div>
-      </div>
-      <div class="action">
-        <button class="btn btn-sm btn-primary">Bỏ chọn</button>
-      </div>
-    </div>
-    <div class="voucher-box">
-      <img src="https://cdn-icons-png.flaticon.com/512/5977/5977575.png" alt="logo" />
-      <div class="info">
-        <div>
-          <strong>Giảm 200K</strong> - Cho đơn hàng từ 40 triệu
-          <span class="tag-disabled">Chưa thỏa điều kiện</span>
-        </div>
-        <div class="text-muted small">HSD: 30/06/25</div>
-      </div>
-    </div>
-    <h6 class="mt-4">Mã Vận Chuyển</h6>
-    <div class="voucher-box active">
-      <img src="https://cdn-icons-png.flaticon.com/512/3103/3103446.png" alt="freeship" />
-      <div class="info">
-        <div><strong>Giảm 25K</strong> - Cho đơn hàng từ 100K</div>
-        <div class="text-muted small">HSD: 14/06/25</div>
-      </div>
-      <div class="action">
-        <button class="btn btn-sm btn-primary">Bỏ chọn</button>
-      </div>
-    </div>
-    <div class="voucher-box">
-      <img src="https://cdn-icons-png.flaticon.com/512/3103/3103446.png" alt="freeship" />
-      <div class="info">
-        <div>
-          <strong>Giảm 50K</strong> - Cho đơn hàng từ 200K
-          <span class="tag-disabled">Chưa thỏa điều kiện</span>
-        </div>
-        <div class="text-muted small">HSD: 30/06/25</div>
-      </div>
-    </div>
-    <div class="text-end mt-3">
-      <button class="btn btn-secondary me-2" onclick="closeAllPopups()">
-        Đóng
-      </button>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3 mb-4">
-          <h5>Customer Service</h5>
-          <ul class="list-unstyled">
-            <li>
-              <a href="faq.html" class="text-decoration-none text-dark">Help
-                Center</a>
-            </li>
-            <li>
-              <a href="contact.html" class="text-decoration-none text-dark">Contact Us</a>
-            </li>
-            <li>
-              <a href="faq.html#returns" class="text-decoration-none text-dark">Returns & Refunds</a>
-            </li>
-            <li>
-              <a href="faq.html#shipping" class="text-decoration-none text-dark">Shipping Info</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3 mb-4">
-          <h5>About Us</h5>
-          <ul class="list-unstyled">
-            <li>
-              <a href="about.html" class="text-decoration-none text-dark">About Shopee</a>
-            </li>
-            <li>
-              <a href="about.html#careers" class="text-decoration-none text-dark">Careers</a>
-            </li>
-            <li>
-              <a href="about.html#terms" class="text-decoration-none text-dark">Terms & Conditions</a>
-            </li>
-            <li>
-              <a href="about.html#privacy" class="text-decoration-none text-dark">Privacy Policy</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3 mb-4">
-          <h5>Payment Methods</h5>
-          <ul class="list-unstyled">
-            <li><i class="fab fa-cc-visa me-2"></i>Visa</li>
-            <li><i class="fab fa-cc-mastercard me-2"></i>Mastercard</li>
-            <li><i class="fab fa-cc-paypal me-2"></i>PayPal</li>
-            <li>
-              <i class="fas fa-money-bill-wave me-2"></i>Cash on Delivery
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3 mb-4">
-          <h5>Follow Us</h5>
-          <div class="social-links">
-            <a href="#" class="text-dark me-3"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="text-dark me-3"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="text-dark me-3"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="text-dark"><i class="fab fa-youtube"></i></a>
-          </div>
-        </div>
-      </div>
-      <hr />
-      <div class="row">
-        <div class="col-12 text-center">
-          <p class="mb-0">&copy; 2024 Shopee Clone. All rights reserved.</p>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Bootstrap JS and Popper.js -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
-
-  <!-- Custom JavaScript -->
-  <script>
-    function togglePopup(id, e) {
-      e.preventDefault();
-      document.getElementById("overlay").style.display = "block";
-      document.getElementById(id).style.display = "block";
-    }
-    function closeAllPopups() {
-      document.getElementById("overlay").style.display = "none";
-      document.getElementById("addressPopup").style.display = "none";
-      document.getElementById("discountPopup").style.display = "none";
-    }
-    function togglePopup(id, e) {
-      if (e) e.preventDefault();
-      document.getElementById("overlay").style.display = "block";
-      document.getElementById(id).style.display = "block";
-    }
-    function closePopup(id) {
-      document.getElementById("overlay").style.display = "none";
-      document.getElementById(id).style.display = "none";
-    }
+    </header>
     
-    function updateCardDisplay() {
-  const rawNumber = document.getElementById("cardNumber").value.replace(/\D/g, "");
-  const formatted = rawNumber.replace(/(.{4})/g, "$1 ").trim();
-  const name = document.getElementById("cardName").value || "";
-  const expiry = document.getElementById("cardExpiry").value || "••/••";
-  const cvc = document.getElementById("cardCVC").value || "";
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- Breadcrumb -->
+        <nav class="mb-6 text-sm">
+            <ol class="list-none p-0 inline-flex">
+                <li class="flex items-center">
+                    <a href="/" class="text-[#ff424f] hover:text-[#e53e3e]">Trang chủ</a>
+                    <i class="fas fa-chevron-right mx-2 text-gray-400"></i>
+                </li>
+                <li class="flex items-center">
+                    <a href="/gio-hang" class="text-[#ff424f] hover:text-[#e53e3e]">Giỏ hàng</a>
+                    <i class="fas fa-chevron-right mx-2 text-gray-400"></i>
+                </li>
+                <li class="flex items-center">
+                    <span class="text-gray-500">Thanh toán</span>
+                </li>
+            </ol>
+        </nav>
+        
+        <!-- Checkout Header -->
+        <div class="checkout-header flex justify-between items-center mb-8">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800">
+                <i class="fas fa-credit-card mr-3 text-[#ff424f]"></i>
+                Thanh Toán Đơn Hàng
+            </h1>
+            <div class="text-sm text-gray-500">
+                <span id="item-count">3</span> sản phẩm
+            </div>
+        </div>
+        
+        <!-- Progress Steps -->
+        <div class="progress-steps">
+            <div class="flex justify-between relative">
+                <div class="progress-line"></div>
+                
+                <div class="step completed">
+                    <div class="step-number">
+                        <i class="fas fa-check text-xs"></i>
+                    </div>
+                    <span class="step-label">Giỏ hàng</span>
+                </div>
+                
+                <div class="step active">
+                    <div class="step-number">2</div>
+                    <span class="step-label">Thanh toán</span>
+                </div>
+                
+                <div class="step inactive">
+                    <div class="step-number">3</div>
+                    <span class="step-label">Hoàn tất</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Checkout Content -->
+        <div class="checkout-container flex flex-col lg:flex-row">
+            <!-- Checkout Form -->
+            <div class="checkout-form w-full lg:w-2/3 lg:mr-8">
+                <!-- Customer Information -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                        <i class="fas fa-user mr-3 text-[#ff424f]"></i>
+                        Thông tin khách hàng
+                    </h2>
+                    
+                    <!-- Saved Address -->
+                    <div class="address-card selected">
+                        <button class="edit-btn" id="change-address-btn">
+                            <i class="fas fa-exchange-alt mr-1"></i> Thay đổi
+                        </button>
+                        
+                        <div class="flex items-start mb-3">
+                            <div class="mr-3">
+                                <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                                    <i class="fas fa-home text-gray-500"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">Địa chỉ nhà</h3>
+                                <div class="flex items-center mb-1">
+                                    <span class="font-medium mr-3">Nguyễn Văn A</span>
+                                    <span class="text-gray-600">0912345678</span>
+                                </div>
+                                <p class="text-gray-600">123 Nguyễn Văn Linh, Hòa Cường Bắc, Hải Châu, Đà Nẵng</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Add New Address Button -->
+                    <button id="add-address-btn" class="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-[#ff424f] hover:text-[#ff424f] transition">
+                        <i class="fas fa-plus mr-2"></i> Thêm địa chỉ mới
+                    </button>
+                </div>
+                
+                <!-- Shipping Method -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                        <i class="fas fa-truck mr-3 text-[#ff424f]"></i>
+                        Phương thức vận chuyển
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div class="shipping-method flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-[#ff424f] transition">
+                            <div class="mr-4">
+                                <input type="radio" name="shipping" id="standard" checked class="w-5 h-5 text-[#ff424f]">
+                            </div>
+                            <div class="flex-1">
+                                <label for="standard" class="block font-medium cursor-pointer">Giao hàng tiêu chuẩn</label>
+                                <p class="text-sm text-gray-600 mt-1">Giao hàng trong 3-5 ngày làm việc</p>
+                            </div>
+                            <div class="font-bold">Miễn phí</div>
+                        </div>
+                        
+                        <div class="shipping-method flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-[#ff424f] transition">
+                            <div class="mr-4">
+                                <input type="radio" name="shipping" id="express" class="w-5 h-5 text-[#ff424f]">
+                            </div>
+                            <div class="flex-1">
+                                <label for="express" class="block font-medium cursor-pointer">Giao hàng nhanh</label>
+                                <p class="text-sm text-gray-600 mt-1">Giao hàng trong 1-2 ngày làm việc</p>
+                            </div>
+                            <div class="font-bold">20.000đ</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Payment Method -->
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                        <i class="fas fa-credit-card mr-3 text-[#ff424f]"></i>
+                        Phương thức thanh toán
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <!-- Cash on Delivery -->
+                        <div class="payment-method" data-method="cod">
+                            <div class="mr-4">
+                                <input type="radio" name="payment" id="cod" checked class="w-5 h-5 text-[#ff424f]">
+                            </div>
+                            <div class="flex-1">
+                                <label for="cod" class="block font-medium cursor-pointer">Thanh toán khi nhận hàng (COD)</label>
+                                <p class="text-sm text-gray-600 mt-1">Thanh toán bằng tiền mặt khi nhận hàng</p>
+                            </div>
+                            <div class="ml-4">
+                                <i class="fas fa-money-bill-wave text-2xl text-green-500"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- Bank Transfer -->
+                        <div class="payment-method" data-method="bank">
+                            <div class="mr-4">
+                                <input type="radio" name="payment" id="bank" class="w-5 h-5 text-[#ff424f]">
+                            </div>
+                            <div class="flex-1">
+                                <label for="bank" class="block font-medium cursor-pointer">Chuyển khoản ngân hàng</label>
+                                <p class="text-sm text-gray-600 mt-1">Chuyển khoản qua ngân hàng</p>
+                            </div>
+                            <div class="ml-4">
+                                <i class="fas fa-university text-2xl text-blue-500"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- E-wallet -->
+                        <div class="payment-method" data-method="ewallet">
+                            <div class="mr-4">
+                                <input type="radio" name="payment" id="ewallet" class="w-5 h-5 text-[#ff424f]">
+                            </div>
+                            <div class="flex-1">
+                                <label for="ewallet" class="block font-medium cursor-pointer">Ví điện tử</label>
+                                <p class="text-sm text-gray-600 mt-1">Thanh toán qua Momo, ZaloPay, VNPay</p>
+                            </div>
+                            <div class="ml-4">
+                                <i class="fas fa-wallet text-2xl text-purple-500"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- Credit Card -->
+                        <div class="payment-method" data-method="credit">
+                            <div class="mr-4">
+                                <input type="radio" name="payment" id="credit" class="w-5 h-5 text-[#ff424f]">
+                            </div>
+                            <div class="flex-1">
+                                <label for="credit" class="block font-medium cursor-pointer">Thẻ tín dụng/Ghi nợ</label>
+                                <p class="text-sm text-gray-600 mt-1">Visa, Mastercard, JCB</p>
+                            </div>
+                            <div class="ml-4">
+                                <i class="fab fa-cc-visa text-2xl text-blue-700 mr-2"></i>
+                                <i class="fab fa-cc-mastercard text-2xl text-red-700"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Credit Card Form (Hidden by default) -->
+                    <div id="credit-card-form" class="mt-6 p-4 bg-gray-50 rounded-lg hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">Số thẻ <span class="text-red-500">*</span></label>
+                                <input type="text" class="form-input" placeholder="XXXX XXXX XXXX XXXX">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Tên chủ thẻ <span class="text-red-500">*</span></label>
+                                <input type="text" class="form-input" placeholder="NGUYEN VAN A">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Ngày hết hạn <span class="text-red-500">*</span></label>
+                                <input type="text" class="form-input" placeholder="MM/YY">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">CVV <span class="text-red-500">*</span></label>
+                                <input type="text" class="form-input" placeholder="123">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Order Summary -->
+            <div class="order-summary w-full lg:w-1/3 mt-8 lg:mt-0">
+                <div class="bg-white rounded-xl shadow-md p-6 sticky top-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6">Đơn hàng của bạn</h2>
+                    
+                    <!-- Order Items grouped by seller -->
+                    <div class="order-items max-h-96 overflow-y-auto pr-2 mb-6">
+                        <!-- Seller Group 1: Apple Store -->
+                        <div class="seller-group">
+                            <div class="seller-header">
+                                <div class="seller-icon">
+                                    <i class="fas fa-store text-gray-500"></i>
+                                </div>
+                                <div class="seller-name">Apple Store</div>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <!-- Order Item 1 -->
+                                <div class="order-item flex py-4 border-b border-gray-100">
+                                    <div class="order-image w-1/4 flex justify-center">
+                                        <img src="https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-4-750x500.jpg" 
+                                             alt="iPhone 13 Pro Max" 
+                                             class="w-16 h-16 object-contain">
+                                    </div>
+                                    
+                                    <div class="order-details w-3/4 pl-4">
+                                        <h3 class="font-medium text-gray-800 mb-1">iPhone 13 Pro Max 128GB</h3>
+                                        <div class="text-sm text-gray-500 mb-1">Xanh lá</div>
+                                        <div class="flex justify-between">
+                                            <div class="text-gray-600">22.990.000đ x 1</div>
+                                            <div class="font-medium">22.990.000đ</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Order Item 2 -->
+                                <div class="order-item flex py-4">
+                                    <div class="order-image w-1/4 flex justify-center">
+                                        <img src="https://cdn.tgdd.vn/Products/Images/7077/289703/apple-airpods-pro-2-2023-magsafe-charge-1-1-650x650.jpg" 
+                                             alt="AirPods Pro 2" 
+                                             class="w-16 h-16 object-contain">
+                                    </div>
+                                    
+                                    <div class="order-details w-3/4 pl-4">
+                                        <h3 class="font-medium text-gray-800 mb-1">AirPods Pro 2</h3>
+                                        <div class="text-sm text-gray-500 mb-1">Trắng</div>
+                                        <div class="flex justify-between">
+                                            <div class="text-gray-600">5.990.000đ x 2</div>
+                                            <div class="font-medium">11.980.000đ</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Seller Group 2: Sony Store -->
+                        <div class="seller-group">
+                            <div class="seller-header">
+                                <div class="seller-icon">
+                                    <i class="fas fa-store text-gray-500"></i>
+                                </div>
+                                <div class="seller-name">Sony Store</div>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <!-- Order Item 3 -->
+                                <div class="order-item flex py-4 border-b border-gray-100">
+                                    <div class="order-image w-1/4 flex justify-center">
+                                        <img src="https://cdn.tgdd.vn/Products/Images/44/309413/asus-tuf-gaming-f15-fx506hf-hn017w-i5-11400h-8gb-512gb-600x600.jpg" 
+                                             alt="Laptop Asus Gaming" 
+                                             class="w-16 h-16 object-contain">
+                                    </div>
+                                    
+                                    <div class="order-details w-3/4 pl-4">
+                                        <h3 class="font-medium text-gray-800 mb-1">Laptop Asus Gaming TUF F15</h3>
+                                        <div class="text-sm text-gray-500 mb-1">Core i5, RAM 8GB</div>
+                                        <div class="flex justify-between">
+                                            <div class="text-gray-600">19.990.000đ x 1</div>
+                                            <div class="font-medium">19.990.000đ</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Order Item 4 -->
+                                <div class="order-item flex py-4">
+                                    <div class="order-image w-1/4 flex justify-center">
+                                        <img src="https://cdn.tgdd.vn/Products/Images/1905/282197/sony-zv-1f-1-1-600x600.jpg" 
+                                             alt="Máy ảnh Sony" 
+                                             class="w-16 h-16 object-contain">
+                                    </div>
+                                    
+                                    <div class="order-details w-3/4 pl-4">
+                                        <h3 class="font-medium text-gray-800 mb-1">Máy ảnh Sony ZV-1F</h3>
+                                        <div class="text-sm text-gray-500 mb-1">Đen</div>
+                                        <div class="flex justify-between">
+                                            <div class="text-gray-600">14.990.000đ x 1</div>
+                                            <div class="font-medium">14.990.000đ</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Coupon Code -->
+                    <div class="mb-6">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-tag text-[#ff424f] mr-2"></i>
+                            <h3 class="font-bold text-gray-700">Mã giảm giá</h3>
+                        </div>
+                        
+                        <!-- Applied Coupons -->
+                        <div class="applied-coupons mb-3">
+                            <div class="applied-coupon">
+                                <div class="coupon-type">Mã vận chuyển:</div>
+                                <div class="coupon-value">FREESHIP - Miễn phí vận chuyển</div>
+                                <button class="text-gray-400 hover:text-red-500">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="applied-coupon">
+                                <div class="coupon-type">Mã giảm giá:</div>
+                                <div class="coupon-value">SALE15 - Giảm 15% tối đa 500K</div>
+                                <button class="text-gray-400 hover:text-red-500">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <input type="text" placeholder="Nhập mã giảm giá" 
+                                   class="flex-1 py-2 px-4 border border-gray-300 rounded-l-lg focus:outline-none focus:border-[#ff424f]">
+                            <button class="bg-gray-800 text-white px-4 rounded-r-lg hover:bg-gray-700 transition">
+                                Áp dụng
+                            </button>
+                        </div>
+                        
+                        <button id="choose-coupon" class="mt-3 text-blue-400 py-2 font-medium">
+                            Chọn hoặc nhập mã giảm giá
+                        </button>
+                    </div>
+                    
+                    <!-- Order Summary -->
+                    <div class="space-y-4 mb-6">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Tạm tính:</span>
+                            <span class="font-medium">69.950.000đ</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Giảm giá:</span>
+                            <span class="text-green-600 font-medium">-1.500.000đ</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Phí vận chuyển:</span>
+                            <span class="font-medium" id="shipping-fee">0đ</span>
+                        </div>
+                        <div class="border-t border-gray-200 pt-4 flex justify-between">
+                            <span class="text-gray-800 font-bold">Tổng cộng:</span>
+                            <span class="text-[#ff424f] font-bold text-xl">68.450.000đ</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Terms and Conditions -->
+                    <div class="mb-6">
+                        <div class="flex items-start">
+                            <input type="checkbox" id="terms" class="mt-1 mr-2 w-5 h-5 text-[#ff424f]">
+                            <label for="terms" class="text-sm text-gray-600">
+                                Tôi đã đọc và đồng ý với 
+                                <a href="#" class="text-[#ff424f] hover:underline">điều khoản và điều kiện</a> 
+                                của E-Shop
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Place Order Button -->
+                    <button id="place-order-btn" class="checkout-btn w-full bg-[#ff424f] text-white py-3 rounded-lg font-bold text-lg animate-pulse-custom">
+                        <i class="fas fa-lock mr-2"></i>Đặt hàng
+                    </button>
+                    
+                    <!-- Security Info -->
+                    <div class="mt-4 text-center text-xs text-gray-500">
+                        <i class="fas fa-shield-alt mr-1"></i>
+                        Thanh toán an toàn & bảo mật với E-Shop
+                    </div>
+                </div>
+                
+                <!-- Customer Support -->
+                <div class="mt-6 bg-white rounded-xl shadow-md p-6">
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-headset text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-800 mb-2">Hỗ trợ khách hàng</h3>
+                            <p class="text-gray-600 text-sm mb-3">Cần hỗ trợ thêm? Chúng tôi luôn sẵn sàng giúp bạn!</p>
+                            <div class="flex items-center text-blue-600 font-medium">
+                                <i class="fas fa-phone-alt mr-2"></i>
+                                1900 1234
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Order Confirmation -->
+        <div id="order-confirmation" class="hidden">
+            <div class="confirmation-container">
+                <div class="confirmation-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Đặt hàng thành công!</h2>
+                <p class="text-gray-600 text-lg mb-6">Cảm ơn bạn đã đặt hàng tại E-Shop. Chúng tôi sẽ xử lý đơn hàng của bạn trong thời gian sớm nhất.</p>
+                
+                <div class="order-details-box">
+                    <h3 class="text-xl font-bold text-gray-800 mb-6">Thông tin đơn hàng</h3>
+                    
+                    <div class="order-info-row">
+                        <div class="order-info-label">Mã đơn hàng:</div>
+                        <div class="order-info-value">ES202506211234</div>
+                    </div>
+                    
+                    <div class="order-info-row">
+                        <div class="order-info-label">Ngày đặt hàng:</div>
+                        <div class="order-info-value">21/06/2025 - 14:30</div>
+                    </div>
+                    
+                    <div class="order-info-row">
+                        <div class="order-info-label">Phương thức thanh toán:</div>
+                        <div class="order-info-value">Thanh toán khi nhận hàng (COD)</div>
+                    </div>
+                    
+                    <div class="order-info-row">
+                        <div class="order-info-label">Tổng thanh toán:</div>
+                        <div class="order-info-value text-[#ff424f] font-bold text-xl">68.450.000đ</div>
+                    </div>
+                    
+                    <div class="order-info-row">
+                        <div class="order-info-label">Địa chỉ giao hàng:</div>
+                        <div class="order-info-value">
+                            Nguyễn Văn A<br>
+                            0912345678<br>
+                            123 Nguyễn Văn Linh, Hòa Cường Bắc, Hải Châu, Đà Nẵng
+                        </div>
+                    </div>
+                    
+                    <div class="order-info-row" style="border-bottom: none; padding-bottom: 0; margin-bottom: 0;">
+                        <div class="order-info-label">Dự kiến giao hàng:</div>
+                        <div class="order-info-value">26/06/2025 - 30/06/2025</div>
+                    </div>
+                </div>
+                
+                <div class="mt-8">
+                    <p class="text-gray-600 mb-8">
+                        Chúng tôi đã gửi email xác nhận đơn hàng đến địa chỉ email của bạn.<br>
+                        Bạn có thể theo dõi đơn hàng trong mục <a href="#" class="text-[#ff424f] font-medium hover:underline">Đơn hàng của tôi</a>.
+                    </p>
+                    
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="/" class="bg-[#ff424f] text-white px-8 py-3 rounded-lg font-bold hover:bg-[#e53e3e] transition">
+                            <i class="fas fa-shopping-cart mr-2"></i>Tiếp tục mua sắm
+                        </a>
+                        <a href="#" class="bg-white border-2 border-[#ff424f] text-[#ff424f] px-8 py-3 rounded-lg font-bold hover:bg-[#fff5f5] transition">
+                            <i class="fas fa-list-alt mr-2"></i>Xem đơn hàng
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
-  // Cập nhật text trên thẻ
-  document.getElementById("cardVisualNumber").textContent = formatted || "•••• •••• •••• ••••";
-  document.getElementById("cardVisualName").textContent = name;
-  document.getElementById("cardVisualExpiry").textContent = expiry;
-  document.getElementById("cardVisualCVC").textContent = cvc;
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <!-- Column 1 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Về chúng tôi</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/gioi-thieu" class="text-gray-300 hover:text-white">Giới thiệu</a></li>
+                        <li><a href="/tuyen-dung" class="text-gray-300 hover:text-white">Tuyển dụng</a></li>
+                        <li><a href="/dieu-khoan" class="text-gray-300 hover:text-white">Điều khoản</a></li>
+                        <li><a href="/chinh-sach-bao-mat" class="text-gray-300 hover:text-white">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 2 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Dành cho khách hàng</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/trung-tam-tro-giup" class="text-gray-300 hover:text-white">Trung tâm trợ giúp</a></li>
+                        <li><a href="/huong-dan-mua-hang" class="text-gray-300 hover:text-white">Hướng dẫn mua hàng</a></li>
+                        <li><a href="/thanh-toan" class="text-gray-300 hover:text-white">Thanh toán</a></li>
+                        <li><a href="/van-chuyen" class="text-gray-300 hover:text-white">Vận chuyển</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 3 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Liên hệ</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span class="text-gray-300">Đà Nẵng, Việt Nam</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2"></i>
+                            <span class="text-gray-300">1900 1234</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2"></i>
+                            <span class="text-gray-300">support@eshop.com</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Column 4 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Kết nối với chúng tôi</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center hover:bg-blue-700">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center hover:bg-pink-700">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="bg-blue-400 w-10 h-10 rounded-full flex items-center justify-center hover:bg-blue-500">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="bg-red-600 w-10 h-10 rounded-full flex items-center justify-center hover:bg-red-700">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Tải ứng dụng</h4>
+                        <div class="flex space-x-2">
+                            <a href="#" class="bg-black p-2 rounded hover:bg-gray-900">
+                                <i class="fab fa-apple text-xl"></i>
+                            </a>
+                            <a href="#" class="bg-black p-2 rounded hover:bg-gray-900">
+                                <i class="fab fa-google-play text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-6 text-center text-gray-400">
+                <p>© 2025 E-Shop. Tất cả các quyền được bảo lưu.</p>
+                <p class="mt-2 text-sm">Số ĐKKD: 0123456789 | Ngày cấp: 01/01/2025 | Nơi cấp: Sở Kế hoạch và Đầu tư Đà Nẵng</p>
+            </div>
+        </div>
+    </footer>
 
-  // Các thành phần thẻ
-  const front = document.querySelector(".credit-card-front");
-  const back = document.querySelector(".credit-card-back");
-  const logoEl = document.getElementById("cardLogo");
-  const backLogo = document.getElementById("cardBackLogo");
+    <!-- Coupon Modal -->
+    <div class="modal" id="coupon-modal">
+        <div class="modal-content">
+            <div class="p-4 border-b">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-bold">Chọn mã giảm giá</h2>
+                    <button id="close-coupon-modal" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="coupon-tabs flex border-b">
+                <div class="coupon-tab active w-1/2 text-center py-3 cursor-pointer border-b-2 border-[#ff424f] text-[#ff424f] font-medium" data-tab="shipping">
+                    Mã vận chuyển
+                </div>
+                <div class="coupon-tab w-1/2 text-center py-3 cursor-pointer text-gray-500" data-tab="discount">
+                    Mã giảm giá
+                </div>
+            </div>
+            
+            <div class="p-4">
+                <div class="mb-4">
+                    <div class="relative">
+                        <input type="text" placeholder="Nhập mã giảm giá" 
+                               class="w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-[#ff424f]">
+                        <button class="absolute right-2 top-2 bg-[#ff424f] text-white px-4 py-1 rounded hover:bg-[#e53e3e]">
+                            Áp dụng
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Shipping Coupons -->
+                <div id="shipping-coupons" class="coupon-tab-content">
+                    <h3 class="font-bold text-lg mb-3">Mã vận chuyển</h3>
+                    
+                    <div class="coupon-list space-y-3">
+                        <!-- Coupon 1 -->
+                        <div class="coupon-item flex items-center p-4 border border-gray-200 rounded-lg">
+                            <div class="coupon-icon w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-truck text-red-500"></i>
+                            </div>
+                            <div class="coupon-details flex-1">
+                                <h4 class="font-bold mb-1">Miễn phí vận chuyển</h4>
+                                <div class="text-sm text-gray-600 mb-1">Giảm 100% phí vận chuyển</div>
+                                <div class="text-xs text-gray-500">
+                                    <span class="mr-3"><i class="fas fa-shopping-cart mr-1"></i> Đơn tối thiểu: 0đ</span>
+                                    <span><i class="fas fa-clock mr-1"></i> HSD: 30/06/2025</span>
+                                </div>
+                            </div>
+                            <div class="coupon-apply">
+                                <button class="bg-[#ff424f] text-white px-4 py-2 rounded text-sm hover:bg-[#e53e3e]">
+                                    Áp dụng
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Coupon 2 -->
+                        <div class="coupon-item flex items-center p-4 border border-gray-200 rounded-lg">
+                            <div class="coupon-icon w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-shipping-fast text-red-500"></i>
+                            </div>
+                            <div class="coupon-details flex-1">
+                                <h4 class="font-bold mb-1">Giảm 50% phí vận chuyển</h4>
+                                <div class="text-sm text-gray-600 mb-1">Giảm 50% phí vận chuyển toàn quốc</div>
+                                <div class="text-xs text-gray-500">
+                                    <span class="mr-3"><i class="fas fa-shopping-cart mr-1"></i> Đơn tối thiểu: 500.000đ</span>
+                                    <span><i class="fas fa-clock mr-1"></i> HSD: 15/07/2025</span>
+                                </div>
+                            </div>
+                            <div class="coupon-apply">
+                                <button class="bg-[#ff424f] text-white px-4 py-2 rounded text-sm hover:bg-[#e53e3e]">
+                                    Áp dụng
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Discount Coupons -->
+                <div id="discount-coupons" class="coupon-tab-content hidden">
+                    <h3 class="font-bold text-lg mb-3">Mã giảm giá</h3>
+                    
+                    <div class="coupon-list space-y-3">
+                        <!-- Coupon 1 -->
+                        <div class="coupon-item flex items-center p-4 border border-gray-200 rounded-lg">
+                            <div class="coupon-icon w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-percent text-green-500"></i>
+                            </div>
+                            <div class="coupon-details flex-1">
+                                <h4 class="font-bold mb-1">Giảm 15% tối đa 500K</h4>
+                                <div class="text-sm text-gray-600 mb-1">Giảm 15% cho đơn hàng từ 2 triệu</div>
+                                <div class="text-xs text-gray-500">
+                                    <span class="mr-3"><i class="fas fa-shopping-cart mr-1"></i> Đơn tối thiểu: 2.000.000đ</span>
+                                    <span><i class="fas fa-clock mr-1"></i> HSD: 25/06/2025</span>
+                                </div>
+                            </div>
+                            <div class="coupon-apply">
+                                <button class="bg-[#ff424f] text-white px-4 py-2 rounded text-sm hover:bg-[#e53e3e]">
+                                    Áp dụng
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Coupon 2 -->
+                        <div class="coupon-item flex items-center p-4 border border-gray-200 rounded-lg">
+                            <div class="coupon-icon w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-gift text-green-500"></i>
+                            </div>
+                            <div class="coupon-details flex-1">
+                                <h4 class="font-bold mb-1">Giảm 10% cho điện thoại</h4>
+                                <div class="text-sm text-gray-600 mb-1">Giảm 10% cho tất cả điện thoại</div>
+                                <div class="text-xs text-gray-500">
+                                    <span class="mr-3"><i class="fas fa-shopping-cart mr-1"></i> Không giới hạn</span>
+                                    <span><i class="fas fa-clock mr-1"></i> HSD: 10/07/2025</span>
+                                </div>
+                            </div>
+                            <div class="coupon-apply">
+                                <button class="bg-[#ff424f] text-white px-4 py-2 rounded text-sm hover:bg-[#e53e3e]">
+                                    Áp dụng
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  // Reset mặc định
-  front.style.background = "#999";
-  back.style.background = "#999";
-  logoEl.style.backgroundImage = "";
-  backLogo.style.backgroundImage = "";
+    <!-- Address Modal -->
+    <div class="modal" id="address-modal">
+        <div class="modal-content">
+            <div class="p-4 border-b">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-bold">Chọn địa chỉ giao hàng</h2>
+                    <button id="close-address-modal" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="p-4">
+                <!-- Address List -->
+                <div class="space-y-4">
+                    <!-- Address 1 -->
+                    <div class="address-card">
+                        <button class="edit-btn update-address-btn" data-id="1">
+                            <i class="fas fa-edit mr-1"></i> Cập nhật
+                        </button>
+                        
+                        <div class="flex items-start mb-3">
+                            <div class="mr-3">
+                                <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                                    <i class="fas fa-home text-gray-500"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">Địa chỉ nhà</h3>
+                                <div class="flex items-center mb-1">
+                                    <span class="font-medium mr-3">Nguyễn Văn A</span>
+                                    <span class="text-gray-600">0912345678</span>
+                                </div>
+                                <p class="text-gray-600">123 Nguyễn Văn Linh, Hòa Cường Bắc, Hải Châu, Đà Nẵng</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Address 2 -->
+                    <div class="address-card">
+                        <button class="edit-btn update-address-btn" data-id="2">
+                            <i class="fas fa-edit mr-1"></i> Cập nhật
+                        </button>
+                        
+                        <div class="flex items-start mb-3">
+                            <div class="mr-3">
+                                <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                                    <i class="fas fa-building text-gray-500"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">Địa chỉ công ty</h3>
+                                <div class="flex items-center mb-1">
+                                    <span class="font-medium mr-3">Nguyễn Văn A</span>
+                                    <span class="text-gray-600">0987654321</span>
+                                </div>
+                                <p class="text-gray-600">456 Lê Duẩn, Thanh Khê, Đà Nẵng</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="add-new-address-btn" class="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-[#ff424f] hover:text-[#ff424f] transition mt-4">
+                    <i class="fas fa-plus mr-2"></i> Thêm địa chỉ mới
+                </button>
+            </div>
+        </div>
+    </div>
 
-  // Cập nhật theo loại thẻ
-  if (rawNumber.startsWith("4")) {
-    const visaColor = "linear-gradient(25deg, rgb(15, 80, 158), rgb(19, 153, 205))";
-    front.style.background = visaColor;
-    back.style.background = visaColor;
-    const logo = "url('image/bank/visa-logo.svg')";
-    logoEl.style.backgroundImage = logo;
-    backLogo.style.backgroundImage = logo;
-  } else if (/^5[1-5]/.test(rawNumber)) {
-    const mcColor = "linear-gradient(25deg, rgb(243, 123, 38), rgb(253, 183, 49))";
-    front.style.background = mcColor;
-    back.style.background = mcColor;
-    const logo = "url('image/bank/mastercard-logo.svg')";
-    logoEl.style.backgroundImage = logo;
-    backLogo.style.backgroundImage = logo;
-  } else if (rawNumber.startsWith("3")) {
-  const jcbColor = "linear-gradient(25deg, rgb(147, 147, 147), rgb(113, 113, 113))";
-  front.style.background = jcbColor;
-  back.style.background = jcbColor;
-  const logo = "url('image/bank/jcb-logo.svg')";
-  logoEl.style.backgroundImage = logo;
-  backLogo.style.backgroundImage = logo;
-}
+    <!-- Edit Address Modal -->
+    <div class="modal" id="edit-address-modal">
+        <div class="modal-content">
+            <div class="p-4 border-b">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-bold" id="edit-address-title">Cập nhật địa chỉ</h2>
+                    <button id="close-edit-address-modal" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="p-6">
+                <form id="address-form">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-group">
+                            <label class="form-label">Họ và tên <span class="text-red-500">*</span></label>
+                            <input type="text" class="form-input" placeholder="Nhập họ và tên" value="Nguyễn Văn A" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Số điện thoại <span class="text-red-500">*</span></label>
+                            <input type="tel" class="form-input" placeholder="Nhập số điện thoại" value="0912345678" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Tỉnh/Thành phố <span class="text-red-500">*</span></label>
+                            <select class="form-input form-select" required>
+                                <option>Chọn tỉnh/thành phố</option>
+                                <option selected>Đà Nẵng</option>
+                                <option>Hà Nội</option>
+                                <option>TP. Hồ Chí Minh</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Quận/Huyện <span class="text-red-500">*</span></label>
+                            <select class="form-input form-select" required>
+                                <option>Chọn quận/huyện</option>
+                                <option selected>Hải Châu</option>
+                                <option>Thanh Khê</option>
+                                <option>Sơn Trà</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Phường/Xã <span class="text-red-500">*</span></label>
+                            <select class="form-input form-select" required>
+                                <option>Chọn phường/xã</option>
+                                <option selected>Hòa Cường Bắc</option>
+                                <option>Hòa Cường Nam</option>
+                                <option>Hòa Thuận Tây</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group md:col-span-2">
+                            <label class="form-label">Địa chỉ chi tiết <span class="text-red-500">*</span></label>
+                            <input type="text" class="form-input" placeholder="Số nhà, tên đường..." value="123 Nguyễn Văn Linh" required>
+                        </div>
+                        
+                        <div class="form-group md:col-span-2">
+                            <label class="form-label">Loại địa chỉ</label>
+                            <div class="flex space-x-4 mt-2">
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="address-type" value="home" checked class="text-[#ff424f]">
+                                    <span class="ml-2">Nhà riêng</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="address-type" value="office" class="text-[#ff424f]">
+                                    <span class="ml-2">Văn phòng</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="address-type" value="other" class="text-[#ff424f]">
+                                    <span class="ml-2">Khác</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 flex justify-end space-x-3">
+                        <button type="button" id="cancel-edit-btn" class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100">
+                            Hủy
+                        </button>
+                        <button type="submit" class="px-6 py-2 bg-[#ff424f] text-white rounded-lg hover:bg-[#e53e3e]">
+                            Lưu địa chỉ
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-}
-
-
-
-    function flipCard(flip) {
-      const card = document.getElementById("cardVisual");
-      if (flip) card.classList.add("flipped");
-      else card.classList.remove("flipped");
-    }
-    function formatCardNumber(input) {
-  input.value = input.value
-    .replace(/\D/g, '')
-    .replace(/(.{4})/g, '$1 ')
-    .trim()
-    .slice(0, 19);
-
-  if (input.value.length === 19) {
-    document.getElementById("cardName").focus();
-  }
-}
-
-document.getElementById("cardName").addEventListener("keydown", function (e) {
-  if (e.key === "Enter" || e.key === "Tab") {
-    e.preventDefault();
-    document.getElementById("cardExpiry").focus();
-  }
-});
-
-
-    // Định dạng MM/YY và giới hạn tháng + năm
-    function formatExpiry(input) {
-  let val = input.value.replace(/\D/g, '').slice(0, 4);
-  let mm = val.slice(0, 2);
-  let yy = val.slice(2, 4);
-  const currentYear = new Date().getFullYear();
-  const currentYY = currentYear % 100;
-  const maxYY = currentYY + 5;
-
-  if (+mm > 12) mm = '12';
-
-  if (yy.length === 2) {
-    const fullYY = +yy;
-    if (fullYY < currentYY) {
-      yy = currentYY.toString().padStart(2, '0');
-    } else if (fullYY > maxYY) {
-      yy = maxYY.toString().padStart(2, '0');
-    }
-  }
-
-  input.value = yy ? mm.padStart(2, '0') + '/' + yy : mm;
-
-  if (input.value.length === 5) {
-    document.getElementById("cardCVC").focus();
-  }
-}
-
-
-
-
-    // Giới hạn CVC chỉ 3 số
-    function limitCVC(input) {
-      input.value = input.value.replace(/\D/g, '').slice(0, 3);
-    }
-
-    function flipCard(flip) {
-      const container = document.getElementById("cardContainer");
-      if (flip) {
-        container.classList.add("flipped");
-      } else {
-        container.classList.remove("flipped");
-      }
-    }
-
-    function validateCardFields() {
-  const number = document.getElementById("cardNumber");
-  const expiry = document.getElementById("cardExpiry");
-  const cvc = document.getElementById("cardCVC");
-
-  // Xóa lỗi cũ
-  [number, expiry, cvc].forEach(input => input.classList.remove("input-error"));
-  document.querySelectorAll(".error-message").forEach(el => el.remove());
-
-  // Validate số thẻ đủ 19 ký tự
-  if (number.value.length < 19) {
-    number.classList.add("input-error");
-    number.insertAdjacentHTML("afterend", '<div class="error-message">Số thẻ không hợp lệ</div>');
-  }
-
-  // Validate hạn sử dụng
-  if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry.value)) {
-    expiry.classList.add("input-error");
-    expiry.insertAdjacentHTML("afterend", '<div class="error-message">Định dạng MM/YY sai</div>');
-  }
-
-  // Validate CVC đúng 3 chữ số
-  if (!/^\d{3}$/.test(cvc.value)) {
-    cvc.classList.add("input-error");
-    cvc.insertAdjacentHTML("afterend", '<div class="error-message">CVC phải có 3 số</div>');
-  }
-}
-
-function attachLiveValidation() {
-  document.getElementById("cardNumber").addEventListener("input", function () {
-    if (this.value.length >= 19) {
-      this.classList.remove("input-error");
-      removeErrorMessage(this);
-    }
-  });
-
-  document.getElementById("cardExpiry").addEventListener("input", function () {
-    if (/^(0[1-9]|1[0-2])\/\d{2}$/.test(this.value)) {
-      this.classList.remove("input-error");
-      removeErrorMessage(this);
-    }
-  });
-
-  document.getElementById("cardCVC").addEventListener("input", function () {
-    if (/^\d{3}$/.test(this.value)) {
-      this.classList.remove("input-error");
-      removeErrorMessage(this);
-    }
-  });
-}
-
-function removeErrorMessage(inputEl) {
-  const next = inputEl.nextElementSibling;
-  if (next && next.classList.contains("error-message")) {
-    next.remove();
-  }
-}
-
-// Gọi sau khi load trang hoặc khi popup được mở
-attachLiveValidation();
-
-
-  </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Update item count
+        const itemCount = document.getElementById('item-count');
+        const cartItems = document.querySelectorAll('.order-item');
+        itemCount.textContent = cartItems.length;
+        
+        // Payment method selection
+        const paymentMethods = document.querySelectorAll('.payment-method');
+        const creditCardForm = document.getElementById('credit-card-form');
+        
+        paymentMethods.forEach(method => {
+            method.addEventListener('click', function() {
+                // Remove selected class from all methods
+                paymentMethods.forEach(m => m.classList.remove('selected'));
+                
+                // Add selected class to clicked method
+                this.classList.add('selected');
+                
+                // Show credit card form if credit card selected
+                if (this.dataset.method === 'credit') {
+                    creditCardForm.classList.remove('hidden');
+                } else {
+                    creditCardForm.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Shipping method selection
+        const shippingMethods = document.querySelectorAll('.shipping-method');
+        const shippingFee = document.getElementById('shipping-fee');
+        
+        shippingMethods.forEach(method => {
+            method.addEventListener('click', function() {
+                // Remove selected class from all methods
+                shippingMethods.forEach(m => m.classList.remove('selected'));
+                
+                // Add selected class to clicked method
+                this.classList.add('selected');
+                
+                // Update shipping fee
+                if (this.querySelector('input').id === 'express') {
+                    shippingFee.textContent = '20.000đ';
+                } else {
+                    shippingFee.textContent = '0đ';
+                }
+            });
+        });
+        
+        // Place order button
+        document.getElementById('place-order-btn').addEventListener('click', function() {
+            const termsChecked = document.getElementById('terms').checked;
+            
+            if (!termsChecked) {
+                alert('Vui lòng đồng ý với điều khoản và điều kiện trước khi đặt hàng');
+                return;
+            }
+            
+            // Hide checkout form and show order confirmation
+            document.querySelector('.checkout-container').style.display = 'none';
+            document.getElementById('order-confirmation').style.display = 'block';
+            
+            // Update progress steps
+            const steps = document.querySelectorAll('.step');
+            steps[1].classList.remove('active');
+            steps[1].classList.add('completed');
+            steps[2].classList.remove('inactive');
+            steps[2].classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Coupon Modal
+        const couponModal = document.getElementById('coupon-modal');
+        const chooseCouponBtn = document.getElementById('choose-coupon');
+        const closeCouponModal = document.getElementById('close-coupon-modal');
+        const couponTabs = document.querySelectorAll('.coupon-tab');
+        
+        // Open coupon modal
+        chooseCouponBtn.addEventListener('click', () => {
+            couponModal.style.display = 'flex';
+        });
+        
+        // Close coupon modal
+        closeCouponModal.addEventListener('click', () => {
+            couponModal.style.display = 'none';
+        });
+        
+        // Close modal when clicking outside
+        couponModal.addEventListener('click', (e) => {
+            if (e.target === couponModal) {
+                couponModal.style.display = 'none';
+            }
+        });
+        
+        // Coupon tabs functionality
+        couponTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                couponTabs.forEach(t => {
+                    t.classList.remove('active', 'border-b-2', 'border-[#ff424f]', 'text-[#ff424f]');
+                    t.classList.add('text-gray-500');
+                });
+                
+                // Add active class to clicked tab
+                tab.classList.add('active', 'border-b-2', 'border-[#ff424f]', 'text-[#ff424f]');
+                tab.classList.remove('text-gray-500');
+                
+                // Hide all tab content
+                document.querySelectorAll('.coupon-tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+                
+                // Show selected tab content
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}-coupons`).classList.remove('hidden');
+            });
+        });
+        
+        // Apply coupon from modal
+        document.querySelectorAll('.coupon-apply button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const couponTitle = this.closest('.coupon-item').querySelector('h4').textContent;
+                alert(`Mã giảm giá "${couponTitle}" đã được áp dụng!`);
+                couponModal.style.display = 'none';
+            });
+        });
+        
+        // Address Modals
+        const addressModal = document.getElementById('address-modal');
+        const editAddressModal = document.getElementById('edit-address-modal');
+        const changeAddressBtn = document.getElementById('change-address-btn');
+        const closeAddressModal = document.getElementById('close-address-modal');
+        const closeEditAddressModal = document.getElementById('close-edit-address-modal');
+        const addAddressBtn = document.getElementById('add-address-btn');
+        const addNewAddressBtn = document.getElementById('add-new-address-btn');
+        const cancelEditBtn = document.getElementById('cancel-edit-btn');
+        const updateAddressBtns = document.querySelectorAll('.update-address-btn');
+        const editAddressTitle = document.getElementById('edit-address-title');
+        
+        // Open address modal
+        changeAddressBtn.addEventListener('click', () => {
+            addressModal.style.display = 'flex';
+        });
+        
+        // Close address modal
+        closeAddressModal.addEventListener('click', () => {
+            addressModal.style.display = 'none';
+        });
+        
+        // Close modal when clicking outside
+        addressModal.addEventListener('click', (e) => {
+            if (e.target === addressModal) {
+                addressModal.style.display = 'none';
+            }
+        });
+        
+        // Open add new address modal
+        addAddressBtn.addEventListener('click', () => {
+            editAddressTitle.textContent = 'Thêm địa chỉ mới';
+            editAddressModal.style.display = 'flex';
+        });
+        
+        // Open add new address modal from address list
+        addNewAddressBtn.addEventListener('click', () => {
+            addressModal.style.display = 'none';
+            editAddressTitle.textContent = 'Thêm địa chỉ mới';
+            editAddressModal.style.display = 'flex';
+        });
+        
+        // Open update address modal
+        updateAddressBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const addressId = this.getAttribute('data-id');
+                editAddressTitle.textContent = 'Cập nhật địa chỉ';
+                editAddressModal.style.display = 'flex';
+                addressModal.style.display = 'none';
+            });
+        });
+        
+        // Close edit address modal
+        closeEditAddressModal.addEventListener('click', () => {
+            editAddressModal.style.display = 'none';
+        });
+        
+        // Close edit address modal when clicking outside
+        editAddressModal.addEventListener('click', (e) => {
+            if (e.target === editAddressModal) {
+                editAddressModal.style.display = 'none';
+            }
+        });
+        
+        // Cancel edit button
+        cancelEditBtn.addEventListener('click', () => {
+            editAddressModal.style.display = 'none';
+        });
+        
+        // Save address form
+        document.getElementById('address-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Địa chỉ đã được lưu thành công!');
+            editAddressModal.style.display = 'none';
+        });
+    });
+    </script>
 </body>
-
 </html>
