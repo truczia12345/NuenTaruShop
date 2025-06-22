@@ -1,799 +1,1664 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Details - Shopee Clone</title>
+    <title>Điện thoại iPhone 13 Pro Max 128GB | E-Shop - Trang Mua Sắm Trực Tuyến</title>
+    <meta name="description" content="Mua iPhone 13 Pro Max 128GB chính hãng Apple tại E-Shop. Giá tốt nhất, bảo hành 12 tháng, miễn phí giao hàng toàn quốc. Đổi trả trong 7 ngày.">
+    <meta name="keywords" content="iPhone 13 Pro Max, điện thoại Apple, smartphone cao cấp, iPhone chính hãng">
+    <meta name="author" content="E-Shop">
+    <meta name="robots" content="index, follow">
     
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Điện thoại iPhone 13 Pro Max 128GB | E-Shop">
+    <meta property="og:description" content="Mua iPhone 13 Pro Max 128GB chính hãng Apple tại E-Shop. Giá tốt nhất, bảo hành 12 tháng.">
+    <meta property="og:image" content="https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-4-750x500.jpg">
+    <meta property="og:url" content="https://www.your-eshop.com/san-pham/iphone-13-pro-max">
+    <meta property="og:type" content="product.item">
     
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="../assets/img/favicon_io/favicon.ico">
+    <link rel="canonical" href="https://www.your-eshop.com/san-pham/iphone-13-pro-max">
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="../manifest.json">
     
-    <!-- Custom CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Schema.org markup for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": "iPhone 13 Pro Max 128GB",
+      "image": "https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-4-750x500.jpg",
+      "description": "iPhone 13 Pro Max 128GB - Smartphone cao cấp nhất của Apple với màn hình Super Retina XDR 6.7 inch, chip A15 Bionic mạnh mẽ, camera chuyên nghiệp.",
+      "brand": {
+        "@type": "Brand",
+        "name": "Apple"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://www.your-eshop.com/san-pham/iphone-13-pro-max",
+        "priceCurrency": "VND",
+        "price": "12990000",
+        "priceValidUntil": "2025-12-31",
+        "itemCondition": "https://schema.org/NewCondition",
+        "availability": "https://schema.org/InStock",
+        "seller": {
+          "@type": "Organization",
+          "name": "E-Shop"
+        }
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "128"
+      }
+    }
+    </script>
+    
     <style>
-        :root {
-        --primary-color: #6cb4ee;
-        --secondary-color: #3a8fd3;
-      }
-      body {
-        font-family: "Segoe UI", sans-serif;
-        background-color: #f8f9fa;
-      }
-
-      /* Header Navbar Styling */
-      .topbar {
-        background-color: #4d7799;
-        font-size: 0.9rem;
-        padding: 6px 0;
-      }
-      .topbar .top-links a {
-        color: #fff;
-        text-decoration: none;
-        margin-left: 15px;
-      }
-      .navbar-custom {
-        background: linear-gradient(to right, #112637, var(--secondary-color));
-      }
-      .nav-link {
-        color: var(--bs-navbar-brand-color);
-      }
-      .search-bar {
-        display: flex;
-        width: 100%;
-      }
-      .search-input {
-        flex: 1;
-        border-radius: 30px 0 0 30px;
-        border: none;
-        padding-left: 20px;
-        height: 42px;
-      }
-      .search-button {
-        border-radius: 0 30px 30px 0;
-        background-color: var(--secondary-color);
-        color: white;
-        border: none;
-        width: 48px;
-        height: 42px;
-      }
-      .header-quicklink {
-        text-align: center;
-        padding: 10px;
-        background: white;
-        border-bottom: 1px solid #ddd;
-      }
-      .header-quicklink a {
-        margin: 0 10px;
-        color: #444;
-        text-decoration: none;
-      }
-        
-        .product-price {
-            color: var(--primary-color);
-            font-size: 24px;
-            font-weight: 700;
+        /* Header */
+        .pb-3 img {
+          width: 120px;
+          height: 120px;
         }
 
-        /* Rating Overview Styles */
-        .rating-overview {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 2rem;
-            margin-bottom: 2rem;
+        /* Product Gallery */
+        .product-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
-
-        .rating-average {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--primary-color);
+        .thumbnail-container {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
         }
-
-        .rating-filter-btn {
-            padding: 0.5rem 1rem;
-            margin: 0.25rem;
-            border: 1px solid #dee2e6;
-            border-radius: 4px;
-            background: white;
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            border: 1px solid #e5e7eb;
+            border-radius: 5px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
-        .rating-filter-btn:hover,
-        .rating-filter-btn.active {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
+        .thumbnail:hover, .thumbnail.active {
+            border-color: #ff424f;
         }
-
-        /* Review Images */
-        .review-images {
+        .main-image {
+            height: 400px;
             display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
         }
-
-        .review-image {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
+        .main-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        /* Product Info */
+        .product-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .product-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .product-price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ef4444;
+            margin-bottom: 15px;
+        }
+        .original-price {
+            text-decoration: line-through;
+            color: #9ca3af;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+        .discount-badge {
+            background-color: #ff424f;
+            color: white;
+            padding: 3px 8px;
             border-radius: 4px;
-            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
         }
-
-        /* Seller Information */
-        .seller-info {
-            background: white;
-            border: 1px solid #dee2e6;
+        .promotion-list {
+            background-color: #f3f4f6;
             border-radius: 8px;
-            padding: 1.5rem;
-            margin: 2rem 0;
+            padding: 15px;
+            margin-bottom: 20px;
         }
-
+        .promotion-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .promotion-item:last-child {
+            margin-bottom: 0;
+        }
+        .promotion-icon {
+            color: #ff424f;
+            margin-right: 10px;
+            margin-top: 2px;
+        }
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .color-option.active {
+            border-color: #ff424f;
+        }
+        .storage-option {
+            padding: 8px 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .storage-option.active {
+            border-color: #ff424f;
+            background-color: #fff5f5;
+            color: #ff424f;
+        }
+        
+        /* Tabs */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .tab-button {
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #6b7280;
+            position: relative;
+        }
+        .tab-button.active {
+            color: #ff424f;
+        }
+        .tab-button.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #ff424f;
+        }
+        
+        /* Related Products */
+        .related-product {
+            transition: all 0.3s ease;
+        }
+        .related-product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Seller Information */
+        .seller-card {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 24px;
+        }
         .seller-header {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
+            margin-bottom: 16px;
         }
-
         .seller-avatar {
-            width: 64px;
-            height: 64px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .seller-buttons {
+            background-color: #f3f4f6;
             display: flex;
-            gap: 1rem;
-            margin: 1rem 0;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 24px;
+            color: #ff424f;
         }
-
+        .seller-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .seller-rating {
+            display: flex;
+            align-items: center;
+        }
+        .seller-stars {
+            color: #fbbf24;
+            margin-right: 8px;
+        }
+        .seller-rating-text {
+            font-size: 14px;
+            color: #6b7280;
+        }
         .seller-stats {
             display: flex;
-            gap: 2rem;
-            color: #6c757d;
-            font-size: 0.9rem;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
         }
-
-        /* Suggested Products */
-        .suggested-products {
-            margin-top: 3rem;
+        .seller-stat {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            border-right: 1px solid #e5e7eb;
+            padding: 0 15px;
         }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 1rem;
-            margin-top: 1rem;
+        .seller-stat:last-child {
+            border-right: none;
         }
-
-        .product-card {
-            background: white;
+        .seller-stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+        .seller-stat-label {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .seller-actions {
+            display: flex;
+            gap: 12px;
+        }
+        .seller-btn {
+            flex: 1;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        .seller-chat {
+            background-color: #ff424f;
+            color: white;
+            border: none;
+        }
+        .seller-chat:hover {
+            background-color: #e53e3e;
+        }
+        .seller-shop {
+            background-color: #f3f4f6;
+            color: #374151;
+            border: 1px solid #e5e7eb;
+        }
+        .seller-shop:hover {
+            background-color: #e5e7eb;
+        }
+        
+        /* Reviews Section */
+        .reviews-container {
+            background-color: #ffffff;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease;
+            padding: 24px;
+            margin-top: 24px;
         }
-
-        .product-card:hover {
-            transform: translateY(-5px);
+        .reviews-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
         }
-
-        .product-image {
-            width: 100%;
-            height: 150px;
+        .reviews-overview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-right: 32px;
+            padding-right: 32px;
+            border-right: 1px solid #e5e7eb;
+        }
+        .reviews-score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #1f2937;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .reviews-stars {
+            color: #fbbf24;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        .reviews-count {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .reviews-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            flex: 1;
+        }
+        .review-filter {
+            padding: 6px 12px;
+            border-radius: 20px;
+            background-color: #f3f4f6;
+            color: #4b5563;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        .review-filter.active {
+            background-color: #ff424f;
+            color: white;
+        }
+        .review-filter-star {
+            margin-right: 4px;
+            color: #fbbf24;
+        }
+        .review-item {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 24px 0;
+        }
+        .review-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .review-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: #ff424f;
+            font-weight: bold;
+        }
+        .review-user {
+            flex: 1;
+        }
+        .review-name {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .review-date {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .review-stars {
+            color: #fbbf24;
+            margin-bottom: 8px;
+        }
+        .review-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .review-content {
+            color: #4b5563;
+            margin-bottom: 12px;
+        }
+        .review-images {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .review-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
             object-fit: cover;
+            cursor: pointer;
         }
-
-        .product-info {
-            padding: 0.8rem;
+        .review-footer {
+            display: flex;
+            gap: 16px;
         }
-
-        .product-name {
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-            color: #333;
-            height: 2.7em;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+        .review-action {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #6b7280;
+            cursor: pointer;
+            transition: color 0.3s ease;
         }
-
-        @media (max-width: 1200px) {
+        .review-action:hover {
+            color: #ff424f;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1023px) {
             .product-grid {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: 1fr;
+            }
+            .main-image {
+                height: 300px;
             }
         }
-
+        
         @media (max-width: 768px) {
-            .product-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .seller-stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .seller-stat {
+                border-right: none;
+                border-bottom: 1px solid #e5e7eb;
+                padding-bottom: 15px;
+                text-align: left;
+            }
+            .seller-stat:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+            .reviews-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .reviews-overview {
+                flex-direction: row;
+                align-items: center;
+                border-right: none;
+                border-bottom: 1px solid #e5e7eb;
+                padding-right: 0;
+                padding-bottom: 16px;
+                margin-bottom: 16px;
+                width: 100%;
+            }
+            .reviews-score {
+                margin-right: 16px;
+                margin-bottom: 0;
+            }
+            .reviews-stars {
+                margin-right: 16px;
+                margin-bottom: 0;
+            }
+            .seller-actions {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .thumbnail {
+                width: 60px;
+                height: 60px;
+            }
+            .product-title {
+                font-size: 20px;
+            }
+            .product-price {
+                font-size: 24px;
             }
         }
     </style>
 </head>
-<body>
-    <div class="topbar d-flex justify-content-between align-items-center px-4">
-      <div class="text-white fw-semibold">
-        <i class="fas fa-phone-alt me-1"></i> Hotline: 1900 1234
-      </div>
-      <div class="top-links">
-        <a href="#"><i class="fas fa-bell"></i> Thông báo</a>
-        <a href="#"><i class="fas fa-question-circle"></i> Hỗ trợ</a>
-      </div>
+<body class="bg-gray-50">
+    <!-- SEO: Hidden H1 for page title -->
+    <h1>Điện thoại iPhone 13 Pro Max 128GB - Thông tin chi tiết và mua hàng</h1>
+    
+    <!-- Header -->
+    <header class="bg-[#ff424f] text-white shadow-md">
+        <div class="container mx-auto px-4">
+            <!-- Top Row: User Actions -->
+            <div class="flex justify-end items-center py-2 space-x-6 text-sm">
+                <a href="/thong-bao" class="hover:text-yellow-200 flex items-center" aria-label="Thông báo">
+                    <i class="fas fa-bell mr-1" aria-hidden="true"></i>
+                    <span>Thông báo</span>
+                </a>
+                <a href="/khuyen-mai" class="hover:text-yellow-200 flex items-center" aria-label="Khuyến mãi">
+                    <i class="fas fa-tag mr-1" aria-hidden="true"></i>
+                    <span>Khuyến mãi</span>
+                </a>
+                <a href="/ho-tro" class="hover:text-yellow-200 flex items-center" aria-label="Hỗ trợ">
+                    <i class="fas fa-headset mr-1" aria-hidden="true"></i>
+                    <span>Hỗ trợ</span>
+                </a>
+            </div>
+
+            <!-- Main Header: Logo + Search -->
+            <div class="flex items-center justify-between pb-3">
+                <!-- Logo with alt text -->
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
+                        <img src="../assets/img/logo/nuentaru1.png" alt="E-Shop - Trang mua sắm trực tuyến">
+                    </a>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="flex-1 mx-8">
+                    <form action="/search" method="GET" role="search">
+                        <div class="relative">
+                            <input type="text" name="q" placeholder="Tìm kiếm sản phẩm..." 
+                                class="w-full py-2 px-4 rounded-full text-gray-800 focus:outline-none"
+                                aria-label="Tìm kiếm sản phẩm">
+                            <button type="submit" class="absolute right-0 top-0 h-full px-4 bg-yellow-400 rounded-r-full text-gray-800" aria-label="Tìm kiếm">
+                                <i class="fas fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- User Actions -->
+                <div class="flex items-center space-x-6">
+                    <a href="/tai-khoan" class="flex flex-col items-center" aria-label="Tài khoản">
+                        <i class="fas fa-user text-xl" aria-hidden="true"></i>
+                        <span class="text-xs mt-1">Tài khoản</span>
+                    </a>
+                    <a href="/gio-hang" class="flex flex-col items-center relative" aria-label="Giỏ hàng">
+                        <i class="fas fa-shopping-cart text-xl" aria-hidden="true"></i>
+                        <span class="text-xs mt-1">Giỏ hàng</span>
+                        <span class="absolute -top-2 -right-2 bg-yellow-400 text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Mobile Menu -->
+    <div class="lg:hidden bg-[#ff424f] text-white">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <button id="mobile-menu-button" class="text-white focus:outline-none" aria-label="Mở menu">
+                <i class="fas fa-bars text-xl" aria-hidden="true"></i>
+            </button>
+            
+            <a href="/" class="text-xl font-bold" aria-label="Trang chủ E-Shop">
+                <img src="../assets/img/logo/nuentaru1.png" alt="E-Shop Logo" class="h-10">
+            </a>
+            
+            <a href="/gio-hang" class="text-white relative" aria-label="Giỏ hàng">
+                <i class="fas fa-shopping-cart text-xl" aria-hidden="true"></i>
+                <span class="absolute -top-2 -right-2 bg-yellow-400 text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+            </a>
+        </div>
+        
+        <div id="mobile-menu" class="hidden bg-white text-gray-800 shadow-lg">
+            <div class="container mx-auto px-4 py-2">
+                <!-- Search Bar -->
+                <form action="/search" method="GET" role="search">
+                    <div class="relative mb-3">
+                        <input type="text" name="q" placeholder="Tìm kiếm sản phẩm..." 
+                            class="w-full py-2 px-4 rounded-full border border-gray-300 focus:outline-none"
+                            aria-label="Tìm kiếm sản phẩm">
+                        <button type="submit" class="absolute right-0 top-0 h-full px-4 bg-yellow-400 rounded-r-full text-gray-800" aria-label="Tìm kiếm">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- Menu Items -->
+                <nav class="space-y-2" aria-label="Menu chính">
+                    <a href="/dien-thoai" class="block py-2 border-b border-gray-100">Điện thoại</a>
+                    <a href="/laptop" class="block py-2 border-b border-gray-100">Laptop</a>
+                    <a href="/thoi-trang" class="block py-2 border-b border-gray-100">Thời trang</a>
+                    <a href="/nha-cua" class="block py-2 border-b border-gray-100">Nhà cửa</a>
+                    <a href="/suc-khoe" class="block py-2">Sức khỏe</a>
+                </nav>
+            </div>
+        </div>
     </div>
 
-    <header class="navbar navbar-expand-lg navbar-dark navbar-custom">
-      <div class="container">
-        <a class="navbar-brand fw-bold" href="#">NuenTaru</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <div class="search-bar mx-4">
-            <input
-              type="text"
-              class="form-control search-input"
-              placeholder="Tìm kiếm sản phẩm..."
-            />
-            <button class="search-button"><i class="fas fa-search"></i></button>
-          </div>
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="#"
-                ><i class="fas fa-shopping-cart"></i> Giỏ hàng</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#"
-                ><i class="fas fa-user"></i> Đăng nhập</a
-              >
-            </li>
-          </ul>
-        </div>
-      </div>
-    </header>
+    <!-- Breadcrumb Navigation -->
+    <div class="container mx-auto px-4 py-3 text-sm">
+        <nav aria-label="Breadcrumb">
+            <ol class="flex flex-wrap items-center text-gray-600">
+                <li class="inline-flex items-center">
+                    <a href="/" class="text-blue-500 hover:underline">Trang chủ</a>
+                    <span class="mx-2">/</span>
+                </li>
+                <li class="inline-flex items-center">
+                    <a href="/dien-thoai" class="text-blue-500 hover:underline">Điện thoại</a>
+                    <span class="mx-2">/</span>
+                </li>
+                <li class="inline-flex items-center">
+                    <a href="/dien-thoai/apple" class="text-blue-500 hover:underline">Apple</a>
+                    <span class="mx-2">/</span>
+                </li>
+                <li class="inline-flex items-center text-gray-400">
+                    iPhone 13 Pro Max 128GB
+                </li>
+            </ol>
+        </nav>
+    </div>
 
-    <nav class="header-quicklink">
-      <a href="#">Hàng mới về</a>
-      <a href="#">Giảm giá sốc</a>
-      <a href="#">Hàng cao cấp</a>
-      <a href="#">Phổ biến nhất</a>
-      <a href="#">Gợi ý hôm nay</a>
-    </nav>
-
-    <!-- Product Details Section -->
-    <div class="container my-5">
-        <div class="row">
-            <!-- Product Images -->
-            <div class="col-md-6 mb-4">
-                <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="https://images.pexels.com/photos/404280/pexels-photo-404280.jpeg" class="d-block w-100" alt="Product Image 1" style="height: 400px; object-fit: contain;">
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- Product Detail Section -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Product Gallery -->
+                <div class="product-gallery">
+                    <div class="main-image">
+                        <img src="https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-4-750x500.jpg" 
+                             alt="iPhone 13 Pro Max 128GB màu xanh lá" 
+                             id="mainImage" loading="lazy">
+                    </div>
+                    <div class="thumbnail-container">
+                        <div class="thumbnail active" onclick="changeMainImage('https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-4-750x500.jpg')">
+                            <img src="https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-4-750x500.jpg" 
+                                 alt="iPhone 13 Pro Max 128GB - góc nhìn chính" 
+                                 class="w-full h-full object-cover">
                         </div>
-                        <div class="carousel-item">
-                            <img src="https://images.pexels.com/photos/205926/pexels-photo-205926.jpeg" class="d-block w-100" alt="Product Image 2" style="height: 400px; object-fit: contain;">
+                        <div class="thumbnail" onclick="changeMainImage('https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-1-1-org.jpg')">
+                            <img src="https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-1-1-org.jpg" 
+                                 alt="iPhone 13 Pro Max 128GB - mặt trước" 
+                                 class="w-full h-full object-cover">
                         </div>
-                        <div class="carousel-item">
-                            <img src="https://images.pexels.com/photos/1037999/pexels-photo-1037999.jpeg" class="d-block w-100" alt="Product Image 3" style="height: 400px; object-fit: contain;">
+                        <div class="thumbnail" onclick="changeMainImage('https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-2-1-org.jpg')">
+                            <img src="https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-2-1-org.jpg" 
+                                 alt="iPhone 13 Pro Max 128GB - mặt sau" 
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div class="thumbnail" onclick="changeMainImage('https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-3-1-org.jpg')">
+                            <img src="https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-3-1-org.jpg" 
+                                 alt="iPhone 13 Pro Max 128GB - góc cạnh" 
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div class="thumbnail" onclick="changeMainImage('https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-5-org.jpg')">
+                            <img src="https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-5-org.jpg" 
+                                 alt="iPhone 13 Pro Max 128GB - camera sau" 
+                                 class="w-full h-full object-cover">
                         </div>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon"></span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon"></span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Product Information -->
-            <div class="col-md-6">
-                <h1 class="mb-3">Wireless Headphones</h1>
-                <div class="d-flex align-items-center mb-3">
-                    <div class="rating me-2">
-                        <i class="fas fa-star text-warning"></i>
-                        <i class="fas fa-star text-warning"></i>
-                        <i class="fas fa-star text-warning"></i>
-                        <i class="fas fa-star text-warning"></i>
-                        <i class="fas fa-star-half-alt text-warning"></i>
-                    </div>
-                    <span class="text-muted">(150 Reviews)</span>
-                </div>
-                <p class="product-price mb-3">$99.99</p>
-                <p class="text-muted mb-4">High-quality wireless headphones with noise cancellation, long battery life, and premium sound quality. Perfect for music lovers and professionals.</p>
-                
-                <!-- Color Selection -->
-                <div class="mb-4">
-                    <h5>Color</h5>
-                    <div class="btn-group" role="group">
-                        <input type="radio" class="btn-check" name="color" id="black" checked>
-                        <label class="btn btn-outline-dark me-2" for="black">Black</label>
-                        
-                        <input type="radio" class="btn-check" name="color" id="white">
-                        <label class="btn btn-outline-dark me-2" for="white">White</label>
-                        
-                        <input type="radio" class="btn-check" name="color" id="blue">
-                        <label class="btn btn-outline-dark" for="blue">Blue</label>
-                    </div>
                 </div>
                 
-                <!-- Quantity Selection -->
-                <div class="mb-4">
-                    <h5>Quantity</h5>
-                    <div class="input-group quantity-selector">
-                        <button class="btn btn-outline-secondary" type="button" id="decrease">-</button>
-                        <input type="number" class="form-control text-center" value="1" min="1" max="10">
-                        <button class="btn btn-outline-secondary" type="button" id="increase">+</button>
-                    </div>
-                </div>
-                
-                <!-- Add to Cart Button -->
-                <button class="btn btn-primary btn-lg w-100 mb-3" style="background-color: var(--primary-color); border: none;">
-                    Add to Cart
-                </button>
-                
-                <!-- Product Features -->
-                <div class="mt-4">
-                    <h5>Key Features</h5>
-                    <ul class="list-unstyled">
-                        <li><i class="fas fa-check text-success me-2"></i>Active Noise Cancellation</li>
-                        <li><i class="fas fa-check text-success me-2"></i>30-hour Battery Life</li>
-                        <li><i class="fas fa-check text-success me-2"></i>Bluetooth 5.0</li>
-                        <li><i class="fas fa-check text-success me-2"></i>Touch Controls</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- Seller Information -->
-        <div class="seller-info">
-            <div class="seller-header">
-                <img src="https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg" alt="Seller Avatar" class="seller-avatar">
+                <!-- Product Info -->
                 <div>
-                    <h5 class="mb-1">Shop Name</h5>
-                    <p class="mb-0 text-muted">Online 5 phút trước</p>
-                </div>
-            </div>
-            <div class="seller-buttons">
-                <button class="btn btn-outline-primary"><i class="fas fa-comments me-2"></i>Chat</button>
-                <button class="btn btn-outline-primary"><i class="fas fa-store me-2"></i>Xem shop</button>
-            </div>
-            <div class="seller-stats">
-                <div>
-                    <i class="fas fa-star me-1"></i>
-                    <span>4.9 (150 đánh giá)</span>
-                </div>
-                <div>
-                    <i class="fas fa-box me-1"></i>
-                    <span>120 sản phẩm</span>
-                </div>
-                <div>
-                    <i class="fas fa-users me-1"></i>
-                    <span>300 người theo dõi</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product Details Tabs -->
-        <div class="row mt-5">
-            <div class="col-12">
-                <ul class="nav nav-tabs" id="productTabs" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="description-tab" data-bs-toggle="tab" href="#description">Description</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="specifications-tab" data-bs-toggle="tab" href="#specifications">Specifications</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="reviews-tab" data-bs-toggle="tab" href="#reviews">Reviews</a>
-                    </li>
-                </ul>
-                
-                <div class="tab-content p-4 border border-top-0">
-                    <div class="tab-pane fade show active" id="description">
-                        <h4>Product Description</h4>
-                        <p>Experience premium sound quality with our wireless headphones. These headphones feature active noise cancellation technology that blocks out ambient noise, allowing you to focus on your music or calls.</p>
-                        <p>The comfortable over-ear design and soft ear cushions make them perfect for extended listening sessions. With up to 30 hours of battery life, you can enjoy your music all day long.</p>
+                    <h2 class="product-title">Điện thoại iPhone 13 Pro Max 128GB</h2>
+                    
+                    <div class="product-rating">
+                        <div class="flex items-center text-yellow-400 mr-2">
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star-half-alt" aria-hidden="true"></i>
+                        </div>
+                        <span class="text-gray-600 text-sm">4.8 (128 đánh giá)</span>
+                        <span class="mx-2 text-gray-300">|</span>
+                        <span class="text-green-600 text-sm">Đã bán 1.2k</span>
                     </div>
                     
-                    <div class="tab-pane fade" id="specifications">
-                        <h4>Technical Specifications</h4>
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <th>Bluetooth Version</th>
-                                    <td>5.0</td>
-                                </tr>
-                                <tr>
-                                    <th>Battery Life</th>
-                                    <td>Up to 30 hours</td>
-                                </tr>
-                                <tr>
-                                    <th>Charging Time</th>
-                                    <td>2 hours</td>
-                                </tr>
-                                <tr>
-                                    <th>Driver Size</th>
-                                    <td>40mm</td>
-                                </tr>
-                                <tr>
-                                    <th>Weight</th>
-                                    <td>250g</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="product-price">
+                        12.990.000đ
+                        <span class="original-price">25.990.000đ</span>
+                        <span class="discount-badge">-50%</span>
                     </div>
                     
-                    <div class="tab-pane fade" id="reviews">
-                        <!-- Rating Overview -->
-                        <div class="rating-overview">
-                            <div class="row align-items-center">
-                                <div class="col-md-3 text-center">
-                                    <div class="rating-average">4.7</div>
-                                    <div class="rating mb-2">
-                                        <i class="fas fa-star text-warning"></i>
-                                        <i class="fas fa-star text-warning"></i>
-                                        <i class="fas fa-star text-warning"></i>
-                                        <i class="fas fa-star text-warning"></i>
-                                        <i class="fas fa-star-half-alt text-warning"></i>
-                                    </div>
-                                    <div class="text-muted">150 đánh giá</div>
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="rating-filters">
-                                        <button class="rating-filter-btn active">Tất cả</button>
-                                        <button class="rating-filter-btn">5 sao (120)</button>
-                                        <button class="rating-filter-btn">4 sao (20)</button>
-                                        <button class="rating-filter-btn">3 sao (7)</button>
-                                        <button class="rating-filter-btn">2 sao (2)</button>
-                                        <button class="rating-filter-btn">1 sao (1)</button>
-                                    </div>
-                                </div>
+                    <div class="promotion-list">
+                        <h3 class="font-bold mb-3">Khuyến mãi</h3>
+                        <div class="promotion-item">
+                            <i class="fas fa-gift promotion-icon" aria-hidden="true"></i>
+                            <div>
+                                <strong>Giảm thêm 500.000đ</strong> khi thanh toán qua VNPAY (áp dụng đến 31/12/2025)
                             </div>
                         </div>
-
-                        <!-- Customer Reviews -->
-                        <div class="reviews">
-                            <!-- Review 1 -->
-                            <div class="review mb-4 pb-4 border-bottom">
-                                <div class="d-flex align-items-center mb-2">
-                                    <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg" alt="Reviewer" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
-                                    <div>
-                                        <h6 class="mb-0">John D.</h6>
-                                        <div class="rating">
-                                            <i class="fas fa-star text-warning"></i>
-                                            <i class="fas fa-star text-warning"></i>
-                                            <i class="fas fa-star text-warning"></i>
-                                            <i class="fas fa-star text-warning"></i>
-                                            <i class="fas fa-star text-warning"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p>Great sound quality and comfortable to wear for long periods. Battery life is impressive!</p>
-                                <div class="review-images">
-                                    <img src="https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg" alt="Review Image" class="review-image">
-                                    <img src="https://images.pexels.com/photos/3394651/pexels-photo-3394651.jpeg" alt="Review Image" class="review-image">
-                                </div>
+                        <div class="promotion-item">
+                            <i class="fas fa-truck promotion-icon" aria-hidden="true"></i>
+                            <div>
+                                <strong>Miễn phí vận chuyển</strong> toàn quốc cho đơn hàng từ 500.000đ
                             </div>
-
-                            <!-- Review 2 -->
-                            <div class="review mb-4 pb-4 border-bottom">
-                                <div class="d-flex align-items-center mb-2">
-                                    <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg" alt="Reviewer" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
-                                    <div>
-                                        <h6 class="mb-0">Sarah M.</h6>
-                                        <div class="rating">
-                                            <i class="fas fa-star text-warning"></i>
-                                            <i class="fas fa-star text-warning"></i>
-                                            <i class="fas fa-star text-warning"></i>
-                                            <i class="fas fa-star text-warning"></i>
-                                            <i class="far fa-star text-warning"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p>The noise cancellation works really well. Perfect for my daily commute.</p>
-                                <div class="review-images">
-                                    <img src="https://images.pexels.com/photos/3394652/pexels-photo-3394652.jpeg" alt="Review Image" class="review-image">
-                                </div>
+                        </div>
+                        <div class="promotion-item">
+                            <i class="fas fa-sync-alt promotion-icon" aria-hidden="true"></i>
+                            <div>
+                                <strong>Đổi trả trong 7 ngày</strong> nếu sản phẩm lỗi
+                            </div>
+                        </div>
+                        <div class="promotion-item">
+                            <i class="fas fa-shield-alt promotion-icon" aria-hidden="true"></i>
+                            <div>
+                                <strong>Bảo hành 12 tháng</strong> tại trung tâm bảo hành chính hãng Apple
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <!-- Suggested Products -->
-        <section class="suggested-products">
-            <h3 class="mb-4">Sản phẩm tương tự</h3>
-            <div class="product-grid">
-                <!-- Product 1 -->
-                <div class="product-card">
-                    <img src="https://images.pexels.com/photos/404280/pexels-photo-404280.jpeg" class="product-image" alt="Similar Headphones">
-                    <div class="product-info">
-                        <h5 class="product-name">Premium Headphones</h5>
-                        <p class="product-price">$129.99</p>
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
+                    
+                    <div class="mb-6">
+                        <h3 class="font-bold mb-3">Màu sắc</h3>
+                        <div class="flex flex-wrap">
+                            <div class="color-option active" data-color="xanh-la" onclick="selectColor('xanh-la')">
+                                <div class="w-8 h-8 rounded-full bg-green-600"></div>
+                            </div>
+                            <div class="color-option" data-color="xam" onclick="selectColor('xam')">
+                                <div class="w-8 h-8 rounded-full bg-gray-400"></div>
+                            </div>
+                            <div class="color-option" data-color="vang" onclick="selectColor('vang')">
+                                <div class="w-8 h-8 rounded-full bg-yellow-400"></div>
+                            </div>
+                            <div class="color-option" data-color="bac" onclick="selectColor('bac')">
+                                <div class="w-8 h-8 rounded-full bg-gray-200"></div>
+                            </div>
+                            <div class="color-option" data-color="xanh-duong" onclick="selectColor('xanh-duong')">
+                                <div class="w-8 h-8 rounded-full bg-blue-500"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="product-card">
-                <img src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg" class="product-image" alt="Smart Watch">
-                <div class="product-info">
-                    <h5 class="product-name">Smart Watch</h5>
-                    <p class="product-price">$199.99</p>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                    
+                    <div class="mb-6">
+                        <h3 class="font-bold mb-3">Dung lượng</h3>
+                        <div class="flex flex-wrap">
+                            <div class="storage-option active" data-storage="128" onclick="selectStorage('128')">
+                                128GB
+                            </div>
+                            <div class="storage-option" data-storage="256" onclick="selectStorage('256')">
+                                256GB
+                            </div>
+                            <div class="storage-option" data-storage="512" onclick="selectStorage('512')">
+                                512GB
+                            </div>
+                            <div class="storage-option" data-storage="1t" onclick="selectStorage('1t')">
+                                1TB
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg" class="product-image" alt="Camera Lens">
-                <div class="product-info">
-                    <h5 class="product-name">Camera Lens</h5>
-                    <p class="product-price">$299.99</p>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
+                    
+                    <div class="flex items-center mb-6">
+                        <div class="mr-4">
+                            <label for="quantity" class="block text-sm font-medium text-gray-700 mb-1">Số lượng</label>
+                            <div class="flex border border-gray-300 rounded-md">
+                                <button class="px-3 py-1 bg-gray-100 text-gray-600" onclick="decreaseQuantity()" aria-label="Giảm số lượng">
+                                    <i class="fas fa-minus" aria-hidden="true"></i>
+                                </button>
+                                <input type="number" id="quantity" value="1" min="1" max="10" 
+                                       class="w-12 text-center border-x border-gray-300 focus:outline-none">
+                                <button class="px-3 py-1 bg-gray-100 text-gray-600" onclick="increaseQuantity()" aria-label="Tăng số lượng">
+                                    <i class="fas fa-plus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            Còn lại: <span class="font-bold text-green-600">15</span> sản phẩm
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg" class="product-image" alt="Running Shoes">
-                <div class="product-info">
-                    <h5 class="product-name">Running Shoes</h5>
-                    <p class="product-price">$79.99</p>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                        <i class="far fa-star"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="https://images.pexels.com/photos/4295985/pexels-photo-4295985.jpeg" class="product-image" alt="Laptop">
-                <div class="product-info">
-                    <h5 class="product-name">Premium Laptop</h5>
-                    <p class="product-price">$1299.99</p>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="https://images.pexels.com/photos/3780681/pexels-photo-3780681.jpeg" class="product-image" alt="Smart Speaker">
-                <div class="product-info">
-                    <h5 class="product-name">Smart Speaker</h5>
-                    <p class="product-price">$149.99</p>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
+                    
+                    <div class="flex flex-wrap gap-3">
+                        <button class="flex-1 bg-[#ff424f] text-white py-3 px-6 rounded-md font-bold hover:bg-red-600 transition flex items-center justify-center" onclick="addToCart()">
+                            <i class="fas fa-shopping-cart mr-2" aria-hidden="true"></i>
+                            Thêm vào giỏ hàng
+                        </button>
+                        <button class="flex-1 bg-yellow-400 text-gray-800 py-3 px-6 rounded-md font-bold hover:bg-yellow-500 transition flex items-center justify-center" onclick="buyNow()">
+                            <i class="fas fa-bolt mr-2" aria-hidden="true"></i>
+                            Mua ngay
+                        </button>
                     </div>
                 </div>
             </div>
             
-            <div class="product-card">
-                    <img src="https://images.pexels.com/photos/404280/pexels-photo-404280.jpeg" class="product-image" alt="Similar Headphones">
-                    <div class="product-info">
-                        <h5 class="product-name">Premium Headphones</h5>
-                        <p class="product-price">$129.99</p>
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
+            <!-- Seller Information -->
+            <div class="seller-card">
+                <div class="seller-header">
+                    <div class="seller-avatar">
+                        <i class="fas fa-store" aria-hidden="true"></i>
+                    </div>
+                    <div>
+                        <div class="seller-name">YAKO Official Store</div>
+                        <div class="seller-rating">
+                            <div class="seller-stars">
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star-half-alt" aria-hidden="true"></i>
+                            </div>
+                            <span class="seller-rating-text">4.7 | 150 đánh giá</span>
                         </div>
                     </div>
                 </div>
-
-                <div class="product-card">
-                <img src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg" class="product-image" alt="Smart Watch">
-                <div class="product-info">
-                    <h5 class="product-name">Smart Watch</h5>
-                    <p class="product-price">$199.99</p>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                
+                <div class="seller-stats">
+                    <div class="seller-stat">
+                        <div class="seller-stat-value">42</div>
+                        <div class="seller-stat-label">Sản Phẩm</div>
+                    </div>
+                    <div class="seller-stat">
+                        <div class="seller-stat-value">Trong vài phút</div>
+                        <div class="seller-stat-label">Thời Gian Phản Hồi</div>
+                    </div>
+                    <div class="seller-stat">
+                        <div class="seller-stat-value">66k</div>
+                        <div class="seller-stat-label">Người Theo Dõi</div>
+                    </div>
+                    <div class="seller-stat">
+                        <div class="seller-stat-value">9.2k</div>
+                        <div class="seller-stat-label">Bán Hàng</div>
+                    </div>
+                    <div class="seller-stat">
+                        <div class="seller-stat-value">100%</div>
+                        <div class="seller-stat-label">Tỉ Lệ Phản Hồi</div>
+                    </div>
+                    <div class="seller-stat">
+                        <div class="seller-stat-value">19 tháng trước</div>
+                        <div class="seller-stat-label">Tham Gia</div>
                     </div>
                 </div>
-            </div>
-
-            <div class="product-card">
-                <img src="https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg" class="product-image" alt="Camera Lens">
-                <div class="product-info">
-                    <h5 class="product-name">Camera Lens</h5>
-                    <p class="product-price">$299.99</p>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                    </div>
+                
+                <div class="seller-actions">
+                    <button class="seller-btn seller-chat">
+                        <i class="fas fa-comment-dots mr-1" aria-hidden="true"></i>
+                        Chat Ngay
+                    </button>
+                    <button class="seller-btn seller-shop">
+                        <i class="fas fa-store mr-1" aria-hidden="true"></i>
+                        Xem Shop
+                    </button>
                 </div>
-            </div>
-
-            <div class="product-card">
-                <img src="https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg" class="product-image" alt="Running Shoes">
-                <div class="product-info">
-                    <h5 class="product-name">Running Shoes</h5>
-                    <p class="product-price">$79.99</p>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                        <i class="far fa-star"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="https://images.pexels.com/photos/4295985/pexels-photo-4295985.jpeg" class="product-image" alt="Laptop">
-                <div class="product-info">
-                    <h5 class="product-name">Premium Laptop</h5>
-                    <p class="product-price">$1299.99</p>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="https://images.pexels.com/photos/3780681/pexels-photo-3780681.jpeg" class="product-image" alt="Smart Speaker">
-                <div class="product-info">
-                    <h5 class="product-name">Smart Speaker</h5>
-                    <p class="product-price">$149.99</p>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                </div>
-            </div>
-
-                <!-- Add 5 more similar product cards -->
-                <!-- [Add 5 more product cards with different images and details] -->
             </div>
         </section>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 mb-4">
-                    <h5>Customer Service</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-decoration-none text-dark">Help Center</a></li>
-                        <li><a href="#" class="text-decoration-none text-dark">Contact Us</a></li>
-                        <li><a href="#" class="text-decoration-none text-dark">Returns & Refunds</a></li>
-                        <li><a href="#" class="text-decoration-none text-dark">Shipping Info</a></li>
-                    </ul>
+        
+        <!-- Product Tabs -->
+        <section class="bg-white rounded-xl shadow-md p-6 mt-6">
+            <div class="border-b border-gray-200">
+                <nav class="flex flex-wrap -mb-px">
+                    <button class="tab-button active" onclick="openTab('description')">
+                        Mô tả sản phẩm
+                    </button>
+                    <button class="tab-button" onclick="openTab('specs')">
+                        Thông số kỹ thuật
+                    </button>
+                    <button class="tab-button" onclick="openTab('reviews')">
+                        Đánh giá (128)
+                    </button>
+                    <button class="tab-button" onclick="openTab('qna')">
+                        Hỏi đáp (24)
+                    </button>
+                </nav>
+            </div>
+            
+            <!-- Description Tab -->
+            <div id="description" class="tab-content active py-4">
+                <h3 class="font-bold text-lg mb-4">iPhone 13 Pro Max - Đẳng cấp hàng đầu từ Apple</h3>
+                <p class="mb-4">
+                    iPhone 13 Pro Max 128GB là phiên bản cao cấp nhất trong bộ 4 iPhone 13 series mà Apple giới thiệu đến người dùng. 
+                    Máy có nhiều cải tiến về camera, màn hình và thời lượng pin hứa hẹn sẽ mang đến trải nghiệm tuyệt vời cho người dùng.
+                </p>
+                
+                <h4 class="font-bold mb-2">Thiết kế sang trọng, màn hình Super Retina XDR 6.7 inch</h4>
+                <p class="mb-4">
+                    iPhone 13 Pro Max được hoàn thiện từ khung thép không gỉ và mặt lưng kính cường lực, mang đến vẻ ngoài cao cấp và sang trọng. 
+                    Màn hình Super Retina XDR 6.7 inch với công nghệ ProMotion cho tần số quét 120Hz mượt mà, độ sáng cao và màu sắc chính xác.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <img src="https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-1-1-org.jpg" 
+                         alt="iPhone 13 Pro Max thiết kế mặt trước" 
+                         class="rounded-md" loading="lazy">
+                    <img src="https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-2-1-org.jpg" 
+                         alt="iPhone 13 Pro Max thiết kế mặt sau" 
+                         class="rounded-md" loading="lazy">
                 </div>
-                <div class="col-md-3 mb-4">
-                    <h5>About Us</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-decoration-none text-dark">About Shopee</a></li>
-                        <li><a href="#" class="text-decoration-none text-dark">Careers</a></li>
-                        <li><a href="#" class="text-decoration-none text-dark">Terms & Conditions</a></li>
-                        <li><a href="#" class="text-decoration-none text-dark">Privacy Policy</a></li>
-                    </ul>
+                
+                <h4 class="font-bold mb-2">Hệ thống camera chuyên nghiệp</h4>
+                <p class="mb-4">
+                    iPhone 13 Pro Max được trang bị hệ thống 3 camera sau 12MP bao gồm: Camera góc rộng, camera góc siêu rộng và camera telephoto. 
+                    Tất cả đều hỗ trợ chụp đêm Night Mode, Smart HDR 4 và quay video 4K Dolby Vision. Camera trước 12MP với tính năng TrueDepth.
+                </p>
+                
+                <h4 class="font-bold mb-2">Hiệu năng mạnh mẽ với chip A15 Bionic</h4>
+                <p class="mb-4">
+                    iPhone 13 Pro Max được trang bị chip A15 Bionic 6 nhân mạnh mẽ, GPU 5 nhân cho hiệu năng đồ họa vượt trội. 
+                    Máy chạy trên hệ điều hành iOS 15 mượt mà, hỗ trợ 5G cho tốc độ kết nối cực nhanh.
+                </p>
+                
+                <h4 class="font-bold mb-2">Thời lượng pin ấn tượng</h4>
+                <p>
+                    Với viên pin lớn và tối ưu phần mềm, iPhone 13 Pro Max có thời lượng pin lên đến 28 giờ sử dụng liên tục, 
+                    đáp ứng nhu cầu sử dụng cả ngày dài của người dùng.
+                </p>
+            </div>
+            
+            <!-- Specifications Tab -->
+            <div id="specs" class="tab-content py-4">
+                <h3 class="font-bold text-lg mb-4">Thông số kỹ thuật iPhone 13 Pro Max 128GB</h3>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-500 bg-gray-50">Màn hình</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                    6.7 inch, Super Retina XDR, OLED, 2778 x 1284 pixels, 120Hz
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-500 bg-gray-50">Hệ điều hành</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">iOS 15</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-500 bg-gray-50">Chipset</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                    Apple A15 Bionic (5 nm), 6 nhân, GPU 5 nhân
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-500 bg-gray-50">RAM</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">6GB</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-500 bg-gray-50">Bộ nhớ trong</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">128GB</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-500 bg-gray-50">Camera sau</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                    12MP (góc rộng) + 12MP (góc siêu rộng) + 12MP (telephoto)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-500 bg-gray-50">Camera trước</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">12MP, TrueDepth</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-500 bg-gray-50">Kết nối</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                    5G, WiFi 6, Bluetooth 5.0, NFC, Lightning
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-500 bg-gray-50">Pin</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                    4352 mAh, hỗ trợ sạc nhanh 20W, sạc không dây MagSafe
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-500 bg-gray-50">Kích thước</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                    160.8 x 78.1 x 7.7 mm
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-500 bg-gray-50">Trọng lượng</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">238 g</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-500 bg-gray-50">Màu sắc</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                    Xanh lá, Xám, Vàng, Bạc, Xanh dương
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <h5>Payment Methods</h5>
-                    <ul class="list-unstyled">
-                        <li><i class="fab fa-cc-visa me-2"></i>Visa</li>
-                        <li><i class="fab fa-cc-mastercard me-2"></i>Mastercard</li>
-                        <li><i class="fab fa-cc-paypal me-2"></i>PayPal</li>
-                        <li><i class="fas fa-money-bill-wave me-2"></i>Cash on Delivery</li>
-                    </ul>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <h5>Follow Us</h5>
-                    <div class="social-links">
-                        <a href="#" class="text-dark me-3"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-dark me-3"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-dark me-3"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-dark"><i class="fab fa-youtube"></i></a>
+            </div>
+            
+            <!-- Reviews Tab -->
+            <div id="reviews" class="tab-content py-4">
+                <div class="reviews-container">
+                    <div class="reviews-header">
+                        <div class="reviews-overview">
+                            <div class="reviews-score">4.7</div>
+                            <div class="reviews-stars">
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star-half-alt" aria-hidden="true"></i>
+                            </div>
+                            <div class="reviews-count">150 đánh giá</div>
+                        </div>
+                        
+                        <div class="reviews-filters">
+                            <div class="review-filter active">
+                                Tất cả
+                            </div>
+                            <div class="review-filter">
+                                <span class="review-filter-star">★★★★★</span> 5 sao (120)
+                            </div>
+                            <div class="review-filter">
+                                <span class="review-filter-star">★★★★☆</span> 4 sao (20)
+                            </div>
+                            <div class="review-filter">
+                                <span class="review-filter-star">★★★☆☆</span> 3 sao (7)
+                            </div>
+                            <div class="review-filter">
+                                <span class="review-filter-star">★★☆☆☆</span> 2 sao (2)
+                            </div>
+                            <div class="review-filter">
+                                <span class="review-filter-star">★☆☆☆☆</span> 1 sao (1)
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="reviews-list">
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="review-avatar">NV</div>
+                                <div class="review-user">
+                                    <div class="review-name">Nguyễn Văn A</div>
+                                    <div class="review-date">2 ngày trước</div>
+                                </div>
+                            </div>
+                            <div class="review-stars">
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                            </div>
+                            <div class="review-title">Sản phẩm tuyệt vời</div>
+                            <div class="review-content">
+                                Mình mới mua iPhone 13 Pro Max được 1 tuần và rất hài lòng. Máy chạy mượt, pin trâu, camera chụp ảnh đẹp. 
+                                Màn hình 120Hz rất mượt khi lướt web hay chơi game. Đóng gói sản phẩm cẩn thận, giao hàng nhanh.
+                            </div>
+                            <div class="review-images">
+                                <img src="https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-1-1-org.jpg" alt="Hình ảnh đánh giá" class="review-image">
+                                <img src="https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-2-1-org.jpg" alt="Hình ảnh đánh giá" class="review-image">
+                            </div>
+                            <div class="review-footer">
+                                <div class="review-action">
+                                    <i class="far fa-thumbs-up" aria-hidden="true"></i> Hữu ích (24)
+                                </div>
+                                <div class="review-action">
+                                    <i class="far fa-comment" aria-hidden="true"></i> Bình luận (3)
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="review-avatar">TB</div>
+                                <div class="review-user">
+                                    <div class="review-name">Trần Thị B</div>
+                                    <div class="review-date">1 tuần trước</div>
+                                </div>
+                            </div>
+                            <div class="review-stars">
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="far fa-star" aria-hidden="true"></i>
+                            </div>
+                            <div class="review-title">Pin tốt, máy đẹp</div>
+                            <div class="review-content">
+                                Máy đẹp, chạy mượt nhưng hơi nặng tay. Pin rất tốt, sáng dùng đến tối vẫn còn 30%. 
+                                Camera chụp ảnh đẹp nhưng mình thích màu xanh hơn mà hết hàng nên phải lấy màu xám.
+                            </div>
+                            <div class="review-footer">
+                                <div class="review-action">
+                                    <i class="far fa-thumbs-up" aria-hidden="true"></i> Hữu ích (12)
+                                </div>
+                                <div class="review-action">
+                                    <i class="far fa-comment" aria-hidden="true"></i> Bình luận (1)
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="review-avatar">LC</div>
+                                <div class="review-user">
+                                    <div class="review-name">Lê Văn C</div>
+                                    <div class="review-date">2 tuần trước</div>
+                                </div>
+                            </div>
+                            <div class="review-stars">
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star-half-alt" aria-hidden="true"></i>
+                            </div>
+                            <div class="review-title">Tốt nhưng giá hơi cao</div>
+                            <div class="review-content">
+                                Máy tốt, màn hình đẹp, camera xịn nhưng giá vẫn còn cao so với mặt bằng chung. 
+                                Được cái đang có chương trình giảm giá nên mình mới mua. Nhân viên tư vấn nhiệt tình.
+                            </div>
+                            <div class="review-footer">
+                                <div class="review-action">
+                                    <i class="far fa-thumbs-up" aria-hidden="true"></i> Hữu ích (8)
+                                </div>
+                                <div class="review-action">
+                                    <i class="far fa-comment" aria-hidden="true"></i> Bình luận (0)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 flex justify-center">
+                        <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200 transition">
+                            Xem thêm đánh giá
+                        </button>
                     </div>
                 </div>
             </div>
-            <hr>
-            <div class="row">
-                <div class="col-12 text-center">
-                    <p class="mb-0">&copy; 2024 Shopee Clone. All rights reserved.</p>
+            
+            <!-- Q&A Tab -->
+            <div id="qna" class="tab-content py-4">
+                <h3 class="font-bold text-lg mb-4">Hỏi đáp về sản phẩm (24)</h3>
+                
+                <div class="mb-6">
+                    <h4 class="font-bold mb-3">Đặt câu hỏi về sản phẩm</h4>
+                    <form>
+                        <div class="mb-3">
+                            <label for="question" class="block text-sm font-medium text-gray-700 mb-1">Câu hỏi của bạn</label>
+                            <textarea id="question" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+                        <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">Gửi câu hỏi</button>
+                    </form>
                 </div>
+                
+                <div class="space-y-6">
+                    <!-- Question 1 -->
+                    <div class="border-b border-gray-200 pb-6">
+                        <div class="font-bold mb-1">Máy có hỗ trợ sạc nhanh không?</div>
+                        <div class="text-gray-500 text-sm mb-2">Bởi Nguyễn Văn D - 3 ngày trước</div>
+                        <div class="bg-gray-50 p-3 rounded-md mb-2">
+                            <div class="font-bold text-blue-500 mb-1">E-Shop trả lời:</div>
+                            <p>Dạ chào anh, iPhone 13 Pro Max hỗ trợ sạc nhanh 20W (cần mua riêng củ sạc). Máy cũng hỗ trợ sạc không dây MagSafe và Qi ạ.</p>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <button class="flex items-center hover:text-blue-500">
+                                <i class="far fa-thumbs-up mr-1" aria-hidden="true"></i> Hữu ích (5)
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 2 -->
+                    <div class="border-b border-gray-200 pb-6">
+                        <div class="font-bold mb-1">Máy có kèm tai nghe và củ sạc không?</div>
+                        <div class="text-gray-500 text-sm mb-2">Bởi Trần Thị E - 1 tuần trước</div>
+                        <div class="bg-gray-50 p-3 rounded-md mb-2">
+                            <div class="font-bold text-blue-500 mb-1">E-Shop trả lời:</div>
+                            <p>Dạ chào chị, theo chính sách mới của Apple từ iPhone 12 trở đi sẽ không kèm tai nghe và củ sạc trong hộp ạ. Hộp chỉ bao gồm máy, cáp USB-C to Lightning và tài liệu hướng dẫn ạ.</p>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <button class="flex items-center hover:text-blue-500">
+                                <i class="far fa-thumbs-up mr-1" aria-hidden="true"></i> Hữu ích (12)
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 3 -->
+                    <div class="border-b border-gray-200 pb-6">
+                        <div class="font-bold mb-1">Máy có bảo hành chính hãng không?</div>
+                        <div class="text-gray-500 text-sm mb-2">Bởi Lê Văn F - 2 tuần trước</div>
+                        <div class="bg-gray-50 p-3 rounded-md mb-2">
+                            <div class="font-bold text-blue-500 mb-1">E-Shop trả lời:</div>
+                            <p>Dạ chào anh, tất cả sản phẩm Apple bán tại E-Shop đều là hàng chính hãng Apple Việt Nam, bảo hành 12 tháng tại các trung tâm bảo hành ủy quyền của Apple trên toàn quốc ạ.</p>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <button class="flex items-center hover:text-blue-500">
+                                <i class="far fa-thumbs-up mr-1" aria-hidden="true"></i> Hữu ích (7)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 flex justify-center">
+                    <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200 transition">
+                        Xem thêm câu hỏi
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Related Products -->
+        <section aria-labelledby="related-products-heading" class="bg-white rounded-xl shadow-md p-6 mt-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 id="related-products-heading" class="text-xl font-bold">Sản phẩm tương tự</h2>
+                <a href="/dien-thoai/apple" class="text-blue-500 text-sm flex items-center" aria-label="Xem tất cả sản phẩm Apple">
+                    Xem tất cả <i class="fas fa-chevron-right ml-1" aria-hidden="true"></i>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <!-- Related Product 1 -->
+                <article class="h-full">
+                    <a href="/san-pham/iphone-14-pro-max" aria-label="Điện thoại iPhone 14 Pro Max 128GB">
+                        <div class="related-product bg-white p-3 rounded-lg border border-gray-100">
+                            <div class="relative mb-3">
+                                <img src="https://cdn.tgdd.vn/Products/Images/42/251192/iphone-14-pro-max-tim-thumb-600x600.jpg" 
+                                    alt="Điện thoại iPhone 14 Pro Max 128GB" 
+                                    class="w-full h-full object-contain" loading="lazy">
+                                <div class="absolute top-0 left-0 bg-red-500 text-white text-xs px-2 py-1 rounded-br-md">10%</div>
+                            </div>
+                            <div class="text-center">
+                                <h3 class="text-sm font-semibold mb-1 line-clamp-2">iPhone 14 Pro Max 128GB</h3>
+                                <div class="text-red-500 font-bold mb-1">25.990.000đ</div>
+                                <div class="text-gray-400 text-xs line-through">28.990.000đ</div>
+                                <div class="flex items-center justify-center text-yellow-400 text-xs mt-1">
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star-half-alt" aria-hidden="true"></i>
+                                    <span class="text-gray-500 ml-1">(98)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                
+                <!-- Related Product 2 -->
+                <article class="h-full">
+                    <a href="/san-pham/iphone-13-pro" aria-label="Điện thoại iPhone 13 Pro 128GB">
+                        <div class="related-product bg-white p-3 rounded-lg border border-gray-100">
+                            <div class="relative mb-3">
+                                <img src="https://cdn.tgdd.vn/Products/Images/42/230529/iphone-13-pro-xanh-la-thumb-600x600.jpg" 
+                                    alt="Điện thoại iPhone 13 Pro 128GB" 
+                                    class="w-full h-full object-contain" loading="lazy">
+                                <div class="absolute top-0 left-0 bg-red-500 text-white text-xs px-2 py-1 rounded-br-md">15%</div>
+                            </div>
+                            <div class="text-center">
+                                <h3 class="text-sm font-semibold mb-1 line-clamp-2">iPhone 13 Pro 128GB</h3>
+                                <div class="text-red-500 font-bold mb-1">21.990.000đ</div>
+                                <div class="text-gray-400 text-xs line-through">25.990.000đ</div>
+                                <div class="flex items-center justify-center text-yellow-400 text-xs mt-1">
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="far fa-star" aria-hidden="true"></i>
+                                    <span class="text-gray-500 ml-1">(76)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                
+                <!-- Related Product 3 -->
+                <article class="h-full">
+                    <a href="/san-pham/iphone-12-pro-max" aria-label="Điện thoại iPhone 12 Pro Max 128GB">
+                        <div class="related-product bg-white p-3 rounded-lg border border-gray-100">
+                            <div class="relative mb-3">
+                                <img src="https://cdn.tgdd.vn/Products/Images/42/213033/iphone-12-pro-max-xanh-duong-new-600x600-200x200.jpg" 
+                                    alt="Điện thoại iPhone 12 Pro Max 128GB" 
+                                    class="w-full h-full object-contain" loading="lazy">
+                                <div class="absolute top-0 left-0 bg-red-500 text-white text-xs px-2 py-1 rounded-br-md">20%</div>
+                            </div>
+                            <div class="text-center">
+                                <h3 class="text-sm font-semibold mb-1 line-clamp-2">iPhone 12 Pro Max 128GB</h3>
+                                <div class="text-red-500 font-bold mb-1">18.990.000đ</div>
+                                <div class="text-gray-400 text-xs line-through">23.990.000đ</div>
+                                <div class="flex items-center justify-center text-yellow-400 text-xs mt-1">
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star-half-alt" aria-hidden="true"></i>
+                                    <span class="text-gray-500 ml-1">(64)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                
+                <!-- Related Product 4 -->
+                <article class="h-full">
+                    <a href="/san-pham/iphone-14-plus" aria-label="Điện thoại iPhone 14 Plus 128GB">
+                        <div class="related-product bg-white p-3 rounded-lg border border-gray-100">
+                            <div class="relative mb-3">
+                                <img src="https://cdn.tgdd.vn/Products/Images/42/251856/iphone-14-plus-thumb-tim-600x600.jpg" 
+                                    alt="Điện thoại iPhone 14 Plus 128GB" 
+                                    class="w-full h-full object-contain" loading="lazy">
+                                <div class="absolute top-0 left-0 bg-red-500 text-white text-xs px-2 py-1 rounded-br-md">5%</div>
+                            </div>
+                            <div class="text-center">
+                                <h3 class="text-sm font-semibold mb-1 line-clamp-2">iPhone 14 Plus 128GB</h3>
+                                <div class="text-red-500 font-bold mb-1">22.990.000đ</div>
+                                <div class="text-gray-400 text-xs line-through">24.190.000đ</div>
+                                <div class="flex items-center justify-center text-yellow-400 text-xs mt-1">
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="far fa-star" aria-hidden="true"></i>
+                                    <span class="text-gray-500 ml-1">(42)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                
+                <!-- Related Product 5 -->
+                <article class="h-full">
+                    <a href="/san-pham/iphone-13" aria-label="Điện thoại iPhone 13 128GB">
+                        <div class="related-product bg-white p-3 rounded-lg border border-gray-100">
+                            <div class="relative mb-3">
+                                <img src="https://cdn.tgdd.vn/Products/Images/42/223602/iphone-13-pink-1-600x600.jpg" 
+                                    alt="Điện thoại iPhone 13 128GB" 
+                                    class="w-full h-full object-contain" loading="lazy">
+                                <div class="absolute top-0 left-0 bg-red-500 text-white text-xs px-2 py-1 rounded-br-md">25%</div>
+                            </div>
+                            <div class="text-center">
+                                <h3 class="text-sm font-semibold mb-1 line-clamp-2">iPhone 13 128GB</h3>
+                                <div class="text-red-500 font-bold mb-1">15.990.000đ</div>
+                                <div class="text-gray-400 text-xs line-through">21.990.000đ</div>
+                                <div class="flex items-center justify-center text-yellow-400 text-xs mt-1">
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <span class="text-gray-500 ml-1">(128)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                
+                <!-- Related Product 6 -->
+                <article class="h-full">
+                    <a href="/san-pham/iphone-11-pro-max" aria-label="Điện thoại iPhone 11 Pro Max 64GB">
+                        <div class="related-product bg-white p-3 rounded-lg border border-gray-100">
+                            <div class="relative mb-3">
+                                <img src="https://cdn.tgdd.vn/Products/Images/42/210654/iphone-11-pro-max-256gb-black-600x600.jpg" 
+                                    alt="Điện thoại iPhone 11 Pro Max 64GB" 
+                                    class="w-full h-full object-contain" loading="lazy">
+                                <div class="absolute top-0 left-0 bg-red-500 text-white text-xs px-2 py-1 rounded-br-md">30%</div>
+                            </div>
+                            <div class="text-center">
+                                <h3 class="text-sm font-semibold mb-1 line-clamp-2">iPhone 11 Pro Max 64GB</h3>
+                                <div class="text-red-500 font-bold mb-1">12.990.000đ</div>
+                                <div class="text-gray-400 text-xs line-through">18.990.000đ</div>
+                                <div class="flex items-center justify-center text-yellow-400 text-xs mt-1">
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star-half-alt" aria-hidden="true"></i>
+                                    <span class="text-gray-500 ml-1">(89)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-4 gap-8 mb-8">
+                <!-- Column 1 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Về chúng tôi</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/gioi-thieu" class="text-gray-300 hover:text-white">Giới thiệu</a></li>
+                        <li><a href="/tuyen-dung" class="text-gray-300 hover:text-white">Tuyển dụng</a></li>
+                        <li><a href="/dieu-khoan" class="text-gray-300 hover:text-white">Điều khoản</a></li>
+                        <li><a href="/chinh-sach-bao-mat" class="text-gray-300 hover:text-white">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 2 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Dành cho khách hàng</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/trung-tam-tro-giup" class="text-gray-300 hover:text-white">Trung tâm trợ giúp</a></li>
+                        <li><a href="/huong-dan-mua-hang" class="text-gray-300 hover:text-white">Hướng dẫn mua hàng</a></li>
+                        <li><a href="/thanh-toan" class="text-gray-300 hover:text-white">Thanh toán</a></li>
+                        <li><a href="/van-chuyen" class="text-gray-300 hover:text-white">Vận chuyển</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 3 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Liên hệ</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">Đà Nẵng, Việt Nam</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">1900 1234</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">support@eshop.com</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Column 4 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Kết nối với chúng tôi</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="https://facebook.com/your-eshop" class="bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Facebook">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://instagram.com/your-eshop" class="bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Instagram">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://twitter.com/your-eshop" class="bg-blue-400 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Twitter">
+                            <i class="fab fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://youtube.com/your-eshop" class="bg-red-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="YouTube">
+                            <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Tải ứng dụng</h4>
+                        <div class="flex space-x-2">
+                            <a href="https://apps.apple.com/app/your-eshop" class="bg-black p-2 rounded" aria-label="Tải ứng dụng trên App Store">
+                                <i class="fab fa-apple text-xl" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://play.google.com/store/apps/details?id=com.youreshop" class="bg-black p-2 rounded" aria-label="Tải ứng dụng trên Google Play">
+                                <i class="fab fa-google-play text-xl" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-6 text-center text-gray-400">
+                <p>© 2025 NuenTaru-Shop. Tất cả các quyền được bảo lưu.</p>
+                <p class="mt-2 text-sm">Số ĐKKD: 0123456789 | Ngày cấp: 01/01/2025 | Nơi cấp: Sở Kế hoạch và Đầu tư Đà Nẵng</p>
             </div>
         </div>
     </footer>
 
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
-    
-    <!-- Custom JavaScript -->
     <script>
-        // Quantity selector functionality
-        document.getElementById('decrease').addEventListener('click', function() {
-            var input = this.parentNode.querySelector('input');
-            var value = parseInt(input.value);
-            if (value > 1) {
-                input.value = value - 1;
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Đóng menu khi click bên ngoài
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('mobile-menu');
+            const button = document.getElementById('mobile-menu-button');
+            
+            if (!menu.contains(event.target) && event.target !== button) {
+                menu.classList.add('hidden');
+            }
+        });
+    });
+
+    // Thay đổi ảnh chính khi click vào thumbnail
+    function changeMainImage(src) {
+        document.getElementById('mainImage').src = src;
+        
+        // Cập nhật active thumbnail
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        thumbnails.forEach(thumb => {
+            thumb.classList.remove('active');
+            if (thumb.querySelector('img').src === src) {
+                thumb.classList.add('active');
+            }
+        });
+    }
+
+    // Chọn màu sắc
+    function selectColor(color) {
+        const colorOptions = document.querySelectorAll('.color-option');
+        colorOptions.forEach(option => {
+            option.classList.remove('active');
+            if (option.dataset.color === color) {
+                option.classList.add('active');
             }
         });
         
-        document.getElementById('increase').addEventListener('click', function() {
-            var input = this.parentNode.querySelector('input');
-            var value = parseInt(input.value);
-            if (value < 10) {
-                input.value = value + 1;
+        // Thay đổi ảnh sản phẩm theo màu (giả lập)
+        let newImage = '';
+        switch(color) {
+            case 'xanh-la':
+                newImage = 'https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-4-750x500.jpg';
+                break;
+            case 'xam':
+                newImage = 'https://cdn.tgdd.vn/Products/Images/42/230529/iphone-13-pro-max-grey-600x600.jpg';
+                break;
+            case 'vang':
+                newImage = 'https://cdn.tgdd.vn/Products/Images/42/230529/iphone-13-pro-max-gold-600x600.jpg';
+                break;
+            case 'bac':
+                newImage = 'https://cdn.tgdd.vn/Products/Images/42/230529/iphone-13-pro-max-silver-600x600.jpg';
+                break;
+            case 'xanh-duong':
+                newImage = 'https://cdn.tgdd.vn/Products/Images/42/230529/iphone-13-pro-max-blue-600x600.jpg';
+                break;
+        }
+        changeMainImage(newImage);
+    }
+
+    // Chọn dung lượng
+    function selectStorage(storage) {
+        const storageOptions = document.querySelectorAll('.storage-option');
+        storageOptions.forEach(option => {
+            option.classList.remove('active');
+            if (option.dataset.storage === storage) {
+                option.classList.add('active');
             }
         });
+        
+        // Cập nhật giá theo dung lượng (giả lập)
+        let newPrice = '';
+        let originalPrice = '';
+        switch(storage) {
+            case '128':
+                newPrice = '12.990.000đ';
+                originalPrice = '25.990.000đ';
+                break;
+            case '256':
+                newPrice = '14.990.000đ';
+                originalPrice = '28.990.000đ';
+                break;
+            case '512':
+                newPrice = '17.990.000đ';
+                originalPrice = '32.990.000đ';
+                break;
+            case '1t':
+                newPrice = '21.990.000đ';
+                originalPrice = '38.990.000đ';
+                break;
+        }
+        document.querySelector('.product-price').innerHTML = `
+            ${newPrice}
+            <span class="original-price">${originalPrice}</span>
+            <span class="discount-badge">-50%</span>
+        `;
+    }
 
-        // Rating filter buttons
-        document.querySelectorAll('.rating-filter-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                document.querySelector('.rating-filter-btn.active').classList.remove('active');
+    // Tăng/giảm số lượng
+    function increaseQuantity() {
+        const quantityInput = document.getElementById('quantity');
+        let value = parseInt(quantityInput.value);
+        if (value < 10) {
+            quantityInput.value = value + 1;
+        }
+    }
+
+    function decreaseQuantity() {
+        const quantityInput = document.getElementById('quantity');
+        let value = parseInt(quantityInput.value);
+        if (value > 1) {
+            quantityInput.value = value - 1;
+        }
+    }
+
+    // Thêm vào giỏ hàng
+    function addToCart() {
+        const color = document.querySelector('.color-option.active').dataset.color;
+        const storage = document.querySelector('.storage-option.active').dataset.storage;
+        const quantity = document.getElementById('quantity').value;
+        
+        // Hiển thị thông báo
+        alert(`Đã thêm vào giỏ hàng:\n- iPhone 13 Pro Max\n- Màu: ${color}\n- Dung lượng: ${storage}GB\n- Số lượng: ${quantity}`);
+        
+        // Có thể thêm AJAX call để gửi dữ liệu đến server ở đây
+    }
+
+    // Mua ngay
+    function buyNow() {
+        const color = document.querySelector('.color-option.active').dataset.color;
+        const storage = document.querySelector('.storage-option.active').dataset.storage;
+        const quantity = document.getElementById('quantity').value;
+        
+        // Chuyển hướng đến trang thanh toán
+        // window.location.href = `/checkout?product=iphone-13-pro-max&color=${color}&storage=${storage}&quantity=${quantity}`;
+        alert(`Chuyển đến trang thanh toán:\n- iPhone 13 Pro Max\n- Màu: ${color}\n- Dung lượng: ${storage}GB\n- Số lượng: ${quantity}`);
+    }
+
+    // Chuyển tab
+    function openTab(tabId) {
+        // Ẩn tất cả các tab content
+        const tabContents = document.querySelectorAll('.tab-content');
+        tabContents.forEach(content => {
+            content.classList.remove('active');
+        });
+        
+        // Hiển thị tab được chọn
+        document.getElementById(tabId).classList.add('active');
+        
+        // Cập nhật active tab button
+        const tabButtons = document.querySelectorAll('.tab-button');
+        tabButtons.forEach(button => {
+            button.classList.remove('active');
+            if (button.textContent.trim().toLowerCase().includes(tabId)) {
                 button.classList.add('active');
-            });
+            }
         });
+    }
 
-        // Review image preview (you can add a modal/lightbox here)
-        document.querySelectorAll('.review-image').forEach(image => {
-            image.addEventListener('click', () => {
-                // Add image preview functionality
-                console.log('Image preview clicked');
-            });
+    // Đánh giá sao
+    function rateProduct(stars) {
+        const starIcons = document.querySelectorAll('#reviews .fa-star');
+        const ratingText = document.getElementById('ratingText');
+        
+        // Cập nhật sao
+        starIcons.forEach((icon, index) => {
+            if (index < stars) {
+                icon.classList.add('fas');
+                icon.classList.remove('far');
+            } else {
+                icon.classList.add('far');
+                icon.classList.remove('fas');
+            }
         });
+        
+        // Cập nhật text
+        const ratings = ['Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Rất tốt'];
+        ratingText.textContent = ratings[stars - 1];
+    }
     </script>
 </body>
 </html>
