@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử xem - E-Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .history-card {
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .history-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image {
+            height: 120px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .history-card:hover .product-image {
+            transform: scale(1.05);
+        }
+        
+        .view-time {
+            font-size: 13px;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+        }
+        
+        .clear-history-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .clear-history-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .empty-history {
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+        
+        .sort-btn {
+            transition: all 0.2s ease;
+            border-radius: 20px;
+            padding: 6px 16px;
+        }
+        
+        .sort-btn.active, .sort-btn:hover {
+            background-color: #ff424f;
+            color: white;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+        
+        .loading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(79, 70, 229, 0.2);
+            border-radius: 50%;
+            border-top-color: #4f46e5;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .stock-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+        
+        .in-stock {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+        
+        .low-stock {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+        
+        .out-of-stock {
+            background-color: #fee2e2;
+            color: #ef4444;
+        }
+        
+        .time-filter-btn {
+            transition: all 0.2s ease;
+            border-radius: 20px;
+            padding: 6px 16px;
+            background-color: #f3f4f6;
+        }
+        
+        .time-filter-btn.active, .time-filter-btn:hover {
+            background-color: #ff424f;
+            color: white;
+        }
+        
+        .delete-btn {
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+        
+        .delete-btn:hover {
+            opacity: 1;
+            color: #ef4444;
+        }
+        
+        .history-item {
+            transition: all 0.3s ease;
+        }
+        
+        .history-item.removing {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Profile Header -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Lịch sử xem</h1>
+                <p class="text-gray-600 mt-1">Danh sách sản phẩm bạn đã xem gần đây</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex items-center">
+                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                    <i class="fas fa-clock mr-1"></i> <span id="history-count">12</span> sản phẩm
+                </div>
+            </div>
+        </div>
+    </div>
+            
+    <!-- Filter and Sort Controls -->
+    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between">
+            <div class="mb-4 md:mb-0">
+                <span class="text-gray-600 mr-3">Lọc theo thời gian:</span>
+                <div class="flex flex-wrap gap-2 mt-2">
+                    <button class="time-filter-btn active" data-filter="all">Tất cả</button>
+                    <button class="time-filter-btn" data-filter="today">Hôm nay</button>
+                    <button class="time-filter-btn" data-filter="week">7 ngày</button>
+                    <button class="time-filter-btn" data-filter="month">30 ngày</button>
+                </div>
+            </div>
+            
+            <div class="flex items-center">
+                <span class="text-gray-600 mr-3">Sắp xếp:</span>
+                <div class="flex flex-wrap gap-2">
+                    <button class="sort-btn active" data-sort="newest">Mới nhất</button>
+                    <button class="sort-btn" data-sort="oldest">Cũ nhất</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4 flex justify-end">
+            <button id="clear-history" class="clear-history-btn px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200">
+                <i class="fas fa-trash-alt mr-2"></i> Xóa toàn bộ lịch sử
+            </button>
+        </div>
+    </div>
+            
+    <!-- Products List -->
+    <div id="history-container">
+        <!-- Loading Indicator -->
+        <div class="text-center py-12" id="loading-indicator">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+            <p class="text-gray-600">Đang tải lịch sử xem...</p>
+        </div>
+        
+        <!-- Empty State -->
+        <div id="empty-state" class="empty-history bg-white rounded-lg shadow-md p-8 text-center hidden">
+            <div class="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                <i class="fas fa-eye-slash text-3xl text-gray-400"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-700 mb-2">Không có lịch sử xem</h3>
+            <p class="text-gray-500 mb-6">Bạn chưa xem sản phẩm nào gần đây. Hãy bắt đầu khám phá sản phẩm!</p>
+            <a href="/" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-300">
+                Khám phá ngay
+            </a>
+        </div>
+        
+        <!-- Products Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="history-list">
+            <!-- History items will be loaded here dynamically -->
+        </div>
+    </div>
+    
+    <!-- Pagination -->
+    <div id="pagination-container" class="mt-8 flex justify-center hidden">
+        <div class="flex items-center gap-1">
+            <button id="prev-page" class="pagination-btn disabled text-gray-300">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            
+            <button class="pagination-btn active">1</button>
+            
+            <button id="next-page" class="pagination-btn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Sample history data
+        const sampleHistory = [
+            {
+                id: 1,
+                product: {
+                    id: 101,
+                    name: "iPhone 15 Pro Max 256GB",
+                    price: 28990000,
+                    originalPrice: 31990000,
+                    image: "https://cdn2.cellphones.com.vn/x/media/catalog/product/i/p/iphone-15-pro-max_3.png?_gl=1*12v7n5o*_gcl_au*MTEwMDUwOTc1Mi4xNzUwODg4NjM2*_ga*NTA4ODkwNjg0LjE3NTA4ODg2MzY.*_ga_QLK8WFHNK9*czE3NTA4ODg2MzYkbzEkZzEkdDE3NTA4ODg2MzgkajU4JGwwJGgxNjE4ODA2NzEx",
+                    category: "Điện thoại & Phụ kiện",
+                    brand: "Apple",
+                    stock: 15
+                },
+                viewedAt: "2025-06-26 14:30",
+                viewTime: "3 phút trước"
+            },
+            {
+                id: 2,
+                product: {
+                    id: 205,
+                    name: "Máy ảnh Sony Alpha A7 III",
+                    price: 35990000,
+                    originalPrice: 38990000,
+                    image: "https://via.placeholder.com/300x300?text=Sony+Camera",
+                    category: "Máy ảnh",
+                    brand: "Sony",
+                    stock: 5
+                },
+                viewedAt: "2025-06-26 13:45",
+                viewTime: "1 giờ trước"
+            },
+            {
+                id: 3,
+                product: {
+                    id: 307,
+                    name: "Máy chơi game PlayStation 5",
+                    price: 13990000,
+                    originalPrice: 14990000,
+                    image: "https://via.placeholder.com/300x300?text=PlayStation+5",
+                    category: "Đồ chơi & Game",
+                    brand: "Sony",
+                    stock: 3
+                },
+                viewedAt: "2025-06-25 19:20",
+                viewTime: "Hôm qua"
+            },
+            {
+                id: 4,
+                product: {
+                    id: 402,
+                    name: "MacBook Pro M2 14-inch 512GB",
+                    price: 38990000,
+                    originalPrice: 42990000,
+                    image: "https://via.placeholder.com/300x300?text=MacBook+Pro",
+                    category: "Máy tính & Laptop",
+                    brand: "Apple",
+                    stock: 8
+                },
+                viewedAt: "2025-06-25 11:15",
+                viewTime: "Hôm qua"
+            },
+            {
+                id: 5,
+                product: {
+                    id: 503,
+                    name: "Tai nghe Sony WH-1000XM5",
+                    price: 6990000,
+                    originalPrice: 7990000,
+                    image: "https://via.placeholder.com/300x300?text=Sony+Headphones",
+                    category: "Điện thoại & Phụ kiện",
+                    brand: "Sony",
+                    stock: 22
+                },
+                viewedAt: "2025-06-24 16:40",
+                viewTime: "2 ngày trước"
+            },
+            {
+                id: 6,
+                product: {
+                    id: 608,
+                    name: "Bàn phím cơ Keychron K2",
+                    price: 1890000,
+                    originalPrice: 2190000,
+                    image: "https://via.placeholder.com/300x300?text=Keychron+K2",
+                    category: "Máy tính & Laptop",
+                    brand: "Keychron",
+                    stock: 30
+                },
+                viewedAt: "2025-06-23 09:30",
+                viewTime: "3 ngày trước"
+            },
+            {
+                id: 7,
+                product: {
+                    id: 704,
+                    name: "Đồng hồ thông minh Apple Watch Series 8",
+                    price: 12990000,
+                    originalPrice: 14990000,
+                    image: "https://via.placeholder.com/300x300?text=Apple+Watch",
+                    category: "Phụ kiện",
+                    brand: "Apple",
+                    stock: 0
+                },
+                viewedAt: "2025-06-22 18:15",
+                viewTime: "4 ngày trước"
+            },
+            {
+                id: 8,
+                product: {
+                    id: 806,
+                    name: "Loa Marshall Stanmore II",
+                    price: 7990000,
+                    originalPrice: 8990000,
+                    image: "https://via.placeholder.com/300x300?text=Marshall+Speaker",
+                    category: "Âm thanh",
+                    brand: "Marshall",
+                    stock: 12
+                },
+                viewedAt: "2025-06-20 14:00",
+                viewTime: "6 ngày trước"
+            }
+        ];
+        
+        // DOM Elements
+        const historyList = document.getElementById('history-list');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const emptyState = document.getElementById('empty-state');
+        const paginationContainer = document.getElementById('pagination-container');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const historyCountElement = document.getElementById('history-count');
+        const sortButtons = document.querySelectorAll('.sort-btn');
+        const timeFilterButtons = document.querySelectorAll('.time-filter-btn');
+        const clearHistoryBtn = document.getElementById('clear-history');
+        
+        // Format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(amount);
+        }
+        
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+        
+        // Render history
+        function renderHistory(historyItems) {
+            loadingIndicator.classList.add('hidden');
+            
+            if (historyItems.length === 0) {
+                emptyState.classList.remove('hidden');
+                historyList.innerHTML = '';
+                paginationContainer.classList.add('hidden');
+                historyCountElement.textContent = '0';
+                return;
+            }
+            
+            emptyState.classList.add('hidden');
+            historyList.innerHTML = '';
+            
+            historyItems.forEach(item => {
+                const product = item.product;
+                const hasDiscount = product.originalPrice > product.price;
+                
+                let stockBadge = '';
+                if (product.stock === 0) {
+                    stockBadge = '<span class="stock-badge out-of-stock"><i class="fas fa-times-circle mr-1"></i> Hết hàng</span>';
+                } else if (product.stock < 5) {
+                    stockBadge = `<span class="stock-badge low-stock"><i class="fas fa-exclamation-triangle mr-1"></i> Sắp hết (${product.stock})</span>`;
+                } else {
+                    stockBadge = '<span class="stock-badge in-stock"><i class="fas fa-check-circle mr-1"></i> Còn hàng</span>';
+                }
+                
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item bg-white rounded-lg shadow-md overflow-hidden history-card';
+                historyItem.dataset.id = item.id;
+                
+                historyItem.innerHTML = `
+                    <div class="flex">
+                        <div class="w-1/3 relative">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover product-image">
+                        </div>
+                        
+                        <div class="w-2/3 p-4 flex flex-col">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="text-gray-500 text-sm mb-1">${product.brand}</div>
+                                    <h3 class="font-bold text-gray-800 mb-2">${product.name}</h3>
+                                </div>
+                                <button class="delete-btn text-gray-500 hover:text-red-500" data-id="${item.id}">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="mt-auto">
+                                <div class="flex items-center mb-2">
+                                    <div class="font-bold text-red-600">${formatCurrency(product.price)}</div>
+                                    ${hasDiscount ? `
+                                        <div class="ml-2 text-gray-500 text-sm line-through">${formatCurrency(product.originalPrice)}</div>
+                                    ` : ''}
+                                </div>
+                                
+                                <div class="flex justify-between items-center">
+                                    ${stockBadge}
+                                    <div class="view-time">
+                                        <i class="far fa-clock mr-1"></i> ${item.viewTime}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                historyList.appendChild(historyItem);
+            });
+            
+            attachEventListeners();
+            
+            // Update history count
+            historyCountElement.textContent = historyItems.length;
+            
+            // Show pagination if needed
+            paginationContainer.classList.toggle('hidden', historyItems.length <= 8);
+        }
+        
+        // Attach event listeners
+        function attachEventListeners() {
+            // Delete buttons
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const historyId = this.dataset.id;
+                    removeHistoryItem(historyId);
+                });
+            });
+            
+            // Click on history item
+            document.querySelectorAll('.history-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const productId = this.dataset.id;
+                    // In a real app, this would navigate to the product page
+                    alert(`Chuyển hướng đến trang sản phẩm ${productId}`);
+                });
+            });
+        }
+        
+        // Remove history item
+        function removeHistoryItem(historyId) {
+            const historyItem = document.querySelector(`.history-item[data-id="${historyId}"]`);
+            
+            if (!historyItem) return;
+            
+            // Show loading overlay
+            showLoading();
+            
+            // Add removing class for animation
+            historyItem.classList.add('removing');
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Remove from UI
+                historyItem.remove();
+                
+                // Update history count
+                const items = document.querySelectorAll('.history-item');
+                historyCountElement.textContent = items.length;
+                
+                // Show empty state if no items left
+                if (items.length === 0) {
+                    emptyState.classList.remove('hidden');
+                }
+                
+                hideLoading();
+            }, 500);
+        }
+        
+        // Clear all history
+        function clearAllHistory() {
+            if (confirm('Bạn có chắc chắn muốn xóa toàn bộ lịch sử xem?')) {
+                showLoading();
+                
+                // Simulate API call delay
+                setTimeout(() => {
+                    // Remove all items from UI
+                    document.querySelectorAll('.history-item').forEach(item => {
+                        item.classList.add('removing');
+                    });
+                    
+                    setTimeout(() => {
+                        historyList.innerHTML = '';
+                        emptyState.classList.remove('hidden');
+                        historyCountElement.textContent = '0';
+                        hideLoading();
+                    }, 500);
+                }, 800);
+            }
+        }
+        
+        // Show/hide loading overlay
+        function showLoading() {
+            loadingOverlay.classList.add('active');
+        }
+        
+        function hideLoading() {
+            loadingOverlay.classList.remove('active');
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Sort buttons
+            sortButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    sortButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    // In a real app, you would sort the history
+                });
+            });
+            
+            // Time filter buttons
+            timeFilterButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    timeFilterButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    // In a real app, you would filter the history
+                });
+            });
+            
+            // Clear history button
+            clearHistoryBtn.addEventListener('click', clearAllHistory);
+            
+            // Simulate loading history from API
+            setTimeout(() => {
+                renderHistory(sampleHistory);
+            }, 1200);
+        });
+    </script>
+</body>
+</html>

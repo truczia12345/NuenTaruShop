@@ -251,6 +251,11 @@
     </style>
 </head>
 <body class="bg-gray-50">
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
     <div class="content-container p-4 md:p-6">
         <!-- Header -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
@@ -1141,12 +1146,40 @@
                 alert(`Đã đặt phương thức ${this.dataset.id} làm mặc định!`);
             });
         });
+
+        // Hàm kiểm tra Luhn
+        function isValidCardNumber(cardNumber) {
+            cardNumber = cardNumber.replace(/\s/g, '');
+            let sum = 0;
+            let shouldDouble = false;
+            
+            for (let i = cardNumber.length - 1; i >= 0; i--) {
+            let digit = parseInt(cardNumber.charAt(i));
+            if (shouldDouble) {
+                if ((digit *= 2) > 9) digit -= 9;
+            }
+            sum += digit;
+            shouldDouble = !shouldDouble;
+            }
+            
+            return (sum % 10) === 0;
+        }
+
         
         // Form submissions
         document.getElementById('card-form').addEventListener('submit', function(e) {
             e.preventDefault();
             alert('Thẻ thanh toán đã được thêm thành công!');
             document.getElementById('card-modal').classList.remove('active');
+
+            // Kiểm tra  Luhn
+            const cleanCardNumber = cardNumber.replace(/\s/g, '');
+            if (!isValidCardNumber(cleanCardNumber)) {
+            document.getElementById('card-number-container').classList.add('input-error');
+            document.getElementById('card-number-error').textContent = "Số thẻ không hợp lệ";
+            document.getElementById('card-number-error').classList.remove('hidden');
+            isValid = false;
+            }
         });
         
         document.getElementById('ewallet-form').addEventListener('submit', function(e) {

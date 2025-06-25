@@ -175,9 +175,70 @@
             border-color: #ff424f;
             background-color: #fff1f2;
         }
+
+        .iframe-container {
+            position: relative;
+            flex-grow: 1;
+            width: 100%;
+            min-height: 0;
+        }
+        
+        #content-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .iframe-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 10;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #ff424f;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .iframe-error {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            padding: 20px;
+            text-align: center;
+            z-index: 10;
+        }
     </style>
 </head>
 <body class="min-h-screen">
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
     <!-- Header -->
     <header class="bg-[#ff424f] text-white shadow-md">
         <div class="container mx-auto px-4">
@@ -290,11 +351,11 @@
                     <i class="fas fa-heart mr-3 text-lg"></i>
                     <span>Sản phẩm yêu thích</span>
                 </a>
-                <a href="history.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
+                <a href="v-history.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
                     <i class="fas fa-history mr-3 text-lg"></i>
                     <span>Lịch sử xem</span>
                 </a>
-                <a href="change-password.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
+                <a href="account/change-password.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
                     <i class="fas fa-lock mr-3 text-lg"></i>
                     <span>Đổi mật khẩu</span>
                 </a>
@@ -333,8 +394,22 @@
                 </div>
             </div>
             
-            <div class="flex-grow flex flex-col min-h-0">
-                <iframe src="account/profile.html" class="flex-grow w-full min-h-0" frameborder="0"></iframe>
+            <div class="iframe-container">
+                <div id="iframe-loading" class="iframe-loading">
+                    <div class="spinner"></div>
+                    <p class="mt-2 text-gray-600">Đang tải nội dung...</p>
+                </div>
+                
+                <div id="iframe-error" class="iframe-error hidden">
+                    <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-3"></i>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Không thể tải nội dung</h3>
+                    <p class="text-gray-600 mb-4">Đã xảy ra lỗi khi tải trang. Vui lòng thử lại.</p>
+                    <button id="retry-button" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                        Thử lại
+                    </button>
+                </div>
+                
+                <iframe id="content-iframe" src="account/profile.html" class="w-full h-full" frameborder="0"></iframe>
             </div>
         </div>
     </div>
@@ -427,6 +502,69 @@
                 sidebarOverlay.classList.remove('active');
             });
         }
+        
+        // Xử lý iframe loading
+        const contentIframe = document.getElementById('content-iframe');
+        const iframeLoading = document.getElementById('iframe-loading');
+        const iframeError = document.getElementById('iframe-error');
+        const retryButton = document.getElementById('retry-button');
+        
+        // Ẩn loading khi iframe tải xong
+        contentIframe.addEventListener('load', () => {
+            iframeLoading.style.display = 'none';
+            iframeError.classList.add('hidden');
+        });
+        
+        // Xử lý lỗi tải iframe
+        contentIframe.addEventListener('error', () => {
+            iframeLoading.style.display = 'none';
+            iframeError.classList.remove('hidden');
+        });
+        
+        // Nút thử lại
+        retryButton.addEventListener('click', () => {
+            iframeError.classList.add('hidden');
+            iframeLoading.style.display = 'flex';
+            contentIframe.src = contentIframe.src; // Tải lại
+        });
+        
+        // Simulate loading content in iframe
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all items
+                document.querySelectorAll('.sidebar-item').forEach(el => {
+                    el.classList.remove('active');
+                });
+                
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                // Hiển thị loading
+                iframeLoading.style.display = 'flex';
+                iframeError.classList.add('hidden');
+                
+                // Update iframe src
+                if (this.href) {
+                    contentIframe.src = this.href;
+                }
+                
+                // Close sidebar on mobile after selection
+                if (window.innerWidth < 768) {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                }
+            });
+        });
+        
+        // Kiểm tra nếu iframe chưa tải xong sau 5 giây
+        setTimeout(() => {
+            if (iframeLoading.style.display !== 'none') {
+                iframeLoading.style.display = 'none';
+                iframeError.classList.remove('hidden');
+            }
+        }, 5000);
         
         // Simulate loading content in iframe
         document.querySelectorAll('.sidebar-item').forEach(item => {

@@ -11,11 +11,13 @@
             transition: all 0.3s ease;
             background: linear-gradient(135deg, #fff 0%, #f9f9f9 100%);
             border-left: 4px solid #ff424f;
+            position: relative;
+            overflow: hidden;
         }
         
         .voucher-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
         }
         
         .voucher-type {
@@ -67,12 +69,23 @@
             transition: all 0.2s ease;
             padding: 10px 20px;
             border-bottom: 3px solid transparent;
+            position: relative;
         }
         
         .tab-btn.active, .tab-btn:hover {
-            border-bottom-color: #ff424f;
             color: #ff424f;
             font-weight: 500;
+        }
+        
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: #ff424f;
+            border-radius: 3px;
         }
         
         .progress-bar {
@@ -84,12 +97,13 @@
         
         .progress-value {
             height: 100%;
-            background-color: #ff424f;
+            background: linear-gradient(90deg, #ff9a9e, #fad0c4);
             border-radius: 3px;
         }
         
         .terms-toggle {
             transition: all 0.3s ease;
+            cursor: pointer;
         }
         
         .terms-toggle.expanded .terms-content {
@@ -104,13 +118,11 @@
         
         .voucher-enter {
             animation: enter 0.5s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
         }
         
         @keyframes enter {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -123,31 +135,104 @@
         
         .redeem-input {
             transition: all 0.3s ease;
+            position: relative;
         }
         
         .redeem-input:focus-within {
-            border-color: #ff424f;
-            box-shadow: 0 0 0 3px rgba(255, 66, 79, 0.1);
+            box-shadow: 0 0 0 3px rgba(255, 66, 79, 0.2);
+        }
+        
+        .voucher-ribbon {
+            position: absolute;
+            top: 10px;
+            right: -30px;
+            background-color: #ff424f;
+            color: white;
+            padding: 4px 30px;
+            transform: rotate(45deg);
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .voucher-counter {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #ff424f;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .points-badge {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .voucher-code {
+            font-family: monospace;
+            letter-spacing: 1px;
+            background: #f5f7fa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
         }
     </style>
 </head>
 <body class="bg-gray-50">
-    <div class="content-container p-4 md:p-6">
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <div class="content-container p-4 md:p-6 max-w-6xl mx-auto">
         <!-- Header -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
             <div>
-                <h1 class="text-2xl font-bold text-gray-800">Voucher của tôi</h1>
+                <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Voucher của tôi</h1>
                 <p class="text-gray-600 mt-1">Quản lý voucher, mã giảm giá và ưu đãi dành riêng cho bạn</p>
             </div>
             <div class="mt-4 md:mt-0 flex items-center">
-                <div class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
-                    <i class="fas fa-coins mr-1"></i> 3,250 điểm
+                <div class="points-badge bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-sm font-medium flex items-center">
+                    <i class="fas fa-coins mr-2"></i> <span id="points-count">3,250</span> điểm
                 </div>
+                <a href="/doi-diem" class="ml-3 text-sm text-blue-600 hover:text-blue-800 hover:underline">
+                    <i class="fas fa-exchange-alt mr-1"></i> Đổi điểm
+                </a>
             </div>
         </div>
         
         <!-- Redeem Voucher Section -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="bg-white rounded-xl shadow-md p-6 mb-8">
             <h2 class="text-xl font-bold text-gray-800 mb-4">Nhập mã voucher</h2>
             <p class="text-gray-600 mb-4">Bạn có mã voucher? Nhập mã dưới đây để thêm vào ví của bạn</p>
             
@@ -160,21 +245,22 @@
                         </button>
                     </div>
                 </div>
-                <button id="redeem-btn" class="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium">
-                    Áp dụng
+                <button id="redeem-btn" class="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium flex items-center justify-center">
+                    <span id="redeem-text">Áp dụng</span>
                 </button>
             </div>
             
-            <div id="redeem-message" class="mt-4 text-sm hidden">
+            <div id="redeem-message" class="mt-4 text-sm hidden p-3 rounded-lg">
                 <!-- Message will be shown here -->
             </div>
         </div>
         
         <!-- Tabs -->
-        <div class="flex border-b border-gray-200 mb-6">
-            <button class="tab-btn active" data-tab="available">Có thể dùng (3)</button>
-            <button class="tab-btn" data-tab="used">Đã sử dụng (2)</button>
-            <button class="tab-btn" data-tab="expired">Hết hạn (1)</button>
+        <div class="flex border-b border-gray-200 mb-6 overflow-x-auto">
+            <button class="tab-btn active whitespace-nowrap" data-tab="available">Có thể dùng (3)</button>
+            <button class="tab-btn whitespace-nowrap" data-tab="used">Đã sử dụng (2)</button>
+            <button class="tab-btn whitespace-nowrap" data-tab="expired">Hết hạn (1)</button>
+            <button class="tab-btn whitespace-nowrap" data-tab="all">Tất cả (6)</button>
         </div>
         
         <!-- Tab Content -->
@@ -184,6 +270,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Voucher 1 -->
                     <div class="voucher-card rounded-lg shadow-md overflow-hidden voucher-enter">
+                        <div class="voucher-ribbon">Mới</div>
+                        <div class="voucher-counter">1</div>
                         <div class="p-6">
                             <div class="flex justify-between items-start mb-4">
                                 <div>
@@ -196,6 +284,7 @@
                                         </span>
                                     </div>
                                     <h3 class="text-xl font-bold text-gray-800 mt-2">Giảm 50K cho đơn từ 300K</h3>
+                                    <div class="text-sm text-gray-700 mt-1">Mã: <span class="voucher-code">VOUCHER50K</span></div>
                                 </div>
                                 <div class="bg-gray-100 rounded-full p-2">
                                     <i class="fas fa-gift text-red-600 text-xl"></i>
@@ -243,6 +332,7 @@
                     
                     <!-- Voucher 2 -->
                     <div class="voucher-card rounded-lg shadow-md overflow-hidden voucher-enter" style="animation-delay: 0.1s">
+                        <div class="voucher-counter">2</div>
                         <div class="p-6">
                             <div class="flex justify-between items-start mb-4">
                                 <div>
@@ -255,6 +345,7 @@
                                         </span>
                                     </div>
                                     <h3 class="text-xl font-bold text-gray-800 mt-2">Freeship đơn từ 150K</h3>
+                                    <div class="text-sm text-gray-700 mt-1">Mã: <span class="voucher-code">FREESHIP150</span></div>
                                 </div>
                                 <div class="bg-gray-100 rounded-full p-2">
                                     <i class="fas fa-truck text-blue-500 text-xl"></i>
@@ -302,6 +393,8 @@
                     
                     <!-- Voucher 3 -->
                     <div class="voucher-card rounded-lg shadow-md overflow-hidden voucher-enter" style="animation-delay: 0.2s">
+                        <div class="voucher-ribbon">Hot</div>
+                        <div class="voucher-counter">3</div>
                         <div class="p-6">
                             <div class="flex justify-between items-start mb-4">
                                 <div>
@@ -314,6 +407,7 @@
                                         </span>
                                     </div>
                                     <h3 class="text-xl font-bold text-gray-800 mt-2">Hoàn 10% tối đa 100K</h3>
+                                    <div class="text-sm text-gray-700 mt-1">Mã: <span class="voucher-code">CASHBACK10</span></div>
                                 </div>
                                 <div class="bg-gray-100 rounded-full p-2">
                                     <i class="fas fa-percentage text-yellow-600 text-xl"></i>
@@ -378,6 +472,7 @@
                                         </span>
                                     </div>
                                     <h3 class="text-xl font-bold text-gray-800 mt-2">Giảm 30% tối đa 100K</h3>
+                                    <div class="text-sm text-gray-700 mt-1">Mã: <span class="voucher-code">DISCOUNT30</span></div>
                                 </div>
                                 <div class="bg-gray-100 rounded-full p-2">
                                     <i class="fas fa-gift text-gray-500 text-xl"></i>
@@ -417,7 +512,7 @@
                         
                         <div class="bg-gray-100 px-6 py-4 flex justify-between items-center">
                             <div class="text-sm text-gray-500">Đã sử dụng</div>
-                            <div class="text-sm text-gray-700 font-medium">Đơn hàng: #DH230615</div>
+                            <div class="text-sm text-gray-700 font-medium">Đơn hàng: <a href="#" class="text-blue-600 hover:underline">#DH230615</a></div>
                         </div>
                     </div>
                     
@@ -435,6 +530,7 @@
                                         </span>
                                     </div>
                                     <h3 class="text-xl font-bold text-gray-800 mt-2">Freeship đơn bất kỳ</h3>
+                                    <div class="text-sm text-gray-700 mt-1">Mã: <span class="voucher-code">FREESHIPALL</span></div>
                                 </div>
                                 <div class="bg-gray-100 rounded-full p-2">
                                     <i class="fas fa-truck text-gray-500 text-xl"></i>
@@ -474,7 +570,7 @@
                         
                         <div class="bg-gray-100 px-6 py-4 flex justify-between items-center">
                             <div class="text-sm text-gray-500">Đã sử dụng</div>
-                            <div class="text-sm text-gray-700 font-medium">Đơn hàng: #DH230610</div>
+                            <div class="text-sm text-gray-700 font-medium">Đơn hàng: <a href="#" class="text-blue-600 hover:underline">#DH230610</a></div>
                         </div>
                     </div>
                 </div>
@@ -497,6 +593,7 @@
                                         </span>
                                     </div>
                                     <h3 class="text-xl font-bold text-gray-800 mt-2">Giảm 20% đơn 500K</h3>
+                                    <div class="text-sm text-gray-700 mt-1">Mã: <span class="voucher-code">SAVE20</span></div>
                                 </div>
                                 <div class="bg-gray-100 rounded-full p-2">
                                     <i class="fas fa-gift text-gray-500 text-xl"></i>
@@ -541,6 +638,13 @@
                             </button>
                         </div>
                     </div>
+                </div>
+            </div>
+            
+            <!-- All Vouchers -->
+            <div class="tab-pane hidden" id="all-tab">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Tất cả voucher sẽ được hiển thị ở đây -->
                 </div>
             </div>
         </div>
@@ -606,6 +710,8 @@
         document.getElementById('redeem-btn').addEventListener('click', function() {
             const voucherCode = document.getElementById('voucher-code').value.trim();
             const messageElement = document.getElementById('redeem-message');
+            const redeemBtn = document.getElementById('redeem-btn');
+            const redeemText = document.getElementById('redeem-text');
             
             if (!voucherCode) {
                 showMessage('Vui lòng nhập mã voucher', 'error');
@@ -613,20 +719,33 @@
             }
             
             // Simulate API call
-            this.disabled = true;
-            this.innerHTML = '<span class="loading-spinner"></span> Đang kiểm tra...';
+            redeemBtn.disabled = true;
+            redeemText.innerHTML = '<div class="loading-spinner"></div> Đang kiểm tra...';
             
+            // Simulate loading
             setTimeout(() => {
-                this.disabled = false;
-                this.textContent = 'Áp dụng';
+                redeemBtn.disabled = false;
+                redeemText.textContent = 'Áp dụng';
                 
                 // Random success or error for demo
-                if (Math.random() > 0.5) {
-                    showMessage(`Thêm voucher "${voucherCode}" thành công!`, 'success');
+                if (voucherCode.length > 5) {
+                    showMessage(`Thêm voucher "${voucherCode}" thành công! Voucher đã được thêm vào ví của bạn.`, 'success');
                     // Clear input
                     document.getElementById('voucher-code').value = '';
+                    
+                    // Add points animation
+                    const pointsElement = document.getElementById('points-count');
+                    const currentPoints = parseInt(pointsElement.textContent.replace(/,/g, ''));
+                    const newPoints = currentPoints + 50;
+                    pointsElement.textContent = newPoints.toLocaleString();
+                    
+                    // Add animation
+                    pointsElement.classList.add('points-badge');
+                    setTimeout(() => {
+                        pointsElement.classList.remove('points-badge');
+                    }, 2000);
                 } else {
-                    showMessage(`Mã voucher "${voucherCode}" không hợp lệ hoặc đã hết hạn`, 'error');
+                    showMessage(`Mã voucher "${voucherCode}" không hợp lệ hoặc đã hết hạn. Vui lòng kiểm tra lại.`, 'error');
                 }
             }, 1500);
         });
@@ -634,12 +753,12 @@
         function showMessage(text, type) {
             const messageElement = document.getElementById('redeem-message');
             messageElement.textContent = text;
-            messageElement.className = 'mt-4 text-sm';
+            messageElement.className = 'mt-4 text-sm p-3 rounded-lg';
             
             if (type === 'success') {
-                messageElement.classList.add('text-green-600');
+                messageElement.classList.add('bg-green-100', 'text-green-700');
             } else {
-                messageElement.classList.add('text-red-600');
+                messageElement.classList.add('bg-red-100', 'text-red-700');
             }
             
             messageElement.classList.remove('hidden');
@@ -655,6 +774,20 @@
             const vouchers = document.querySelectorAll('.voucher-enter');
             vouchers.forEach((voucher, index) => {
                 voucher.style.animationDelay = `${index * 0.1}s`;
+                setTimeout(() => {
+                    voucher.style.opacity = '1';
+                    voucher.style.transform = 'translateY(0)';
+                }, 100);
+            });
+            
+            // Add copy functionality to voucher codes
+            document.querySelectorAll('.voucher-code').forEach(code => {
+                code.addEventListener('click', function() {
+                    const text = this.textContent;
+                    navigator.clipboard.writeText(text).then(() => {
+                        showMessage(`Đã sao chép mã: ${text}`, 'success');
+                    });
+                });
             });
         });
     </script>
