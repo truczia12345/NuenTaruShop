@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ Sơ Người Dùng - E-Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        html, body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden; /* Ẩn thanh cuộn toàn trang */
+    }
+
+        .profile-card {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+        .avatar-upload {
+            position: relative;
+            display: inline-block;
+        }
+        .avatar-upload input[type="file"] {
+            display: none;
+        }
+        .avatar-upload-label {
+            cursor: pointer;
+        }
+        .edit-mode .view-mode {
+            display: none;
+        }
+        .view-mode .edit-mode {
+            display: none;
+        }
+        .content-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow-y: auto; /* Chỉ hiển thị cuộn khi cần */
+    }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="content-container">
+        <!-- Profile Card -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Personal Info -->
+            <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6 profile-card">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Thông tin cá nhân</h2>
+                    <button id="edit-btn" class="text-blue-600 font-medium">
+                        <i class="fas fa-edit mr-1"></i> Chỉnh sửa
+                    </button>
+                </div>
+                
+                <!-- Avatar Upload -->
+                <div class="flex justify-center mb-6">
+                    <div class="avatar-upload">
+                        <label for="avatar-input" class="avatar-upload-label">
+                            <img id="avatar-preview" src="https://i.pravatar.cc/150?img=12" alt="User Avatar" class="w-32 h-32 rounded-full border-2 border-white shadow object-cover">
+                            <div class="absolute bottom-0 right-0 bg-blue-600 text-white rounded-full p-2">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </label>
+                        <input type="file" id="avatar-input" accept="image/*">
+                    </div>
+                </div>
+                
+                <!-- View Mode -->
+                <div id="view-mode" class="view-mode space-y-4">
+                    <div class="flex">
+                        <div class="w-1/3 text-gray-500">Họ và tên</div>
+                        <div id="view-name" class="w-2/3 font-medium">Nguyễn Văn A</div>
+                    </div>
+                    
+                    <div class="flex">
+                        <div class="w-1/3 text-gray-500">Email</div>
+                        <div id="view-email" class="w-2/3 font-medium">nguyenvana@example.com</div>
+                    </div>
+                    
+                    <div class="flex">
+                        <div class="w-1/3 text-gray-500">Số điện thoại</div>
+                        <div id="view-phone" class="w-2/3 font-medium">0987654321</div>
+                    </div>
+                    
+                    <div class="flex">
+                        <div class="w-1/3 text-gray-500">Ngày sinh</div>
+                        <div id="view-dob" class="w-2/3 font-medium">15/05/1990</div>
+                    </div>
+                    
+                    <div class="flex">
+                        <div class="w-1/3 text-gray-500">Giới tính</div>
+                        <div id="view-gender" class="w-2/3 font-medium">Nam</div>
+                    </div>
+                </div>
+                
+                <!-- Edit Mode -->
+                <div id="edit-mode" class="edit-mode h-full space-y-4 hidden">
+                    <div class="flex items-center">
+                        <div class="w-1/3 text-gray-500">Họ và tên</div>
+                        <div class="w-2/3">
+                            <input type="text" id="edit-name" class="w-full p-2 border rounded" value="Nguyễn Văn A">
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <div class="w-1/3 text-gray-500">Email</div>
+                        <div class="w-2/3">
+                            <input type="email" id="edit-email" class="w-full p-2 border rounded" value="nguyenvana@example.com">
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <div class="w-1/3 text-gray-500">Số điện thoại</div>
+                        <div class="w-2/3">
+                            <input type="tel" id="edit-phone" class="w-full p-2 border rounded" value="0987654321">
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <div class="w-1/3 text-gray-500">Ngày sinh</div>
+                        <div class="w-2/3">
+                            <input type="date" id="edit-dob" class="w-full p-2 border rounded" value="1990-05-15">
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <div class="w-1/3 text-gray-500">Giới tính</div>
+                        <div class="w-2/3">
+                            <select id="edit-gender" class="w-full p-2 border rounded">
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                                <option value="Khác">Khác</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 mt-6">
+                        <button id="cancel-btn" class="px-4 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-100">Hủy</button>
+                        <button id="save-btn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Lưu thay đổi</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Account Security -->
+            <div class="bg-white rounded-lg shadow-md p-6 profile-card">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">Bảo mật tài khoản</h2>
+                
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="font-medium">Mật khẩu</h3>
+                            <p class="text-gray-500 text-sm">••••••••</p>
+                        </div>
+                        <a href="change-password.html" class="text-blue-600 font-medium text-sm">
+                            Đổi mật khẩu
+                        </a>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="font-medium">Xác thực 2 bước</h3>
+                            <p class="text-gray-500 text-sm">Chưa bật</p>
+                        </div>
+                        <button class="text-blue-600 font-medium text-sm">
+                            Bật ngay
+                        </button>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="font-medium">Thiết bị đăng nhập</h3>
+                            <p class="text-gray-500 text-sm">3 thiết bị</p>
+                        </div>
+                        <button class="text-blue-600 font-medium text-sm">
+                            Quản lý
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const viewMode = document.getElementById('view-mode');
+        const editMode = document.getElementById('edit-mode');
+        const editBtn = document.getElementById('edit-btn');
+        const cancelBtn = document.getElementById('cancel-btn');
+        const saveBtn = document.getElementById('save-btn');
+        const avatarInput = document.getElementById('avatar-input');
+        const avatarPreview = document.getElementById('avatar-preview');
+        
+        // Toggle Edit Mode
+        editBtn.addEventListener('click', () => {
+            viewMode.classList.add('hidden');
+            editMode.classList.remove('hidden');
+            editBtn.classList.add('hidden');
+        });
+        
+        // Cancel Edit
+        cancelBtn.addEventListener('click', () => {
+            editMode.classList.add('hidden');
+            viewMode.classList.remove('hidden');
+            editBtn.classList.remove('hidden');
+        });
+        
+        // Save Changes
+        saveBtn.addEventListener('click', () => {
+            // Update view mode with new values
+            document.getElementById('view-name').textContent = document.getElementById('edit-name').value;
+            document.getElementById('view-email').textContent = document.getElementById('edit-email').value;
+            document.getElementById('view-phone').textContent = document.getElementById('edit-phone').value;
+            document.getElementById('view-dob').textContent = formatDate(document.getElementById('edit-dob').value);
+            document.getElementById('view-gender').textContent = document.getElementById('edit-gender').value;
+            
+            // Switch back to view mode
+            editMode.classList.add('hidden');
+            viewMode.classList.remove('hidden');
+            editBtn.classList.remove('hidden');
+            
+            // Here you would typically send an AJAX request to save the changes
+            alert('Thông tin đã được cập nhật!');
+        });
+        
+        // Avatar Upload
+        avatarInput.addEventListener('change', function(e) {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    avatarPreview.src = e.target.result;
+                }
+                
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+        
+        // Helper function to format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+        const iframe = document.querySelector('iframe');
+        
+        function resizeIframe() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.flex-1');
+            const headerHeight = document.querySelector('.bg-white.rounded-lg').offsetHeight;
+            
+            // Tính toán chiều cao tối đa
+            const maxHeight = Math.max(
+                sidebar.offsetHeight - headerHeight,
+                mainContent.offsetHeight - headerHeight
+            );
+            
+            iframe.style.height = maxHeight + 'px';
+        }
+        
+        // Gọi hàm khi tải trang và khi thay đổi kích thước
+        resizeIframe();
+        window.addEventListener('resize', resizeIframe);
+        
+        // Đồng bộ resize khi chuyển tab
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', () => {
+                setTimeout(resizeIframe, 300);
+            });
+        });
+    });
+    </script>
+</body>
+</html>

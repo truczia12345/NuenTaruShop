@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phương thức thanh toán - E-Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Các style giữ nguyên từ trước */
+        .payment-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid #ff424f;
+        }
+        
+        .payment-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-type {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .type-visa {
+            background-color: #dbeafe;
+            color: #1a1f71;
+        }
+        
+        .type-mastercard {
+            background-color: #fee2e2;
+            color: #eb001b;
+        }
+        
+        .type-jcb {
+            background-color: #f0fdf4;
+            color: #0f9d58;
+        }
+        
+        .type-momo {
+            background-color: #ede9fe;
+            color: #a435f0;
+        }
+        
+        .type-zalopay {
+            background-color: #dcfce7;
+            color: #0c9c45;
+        }
+        
+        .type-bank {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+        
+        .default-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: #ff424f;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .add-payment-card {
+            border: 2px dashed #cbd5e1;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .add-payment-card:hover {
+            border-color: #ff424f;
+            background-color: #fff1f2;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .payment-tab {
+            transition: all 0.2s ease;
+            padding: 10px 20px;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .payment-tab.active, .payment-tab:hover {
+            border-bottom-color: #ff424f;
+            color: #ff424f;
+            font-weight: 500;
+        }
+        
+        .card-input {
+            transition: all 0.3s ease;
+        }
+        
+        .card-input:focus-within {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .card-preview {
+            transition: all 0.5s ease;
+            transform-style: preserve-3d;
+            height: 220px; /* Tăng chiều cao lên 220px */
+            width: 100%;
+            max-width: 350px; /* Giới hạn chiều rộng tối đa */
+            margin: 0 auto; /* Căn giữa */
+        }
+        
+        .card-preview.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+            backface-visibility: hidden;
+            height: 100%; /* Chiếm toàn bộ chiều cao */
+            width: 100%; /* Chiếm toàn bộ chiều rộng */
+        }
+        
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        
+        .card-logo {
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+        
+        .cvv-hint {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .cvv-hint:hover {
+            color: #3b82f6;
+        }
+        
+        .input-error {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+        
+        .error-message {
+            color: #ef4444;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        .card-visa {
+            background: linear-gradient(135deg, #1a1f71, #3d5bff);
+        }
+        
+        .card-mastercard {
+            background: linear-gradient(135deg, #f79e1b, #eb001b);
+        }
+        
+        .card-jcb {
+            background: linear-gradient(135deg, #a4a4a4, #6e6e6e);
+        }
+        
+        .card-default {
+            background: linear-gradient(135deg, #b1b1b1, #7d7d7d);
+        }
+        
+        /* Điều chỉnh bố cục thẻ */
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .card-brand {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 4px;
+            padding: 5px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            opacity: 0; /* Ẩn mặc định */
+            transition: opacity 0.3s ease;
+        }
+        
+        .card-brand.visible {
+            opacity: 1; /* Hiển thị khi có logo */
+        }
+        
+        .card-body {
+            margin-top: auto;
+            padding-bottom: 15px;
+        }
+        
+        .card-footer {
+            margin-top: auto;
+        }
+        
+        /* Thêm tỷ lệ khung hình cho thẻ */
+        .card-preview-container {
+            position: relative;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+        
+        .card-preview-container::before {
+            content: "";
+            display: block;
+            padding-top: 63%; /* Tỷ lệ khung hình thẻ tín dụng (56mm x 88mm) */
+        }
+        
+        .card-preview {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="content-container p-4 md:p-6">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Phương thức thanh toán</h1>
+                <p class="text-gray-600 mt-1">Quản lý thông tin thẻ, ví điện tử và tài khoản ngân hàng</p>
+            </div>
+        </div>
+        
+        <!-- Tabs -->
+        <div class="flex border-b border-gray-200 mb-6">
+            <button class="payment-tab active" data-tab="cards">Thẻ thanh toán</button>
+            <button class="payment-tab" data-tab="ewallets">Ví điện tử</button>
+            <button class="payment-tab" data-tab="banks">Tài khoản ngân hàng</button>
+        </div>
+        
+        <!-- Tab Content -->
+        <div id="tab-content">
+            <!-- Cards Tab -->
+            <div class="tab-pane active" id="cards-tab">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Card 1 - Default -->
+                    <div class="payment-card bg-white rounded-lg shadow-md p-6 relative">
+                        <div class="absolute top-4 right-4 flex space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800 edit-payment" data-id="1">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="text-red-600 hover:text-red-800 delete-payment" data-id="1">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-start mb-4">
+                            <div class="mr-3">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/1200px-Visa_Inc._logo.svg.png" alt="Visa" class="h-8 card-logo">
+                            </div>
+                            <div>
+                                <div class="font-bold text-lg">Nguyễn Văn A</div>
+                                <span class="default-badge">
+                                    <i class="fas fa-check-circle mr-1"></i> Mặc định
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="text-xl font-mono tracking-wider mb-1">**** **** **** 1234</div>
+                            <div class="flex justify-between text-gray-600">
+                                <div>Hết hạn: 12/2027</div>
+                                <div>CVV: ***</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <span class="card-type type-visa">
+                                <i class="fab fa-cc-visa mr-1"></i> Visa
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 2 -->
+                    <div class="payment-card bg-white rounded-lg shadow-md p-6 relative">
+                        <div class="absolute top-4 right-4 flex space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800 edit-payment" data-id="2">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="text-red-600 hover:text-red-800 delete-payment" data-id="2">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-start mb-4">
+                            <div class="mr-3">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/1200px-MasterCard_Logo.svg.png" alt="Mastercard" class="h-8 card-logo">
+                            </div>
+                            <div class="font-bold text-lg">Nguyễn Văn A</div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="text-xl font-mono tracking-wider mb-1">**** **** **** 5678</div>
+                            <div class="flex justify-between text-gray-600">
+                                <div>Hết hạn: 08/2026</div>
+                                <div>CVV: ***</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <span class="card-type type-mastercard">
+                                <i class="fab fa-cc-mastercard mr-1"></i> Mastercard
+                            </span>
+                        </div>
+                        
+                        <button class="mt-4 w-full py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 set-default" data-id="2">
+                            Đặt làm mặc định
+                        </button>
+                    </div>
+                    
+                    <!-- Add New Card -->
+                    <div class="add-payment-card bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-center min-h-[250px] text-center" id="add-card-btn">
+                        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-plus text-3xl text-gray-400"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-700 mb-2">Thêm thẻ mới</h3>
+                        <p class="text-gray-500">Thêm thẻ thanh toán mới</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- E-Wallets Tab -->
+            <div class="tab-pane hidden" id="ewallets-tab">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- MoMo Wallet -->
+                    <div class="payment-card bg-white rounded-lg shadow-md p-6 relative">
+                        <div class="absolute top-4 right-4 flex space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800 edit-payment" data-id="3">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="text-red-600 hover:text-red-800 delete-payment" data-id="3">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-start mb-4">
+                            <div class="mr-3">
+                                <img src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png" alt="MoMo" class="h-10">
+                            </div>
+                            <div>
+                                <div class="font-bold text-lg">Ví MoMo</div>
+                                <span class="default-badge">
+                                    <i class="fas fa-check-circle mr-1"></i> Mặc định
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="text-lg font-medium mb-1">0987 654 321</div>
+                            <div class="text-gray-600">Nguyễn Văn A</div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <span class="card-type type-momo">
+                                <i class="fas fa-wallet mr-1"></i> Ví điện tử
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- ZaloPay Wallet -->
+                    <div class="payment-card bg-white rounded-lg shadow-md p-6 relative">
+                        <div class="absolute top-4 right-4 flex space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800 edit-payment" data-id="4">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="text-red-600 hover:text-red-800 delete-payment" data-id="4">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-start mb-4">
+                            <div class="mr-3">
+                                <img src="https://seeklogo.com/images/Z/zalopay-logo-7A5A940E7D-seeklogo.com.png" alt="ZaloPay" class="h-8">
+                            </div>
+                            <div class="font-bold text-lg">Ví ZaloPay</div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="text-lg font-medium mb-1">nguyenvana@example.com</div>
+                            <div class="text-gray-600">Nguyễn Văn A</div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <span class="card-type type-zalopay">
+                                <i class="fas fa-wallet mr-1"></i> Ví điện tử
+                            </span>
+                        </div>
+                        
+                        <button class="mt-4 w-full py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 set-default" data-id="4">
+                            Đặt làm mặc định
+                        </button>
+                    </div>
+                    
+                    <!-- Add New E-Wallet -->
+                    <div class="add-payment-card bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-center min-h-[250px] text-center" id="add-ewallet-btn">
+                        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-plus text-3xl text-gray-400"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-700 mb-2">Thêm ví điện tử</h3>
+                        <p class="text-gray-500">Thêm ví điện tử mới</p>
+                    </div>
+                </div>
+            </div>
+            </div>
+            
+            <!-- Banks Tab -->
+            <div class="tab-pane hidden" id="banks-tab">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Bank Account 1 -->
+                    <div class="payment-card bg-white rounded-lg shadow-md p-6 relative">
+                        <div class="absolute top-4 right-4 flex space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800 edit-payment" data-id="5">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="text-red-600 hover:text-red-800 delete-payment" data-id="5">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-start mb-4">
+                            <div class="mr-3">
+                                <img src="https://seeklogo.com/images/V/vietcombank-logo-0E13F0DBC7-seeklogo.com.png" alt="Vietcombank" class="h-8">
+                            </div>
+                            <div>
+                                <div class="font-bold text-lg">Ngân hàng Vietcombank</div>
+                                <span class="default-badge">
+                                    <i class="fas fa-check-circle mr-1"></i> Mặc định
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="text-lg font-medium mb-1">Số tài khoản: **** 4567</div>
+                            <div class="text-gray-600">Nguyễn Văn A - Chi nhánh Đà Nẵng</div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <span class="card-type type-bank">
+                                <i class="fas fa-university mr-1"></i> Tài khoản ngân hàng
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- Bank Account 2 -->
+                    <div class="payment-card bg-white rounded-lg shadow-md p-6 relative">
+                        <div class="absolute top-4 right-4 flex space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800 edit-payment" data-id="6">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="text-red-600 hover:text-red-800 delete-payment" data-id="6">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="flex items-start mb-4">
+                            <div class="mr-3">
+                                <img src="https://seeklogo.com/images/T/techcombank-logo-3E2C0DABD8-seeklogo.com.png" alt="Techcombank" class="h-8">
+                            </div>
+                            <div class="font-bold text-lg">Ngân hàng Techcombank</div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="text-lg font-medium mb-1">Số tài khoản: **** 8910</div>
+                            <div class="text-gray-600">Nguyễn Văn A - Chi nhánh Hà Nội</div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <span class="card-type type-bank">
+                                <i class="fas fa-university mr-1"></i> Tài khoản ngân hàng
+                            </span>
+                        </div>
+                        
+                        <button class="mt-4 w-full py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 set-default" data-id="6">
+                            Đặt làm mặc định
+                        </button>
+                    </div>
+                    
+                    <!-- Add New Bank Account -->
+                    <div class="add-payment-card bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-center min-h-[250px] text-center" id="add-bank-btn">
+                        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-plus text-3xl text-gray-400"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-700 mb-2">Thêm tài khoản</h3>
+                        <p class="text-gray-500">Thêm tài khoản ngân hàng mới</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add/Edit Card Modal -->
+    <div class="modal" id="card-modal">
+        <div class="modal-content bg-white rounded-lg">
+            <div class="p-6">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800" id="card-modal-title">Thêm thẻ thanh toán</h2>
+                    <button class="text-gray-500 hover:text-gray-700" id="close-card-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <!-- Card Preview -->
+                <div class="relative mb-6">
+                    <div class="card-preview-container">
+                        <div class="card-preview" id="card-preview">
+                            <!-- Card Front -->
+                            <div class="card-front absolute w-full h-full rounded-xl shadow-lg text-white card-default" id="card-front-preview">
+                                <div class="card-content">
+                                    <div class="card-header">
+                                        <div class="text-xl font-bold">Thẻ ghi nợ</div>
+                                        <div class="card-brand" id="card-brand">
+                                            <img id="card-type-icon" src="" alt="Card type" class="h-6">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card-body">
+                                        <div class="text-xl font-mono tracking-wider mb-1" id="preview-card-number">**** **** **** ****</div>
+                                        <div class="flex justify-between text-sm">
+                                            <div>
+                                                <div class="text-xs opacity-70">Tên chủ thẻ</div>
+                                                <div id="preview-card-name">HỌ VÀ TÊN</div>
+                                            </div>
+                                            <div>
+                                                <div class="text-xs opacity-70">Hết hạn</div>
+                                                <div id="preview-card-expiry">MM/YY</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Card Back -->
+                            <div class="card-back absolute w-full h-full bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl shadow-lg text-white">
+                                <div class="card-content">
+                                    <div class="h-10 bg-black mb-4"></div>
+                                    <div class="flex justify-end mb-4">
+                                        <div class="bg-gray-700 text-white px-3 py-1 rounded text-sm font-mono" id="preview-card-cvv">***</div>
+                                    </div>
+                                    <div class="text-xs text-gray-400 text-center mt-4">Thẻ được cung cấp bởi E-Shop. Số điện thoại hỗ trợ: 1900 1234</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute bottom-4 right-4">
+                        <button id="flip-card" class="text-white bg-black bg-opacity-30 rounded-full p-2">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Modal Form -->
+                <form id="card-form">
+                    <input type="hidden" id="payment-id">
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Số thẻ</label>
+                            <div class="card-input flex border border-gray-300 rounded-lg overflow-hidden" id="card-number-container">
+                                <input type="text" id="card-number" placeholder="1234 5678 9012 3456" class="w-full p-3 focus:outline-none" maxlength="19">
+                                <button class="px-4 bg-gray-100 text-gray-600 border-l">
+                                    <i class="far fa-credit-card"></i>
+                                </button>
+                            </div>
+                            <div class="error-message hidden" id="card-number-error"></div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tên chủ thẻ</label>
+                            <input type="text" id="card-name" class="w-full p-3 border rounded-lg" placeholder="Nhập tên như trên thẻ" required>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Ngày hết hạn</label>
+                                <input type="text" id="card-expiry" placeholder="MM/YY" class="w-full p-3 border rounded-lg" required>
+                                <div class="error-message hidden" id="expiry-error"></div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    Mã CVV 
+                                    <span class="cvv-hint text-blue-600 ml-1" id="cvv-hint">
+                                        <i class="fas fa-question-circle"></i>
+                                    </span>
+                                </label>
+                                <div class="card-input flex border border-gray-300 rounded-lg overflow-hidden">
+                                    <input type="text" id="card-cvv" placeholder="123" class="w-full p-3 focus:outline-none" maxlength="3">
+                                    <button class="px-4 bg-gray-100 text-gray-600 border-l">
+                                        <i class="fas fa-lock"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mt-2">
+                            <input type="checkbox" id="set-default-card" class="mr-2 w-4 h-4">
+                            <label for="set-default-card" class="text-sm text-gray-700">Đặt làm phương thức thanh toán mặc định</label>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 flex justify-end space-x-3">
+                        <button type="button" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100" id="cancel-card-form">Hủy</button>
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                            <span id="save-card-text">Thêm thẻ</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add/Edit E-Wallet Modal -->
+    <div class="modal" id="ewallet-modal">
+        <div class="modal-content bg-white rounded-lg">
+            <div class="p-6">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800" id="ewallet-modal-title">Thêm ví điện tử</h2>
+                    <button class="text-gray-500 hover:text-gray-700" id="close-ewallet-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <!-- Modal Form -->
+                <form id="ewallet-form">
+                    <input type="hidden" id="ewallet-id">
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Chọn ví điện tử</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <label class="flex flex-col items-center p-4 border rounded-lg cursor-pointer">
+                                    <input type="radio" name="ewallet-type" value="momo" class="hidden" checked>
+                                    <img src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png" alt="MoMo" class="h-10 mb-2">
+                                    <span class="text-sm">MoMo</span>
+                                </label>
+                                
+                                <label class="flex flex-col items-center p-4 border rounded-lg cursor-pointer">
+                                    <input type="radio" name="ewallet-type" value="zalopay" class="hidden">
+                                    <img src="https://seeklogo.com/images/Z/zalopay-logo-7A5A940E7D-seeklogo.com.png" alt="ZaloPay" class="h-8 mb-2">
+                                    <span class="text-sm">ZaloPay</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1" id="ewallet-label">Số điện thoại MoMo</label>
+                            <input type="text" id="ewallet-account" class="w-full p-3 border rounded-lg" placeholder="Nhập số điện thoại" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tên chủ tài khoản</label>
+                            <input type="text" id="ewallet-name" class="w-full p-3 border rounded-lg" placeholder="Nhập tên chủ tài khoản" required>
+                        </div>
+                        
+                        <div class="flex items-center mt-2">
+                            <input type="checkbox" id="set-default-ewallet" class="mr-2 w-4 h-4">
+                            <label for="set-default-ewallet" class="text-sm text-gray-700">Đặt làm phương thức thanh toán mặc định</label>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 flex justify-end space-x-3">
+                        <button type="button" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100" id="cancel-ewallet-form">Hủy</button>
+                        <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+                            <span id="save-ewallet-text">Thêm ví</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add/Edit Bank Account Modal -->
+    <div class="modal" id="bank-modal">
+        <div class="modal-content bg-white rounded-lg">
+            <div class="p-6">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800" id="bank-modal-title">Thêm tài khoản ngân hàng</h2>
+                    <button class="text-gray-500 hover:text-gray-700" id="close-bank-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <!-- Modal Form -->
+                <form id="bank-form">
+                    <input type="hidden" id="bank-id">
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Chọn ngân hàng</label>
+                            <select id="bank-name" class="w-full p-3 border rounded-lg" required>
+                                <option value="">Chọn ngân hàng</option>
+                                <option value="vietcombank">Vietcombank</option>
+                                <option value="techcombank">Techcombank</option>
+                                <option value="agribank">Agribank</option>
+                                <option value="bidv">BIDV</option>
+                                <option value="vietinbank">VietinBank</option>
+                                <option value="mbbank">MB Bank</option>
+                                <option value="tpb">TPBank</option>
+                                <option value="vpbank">VPBank</option>
+                                <option value="sacombank">Sacombank</option>
+                                <option value="acb">ACB</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Số tài khoản</label>
+                            <input type="text" id="bank-account" class="w-full p-3 border rounded-lg" placeholder="Nhập số tài khoản" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tên chủ tài khoản</label>
+                            <input type="text" id="bank-name" class="w-full p-3 border rounded-lg" placeholder="Nhập tên chủ tài khoản" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Chi nhánh</label>
+                            <input type="text" id="bank-branch" class="w-full p-3 border rounded-lg" placeholder="Nhập chi nhánh ngân hàng">
+                        </div>
+                        
+                        <div class="flex items-center mt-2">
+                            <input type="checkbox" id="set-default-bank" class="mr-2 w-4 h-4">
+                            <label for="set-default-bank" class="text-sm text-gray-700">Đặt làm phương thức thanh toán mặc định</label>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 flex justify-end space-x-3">
+                        <button type="button" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100" id="cancel-bank-form">Hủy</button>
+                        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                            <span id="save-bank-text">Thêm tài khoản</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="delete-modal">
+        <div class="modal-content bg-white rounded-lg max-w-md">
+            <div class="p-6">
+                <div class="text-center">
+                    <div class="mx-auto w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mb-4">
+                        <i class="fas fa-exclamation-triangle text-2xl text-red-600"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Xác nhận xóa</h3>
+                    <p class="text-gray-600 mb-6">Bạn có chắc chắn muốn xóa phương thức thanh toán này?</p>
+                    
+                    <div class="flex justify-center space-x-3">
+                        <button class="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100" id="cancel-delete">Hủy</button>
+                        <button class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700" id="confirm-delete">Xóa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        document.querySelectorAll('.payment-tab').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.payment-tab').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Get target tab
+                const tabId = this.getAttribute('data-tab');
+                
+                // Hide all tab panes
+                document.querySelectorAll('.tab-pane').forEach(pane => {
+                    pane.classList.remove('active');
+                    pane.classList.add('hidden');
+                });
+                
+                // Show target tab pane
+                document.getElementById(`${tabId}-tab`).classList.remove('hidden');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+        
+        // Hàm kiểm tra ngày hết hạn thẻ
+        function validateExpiry(expiryDate) {
+            const errorElement = document.getElementById('expiry-error');
+            errorElement.classList.add('hidden');
+            
+            // Kiểm tra định dạng MM/YY
+            if (!/^\d{2}\/\d{2}$/.test(expiryDate)) {
+                errorElement.textContent = "Định dạng ngày không hợp lệ. Vui lòng nhập MM/YY";
+                errorElement.classList.remove('hidden');
+                return false;
+            }
+            
+            const [inputMonth, inputYear] = expiryDate.split('/').map(Number);
+            
+            // Lấy ngày hiện tại
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear() % 100; // Lấy 2 số cuối của năm
+            const currentMonth = currentDate.getMonth() + 1; // Tháng bắt đầu từ 0
+            
+            // Chuyển đổi năm 2 số thành năm 4 số (giả sử năm 2000-2099)
+            const fullYear = 2000 + inputYear;
+            
+            // Kiểm tra tháng hợp lệ
+            if (inputMonth < 1 || inputMonth > 12) {
+                errorElement.textContent = "Tháng không hợp lệ. Vui lòng nhập tháng từ 01 đến 12";
+                errorElement.classList.remove('hidden');
+                return false;
+            }
+            
+            // Kiểm tra thẻ đã hết hạn chưa
+            if (inputYear < currentYear || (inputYear === currentYear && inputMonth < currentMonth)) {
+                errorElement.textContent = "Thẻ đã hết hạn. Vui lòng kiểm tra lại";
+                errorElement.classList.remove('hidden');
+                return false;
+            }
+            
+            // Kiểm tra thẻ không được quá 5 năm
+            const maxYear = currentYear + 5;
+            const maxFullYear = currentDate.getFullYear() + 5;
+            
+            if (fullYear > maxFullYear || (fullYear === maxFullYear && inputMonth > currentMonth)) {
+                errorElement.textContent = `Thẻ không được có hạn sử dụng quá 5 năm. Tối đa đến ${currentMonth.toString().padStart(2, '0')}/${maxYear}`;
+                errorElement.classList.remove('hidden');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // Hàm xác định loại thẻ dựa trên số thẻ
+        function detectCardType(cardNumber) {
+            // Lấy số đầu tiên hoặc hai số đầu
+            const firstDigit = cardNumber.charAt(0);
+            const firstTwoDigits = cardNumber.substring(0, 2);
+            
+            // Xóa khoảng trắng để kiểm tra
+            const cleanNumber = cardNumber.replace(/\s/g, '');
+            
+            // Visa: bắt đầu bằng số 4
+            if (firstDigit === '4') {
+                return 'visa';
+            }
+            // Mastercard: bắt đầu bằng 51-55
+            else if (/^5[1-5]/.test(firstTwoDigits)) {
+                return 'mastercard';
+            }
+            // JCB: bắt đầu bằng 35
+            else if (firstTwoDigits === '35') {
+                return 'jcb';
+            }
+            
+            return 'unknown';
+        }
+
+        // Hàm cập nhật màu sắc và icon thẻ
+        function updateCardAppearance(cardType) {
+            const cardFront = document.getElementById('card-front-preview');
+            const iconElement = document.getElementById('card-type-icon');
+            const cardBrand = document.getElementById('card-brand');
+            
+            // Reset classes
+            cardFront.className = 'card-front absolute w-full h-full rounded-xl shadow-lg text-white';
+            cardBrand.classList.remove('visible');
+            
+            // Cập nhật màu sắc và icon theo loại thẻ
+            switch(cardType) {
+                case 'visa':
+                    cardFront.classList.add('card-visa');
+                    iconElement.src = 'https://ntts.id.vn/assets/img/icon/profile/978171cbed6ea94e.png';
+                    cardBrand.classList.add('visible');
+                    break;
+                case 'mastercard':
+                    cardFront.classList.add('card-mastercard');
+                    iconElement.src = 'https://ntts.id.vn/assets/img/icon/profile/f3c98306471e28f1.png';
+                    cardBrand.classList.add('visible');
+                    break;
+                case 'jcb':
+                    cardFront.classList.add('card-jcb');
+                    iconElement.src = 'https://ntts.id.vn/assets/img/icon/profile/61f811e35a795c3c.png';
+                    cardBrand.classList.add('visible');
+                    break;
+                default:
+                    cardFront.classList.add('card-default');
+                    // Không hiển thị logo
+            }
+        }
+        
+        // Flip card in preview
+        document.getElementById('flip-card').addEventListener('click', function() {
+            document.getElementById('card-preview').classList.toggle('flipped');
+        });
+        
+        // Format card number input and detect card type
+        document.getElementById('card-number').addEventListener('input', function(e) {
+            // Remove non-digit characters
+            let value = e.target.value.replace(/\D/g, '');
+            
+            // Add spaces every 4 characters
+            value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+            
+            // Update input value
+            e.target.value = value;
+            
+            // Update preview
+            document.getElementById('preview-card-number').textContent = value || '**** **** **** ****';
+            
+            // Detect and update card type
+            if (value.length >= 1) {
+                const cardType = detectCardType(value);
+                updateCardAppearance(cardType);
+            } else {
+                // Reset to default when no card number
+                updateCardAppearance('default');
+            }
+            
+            // Reset error
+            document.getElementById('card-number-error').classList.add('hidden');
+        });
+        
+        // Format card expiry input and validate
+        document.getElementById('card-expiry').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            
+            if (value.length > 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            
+            e.target.value = value;
+            
+            // Update preview
+            document.getElementById('preview-card-expiry').textContent = value || 'MM/YY';
+            
+            // Validate expiry date when user finishes typing
+            if (value.length === 5) {
+                validateExpiry(value);
+            } else {
+                document.getElementById('expiry-error').classList.add('hidden');
+            }
+        });
+        
+        // Validate expiry on blur
+        document.getElementById('card-expiry').addEventListener('blur', function() {
+            if (this.value) {
+                validateExpiry(this.value);
+            }
+        });
+        
+        // Update card name preview
+        document.getElementById('card-name').addEventListener('input', function(e) {
+            document.getElementById('preview-card-name').textContent = e.target.value || 'HỌ VÀ TÊN';
+        });
+        
+        // Update card CVV preview
+        document.getElementById('card-cvv').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            e.target.value = value;
+            document.getElementById('preview-card-cvv').textContent = value || '***';
+        });
+        
+        // CVV hint
+        document.getElementById('cvv-hint').addEventListener('click', function() {
+            alert('Mã CVV là mã bảo mật 3 chữ số ở mặt sau thẻ thanh toán của bạn.');
+        });
+        
+        // Form submission with validation
+        document.getElementById('card-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const cardNumber = document.getElementById('card-number').value;
+            const cardExpiry = document.getElementById('card-expiry').value;
+            const cardName = document.getElementById('card-name').value;
+            const cardCVV = document.getElementById('card-cvv').value;
+            
+            // Reset errors
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.classList.add('hidden');
+            });
+            document.querySelectorAll('.input-error').forEach(el => {
+                el.classList.remove('input-error');
+            });
+            
+            let isValid = true;
+            
+            // Validate card number (min 16 digits)
+            const cleanCardNumber = cardNumber.replace(/\s/g, '');
+            if (cleanCardNumber.length < 16) {
+                document.getElementById('card-number-container').classList.add('input-error');
+                document.getElementById('card-number-error').textContent = "Số thẻ phải có ít nhất 16 chữ số";
+                document.getElementById('card-number-error').classList.remove('hidden');
+                isValid = false;
+            }
+            
+            // Validate expiry date
+            if (!validateExpiry(cardExpiry)) {
+                document.getElementById('card-expiry').classList.add('input-error');
+                isValid = false;
+            }
+            
+            // Validate card name
+            if (!cardName.trim()) {
+                document.getElementById('card-name').classList.add('input-error');
+                isValid = false;
+            }
+            
+            // Validate CVV (exactly 3 digits)
+            if (!/^\d{3}$/.test(cardCVV)) {
+                document.getElementById('card-cvv').classList.add('input-error');
+                isValid = false;
+            }
+            
+            if (isValid) {
+                alert('Thẻ thanh toán đã được thêm thành công!');
+                document.getElementById('card-modal').classList.remove('active');
+            }
+        });
+        
+        // E-wallet type change
+        document.querySelectorAll('input[name="ewallet-type"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const label = document.getElementById('ewallet-label');
+                const input = document.getElementById('ewallet-account');
+                
+                if (this.value === 'momo') {
+                    label.textContent = 'Số điện thoại MoMo';
+                    input.placeholder = 'Nhập số điện thoại';
+                } else if (this.value === 'zalopay') {
+                    label.textContent = 'Email hoặc số điện thoại ZaloPay';
+                    input.placeholder = 'Nhập email hoặc số điện thoại';
+                }
+            });
+        });
+        
+        // Modal openers
+        document.getElementById('add-card-btn').addEventListener('click', function() {
+            document.getElementById('card-modal-title').textContent = "Thêm thẻ thanh toán";
+            document.getElementById('save-card-text').textContent = "Thêm thẻ";
+            document.getElementById('card-form').reset();
+            document.getElementById('card-preview').classList.remove('flipped');
+            document.getElementById('set-default-card').checked = false;
+            document.getElementById('preview-card-number').textContent = '**** **** **** ****';
+            document.getElementById('preview-card-expiry').textContent = 'MM/YY';
+            document.getElementById('preview-card-name').textContent = 'HỌ VÀ TÊN';
+            document.getElementById('preview-card-cvv').textContent = '***';
+            updateCardAppearance('default');
+            document.getElementById('card-modal').classList.add('active');
+        });
+        
+        document.getElementById('add-ewallet-btn').addEventListener('click', function() {
+            document.getElementById('ewallet-modal-title').textContent = "Thêm ví điện tử";
+            document.getElementById('save-ewallet-text').textContent = "Thêm ví";
+            document.getElementById('ewallet-form').reset();
+            document.getElementById('set-default-ewallet').checked = false;
+            document.getElementById('ewallet-modal').classList.add('active');
+        });
+        
+        document.getElementById('add-bank-btn').addEventListener('click', function() {
+            document.getElementById('bank-modal-title').textContent = "Thêm tài khoản ngân hàng";
+            document.getElementById('save-bank-text').textContent = "Thêm tài khoản";
+            document.getElementById('bank-form').reset();
+            document.getElementById('set-default-bank').checked = false;
+            document.getElementById('bank-modal').classList.add('active');
+        });
+        
+        // Modal closers
+        document.querySelectorAll('#close-card-modal, #cancel-card-form').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.getElementById('card-modal').classList.remove('active');
+            });
+        });
+        
+        document.querySelectorAll('#close-ewallet-modal, #cancel-ewallet-form').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.getElementById('ewallet-modal').classList.remove('active');
+            });
+        });
+        
+        document.querySelectorAll('#close-bank-modal, #cancel-bank-form').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.getElementById('bank-modal').classList.remove('active');
+            });
+        });
+        
+        // Close modals when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        });
+        
+        // Set default payment method
+        document.querySelectorAll('.set-default').forEach(btn => {
+            btn.addEventListener('click', function() {
+                alert(`Đã đặt phương thức ${this.dataset.id} làm mặc định!`);
+            });
+        });
+        
+        // Form submissions
+        document.getElementById('card-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thẻ thanh toán đã được thêm thành công!');
+            document.getElementById('card-modal').classList.remove('active');
+        });
+        
+        document.getElementById('ewallet-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Ví điện tử đã được thêm thành công!');
+            document.getElementById('ewallet-modal').classList.remove('active');
+        });
+        
+        document.getElementById('bank-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Tài khoản ngân hàng đã được thêm thành công!');
+            document.getElementById('bank-modal').classList.remove('active');
+        });
+    </script>
+</body>
+</html>

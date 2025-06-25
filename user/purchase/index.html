@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đơn hàng của tôi - E-Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .order-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .order-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .order-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            background-color: #ffedd5;
+            color: #f97316;
+            border-left-color: #f97316;
+        }
+        
+        .status-processing {
+            background-color: #dbeafe;
+            color: #3b82f6;
+            border-left-color: #3b82f6;
+        }
+        
+        .status-shipping {
+            background-color: #fef3c7;
+            color: #d97706;
+            border-left-color: #d97706;
+        }
+        
+        .status-delivered {
+            background-color: #dcfce7;
+            color: #16a34a;
+            border-left-color: #16a34a;
+        }
+        
+        .status-cancelled {
+            background-color: #fee2e2;
+            color: #ef4444;
+            border-left-color: #ef4444;
+        }
+        
+        .filter-btn {
+            transition: all 0.2s ease;
+            border-radius: 20px;
+            padding: 6px 16px;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background-color: #ff424f;
+            color: white;
+        }
+        
+        .order-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        
+        .order-detail.open {
+            max-height: 1000px;
+        }
+        
+        .pagination-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        
+        .pagination-btn.active {
+            background-color: #ff424f;
+            color: white;
+        }
+        
+        .pagination-btn:not(.disabled):hover {
+            background-color: #f0f0f0;
+        }
+        
+        .empty-state {
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="content-container p-4 md:p-6">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Đơn hàng của tôi</h1>
+                <p class="text-gray-600 mt-1">Quản lý và theo dõi các đơn hàng của bạn</p>
+            </div>
+            <div class="mt-4 md:mt-0">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
+                    <i class="fas fa-plus mr-2"></i> Đặt hàng mới
+                </button>
+            </div>
+        </div>
+        
+        <!-- Filter Section -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <div class="flex flex-wrap gap-2">
+                <button class="filter-btn active">Tất cả đơn hàng</button>
+                <button class="filter-btn">Chờ xác nhận</button>
+                <button class="filter-btn">Đang chuẩn bị</button>
+                <button class="filter-btn">Đang vận chuyển</button>
+                <button class="filter-btn">Đã giao</button>
+                <button class="filter-btn">Đã hủy</button>
+            </div>
+            
+            <div class="mt-4 flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Tìm kiếm đơn hàng</label>
+                    <div class="relative">
+                        <input type="text" placeholder="Nhập mã đơn hàng..." class="w-full p-2 border rounded-lg pl-10">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                </div>
+                
+                <div class="w-full md:w-48">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Thời gian</label>
+                    <select class="w-full p-2 border rounded-lg">
+                        <option>30 ngày gần đây</option>
+                        <option>3 tháng gần đây</option>
+                        <option>6 tháng gần đây</option>
+                        <option>Năm 2025</option>
+                        <option>Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Orders List -->
+        <div class="space-y-4">
+            <!-- Order Card 1 -->
+            <div class="order-card bg-white rounded-lg shadow-md overflow-hidden status-delivered">
+                <div class="p-4 md:p-6">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                        <div class="mb-2 md:mb-0">
+                            <div class="flex items-center">
+                                <span class="font-bold text-gray-800">ĐH230901</span>
+                                <span class="order-status ml-3">Đã giao</span>
+                            </div>
+                            <div class="text-gray-500 text-sm mt-1">Ngày đặt: 01/09/2025</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-lg text-red-600">1.110.000₫</div>
+                            <div class="text-gray-500 text-sm">3 sản phẩm</div>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-gray-100 pt-4">
+                        <div class="flex flex-wrap gap-4 mt-2">
+                            <div class="flex items-center">
+                                <img src="https://via.placeholder.com/60x60?text=S1" alt="Product" class="w-16 h-16 rounded-md object-cover">
+                                <div class="ml-2">
+                                    <div class="font-medium">Tai nghe Bluetooth Sony WH-1000XM5</div>
+                                    <div class="text-gray-500 text-sm">Số lượng: 1</div>
+                                    <div class="text-gray-500 text-sm">Giá: 100.000đ</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-4 mt-2">
+                            <div class="flex items-center">
+                                <img src="https://via.placeholder.com/60x60?text=S2" alt="Product" class="w-16 h-16 rounded-md object-cover">
+                                <div class="ml-2">
+                                    <div class="font-medium">Ốp lưng iPhone 14 Pro Max</div>
+                                    <div class="text-gray-500 text-sm">Số lượng: 1</div>
+                                    <div class="text-gray-500 text-sm">Giá: 250.000</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-4 mt-2">
+                            <div class="flex items-center">
+                                <img src="https://via.placeholder.com/60x60?text=S2" alt="Product" class="w-16 h-16 rounded-md object-cover">
+                                <div class="ml-2">
+                                    <div class="font-medium">Củ sạc Apple</div>
+                                    <div class="text-gray-500 text-sm">Số lượng: 1</div>
+                                    <div class="text-gray-500 text-sm">Giá: 800.000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-gray-100 pt-4 mt-4 flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div class="text-sm text-gray-600 mb-2 md:mb-0">
+                            <i class="fas fa-map-marker-alt mr-2"></i> Giao đến: 123 Đường Nguyễn Văn Linh, Đà Nẵng
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Mua lại</button>
+                            <button class="px-4 py-2 border border-gray-300 text-red-600 rounded-lg hover:bg-gray-50">Yêu cầu Trả hàng/Hoàn tiền</button>
+                            <button class="px-4 py-2 bg-green-100 text-green-600 rounded-lg hover:bg-green-200">Xác nhận</button>
+                            <button class="px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200">Đánh giá</button>
+                            <button class="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 toggle-detail" data-target="detail1">Chi tiết</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Order Detail -->
+                <div id="detail1" class="order-detail bg-gray-50 border-t border-gray-200">
+                    <div class="p-4 md:p-6">
+                        <h3 class="font-bold text-lg mb-4">Thông tin đơn hàng</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-medium mb-2">Thông tin người nhận</h4>
+                                <div class="bg-white h-full rounded-lg p-4 shadow-sm">
+                                    <div class="mb-2"><span class="font-medium">Đơn vị vận chuyển:</span> GHN</div>
+                                    <div class="mb-2"><span class="font-medium">Họ tên:</span> Nguyễn Văn A</div>
+                                    <div class="mb-2"><span class="font-medium">SĐT:</span> 0987654321</div>
+                                    <div><span class="font-medium">Địa chỉ:</span> 123 Đường Nguyễn Văn Linh, Quận Hải Châu, Đà Nẵng</div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-medium mb-2">Hình thức thanh toán</h4>
+                                <div class="bg-white h-full rounded-lg p-4 shadow-sm">
+                                    <div class="flex items-center mb-3">
+                                        <i class="fas fa-money-bill-wave text-green-500 text-xl mr-3"></i>
+                                        <div>
+                                            <div class="font-medium">Thanh toán khi nhận hàng (COD)</div>
+                                            <div class="text-sm text-gray-500">Đã thanh toán: 01/09/2025</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="border-t border-gray-100 pt-3 mt-3">
+                                        <div class="flex justify-between mb-1">
+                                            <div>Tạm tính:</div>
+                                            <div>1.150.000₫</div>
+                                        </div>
+                                        <div class="flex justify-between mb-1">
+                                            <div>Phí vận chuyển:</div>
+                                            <div>30.000₫</div>
+                                        </div>
+                                        <div class="flex justify-between mb-1">
+                                            <div>Giảm giá:</div>
+                                            <div class="text-green-600">-70.000₫</div>
+                                        </div>
+                                        <div class="flex justify-between font-bold text-lg mt-2 pt-2 border-t border-gray-200">
+                                            <div>Tổng cộng:</div>
+                                            <div class="text-red-600">1.110.000₫</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-12">
+                            <h4 class="font-medium mb-2">Lịch sử đơn hàng</h4>
+                            <div class="relative">
+                                <!-- Timeline -->
+                                <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200"></div>
+                                
+                                <div class="relative pl-12 pb-6">
+                                    <div class="flex items-start mb-6">
+                                        <div class="absolute left-0 mt-1 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium">Đơn hàng đã giao thành công</div>
+                                            <div class="text-gray-500 text-sm">01/09/2025 - 15:20</div>
+                                            <div class="text-sm mt-1">Người nhận: Nguyễn Văn A</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-start mb-6">
+                                        <div class="absolute left-0 mt-1 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white">
+                                            <i class="fas fa-truck"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium">Đơn hàng đang giao</div>
+                                            <div class="text-gray-500 text-sm">01/09/2025 - 10:45</div>
+                                            <div class="text-sm mt-1">Nhân viên giao hàng: Trần Văn B - 0909123456</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-start mb-6">
+                                        <div class="absolute left-0 mt-1 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white">
+                                            <i class="fas fa-box"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium">Đơn hàng đã được đóng gói</div>
+                                            <div class="text-gray-500 text-sm">31/08/2025 - 16:30</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-start mb-6">
+                                        <div class="absolute left-0 mt-1 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white">
+                                            <i class="fas fa-check-circle"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium">Đơn hàng đã được xác nhận</div>
+                                            <div class="text-gray-500 text-sm">31/08/2025 - 14:15</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="absolute left-0 mt-1 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white">
+                                            <i class="fas fa-money-bill"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium">Đơn hàng đã đặt</div>
+                                            <div class="text-gray-500 text-sm">31/08/2025 - 13:15</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 text-right">
+                            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 toggle-detail" data-target="detail1">Thu gọn</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Order Card 2 -->
+            <div class="order-card bg-white rounded-lg shadow-md overflow-hidden status-shipping">
+                <div class="p-4 md:p-6">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                        <div class="mb-2 md:mb-0">
+                            <div class="flex items-center">
+                                <span class="font-bold text-gray-800">ĐH230825</span>
+                                <span class="order-status ml-3">Đang vận chuyển</span>
+                            </div>
+                            <div class="text-gray-500 text-sm mt-1">Ngày đặt: 25/08/2025</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-lg text-red-600">18.680.000₫</div>
+                            <div class="text-gray-500 text-sm">2 sản phẩm</div>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-gray-100 pt-4">
+                        <div class="flex flex-wrap gap-4 mt-2">
+                            <div class="flex items-center">
+                                <img src="https://via.placeholder.com/60x60?text=S3" alt="Product" class="w-16 h-16 rounded-md object-cover">
+                                <div class="ml-2">
+                                    <div class="font-medium">Laptop Dell XPS 13 9315</div>
+                                    <div class="text-gray-500 text-sm">Số lượng: 1</div>
+                                    <div class="text-gray-500 text-sm">Giá: 17.500.000</div> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-4 mt-2">
+                            <div class="flex items-center">
+                                <img src="https://via.placeholder.com/60x60?text=S4" alt="Product" class="w-16 h-16 rounded-md object-cover">
+                                <div class="ml-2">
+                                    <div class="font-medium">Túi chống sốc laptop 15.6 inch</div>
+                                    <div class="text-gray-500 text-sm">Số lượng: 1</div>
+                                    <div class="text-gray-500 text-sm">Giá: 600.000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-gray-100 pt-4 mt-4 flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div class="text-sm text-gray-600 mb-2 md:mb-0">
+                            <i class="fas fa-map-marker-alt mr-2"></i> Giao đến: 456 Đường Lê Duẩn, Đà Nẵng
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Theo dõi đơn</button>
+                            <button class="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 toggle-detail" data-target="detail2">Chi tiết</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Order Detail (collapsed by default) -->
+                <div id="detail2" class="order-detail bg-gray-50 border-t border-gray-200">
+                    <div class="p-4 md:p-6">
+                        <h3 class="font-bold text-lg mb-4">Thông tin đơn hàng</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-medium mb-2">Thông tin người nhận</h4>
+                                <div class="bg-white h-full rounded-lg p-4 shadow-sm">
+                                    <div class="mb-2"><span class="font-medium">Đơn vị vận chuyển:</span> GHN</div>
+                                    <div class="mb-2"><span class="font-medium">Họ tên:</span> Nguyễn Văn A</div>
+                                    <div class="mb-2"><span class="font-medium">SĐT:</span> 0987654321</div>
+                                    <div><span class="font-medium">Địa chỉ:</span> 456 Đường Lê Duẩn, Đà Nẵng</div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-medium mb-2">Hình thức thanh toán</h4>
+                                <div class="bg-white h-full rounded-lg p-4 shadow-sm">
+                                    <div class="flex items-center mb-3">
+                                        <i class="fas fa-money-bill-wave text-green-500 text-xl mr-3"></i>
+                                        <div>
+                                            <div class="font-medium">Thanh toán khi nhận hàng (COD)</div>
+                                            <div class="text-sm text-gray-500">Đã thanh toán: 01/09/2025</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="border-t border-gray-100 pt-3 mt-3">
+                                        <div class="flex justify-between mb-1">
+                                            <div>Tạm tính:</div>
+                                            <div>18.150.000₫</div>
+                                        </div>
+                                        <div class="flex justify-between mb-1">
+                                            <div>Phí vận chuyển:</div>
+                                            <div>600.000₫</div>
+                                        </div>
+                                        <div class="flex justify-between mb-1">
+                                            <div>Giảm giá:</div>
+                                            <div class="text-green-600">-70.000₫</div>
+                                        </div>
+                                        <div class="flex justify-between font-bold text-lg mt-2 pt-2 border-t border-gray-200">
+                                            <div>Tổng cộng:</div>
+                                            <div class="text-red-600">18.680.000₫</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-12">
+                            <h4 class="font-medium mb-2">Lịch sử đơn hàng</h4>
+                            <div class="relative">
+                                <!-- Timeline -->
+                                <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200"></div>
+                                
+                                <div class="relative pl-12 pb-6">
+                                    <div class="flex items-start mb-6">
+                                        <div class="absolute left-0 mt-1 w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium">Đơn hàng đã giao thành công</div>
+                                            <div class="text-gray-500 text-sm">01/09/2025 - 15:20</div>
+                                            <div class="text-sm mt-1">Người nhận: Nguyễn Văn A</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-start mb-6">
+                                        <div class="absolute left-0 mt-1 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white">
+                                            <i class="fas fa-truck"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium">Đơn hàng đang giao</div>
+                                            <div class="text-gray-500 text-sm">01/09/2025 - 10:45</div>
+                                            <div class="text-sm mt-1">Nhân viên giao hàng: Trần Văn B - 0909123456</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-start mb-6">
+                                        <div class="absolute left-0 mt-1 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white">
+                                            <i class="fas fa-box"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium">Đơn hàng đã được đóng gói</div>
+                                            <div class="text-gray-500 text-sm">31/08/2025 - 16:30</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-start mb-6">
+                                        <div class="absolute left-0 mt-1 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white">
+                                            <i class="fas fa-check-circle"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium">Đơn hàng đã được xác nhận</div>
+                                            <div class="text-gray-500 text-sm">31/08/2025 - 14:15</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="absolute left-0 mt-1 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white">
+                                            <i class="fas fa-money-bill"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium">Đơn hàng đã đặt</div>
+                                            <div class="text-gray-500 text-sm">31/08/2025 - 13:15</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 text-right">
+                            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 toggle-detail" data-target="detail1">Thu gọn</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Order Card 3 -->
+            <div class="order-card bg-white rounded-lg shadow-md overflow-hidden status-pending">
+                <div class="p-4 md:p-6">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                        <div class="mb-2 md:mb-0">
+                            <div class="flex items-center">
+                                <span class="font-bold text-gray-800">ĐH230815</span>
+                                <span class="order-status ml-3">Chờ xác nhận</span>
+                            </div>
+                            <div class="text-gray-500 text-sm mt-1">Ngày đặt: 15/08/2025</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-lg text-red-600">280.000₫</div>
+                            <div class="text-gray-500 text-sm">1 sản phẩm</div>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-gray-100 pt-4">
+                        <div class="flex flex-wrap gap-4">
+                            <div class="flex items-center">
+                                <img src="https://via.placeholder.com/60x60?text=S5" alt="Product" class="w-16 h-16 rounded-md object-cover">
+                                <div class="ml-2">
+                                    <div class="font-medium">Chuột không dây Logitech MX Master 3</div>
+                                    <div class="text-gray-500 text-sm">Số lượng: 1</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-gray-100 pt-4 mt-4 flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div class="text-sm text-gray-600 mb-2 md:mb-0">
+                            <i class="fas fa-map-marker-alt mr-2"></i> Giao đến: 789 Đường Hùng Vương, Đà Nẵng
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Hủy đơn</button>
+                            <button class="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 toggle-detail" data-target="detail3">Chi tiết</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Order Detail (collapsed by default) -->
+                <div id="detail3" class="order-detail bg-gray-50 border-t border-gray-200">
+                    <div class="p-4 md:p-6">
+                        <h3 class="font-bold text-lg mb-4">Thông tin đơn hàng</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-medium mb-2">Thông tin người nhận</h4>
+                                <div class="bg-white h-full rounded-lg p-4 shadow-sm">
+                                    <div class="mb-2"><span class="font-medium">Đơn vị vận chuyển:</span> GHN</div>
+                                    <div class="mb-2"><span class="font-medium">Họ tên:</span> Nguyễn Văn A</div>
+                                    <div class="mb-2"><span class="font-medium">SĐT:</span> 0987654321</div>
+                                    <div><span class="font-medium">Địa chỉ:</span> 789 Đường Hùng Vương, Đà Nẵng</div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-medium mb-2">Hình thức thanh toán</h4>
+                                <div class="bg-white h-full rounded-lg p-4 shadow-sm">
+                                    <div class="flex items-center mb-3">
+                                        <i class="fas fa-money-bill-wave text-green-500 text-xl mr-3"></i>
+                                        <div>
+                                            <div class="font-medium">Thanh toán khi nhận hàng (COD)</div>
+                                            <div class="text-sm text-gray-500">Đã thanh toán: 01/09/2025</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="border-t border-gray-100 pt-3 mt-3">
+                                        <div class="flex justify-between mb-1">
+                                            <div>Tạm tính:</div>
+                                            <div>320.000₫</div>
+                                        </div>
+                                        <div class="flex justify-between mb-1">
+                                            <div>Phí vận chuyển:</div>
+                                            <div>30.000₫</div>
+                                        </div>
+                                        <div class="flex justify-between mb-1">
+                                            <div>Giảm giá:</div>
+                                            <div class="text-green-600">-70.000₫</div>
+                                        </div>
+                                        <div class="flex justify-between font-bold text-lg mt-2 pt-2 border-t border-gray-200">
+                                            <div>Tổng cộng:</div>
+                                            <div class="text-red-600">280.000₫</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-12">
+                            <h4 class="font-medium mb-2">Lịch sử đơn hàng</h4>
+                            <div class="relative">
+                                <!-- Timeline -->
+                                <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200"></div>
+                                
+                                <div class="relative pl-12 pb-6">
+                                    <div class="flex items-start mb-6">
+                                        <div class="absolute left-0 mt-1 w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium">Đơn hàng đã giao thành công</div>
+                                            <div class="text-gray-500 text-sm">01/09/2025 - 15:20</div>
+                                            <div class="text-sm mt-1">Người nhận: Nguyễn Văn A</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-start mb-6">
+                                        <div class="absolute left-0 mt-1 w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white">
+                                            <i class="fas fa-truck"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium">Đơn hàng đang giao</div>
+                                            <div class="text-gray-500 text-sm">01/09/2025 - 10:45</div>
+                                            <div class="text-sm mt-1">Nhân viên giao hàng: Trần Văn B - 0909123456</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-start mb-6">
+                                        <div class="absolute left-0 mt-1 w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white">
+                                            <i class="fas fa-box"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium">Đơn hàng đã được đóng gói</div>
+                                            <div class="text-gray-500 text-sm">31/08/2025 - 16:30</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-start mb-6">
+                                        <div class="absolute left-0 mt-1 w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white">
+                                            <i class="fas fa-check-circle"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium">Đơn hàng đã được xác nhận</div>
+                                            <div class="text-gray-500 text-sm">31/08/2025 - 14:15</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="absolute left-0 mt-1 w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white">
+                                            <i class="fas fa-money-bill"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium">Đơn hàng đã đặt</div>
+                                            <div class="text-gray-500 text-sm">31/08/2025 - 13:15</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 text-right">
+                            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 toggle-detail" data-target="detail1">Thu gọn</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Empty State -->
+            <div class="hidden empty-state bg-white rounded-lg shadow-md p-8 text-center">
+                <div class="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-box-open text-3xl text-gray-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-700 mb-2">Chưa có đơn hàng</h3>
+                <p class="text-gray-500 mb-6">Bạn chưa có đơn hàng nào. Hãy bắt đầu mua sắm ngay!</p>
+                <button class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg">
+                    Mua sắm ngay
+                </button>
+            </div>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="mt-8 flex justify-center">
+            <div class="flex items-center gap-1">
+                <button class="pagination-btn disabled text-gray-300">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                
+                <span class="px-2 text-gray-500">...</span>
+                
+                <button class="pagination-btn">8</button>
+                
+                <button class="pagination-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle order details
+        document.querySelectorAll('.toggle-detail').forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const detailElement = document.getElementById(targetId);
+                
+                // Toggle class to expand/collapse
+                detailElement.classList.toggle('open');
+                
+                // Change button text
+                if (detailElement.classList.contains('open')) {
+                    this.textContent = 'Thu gọn';
+                } else {
+                    this.textContent = 'Chi tiết';
+                }
+            });
+        });
+        
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+            });
+        });
+        
+        // Pagination buttons
+        document.querySelectorAll('.pagination-btn:not(.disabled)').forEach(button => {
+            button.addEventListener('click', function() {
+                if (this.textContent !== '...') {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.pagination-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

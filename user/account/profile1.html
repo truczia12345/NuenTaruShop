@@ -131,6 +131,24 @@
         }
 
         /* Popup Styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .popup.active {
+            display: flex;
+        }
+
         .payment-popup {
             display: none;
             position: fixed;
@@ -404,6 +422,37 @@
                 width: 100%;
             }
         }
+
+        .address-type {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .address-type label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .address-type label:hover {
+            border-color: #ff424f;
+            background-color: #fff5f5;
+        }
+        
+        .address-type input[type="radio"]:checked + label {
+            border-color: #ff424f;
+            background-color: #fff5f5;
+        }
+        
+        .address-type input[type="radio"] {
+            display: none;
+        }
     </style>
 </head>
 <body class="bg-gray-50 ">
@@ -484,7 +533,7 @@
                         <div class="avatar-upload mb-4">
                             <div class="avatar-preview">
                                 <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Avatar" id="avatar-preview">
-                            <input type="file" id="avatar-input" accept="image/*">
+                                <input type="file" id="avatar-input" accept="image/*">
 
                             </div>
                         </div>
@@ -1447,7 +1496,7 @@
                 <div class="mb-6">
                     <h3 class="font-medium mb-3">Chọn loại phương thức</h3>
                     <div class="grid grid-cols-3 gap-3">
-                        <div class="payment-type" data-type="card">
+                        <div class="payment-type active" data-type="card">
                             <div class="p-4 flex flex-col items-center">
                                 <i class="far fa-credit-card text-2xl text-blue-500 mb-2"></i>
                                 <span>Thẻ tín dụng</span>
@@ -1657,6 +1706,90 @@
             </div>
         </div>
     </div>
+
+    <!-- Popup Thêm Địa Chỉ -->
+<div id="address-popup" class="popup">
+    <div class="popup-content">
+        <div class="p-6">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold">Thêm địa chỉ mới</h2>
+                <button id="close-address-popup" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Form -->
+            <form id="address-form">
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="form-group">
+                        <label class="form-label" for="fullname">Họ và tên</label>
+                        <input type="text" id="fullname" class="form-input" placeholder="Nguyễn Văn A" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Số điện thoại</label>
+                        <input type="number" id="phone" class="form-input" placeholder="0912345678" required>
+                    </div>
+                </div>
+                
+                <div class="form-group mb-4">
+                    <label class="form-label" for="city">Tỉnh/Thành phố</label>
+                    <select id="city" class="form-input" required>
+                        <option value="">Chọn Tỉnh/Thành phố</option>
+                    </select>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="form-group">
+                        <label class="form-label" for="district">Quận/Huyện</label>
+                        <select id="district" class="form-input" required>
+                            <option value="">Chọn Quận/Huyện</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ward">Phường/Xã</label>
+                        <select id="ward" class="form-input" required>
+                            <option value="">Chọn Phường/Xã</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group mb-4">
+                    <label class="form-label" for="address-detail">Địa chỉ cụ thể</label>
+                    <textarea id="address-detail" class="form-input" rows="2" placeholder="Số nhà, tên đường..." required></textarea>
+                </div>
+                
+                <div class="form-group mb-4">
+                    <label class="form-label">Loại địa chỉ</label>
+                    <div class="address-type">
+                        <input type="radio" id="home" name="address-type" value="home" checked>
+                        <label for="home"><i class="fas fa-home"></i> Nhà riêng</label>
+                        
+                        <input type="radio" id="office" name="address-type" value="office">
+                        <label for="office"><i class="fas fa-building"></i> Văn phòng</label>
+                    </div>
+                </div>
+                
+                <div class="form-group mb-6">
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" class="form-checkbox text-red-500 rounded">
+                        <span class="ml-2">Đặt làm địa chỉ mặc định</span>
+                    </label>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex justify-end space-x-3">
+                    <button type="button" id="cancel-address" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">
+                        Hủy bỏ
+                    </button>
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+                        Lưu địa chỉ
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -2064,6 +2197,220 @@
                 });
             }
         });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+            // ... (các phần script hiện tại của bạn) ...
+            
+            // ============== PHẦN MỚI CHO POPUP ĐỊA CHỈ ==============
+            // Lấy các phần tử
+            const addressPopup = document.getElementById('address-popup');
+            const openAddressPopupBtn = document.getElementById('add-address');
+            const closeAddressPopupBtn = document.getElementById('close-address-popup');
+            const cancelAddressBtn = document.getElementById('cancel-address');
+            const addressForm = document.getElementById('address-form');
+
+            // Mở popup địa chỉ
+            if (openAddressPopupBtn) {
+                openAddressPopupBtn.addEventListener('click', function() {
+                    addressPopup.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            }
+
+            // Đóng popup địa chỉ
+            function closeAddressPopup() {
+                addressPopup.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            if (closeAddressPopupBtn) {
+                closeAddressPopupBtn.addEventListener('click', closeAddressPopup);
+            }
+            
+            if (cancelAddressBtn) {
+                cancelAddressBtn.addEventListener('click', closeAddressPopup);
+            }
+
+            // Đóng khi click ra ngoài popup
+            if (addressPopup) {
+                addressPopup.addEventListener('click', function(e) {
+                    if (e.target === addressPopup) {
+                        closeAddressPopup();
+                    }
+                });
+            }
+
+            // Xử lý submit form
+            if (addressForm) {
+                addressForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Lấy giá trị từ form
+                    const fullname = document.getElementById('fullname').value;
+                    const phone = document.getElementById('phone').value;
+                    const city = document.getElementById('city').value;
+                    const district = document.getElementById('district').value;
+                    const ward = document.getElementById('ward').value;
+                    const addressDetail = document.getElementById('address-detail').value;
+                    const isDefault = document.querySelector('input[type="checkbox"]').checked;
+                    
+                    // Kiểm tra dữ liệu
+                    if (!fullname || !phone || !city || !district || !ward || !addressDetail) {
+                        alert('Vui lòng điền đầy đủ thông tin');
+                        return;
+                    }
+                    
+                    // Tạo HTML cho địa chỉ mới
+                    const newAddressHTML = `
+                        <div class="address-card p-6 bg-white">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="font-bold">${fullname}</h3>
+                                ${isDefault ? '<span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Mặc định</span>' : ''}
+                            </div>
+                            <p class="text-gray-600 mb-2">${phone}</p>
+                            <p class="text-gray-600 mb-4">${addressDetail}, ${ward}, ${district}, ${document.querySelector('#city option:checked').textContent}</p>
+                            <div class="flex space-x-3">
+                                <button class="text-blue-500 hover:text-blue-700">Chỉnh sửa</button>
+                                <button class="text-gray-500 hover:text-gray-700">Xóa</button>
+                                ${!isDefault ? '<button class="text-red-500 hover:text-red-700">Đặt làm mặc định</button>' : ''}
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Thêm địa chỉ mới vào danh sách
+                    const addressesContainer = document.querySelector('#addresses .grid');
+                    addressesContainer.insertAdjacentHTML('beforeend', newAddressHTML);
+                    
+                    // Thông báo thành công
+                    alert('Địa chỉ đã được thêm thành công!');
+                    
+                    // Đóng popup
+                    closeAddressPopup();
+                    
+                    // Reset form
+                    addressForm.reset();
+                });
+            }
+            // ============== HẾT PHẦN MỚI ==============
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+        // ... (các phần script hiện tại) ...
+
+        // ============== THÊM JSON CHO TỈNH/HUYỆN/XÃ ==============
+        // Lấy các dropdown
+        const citySelect = document.getElementById('city');
+        const districtSelect = document.getElementById('district');
+        const wardSelect = document.getElementById('ward');
+        
+        // Biến lưu trữ dữ liệu
+        let vnData = null;
+        
+        // Hàm tải dữ liệu JSON
+        async function loadLocationData() {
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json');
+                vnData = await response.json();
+                populateCities();
+            } catch (error) {
+                console.error('Lỗi khi tải dữ liệu địa giới hành chính:', error);
+                alert('Không thể tải dữ liệu tỉnh/huyện/xã. Vui lòng thử lại sau.');
+            }
+        }
+        
+        // Đổ dữ liệu vào dropdown tỉnh/thành phố
+        function populateCities() {
+            if (!vnData) return;
+            
+            // Xóa options cũ
+            citySelect.innerHTML = '<option value="">Chọn Tỉnh/Thành phố</option>';
+            
+            // Sắp xếp theo tên
+            const sortedCities = [...vnData].sort((a, b) => a.Name.localeCompare(b.Name));
+            
+            // Thêm options mới
+            sortedCities.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city.Id;
+                option.textContent = city.Name;
+                citySelect.appendChild(option);
+            });
+        }
+        
+        // Đổ dữ liệu vào dropdown quận/huyện dựa trên tỉnh/thành phố
+        function populateDistricts(cityId) {
+            if (!vnData) return;
+            
+            // Xóa options cũ
+            districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
+            wardSelect.innerHTML = '<option value="">Chọn Phường/Xã</option>';
+            
+            // Tìm tỉnh/thành phố
+            const city = vnData.find(c => c.Id === cityId);
+            if (!city) return;
+            
+            // Sắp xếp theo tên
+            const sortedDistricts = [...city.Districts].sort((a, b) => a.Name.localeCompare(b.Name));
+            
+            // Thêm options mới
+            sortedDistricts.forEach(district => {
+                const option = document.createElement('option');
+                option.value = district.Id;
+                option.textContent = district.Name;
+                districtSelect.appendChild(option);
+            });
+        }
+        
+        // Đổ dữ liệu vào dropdown phường/xã dựa trên quận/huyện
+        function populateWards(cityId, districtId) {
+            if (!vnData) return;
+            
+            // Xóa options cũ
+            wardSelect.innerHTML = '<option value="">Chọn Phường/Xã</option>';
+            
+            // Tìm tỉnh/thành phố
+            const city = vnData.find(c => c.Id === cityId);
+            if (!city) return;
+            
+            // Tìm quận/huyện
+            const district = city.Districts.find(d => d.Id === districtId);
+            if (!district) return;
+            
+            // Sắp xếp theo tên
+            const sortedWards = [...district.Wards].sort((a, b) => a.Name.localeCompare(b.Name));
+            
+            // Thêm options mới
+            sortedWards.forEach(ward => {
+                const option = document.createElement('option');
+                option.value = ward.Id;
+                option.textContent = ward.Name;
+                wardSelect.appendChild(option);
+            });
+        }
+        
+        // Gắn sự kiện cho dropdown tỉnh/thành phố
+        citySelect.addEventListener('change', function() {
+            if (this.value) {
+                populateDistricts(this.value);
+            } else {
+                districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
+                wardSelect.innerHTML = '<option value="">Chọn Phường/Xã</option>';
+            }
+        });
+        
+        // Gắn sự kiện cho dropdown quận/huyện
+        districtSelect.addEventListener('change', function() {
+            if (this.value && citySelect.value) {
+                populateWards(citySelect.value, this.value);
+            } else {
+                wardSelect.innerHTML = '<option value="">Chọn Phường/Xã</option>';
+            }
+        });
+        
+        // Tải dữ liệu khi trang được tải
+        loadLocationData();
+        // ============== HẾT PHẦN JSON TỈNH/HUYỆN/XÃ ==============
     });
     </script>
 </body>
