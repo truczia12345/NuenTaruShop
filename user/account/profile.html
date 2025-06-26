@@ -39,6 +39,24 @@
         <div class="loading-spinner"></div>
     </div>
 
+    <!-- Profile Header -->
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">Hồ sơ của tôi</h1>
+                        <p class="text-gray-600 mt-1">Quản lý thông tin cá nhân, đơn hàng và các hoạt động của bạn</p>
+                    </div>
+                    <div class="mt-4 md:mt-0 flex items-center">
+                        <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                            <i class="fas fa-medal mr-1"></i> Thành viên Bạc
+                        </div>
+                        <div class="ml-4 bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
+                            <i class="fas fa-coins mr-1"></i> 1,250 điểm
+                        </div>
+                    </div>
+                </div>
+            </div>
+
     <!-- Profile Card -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Personal Info -->
@@ -178,6 +196,45 @@
     </div>
 
     <script>
+        // Hàm gửi chiều cao về trang chủ
+  function sendHeightToParent() {
+    const height = Math.max(
+      document.body.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.clientHeight,
+      document.documentElement.scrollHeight,
+      document.documentElement.offsetHeight
+    );
+    
+    // Gửi chiều cao về trang chủ
+    window.parent.postMessage({
+      type: 'resize',
+      height: height
+    }, '*');
+  }
+
+  // Gửi chiều cao khi trang tải xong
+  window.addEventListener('load', sendHeightToParent);
+  
+  // Gửi chiều cao khi cửa sổ thay đổi kích thước
+  window.addEventListener('resize', sendHeightToParent);
+  
+  // Gửi chiều cao khi có thay đổi nội dung (MutationObserver)
+  const observer = new MutationObserver(sendHeightToParent);
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    characterData: true
+  });
+
+  // Trả lời khi nhận được yêu cầu từ trang chủ
+  window.addEventListener('message', (event) => {
+    if (event.data === 'getHeight') {
+      sendHeightToParent();
+    }
+  });
+  
         // DOM Elements
         const viewMode = document.getElementById('view-mode');
         const editMode = document.getElementById('edit-mode');

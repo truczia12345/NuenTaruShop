@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khuyến Mãi - E-Shop | Ưu đãi đặc biệt, giảm giá sốc</title>
+    <meta name="description" content="Khám phá các chương trình khuyến mãi hấp dẫn tại E-Shop - Giảm giá lên đến 70%, flash sale, ưu đãi độc quyền và nhiều quà tặng giá trị.">
+    <meta name="keywords" content="khuyến mãi, giảm giá, flash sale, ưu đãi, deal hot, mua sắm tiết kiệm">
+    
+    <!-- Kế thừa CSS từ index.html -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Kế thừa các style từ index.html */
+        .pb-3 img {
+            width: 120px;
+            height: 120px;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* Style riêng cho trang khuyến mãi */
+        .promotion-hero {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff424f 100%);
+            height: 300px;
+        }
+        
+        .promo-card {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .promo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .promo-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff424f;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 10;
+        }
+        
+        .promo-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .promo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .promo-card:hover .promo-image img {
+            transform: scale(1.05);
+        }
+        
+        .promo-content {
+            padding: 20px;
+            background: white;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .promo-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #333;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .promo-desc {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .promo-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        
+        .promo-timer {
+            display: flex;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #ff424f;
+            font-weight: 600;
+        }
+        
+        .promo-timer i {
+            margin-right: 5px;
+        }
+        
+        .promo-btn {
+            background: #ff424f;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .promo-btn:hover {
+            background: #e53e3e;
+            transform: translateY(-2px);
+        }
+        
+        .section-title {
+            position: relative;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            color: #333;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 70px;
+            height: 4px;
+            background: #ff424f;
+            border-radius: 2px;
+        }
+        
+        .promo-tabs {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 30px;
+        }
+        
+        .promo-tab {
+            padding: 12px 25px;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            color: #718096;
+            transition: all 0.3s ease;
+        }
+        
+        .promo-tab.active {
+            color: #ff424f;
+        }
+        
+        .promo-tab.active:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #ff424f;
+            border-radius: 2px 2px 0 0;
+        }
+        
+        .promo-tab:hover:not(.active) {
+            color: #4a5568;
+        }
+        
+        .promo-category {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .category-card {
+            flex: 1;
+            min-width: 180px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+            padding: 20px 15px;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 24px;
+        }
+        
+        .category-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .category-count {
+            font-size: 14px;
+            color: #718096;
+        }
+        
+        .big-promo-banner {
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            height: 350px;
+            margin-bottom: 40px;
+        }
+        
+        .big-promo-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+            background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+        }
+        
+        .big-promo-tag {
+            background: #ff424f;
+            color: white;
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .big-promo-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            max-width: 600px;
+        }
+        
+        .big-promo-desc {
+            font-size: 18px;
+            margin-bottom: 25px;
+            max-width: 600px;
+        }
+        
+        .big-promo-btn {
+            background: white;
+            color: #ff424f;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 700;
+            display: inline-block;
+            width: fit-content;
+            transition: all 0.3s ease;
+        }
+        
+        .big-promo-btn:hover {
+            background: #f8f9fa;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timer-unit {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 8px;
+            border-radius: 8px;
+            min-width: 50px;
+            margin: 0 5px;
+        }
+        
+        .timer-number {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .timer-label {
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        
+        @media (max-width: 1024px) {
+            .promo-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .promo-tab {
+                padding: 10px 15px;
+            }
+            
+            .big-promo-banner {
+                height: 300px;
+            }
+            
+            .big-promo-title {
+                font-size: 28px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .promotion-hero {
+                height: 250px;
+            }
+            
+            .big-promo-banner {
+                height: 250px;
+            }
+            
+            .big-promo-title {
+                font-size: 24px;
+            }
+            
+            .big-promo-desc {
+                font-size: 16px;
+            }
+            
+            .promo-tabs {
+                justify-content: center;
+            }
+            
+            .section-title {
+                font-size: 22px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .big-promo-banner {
+                height: 200px;
+            }
+            
+            .big-promo-content {
+                padding: 20px;
+            }
+            
+            .big-promo-title {
+                font-size: 20px;
+            }
+            
+            .big-promo-desc {
+                font-size: 14px;
+                margin-bottom: 15px;
+            }
+            
+            .big-promo-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- SEO: Hidden H1 for page title -->
+    <h1 class="sr-only">Trang khuyến mãi E-Shop - Ưu đãi đặc biệt, giảm giá sốc</h1>
+    
+    <!-- Header -->
+    <header class="bg-[#ff424f] text-white shadow-md">
+        <div class="container mx-auto px-4">
+            <!-- Top Row: User Actions -->
+            <div class="flex justify-end items-center py-2 space-x-6 text-sm">
+                <a href="/thong-bao" class="hover:text-yellow-200 flex items-center" aria-label="Thông báo">
+                    <i class="fas fa-bell mr-1" aria-hidden="true"></i>
+                    <span>Thông báo</span>
+                </a>
+                <a href="/khuyen-mai" class="hover:text-yellow-200 flex items-center" aria-label="Khuyến mãi">
+                    <i class="fas fa-tag mr-1" aria-hidden="true"></i>
+                    <span>Khuyến mãi</span>
+                </a>
+                <a href="/ho-tro" class="hover:text-yellow-200 flex items-center" aria-label="Hỗ trợ">
+                    <i class="fas fa-headset mr-1" aria-hidden="true"></i>
+                    <span>Hỗ trợ</span>
+                </a>
+            </div>
+
+            <!-- Main Header: Logo + Search -->
+            <div class="flex items-center justify-between pb-3">
+                <!-- Logo with alt text -->
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
+                        <img src="assets/img/logo/nuentaru1.png" alt="E-Shop - Trang mua sắm trực tuyến">
+                    </a>
+                </div>
+
+                <!-- Search Bar with Trending Searches -->
+                <div class="flex-1 mx-8">
+                    <!-- Search Bar with proper form -->
+                    <form action="/search" method="GET" role="search">
+                        <div class="relative mb-1">
+                            <input type="text" name="q" placeholder="Tìm kiếm sản phẩm..." 
+                                class="w-full py-2 px-4 rounded-full text-gray-800 focus:outline-none"
+                                aria-label="Tìm kiếm sản phẩm">
+                            <button type="submit" class="absolute right-0 top-0 h-full px-4 bg-yellow-400 rounded-r-full text-gray-800" aria-label="Tìm kiếm">
+                                <i class="fas fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- User Actions -->
+                <div class="flex items-center space-x-6">
+                    <a href="/tai-khoan" class="flex flex-col items-center" aria-label="Tài khoản">
+                        <i class="fas fa-user text-xl" aria-hidden="true"></i>
+                        <span class="text-xs mt-1">Tài khoản</span>
+                    </a>
+                    <a href="/gio-hang" class="flex flex-col items-center relative" aria-label="Giỏ hàng">
+                        <i class="fas fa-shopping-cart text-xl" aria-hidden="true"></i>
+                        <span class="text-xs mt-1">Giỏ hàng</span>
+                        <span class="absolute -top-2 -right-2 bg-yellow-400 text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Mobile Menu -->
+    <div class="lg:hidden bg-[#ff424f] text-white">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <button id="mobile-menu-button" class="text-white focus:outline-none" aria-label="Mở menu">
+                <i class="fas fa-bars text-xl" aria-hidden="true"></i>
+            </button>
+            
+            <a href="/" class="text-xl font-bold" aria-label="Trang chủ E-Shop">
+                <img src="image/logo/nuentaru1.png" alt="E-Shop Logo" class="h-10">
+            </a>
+            
+            <a href="/gio-hang" class="text-white relative" aria-label="Giỏ hàng">
+                <i class="fas fa-shopping-cart text-xl" aria-hidden="true"></i>
+                <span class="absolute -top-2 -right-2 bg-yellow-400 text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+            </a>
+        </div>
+        
+        <div id="mobile-menu" class="hidden bg-white text-gray-800 shadow-lg">
+            <div class="container mx-auto px-4 py-2">
+                <!-- Search Bar -->
+                <form action="/search" method="GET" role="search">
+                    <div class="relative mb-3">
+                        <input type="text" name="q" placeholder="Tìm kiếm sản phẩm..." 
+                            class="w-full py-2 px-4 rounded-full border border-gray-300 focus:outline-none"
+                            aria-label="Tìm kiếm sản phẩm">
+                        <button type="submit" class="absolute right-0 top-0 h-full px-4 bg-yellow-400 rounded-r-full text-gray-800" aria-label="Tìm kiếm">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- Menu Items -->
+                <nav class="space-y-2" aria-label="Menu chính">
+                    <a href="/dien-thoai" class="block py-2 border-b border-gray-100">Điện thoại</a>
+                    <a href="/laptop" class="block py-2 border-b border-gray-100">Laptop</a>
+                    <a href="/thoi-trang" class="block py-2 border-b border-gray-100">Thời trang</a>
+                    <a href="/nha-cua" class="block py-2 border-b border-gray-100">Nhà cửa</a>
+                    <a href="/suc-khoe" class="block py-2 border-b border-gray-100">Sức khỏe</a>
+                    <a href="/me-va-be" class="block py-2 border-b border-gray-100">Mẹ & Bé</a>
+                    <a href="/tai-khoan" class="block py-2">Tài khoản</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="promotion-hero flex items-center">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-4xl font-bold text-white mb-4">Khuyến Mãi Hấp Dẫn</h2>
+                <p class="text-white text-xl max-w-2xl mx-auto">Giảm giá lên đến 70%, flash sale, ưu đãi độc quyền và nhiều quà tặng giá trị</p>
+            </div>
+        </section>
+        
+        <!-- Promotion Content -->
+        <section class="container mx-auto px-4 py-8">
+            <!-- Tabs Navigation -->
+            <div class="promo-tabs">
+                <div class="promo-tab active" data-tab="all">Tất cả</div>
+                <div class="promo-tab" data-tab="flash-sale">Flash Sale</div>
+                <div class="promo-tab" data-tab="discount">Giảm giá</div>
+                <div class="promo-tab" data-tab="free-ship">Freeship</div>
+                <div class="promo-tab" data-tab="gift">Quà tặng</div>
+                <div class="promo-tab" data-tab="voucher">Mã giảm giá</div>
+            </div>
+            
+            <!-- Categories -->
+            <div class="promo-category">
+                <div class="category-card">
+                    <div class="category-icon bg-red-100 text-red-500">
+                        <i class="fas fa-bolt" aria-hidden="true"></i>
+                    </div>
+                    <div class="category-name">Flash Sale</div>
+                    <div class="category-count">12 chương trình</div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon bg-blue-100 text-blue-500">
+                        <i class="fas fa-percent" aria-hidden="true"></i>
+                    </div>
+                    <div class="category-name">Giảm giá</div>
+                    <div class="category-count">45 chương trình</div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon bg-green-100 text-green-500">
+                        <i class="fas fa-shipping-fast" aria-hidden="true"></i>
+                    </div>
+                    <div class="category-name">Freeship</div>
+                    <div class="category-count">8 chương trình</div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon bg-yellow-100 text-yellow-500">
+                        <i class="fas fa-gift" aria-hidden="true"></i>
+                    </div>
+                    <div class="category-name">Quà tặng</div>
+                    <div class="category-count">16 chương trình</div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon bg-purple-100 text-purple-500">
+                        <i class="fas fa-ticket-alt" aria-hidden="true"></i>
+                    </div>
+                    <div class="category-name">Mã giảm giá</div>
+                    <div class="category-count">32 mã giảm giá</div>
+                </div>
+            </div>
+            
+            <!-- Big Promotion Banner -->
+            <div class="big-promo-banner bg-gray-200">
+                <img src="https://images.unsplash.com/photo-1607082350899-7e105aa886ae?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
+                     alt="Siêu Sale Tháng 7 - Giảm giá lên đến 70%" 
+                     class="w-full h-full object-cover" loading="lazy">
+                <div class="big-promo-content">
+                    <span class="big-promo-tag">FLASH SALE</span>
+                    <h3 class="big-promo-title">Siêu Sale Tháng 7 - Giảm giá lên đến 70%</h3>
+                    <p class="big-promo-desc">Cơ hội duy nhất trong năm với hàng ngàn sản phẩm giảm giá sâu. Áp dụng từ ngày 01/07 đến 31/07/2025</p>
+                    
+                    <div class="flex items-center mb-6">
+                        <span class="mr-3 font-medium">Kết thúc sau:</span>
+                        <div class="timer-unit">
+                            <span class="timer-number" id="days">05</span>
+                            <span class="timer-label">Ngày</span>
+                        </div>
+                        <div class="timer-unit">
+                            <span class="timer-number" id="hours">12</span>
+                            <span class="timer-label">Giờ</span>
+                        </div>
+                        <div class="timer-unit">
+                            <span class="timer-number" id="minutes">30</span>
+                            <span class="timer-label">Phút</span>
+                        </div>
+                        <div class="timer-unit">
+                            <span class="timer-number" id="seconds">45</span>
+                            <span class="timer-label">Giây</span>
+                        </div>
+                    </div>
+                    
+                    <a href="/khuyen-mai/sieu-sale-thang-7" class="big-promo-btn" aria-label="Xem ngay siêu sale tháng 7">
+                        Xem ngay <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Flash Sale Section -->
+            <div class="mb-12">
+                <h2 class="section-title">Flash Sale Đang Diễn Ra</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Flash Sale 1 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                                 alt="Flash Sale Điện Tử - Giảm đến 50%" 
+                                 loading="lazy">
+                            <div class="promo-badge">-50%</div>
+                        </div>
+                        <div class="promo-content">
+                            <h3 class="promo-title">Flash Sale Điện Tử - Giảm đến 50%</h3>
+                            <p class="promo-desc">Đừng bỏ lỡ cơ hội sở hữu điện thoại, laptop, tablet với mức giá tốt nhất trong năm.</p>
+                            <div class="promo-meta">
+                                <div class="promo-timer">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                    <span>12:45:30</span>
+                                </div>
+                                <a href="/flash-sale/dien-tu" class="promo-btn" aria-label="Mua ngay flash sale điện tử">Mua ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Flash Sale 2 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                                 alt="Deal Hot Thời Trang - Giảm 70%" 
+                                 loading="lazy">
+                            <div class="promo-badge">-70%</div>
+                        </div>
+                        <div class="promo-content">
+                            <h3 class="promo-title">Deal Hot Thời Trang - Giảm 70%</h3>
+                            <p class="promo-desc">Cập nhật tủ đồ với hàng ngàn sản phẩm thời trang nam nữ giảm giá cực sốc.</p>
+                            <div class="promo-meta">
+                                <div class="promo-timer">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                    <span>08:15:22</span>
+                                </div>
+                                <a href="/flash-sale/thoi-trang" class="promo-btn" aria-label="Mua ngay deal hot thời trang">Mua ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Flash Sale 3 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="https://images.unsplash.com/photo-1605733513597-a8f8341084e6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1528&q=80" 
+                                 alt="Giờ Vàng Gia Dụng - Giảm 60%" 
+                                 loading="lazy">
+                            <div class="promo-badge">-60%</div>
+                        </div>
+                        <div class="promo-content">
+                            <h3 class="promo-title">Giờ Vàng Gia Dụng - Giảm 60%</h3>
+                            <p class="promo-desc">Máy giặt, tủ lạnh, điều hòa và các thiết bị gia dụng giảm giá lên đến 60%.</p>
+                            <div class="promo-meta">
+                                <div class="promo-timer">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                    <span>16:30:45</span>
+                                </div>
+                                <a href="/flash-sale/gia-dung" class="promo-btn" aria-label="Mua ngay giờ vàng gia dụng">Mua ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Discount Section -->
+            <div class="mb-12">
+                <h2 class="section-title">Khuyến Mãi Giảm Giá</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Discount 1 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1528&q=80" 
+                                 alt="Giảm 40% Đồ Chơi Trẻ Em" 
+                                 loading="lazy">
+                            <div class="promo-badge">-40%</div>
+                        </div>
+                        <div class="promo-content">
+                            <h3 class="promo-title">Giảm 40% Đồ Chơi Trẻ Em</h3>
+                            <p class="promo-desc">Hàng ngàn đồ chơi giáo dục, đồ chơi thông minh giảm giá 40% cho bé yêu.</p>
+                            <div class="promo-meta">
+                                <div class="promo-timer">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                    <span>5 ngày</span>
+                                </div>
+                                <a href="/khuyen-mai/do-choi" class="promo-btn" aria-label="Xem ngay đồ chơi giảm giá">Xem ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Discount 2 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" 
+                                 alt="Mỹ Phẩm Chính Hãng Giảm 50%" 
+                                 loading="lazy">
+                            <div class="promo-badge">-50%</div>
+                        </div>
+                        <div class="promo-content">
+                            <h3 class="promo-title">Mỹ Phẩm Chính Hãng Giảm 50%</h3>
+                            <p class="promo-desc">Dưỡng da, trang điểm, chăm sóc tóc với giá giảm 50% từ các thương hiệu nổi tiếng.</p>
+                            <div class="promo-meta">
+                                <div class="promo-timer">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                    <span>7 ngày</span>
+                                </div>
+                                <a href="/khuyen-mai/my-pham" class="promo-btn" aria-label="Xem ngay mỹ phẩm giảm giá">Xem ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Discount 3 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                                 alt="Sách Văn Học Giảm 30%" 
+                                 loading="lazy">
+                            <div class="promo-badge">-30%</div>
+                        </div>
+                        <div class="promo-content">
+                            <h3 class="promo-title">Sách Văn Học Giảm 30%</h3>
+                            <p class="promo-desc">Khám phá thế giới tri thức với hàng ngàn đầu sách văn học giảm giá 30%.</p>
+                            <div class="promo-meta">
+                                <div class="promo-timer">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                    <span>10 ngày</span>
+                                </div>
+                                <a href="/khuyen-mai/sach" class="promo-btn" aria-label="Xem ngay sách giảm giá">Xem ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Free Ship Section -->
+            <div class="mb-12">
+                <h2 class="section-title">Ưu Đãi Freeship</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Free Ship 1 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="https://images.unsplash.com/photo-1533090368676-1fd25485db88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" 
+                                 alt="Freeship Toàn Quốc Đơn Từ 299K" 
+                                 loading="lazy">
+                            <div class="promo-badge">FREESHIP</div>
+                        </div>
+                        <div class="promo-content">
+                            <h3 class="promo-title">Freeship Toàn Quốc Đơn Từ 299K</h3>
+                            <p class="promo-desc">Miễn phí vận chuyển toàn quốc cho tất cả đơn hàng từ 299.000đ. Áp dụng mã: FREESHIP99</p>
+                            <div class="promo-meta">
+                                <div class="promo-timer">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                    <span>15 ngày</span>
+                                </div>
+                                <a href="/freeship" class="promo-btn" aria-label="Áp dụng ngay freeship">Áp dụng ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Free Ship 2 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                                 alt="Freeship Hà Nội & TP.HCM" 
+                                 loading="lazy">
+                            <div class="promo-badge">FREESHIP</div>
+                        </div>
+                        <div class="promo-content">
+                            <h3 class="promo-title">Freeship Hà Nội & TP.HCM</h3>
+                            <p class="promo-desc">Miễn phí vận chuyển cho khách hàng tại Hà Nội và TP.HCM cho mọi đơn hàng.</p>
+                            <div class="promo-meta">
+                                <div class="promo-timer">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                    <span>30 ngày</span>
+                                </div>
+                                <a href="/freeship-hn-hcm" class="promo-btn" aria-label="Áp dụng ngay freeship">Áp dụng ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Free Ship 3 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="https://images.unsplash.com/photo-1513584684374-8bab748fbf90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1468&q=80" 
+                                 alt="Freeship Hỏa Tốc 2H" 
+                                 loading="lazy">
+                            <div class="promo-badge">FREESHIP</div>
+                        </div>
+                        <div class="promo-content">
+                            <h3 class="promo-title">Freeship Hỏa Tốc 2H</h3>
+                            <p class="promo-desc">Miễn phí vận chuyển hỏa tốc trong 2 giờ cho khu vực nội thành Hà Nội và TP.HCM.</p>
+                            <div class="promo-meta">
+                                <div class="promo-timer">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                    <span>10 ngày</span>
+                                </div>
+                                <a href="/freeship-hoa-toc" class="promo-btn" aria-label="Áp dụng ngay freeship">Áp dụng ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Voucher Section -->
+            <div class="mb-12">
+                <h2 class="section-title">Mã Giảm Giá Độc Quyền</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Voucher 1 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="https://images.unsplash.com/photo-1607082350899-7e105aa886ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                                 alt="Giảm 200K cho đơn từ 1.5 triệu" 
+                                 loading="lazy">
+                            <div class="promo-badge">VOUCHER</div>
+                        </div>
+                        <div class="promo-content">
+                            <h3 class="promo-title">Giảm 200K cho đơn từ 1.5 triệu</h3>
+                            <p class="promo-desc">Áp dụng cho tất cả sản phẩm, không giới hạn số lượng. Mã: SALE200</p>
+                            <div class="promo-meta">
+                                <div class="promo-timer">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                    <span>7 ngày</span>
+                                </div>
+                                <a href="#" class="promo-btn" aria-label="Lấy mã ngay">Lấy mã</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Voucher 2 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" 
+                                 alt="Giảm 15% Điện Tử - Điện Lạnh" 
+                                 loading="lazy">
+                            <div class="promo-badge">VOUCHER</div>
+                        </div>
+                        <div class="promo-content">
+                            <h3 class="promo-title">Giảm 15% Điện Tử - Điện Lạnh</h3>
+                            <p class="promo-desc">Áp dụng cho tất cả sản phẩm điện tử, điện lạnh. Mã: ELEC15</p>
+                            <div class="promo-meta">
+                                <div class="promo-timer">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                    <span>14 ngày</span>
+                                </div>
+                                <a href="#" class="promo-btn" aria-label="Lấy mã ngay">Lấy mã</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Voucher 3 -->
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1528&q=80" 
+                                 alt="Giảm 50% Mỹ Phẩm Cao Cấp" 
+                                 loading="lazy">
+                            <div class="promo-badge">VOUCHER</div>
+                        </div>
+                        <div class="promo-content">
+                            <h3 class="promo-title">Giảm 50% Mỹ Phẩm Cao Cấp</h3>
+                            <p class="promo-desc">Áp dụng cho các thương hiệu mỹ phẩm cao cấp. Mã: BEAUTY50</p>
+                            <div class="promo-meta">
+                                <div class="promo-timer">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                    <span>5 ngày</span>
+                                </div>
+                                <a href="#" class="promo-btn" aria-label="Lấy mã ngay">Lấy mã</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-4 gap-8 mb-8">
+                <!-- Column 1 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Về chúng tôi</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/gioi-thieu" class="text-gray-300 hover:text-white">Giới thiệu</a></li>
+                        <li><a href="/tuyen-dung" class="text-gray-300 hover:text-white">Tuyển dụng</a></li>
+                        <li><a href="/dieu-khoan" class="text-gray-300 hover:text-white">Điều khoản</a></li>
+                        <li><a href="/chinh-sach-bao-mat" class="text-gray-300 hover:text-white">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 2 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Dành cho khách hàng</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/trung-tam-tro-giup" class="text-gray-300 hover:text-white">Trung tâm trợ giúp</a></li>
+                        <li><a href="/huong-dan-mua-hang" class="text-gray-300 hover:text-white">Hướng dẫn mua hàng</a></li>
+                        <li><a href="/thanh-toan" class="text-gray-300 hover:text-white">Thanh toán</a></li>
+                        <li><a href="/van-chuyen" class="text-gray-300 hover:text-white">Vận chuyển</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 3 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Liên hệ</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">Đà Nẵng, Việt Nam</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">1900 1234</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">support@eshop.com</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Column 4 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Kết nối với chúng tôi</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="https://facebook.com/your-eshop" class="bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Facebook">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://instagram.com/your-eshop" class="bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Instagram">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://twitter.com/your-eshop" class="bg-blue-400 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Twitter">
+                            <i class="fab fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://youtube.com/your-eshop" class="bg-red-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="YouTube">
+                            <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Tải ứng dụng</h4>
+                        <div class="flex space-x-2">
+                            <a href="https://apps.apple.com/app/your-eshop" class="bg-black p-2 rounded" aria-label="Tải ứng dụng trên App Store">
+                                <i class="fab fa-apple text-xl" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://play.google.com/store/apps/details?id=com.youreshop" class="bg-black p-2 rounded" aria-label="Tải ứng dụng trên Google Play">
+                                <i class="fab fa-google-play text-xl" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-6 text-center text-gray-400">
+                <p>© 2025 NuenTaru-Shop. Tất cả các quyền được bảo lưu.</p>
+                <p class="mt-2 text-sm">Số ĐKKD: 0123456789 | Ngày cấp: 01/01/2025 | Nơi cấp: Sở Kế hoạch và Đầu tư Đà Nẵng</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Đóng menu khi click bên ngoài
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('mobile-menu');
+            const button = document.getElementById('mobile-menu-button');
+            
+            if (!menu.contains(event.target) && event.target !== button) {
+                menu.classList.add('hidden');
+            }
+        });
+        
+        // Promo Tabs
+        const promoItems = document.querySelectorAll('.promo-card');
+        const promoCategories = document.querySelectorAll('.promo-category .category-card');
+        const promoTabs = document.querySelectorAll('.promo-tab');
+        
+        promoTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Set active tab
+                promoTabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Filter promo items by category
+                const category = this.getAttribute('data-tab');
+                
+                if (category === 'all') {
+                    promoItems.forEach(item => {
+                        item.style.display = 'block';
+                    });
+                    promoCategories.forEach(cat => {
+                        cat.style.display = 'block';
+                    });
+                } else {
+                    // For demo purposes, we'll just hide/show randomly
+                    promoItems.forEach(item => {
+                        item.style.display = 'none';
+                    });
+                    
+                    // Show 3 random items for the selected category
+                    const visibleItems = [];
+                    while (visibleItems.length < 3) {
+                        const randomIndex = Math.floor(Math.random() * promoItems.length);
+                        if (!visibleItems.includes(randomIndex)) {
+                            visibleItems.push(randomIndex);
+                            promoItems[randomIndex].style.display = 'block';
+                        }
+                    }
+                }
+            });
+        });
+        
+        // Timer for big promotion
+        function updateBigPromoTimer() {
+            // Set end time (5 days from now)
+            const endTime = new Date();
+            endTime.setDate(endTime.getDate() + 5);
+            endTime.setHours(23, 59, 59);
+            
+            const now = new Date();
+            const diff = endTime - now;
+            
+            if (diff <= 0) {
+                // Promotion ended
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                return;
+            }
+            
+            // Calculate days, hours, minutes, seconds
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            // Update timer display
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+        
+        // Initialize and update timer every second
+        updateBigPromoTimer();
+        setInterval(updateBigPromoTimer, 1000);
+        
+        // Flash sale timer simulation
+        const flashSaleTimers = document.querySelectorAll('.promo-timer span');
+        
+        setInterval(() => {
+            flashSaleTimers.forEach(timer => {
+                const parts = timer.textContent.split(':');
+                let hours = parseInt(parts[0]);
+                let minutes = parseInt(parts[1]);
+                let seconds = parseInt(parts[2]);
+                
+                seconds--;
+                
+                if (seconds < 0) {
+                    seconds = 59;
+                    minutes--;
+                    
+                    if (minutes < 0) {
+                        minutes = 59;
+                        hours--;
+                        
+                        if (hours < 0) {
+                            hours = 0;
+                            minutes = 0;
+                            seconds = 0;
+                        }
+                    }
+                }
+                
+                timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            });
+        }, 1000);
+        
+        // Category hover effect
+        promoCategories.forEach(category => {
+            category.addEventListener('mouseenter', function() {
+                const icon = this.querySelector('.category-icon');
+                icon.style.transform = 'scale(1.1)';
+                icon.style.transition = 'transform 0.3s ease';
+            });
+            
+            category.addEventListener('mouseleave', function() {
+                const icon = this.querySelector('.category-icon');
+                icon.style.transform = 'scale(1)';
+            });
+        });
+    });
+    </script>
+</body>
+</html>

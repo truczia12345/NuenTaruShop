@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỗ Trợ Khách Hàng - E-Shop | Giải đáp thắc mắc, hướng dẫn sử dụng</title>
+    <meta name="description" content="Trung tâm hỗ trợ khách hàng E-Shop - Giải đáp thắc mắc, hướng dẫn đặt hàng, thanh toán, vận chuyển và chính sách đổi trả.">
+    <meta name="keywords" content="hỗ trợ khách hàng, câu hỏi thường gặp, liên hệ E-Shop, hướng dẫn mua hàng">
+    
+    <!-- Kế thừa CSS từ index.html -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Kế thừa các style từ index.html */
+        .pb-3 img {
+            width: 120px;
+            height: 120px;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* Style riêng cho trang hỗ trợ */
+        .support-hero {
+            background: linear-gradient(90deg, #ff424f 0%, #ff6b6b 100%);
+            height: 280px;
+        }
+        
+        .faq-item {
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .faq-question {
+            background-color: #f8f9fa;
+            padding: 1.25rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background-color: #e9ecef;
+        }
+        
+        .faq-answer {
+            background-color: white;
+            padding: 1.25rem;
+            border-top: 1px solid #e9ecef;
+            display: none;
+        }
+        
+        .faq-question.active {
+            background-color: #ff424f;
+            color: white;
+        }
+        
+        .faq-question.active i {
+            transform: rotate(180deg);
+        }
+        
+        .contact-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .support-section {
+            margin-top: -80px;
+        }
+        
+        .contact-form {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-input {
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: #ff424f;
+            box-shadow: 0 0 0 3px rgba(255, 66, 79, 0.2);
+        }
+        
+        .support-tag {
+            background-color: #ffedf0;
+            color: #ff424f;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .support-tag:hover {
+            background-color: #ffdce0;
+            transform: translateY(-2px);
+        }
+        
+        .support-tag.active {
+            background-color: #ff424f;
+            color: white;
+        }
+        
+        .search-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 0.9rem 1.2rem 0.9rem 3.5rem;
+            border-radius: 50px;
+            border: 1px solid #e2e8f0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #ff424f;
+            box-shadow: 0 0 0 3px rgba(255, 66, 79, 0.2), 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            font-size: 1.2rem;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            color: #718096;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .support-hero {
+                height: 220px;
+            }
+            
+            .support-section {
+                margin-top: -60px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- SEO: Hidden H1 for page title -->
+    <h1 class="sr-only">Trung tâm hỗ trợ khách hàng E-Shop - Giải đáp thắc mắc, hướng dẫn sử dụng</h1>
+    
+    <!-- Header -->
+    <header class="bg-[#ff424f] text-white shadow-md">
+        <div class="container mx-auto px-4">
+            <!-- Top Row: User Actions -->
+            <div class="flex justify-end items-center py-2 space-x-6 text-sm">
+                <a href="/thong-bao" class="hover:text-yellow-200 flex items-center" aria-label="Thông báo">
+                    <i class="fas fa-bell mr-1" aria-hidden="true"></i>
+                    <span>Thông báo</span>
+                </a>
+                <a href="/khuyen-mai" class="hover:text-yellow-200 flex items-center" aria-label="Khuyến mãi">
+                    <i class="fas fa-tag mr-1" aria-hidden="true"></i>
+                    <span>Khuyến mãi</span>
+                </a>
+                <a href="/ho-tro" class="hover:text-yellow-200 flex items-center" aria-label="Hỗ trợ">
+                    <i class="fas fa-headset mr-1" aria-hidden="true"></i>
+                    <span>Hỗ trợ</span>
+                </a>
+            </div>
+
+            <!-- Main Header: Logo + Search -->
+            <div class="flex items-center justify-between pb-3">
+                <!-- Logo with alt text -->
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
+                        <img src="/assets/img/logo/nuentaru1.png" alt="E-Shop - Trang mua sắm trực tuyến">
+                    </a>
+                </div>
+
+                <!-- Search Bar with Trending Searches -->
+                <div class="flex-1 mx-8">
+                    <!-- Search Bar with proper form -->
+                    <form action="/search" method="GET" role="search">
+                        <div class="relative mb-1">
+                            <input type="text" name="q" placeholder="Tìm kiếm sản phẩm..." 
+                                class="w-full py-2 px-4 rounded-full text-gray-800 focus:outline-none"
+                                aria-label="Tìm kiếm sản phẩm">
+                            <button type="submit" class="absolute right-0 top-0 h-full px-4 bg-yellow-400 rounded-r-full text-gray-800" aria-label="Tìm kiếm">
+                                <i class="fas fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- User Actions -->
+                <div class="flex items-center space-x-6">
+                    <a href="/tai-khoan" class="flex flex-col items-center" aria-label="Tài khoản">
+                        <i class="fas fa-user text-xl" aria-hidden="true"></i>
+                        <span class="text-xs mt-1">Tài khoản</span>
+                    </a>
+                    <a href="/gio-hang" class="flex flex-col items-center relative" aria-label="Giỏ hàng">
+                        <i class="fas fa-shopping-cart text-xl" aria-hidden="true"></i>
+                        <span class="text-xs mt-1">Giỏ hàng</span>
+                        <span class="absolute -top-2 -right-2 bg-yellow-400 text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Mobile Menu -->
+    <div class="lg:hidden bg-[#ff424f] text-white">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <button id="mobile-menu-button" class="text-white focus:outline-none" aria-label="Mở menu">
+                <i class="fas fa-bars text-xl" aria-hidden="true"></i>
+            </button>
+            
+            <a href="/" class="text-xl font-bold" aria-label="Trang chủ E-Shop">
+                <img src="image/logo/nuentaru1.png" alt="E-Shop Logo" class="h-10">
+            </a>
+            
+            <a href="/gio-hang" class="text-white relative" aria-label="Giỏ hàng">
+                <i class="fas fa-shopping-cart text-xl" aria-hidden="true"></i>
+                <span class="absolute -top-2 -right-2 bg-yellow-400 text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+            </a>
+        </div>
+        
+        <div id="mobile-menu" class="hidden bg-white text-gray-800 shadow-lg">
+            <div class="container mx-auto px-4 py-2">
+                <!-- Search Bar -->
+                <form action="/search" method="GET" role="search">
+                    <div class="relative mb-3">
+                        <input type="text" name="q" placeholder="Tìm kiếm sản phẩm..." 
+                            class="w-full py-2 px-4 rounded-full border border-gray-300 focus:outline-none"
+                            aria-label="Tìm kiếm sản phẩm">
+                        <button type="submit" class="absolute right-0 top-0 h-full px-4 bg-yellow-400 rounded-r-full text-gray-800" aria-label="Tìm kiếm">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- Menu Items -->
+                <nav class="space-y-2" aria-label="Menu chính">
+                    <a href="/dien-thoai" class="block py-2 border-b border-gray-100">Điện thoại</a>
+                    <a href="/laptop" class="block py-2 border-b border-gray-100">Laptop</a>
+                    <a href="/thoi-trang" class="block py-2 border-b border-gray-100">Thời trang</a>
+                    <a href="/nha-cua" class="block py-2 border-b border-gray-100">Nhà cửa</a>
+                    <a href="/suc-khoe" class="block py-2 border-b border-gray-100">Sức khỏe</a>
+                    <a href="/me-va-be" class="block py-2 border-b border-gray-100">Mẹ & Bé</a>
+                    <a href="/tai-khoan" class="block py-2">Tài khoản</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="support-hero flex items-center">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-4xl font-bold text-white mb-4">Chúng tôi luôn sẵn sàng hỗ trợ bạn</h2>
+                <p class="text-white text-xl max-w-2xl mx-auto">Tìm câu trả lời cho các câu hỏi thường gặp hoặc liên hệ trực tiếp với đội ngũ hỗ trợ của chúng tôi</p>
+            </div>
+        </section>
+        
+        <!-- Support Content -->
+        <section class="support-section container mx-auto px-4 py-8 relative z-10">
+            <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+                <!-- Thanh tìm kiếm từ khóa hỗ trợ -->
+                <div class="search-container">
+                    <div class="relative">
+                        <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                        <input type="text" id="support-search" class="search-input" 
+                               placeholder="Tìm kiếm từ khóa hỗ trợ..." 
+                               aria-label="Tìm kiếm từ khóa hỗ trợ">
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap mb-6">
+                    <span class="support-tag" data-tag="vận chuyển">#VậnChuyển</span>
+                    <span class="support-tag" data-tag="thanh toán">#ThanhToán</span>
+                    <span class="support-tag" data-tag="đổi trả">#ĐổiTrả</span>
+                    <span class="support-tag" data-tag="tài khoản">#TàiKhoản</span>
+                    <span class="support-tag" data-tag="khuyến mãi">#KhuyếnMãi</span>
+                    <span class="support-tag" data-tag="sản phẩm">#SảnPhẩm</span>
+                </div>
+                
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold mb-6">Câu hỏi thường gặp</h3>
+                    
+                    <div id="faq-container" class="faq-container">
+                        <!-- FAQ Item 1 -->
+                        <div class="faq-item" data-tags="vận chuyển, đơn hàng">
+                            <div class="faq-question">
+                                <span>Làm cách nào để theo dõi đơn hàng của tôi?</span>
+                                <i class="fas fa-chevron-down transition-transform"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Bạn có thể theo dõi đơn hàng của mình bằng cách:</p>
+                                <ol class="list-decimal pl-5 mt-2 space-y-1">
+                                    <li>Đăng nhập vào tài khoản E-Shop của bạn</li>
+                                    <li>Truy cập mục "Đơn hàng của tôi"</li>
+                                    <li>Chọn đơn hàng bạn muốn theo dõi</li>
+                                    <li>Xem trạng thái chi tiết và thông tin vận chuyển</li>
+                                </ol>
+                                <p class="mt-3">Bạn cũng sẽ nhận được email cập nhật tự động khi đơn hàng thay đổi trạng thái.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ Item 2 -->
+                        <div class="faq-item" data-tags="vận chuyển, thời gian">
+                            <div class="faq-question">
+                                <span>Thời gian giao hàng dự kiến là bao lâu?</span>
+                                <i class="fas fa-chevron-down transition-transform"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Thời gian giao hàng phụ thuộc vào khu vực và phương thức vận chuyển:</p>
+                                <ul class="list-disc pl-5 mt-2 space-y-1">
+                                    <li>Khu vực thành phố: 1-2 ngày làm việc</li>
+                                    <li>Khu vực ngoại thành: 2-4 ngày làm việc</li>
+                                    <li>Khu vực nông thôn: 4-7 ngày làm việc</li>
+                                </ul>
+                                <p class="mt-3">Thời gian trên chỉ là ước tính và có thể thay đổi tùy thuộc vào tình hình thực tế.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ Item 3 -->
+                        <div class="faq-item" data-tags="đổi trả, chính sách">
+                            <div class="faq-question">
+                                <span>Chính sách đổi trả hàng như thế nào?</span>
+                                <i class="fas fa-chevron-down transition-transform"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Chúng tôi chấp nhận đổi trả trong vòng 30 ngày kể từ ngày nhận hàng với các điều kiện sau:</p>
+                                <ul class="list-disc pl-5 mt-2 space-y-1">
+                                    <li>Sản phẩm còn nguyên tem, nhãn mác và bao bì gốc</li>
+                                    <li>Sản phẩm không có dấu hiệu sử dụng, hư hỏng</li>
+                                    <li>Có hóa đơn mua hàng hoặc chứng từ liên quan</li>
+                                </ul>
+                                <p class="mt-3">Đối với sản phẩm lỗi do nhà sản xuất, chúng tôi hỗ trợ đổi trả trong vòng 1 năm.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ Item 4 -->
+                        <div class="faq-item" data-tags="thanh toán, phương thức">
+                            <div class="faq-question">
+                                <span>Những phương thức thanh toán nào được chấp nhận?</span>
+                                <i class="fas fa-chevron-down transition-transform"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Chúng tôi chấp nhận nhiều phương thức thanh toán:</p>
+                                <div class="grid grid-cols-2 gap-4 mt-3">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-credit-card text-blue-500 mr-2"></i>
+                                        <span>Thẻ tín dụng/ghi nợ</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-qrcode text-green-500 mr-2"></i>
+                                        <span>Ví điện tử (Momo, ZaloPay)</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-building text-purple-500 mr-2"></i>
+                                        <span>Chuyển khoản ngân hàng</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-money-bill-wave text-yellow-500 mr-2"></i>
+                                        <span>Thanh toán khi nhận hàng (COD)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ Item 5 -->
+                        <div class="faq-item" data-tags="đơn hàng, hủy đơn">
+                            <div class="faq-question">
+                                <span>Làm cách nào để hủy đơn hàng đã đặt?</span>
+                                <i class="fas fa-chevron-down transition-transform"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Bạn có thể hủy đơn hàng trước khi đơn hàng được giao cho đơn vị vận chuyển:</p>
+                                <ol class="list-decimal pl-5 mt-2 space-y-1">
+                                    <li>Đăng nhập vào tài khoản E-Shop của bạn</li>
+                                    <li>Truy cập mục "Đơn hàng của tôi"</li>
+                                    <li>Chọn đơn hàng bạn muốn hủy</li>
+                                    <li>Nhấn nút "Hủy đơn hàng" và làm theo hướng dẫn</li>
+                                </ol>
+                                <p class="mt-3">Nếu đơn hàng đã được vận chuyển, vui lòng liên hệ với bộ phận hỗ trợ để được trợ giúp.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ Item 6 -->
+                        <div class="faq-item" data-tags="tài khoản, đăng nhập">
+                            <div class="faq-question">
+                                <span>Tôi quên mật khẩu đăng nhập, làm thế nào để lấy lại?</span>
+                                <i class="fas fa-chevron-down transition-transform"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Bạn có thể lấy lại mật khẩu bằng cách:</p>
+                                <ol class="list-decimal pl-5 mt-2 space-y-1">
+                                    <li>Truy cập trang đăng nhập</li>
+                                    <li>Nhấn vào liên kết "Quên mật khẩu"</li>
+                                    <li>Nhập địa chỉ email đã đăng ký tài khoản</li>
+                                    <li>Kiểm tra email và làm theo hướng dẫn để đặt lại mật khẩu</li>
+                                </ol>
+                                <p class="mt-3">Nếu bạn không nhận được email, vui lòng kiểm tra thư mục spam hoặc liên hệ với bộ phận hỗ trợ.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ Item 7 -->
+                        <div class="faq-item" data-tags="khuyến mãi, voucher">
+                            <div class="faq-question">
+                                <span>Cách sử dụng voucher giảm giá như thế nào?</span>
+                                <i class="fas fa-chevron-down transition-transform"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Để sử dụng voucher giảm giá:</p>
+                                <ol class="list-decimal pl-5 mt-2 space-y-1">
+                                    <li>Thêm sản phẩm vào giỏ hàng</li>
+                                    <li>Nhập mã voucher vào ô "Mã giảm giá" trong trang thanh toán</li>
+                                    <li>Nhấn nút "Áp dụng" để xác nhận</li>
+                                    <li>Tiếp tục quá trình thanh toán như bình thường</li>
+                                </ol>
+                                <p class="mt-3">Lưu ý: Mỗi voucher có điều kiện sử dụng riêng (giá trị đơn hàng tối thiểu, số lần sử dụng, thời hạn).</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="no-results" class="no-results">
+                        <i class="fas fa-search fa-3x mb-4 text-gray-300" aria-hidden="true"></i>
+                        <h3 class="text-xl font-medium mb-2">Không tìm thấy kết quả</h3>
+                        <p>Không có câu hỏi nào phù hợp với từ khóa tìm kiếm của bạn.</p>
+                        <p class="mt-2">Vui lòng thử lại với từ khóa khác hoặc liên hệ trực tiếp với chúng tôi.</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Contact Form -->
+                    <div class="contact-form p-6">
+                        <h3 class="text-2xl font-bold mb-6">Liên hệ hỗ trợ</h3>
+                        <form id="support-form">
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="name">Họ và tên</label>
+                                <input type="text" id="name" class="form-input w-full" placeholder="Nhập họ tên của bạn" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="email">Email</label>
+                                <input type="email" id="email" class="form-input w-full" placeholder="Nhập email của bạn" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="phone">Số điện thoại</label>
+                                <input type="tel" id="phone" class="form-input w-full" placeholder="Nhập số điện thoại">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2" for="subject">Chủ đề</label>
+                                <select id="subject" class="form-input w-full" required>
+                                    <option value="">Chọn chủ đề hỗ trợ</option>
+                                    <option value="shipping">Vận chuyển</option>
+                                    <option value="payment">Thanh toán</option>
+                                    <option value="return">Đổi trả hàng</option>
+                                    <option value="account">Tài khoản</option>
+                                    <option value="product">Sản phẩm</option>
+                                    <option value="other">Vấn đề khác</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-gray-700 mb-2" for="message">Nội dung</label>
+                                <textarea id="message" rows="5" class="form-input w-full" placeholder="Mô tả chi tiết vấn đề của bạn" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="bg-[#ff424f] text-white py-3 px-8 rounded-full font-bold hover:bg-red-600 transition w-full">
+                                Gửi yêu cầu hỗ trợ
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Contact Info -->
+                    <div>
+                        <h3 class="text-2xl font-bold mb-6">Thông tin liên hệ</h3>
+                        
+                        <div class="space-y-6">
+                            <!-- Hotline Card -->
+                            <div class="contact-card bg-white">
+                                <div class="p-6">
+                                    <div class="flex items-start">
+                                        <div class="bg-red-100 p-3 rounded-full mr-4">
+                                            <i class="fas fa-phone-alt text-red-500 text-xl" aria-hidden="true"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-lg mb-1">Hotline hỗ trợ</h4>
+                                            <p class="text-gray-600 mb-2">Liên hệ trực tiếp với chúng tôi qua số điện thoại</p>
+                                            <a href="tel:19001234" class="text-2xl font-bold text-red-500 hover:text-red-600">1900 1234</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 px-6 py-3 text-sm text-gray-500">
+                                    <i class="far fa-clock mr-2" aria-hidden="true"></i>
+                                    Thứ 2 - Chủ nhật: 7:00 - 22:00
+                                </div>
+                            </div>
+                            
+                            <!-- Email Card -->
+                            <div class="contact-card bg-white">
+                                <div class="p-6">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                            <i class="fas fa-envelope text-blue-500 text-xl" aria-hidden="true"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-lg mb-1">Hỗ trợ qua email</h4>
+                                            <p class="text-gray-600 mb-2">Gửi yêu cầu hỗ trợ qua email, chúng tôi sẽ phản hồi trong 24h</p>
+                                            <a href="mailto:support@eshop.com" class="text-lg font-medium text-blue-500 hover:text-blue-600">support@eshop.com</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 px-6 py-3 text-sm text-gray-500">
+                                    <i class="fas fa-history mr-2" aria-hidden="true"></i>
+                                    Phản hồi trong vòng 24 giờ
+                                </div>
+                            </div>
+                            
+                            <!-- Chat Card -->
+                            <div class="contact-card bg-white">
+                                <div class="p-6">
+                                    <div class="flex items-start">
+                                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                                            <i class="fas fa-comments text-green-500 text-xl" aria-hidden="true"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-lg mb-1">Hỗ trợ trực tuyến</h4>
+                                            <p class="text-gray-600 mb-2">Trò chuyện trực tiếp với nhân viên hỗ trợ của chúng tôi</p>
+                                            <button id="live-chat-btn" class="bg-green-500 text-white py-2 px-6 rounded-full font-medium hover:bg-green-600 transition mt-2">
+                                                <i class="fas fa-comment-dots mr-2" aria-hidden="true"></i>
+                                                Bắt đầu trò chuyện
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 px-6 py-3 text-sm text-gray-500">
+                                    <i class="far fa-clock mr-2" aria-hidden="true"></i>
+                                    Thứ 2 - Thứ 6: 8:00 - 20:00
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional Support Topics -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-shipping-fast text-purple-500 text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Hướng dẫn vận chuyển</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Tìm hiểu về các phương thức vận chuyển, thời gian giao hàng và phí vận chuyển.</p>
+                    <a href="/huong-dan-van-chuyen" class="text-purple-500 font-medium hover:underline">Xem hướng dẫn →</a>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-yellow-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-exchange-alt text-yellow-500 text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Chính sách đổi trả</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Thông tin chi tiết về quy trình đổi trả hàng và điều kiện áp dụng.</p>
+                    <a href="/chinh-sach-doi-tra" class="text-yellow-500 font-medium hover:underline">Xem chính sách →</a>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-shield-alt text-blue-500 text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Bảo mật thông tin</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Cam kết bảo mật thông tin khách hàng và chính sách riêng tư.</p>
+                    <a href="/bao-mat-thong-tin" class="text-blue-500 font-medium hover:underline">Xem chi tiết →</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-4 gap-8 mb-8">
+                <!-- Column 1 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Về chúng tôi</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/gioi-thieu" class="text-gray-300 hover:text-white">Giới thiệu</a></li>
+                        <li><a href="/tuyen-dung" class="text-gray-300 hover:text-white">Tuyển dụng</a></li>
+                        <li><a href="/dieu-khoan" class="text-gray-300 hover:text-white">Điều khoản</a></li>
+                        <li><a href="/chinh-sach-bao-mat" class="text-gray-300 hover:text-white">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 2 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Dành cho khách hàng</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/trung-tam-tro-giup" class="text-gray-300 hover:text-white">Trung tâm trợ giúp</a></li>
+                        <li><a href="/huong-dan-mua-hang" class="text-gray-300 hover:text-white">Hướng dẫn mua hàng</a></li>
+                        <li><a href="/thanh-toan" class="text-gray-300 hover:text-white">Thanh toán</a></li>
+                        <li><a href="/van-chuyen" class="text-gray-300 hover:text-white">Vận chuyển</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 3 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Liên hệ</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">Đà Nẵng, Việt Nam</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">1900 1234</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">support@eshop.com</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Column 4 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Kết nối với chúng tôi</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="https://facebook.com/your-eshop" class="bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Facebook">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://instagram.com/your-eshop" class="bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Instagram">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://twitter.com/your-eshop" class="bg-blue-400 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Twitter">
+                            <i class="fab fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://youtube.com/your-eshop" class="bg-red-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="YouTube">
+                            <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Tải ứng dụng</h4>
+                        <div class="flex space-x-2">
+                            <a href="https://apps.apple.com/app/your-eshop" class="bg-black p-2 rounded" aria-label="Tải ứng dụng trên App Store">
+                                <i class="fab fa-apple text-xl" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://play.google.com/store/apps/details?id=com.youreshop" class="bg-black p-2 rounded" aria-label="Tải ứng dụng trên Google Play">
+                                <i class="fab fa-google-play text-xl" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-6 text-center text-gray-400">
+                <p>© 2025 NuenTaru-Shop. Tất cả các quyền được bảo lưu.</p>
+                <p class="mt-2 text-sm">Số ĐKKD: 0123456789 | Ngày cấp: 01/01/2025 | Nơi cấp: Sở Kế hoạch và Đầu tư Đà Nẵng</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Đóng menu khi click bên ngoài
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('mobile-menu');
+            const button = document.getElementById('mobile-menu-button');
+            
+            if (!menu.contains(event.target) && event.target !== button) {
+                menu.classList.add('hidden');
+            }
+        });
+        
+        // FAQ Accordion
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', function() {
+                // Toggle active class
+                this.classList.toggle('active');
+                
+                // Toggle answer visibility
+                const answer = this.nextElementSibling;
+                if (answer.style.display === 'block') {
+                    answer.style.display = 'none';
+                } else {
+                    answer.style.display = 'block';
+                }
+                
+                // Close other open FAQs
+                faqQuestions.forEach(q => {
+                    if (q !== question && q.classList.contains('active')) {
+                        q.classList.remove('active');
+                        q.nextElementSibling.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Form Submission
+        const supportForm = document.getElementById('support-form');
+        
+        if (supportForm) {
+            supportForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Form validation
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value;
+                
+                if (!name || !email || !subject || !message) {
+                    alert('Vui lòng điền đầy đủ thông tin bắt buộc.');
+                    return;
+                }
+                
+                // Simulate form submission
+                alert('Yêu cầu hỗ trợ của bạn đã được gửi thành công! Chúng tôi sẽ liên hệ lại với bạn trong thời gian sớm nhất.');
+                supportForm.reset();
+            });
+        }
+        
+        // Live Chat Button
+        const liveChatBtn = document.getElementById('live-chat-btn');
+        
+        if (liveChatBtn) {
+            liveChatBtn.addEventListener('click', function() {
+                alert('Tính năng chat trực tuyến đang được kích hoạt. Vui lòng đợi trong giây lát...');
+            });
+        }
+        
+        // Hỗ trợ tìm kiếm từ khóa
+        const searchInput = document.getElementById('support-search');
+        const faqItems = document.querySelectorAll('.faq-item');
+        const supportTags = document.querySelectorAll('.support-tag');
+        const noResults = document.getElementById('no-results');
+        
+        // Tìm kiếm khi nhập từ khóa
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                
+                let hasResults = false;
+                
+                faqItems.forEach(item => {
+                    const question = item.querySelector('.faq-question span').textContent.toLowerCase();
+                    const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                    
+                    if (searchTerm === '' || question.includes(searchTerm) || answer.includes(searchTerm)) {
+                        item.style.display = 'block';
+                        hasResults = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // Hiển thị thông báo khi không có kết quả
+                if (!hasResults && searchTerm !== '') {
+                    noResults.style.display = 'block';
+                } else {
+                    noResults.style.display = 'none';
+                }
+                
+                // Reset active tags
+                supportTags.forEach(tag => tag.classList.remove('active'));
+            });
+        }
+        
+        // Click vào thẻ tag
+        supportTags.forEach(tag => {
+            tag.addEventListener('click', function() {
+                const tagValue = this.getAttribute('data-tag');
+                
+                // Set active tag
+                supportTags.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Set search input value
+                searchInput.value = tagValue;
+                
+                // Trigger search
+                const event = new Event('input', {
+                    bubbles: true,
+                    cancelable: true,
+                });
+                searchInput.dispatchEvent(event);
+            });
+        });
+    });
+    </script>
+</body>
+</html>

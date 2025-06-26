@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gian hàng YAKO Official Store | E-Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        .shop-banner {
+            height: 250px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            position: relative;
+        }
+        
+        .shop-header {
+            transform: translateY(-50px);
+        }
+        
+        .shop-avatar {
+            border: 4px solid white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .stats-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        
+        .product-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .tab-button {
+            position: relative;
+            padding-bottom: 12px;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+        }
+        
+        .tab-button.active {
+            color: #ff424f;
+            font-weight: 600;
+        }
+        
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: #ff424f;
+            border-radius: 3px;
+        }
+        
+        .rating-badge {
+            background-color: #10b981;
+            color: white;
+            border-radius: 20px;
+            padding: 2px 8px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .filter-btn {
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 8px 16px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background-color: #ff424f;
+            color: white;
+            border-color: #ff424f;
+        }
+        
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .promotion-badge {
+            background-color: #ff424f;
+            color: white;
+        }
+        
+        .new-badge {
+            background-color: #10b981;
+            color: white;
+        }
+        
+        .discount-badge {
+            background-color: #f97316;
+            color: white;
+        }
+        
+        .review-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .pagination-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #d1d5db;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .pagination-btn.active {
+            background-color: #ff424f;
+            color: white;
+            border-color: #ff424f;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Thêm hiệu ứng cho voucher */
+        .voucher-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .voucher-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-[#ff424f] text-white shadow-md">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-end items-center py-2 space-x-6 text-sm">
+                <a href="/thong-bao" class="hover:text-yellow-200 flex items-center">
+                    <i class="fas fa-bell mr-1"></i>
+                    <span>Thông báo</span>
+                </a>
+                <a href="/khuyen-mai" class="hover:text-yellow-200 flex items-center">
+                    <i class="fas fa-tag mr-1"></i>
+                    <span>Khuyến mãi</span>
+                </a>
+                <a href="/ho-tro" class="hover:text-yellow-200 flex items-center">
+                    <i class="fas fa-headset mr-1"></i>
+                    <span>Hỗ trợ</span>
+                </a>
+            </div>
+
+            <div class="flex items-center justify-between pb-3">
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold">
+                        <img src="/assets/img/logo/nuentaru1.png" alt="E-Shop Logo" class="h-10">
+                    </a>
+                </div>
+
+                <div class="flex-1 mx-8">
+                    <div class="relative">
+                        <input type="text" placeholder="Tìm kiếm sản phẩm..." 
+                            class="w-full py-2 px-4 rounded-full text-gray-800 focus:outline-none">
+                        <button class="absolute right-0 top-0 h-full px-4 bg-yellow-400 rounded-r-full text-gray-800">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-6">
+                    <a href="/tai-khoan" class="flex flex-col items-center">
+                        <i class="fas fa-user text-xl"></i>
+                        <span class="text-xs mt-1">Tài khoản</span>
+                    </a>
+                    <a href="/gio-hang" class="flex flex-col items-center relative">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span class="text-xs mt-1">Giỏ hàng</span>
+                        <span class="absolute -top-2 -right-2 bg-yellow-400 text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Shop Banner -->
+    <div class="shop-banner relative">
+        <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+        <div class="container mx-auto px-4 relative h-full flex items-end pb-6">
+            <h1 class="text-3xl font-bold text-white">YAKO Official Store</h1>
+        </div>
+    </div>
+
+    <!-- Shop Header -->
+    <div class="container mx-auto px-4">
+        <div class="shop-header flex flex-col md:flex-row items-start md:items-end gap-6 mb-8">
+            <div class="shop-avatar bg-white p-2 rounded-full shadow-lg">
+                <div class="w-24 h-24 rounded-full bg-red-100 flex items-center justify-center">
+                    <i class="fas fa-store text-red-500 text-4xl"></i>
+                </div>
+            </div>
+            
+            <div class="flex-1">
+                <div class="flex flex-wrap items-center gap-4 mb-3">
+                    <h2 class="text-2xl font-bold">YAKO Official Store</h2>
+                    <div class="rating-badge flex items-center">
+                        <span>4.7</span>
+                        <i class="fas fa-star ml-1 text-xs"></i>
+                    </div>
+                    <div class="flex items-center text-gray-600">
+                        <i class="fas fa-user-friends mr-1"></i>
+                        <span>66k Người theo dõi</span>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap gap-4 text-gray-600 text-sm">
+                    <div class="flex items-center">
+                        <i class="fas fa-box mr-1"></i>
+                        <span>42 Sản phẩm</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-clock mr-1"></i>
+                        <span>Tham gia: 19 tháng trước</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-comment-alt mr-1"></i>
+                        <span>Phản hồi: 100%</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-bolt mr-1"></i>
+                        <span>Thời gian phản hồi: Trong vài phút</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-wrap gap-3">
+                <button class="bg-red-500 text-white px-6 py-2 rounded-full font-medium hover:bg-blue-600 transition flex items-center">
+                    <i class="fas fa-comment-dots mr-2"></i>
+                    Chat ngay
+                </button>
+                <button class="bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-full font-medium hover:bg-gray-50 transition flex items-center">
+                    <i class="fas fa-store mr-2"></i>
+                    Theo dõi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop Navigation -->
+    <div class="bg-white shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex overflow-x-auto py-4 gap-8">
+                <a href="#" class="tab-button active" id="overview-tab">Tổng quan</a>
+                <a href="#" class="tab-button" id="products-tab">Sản phẩm</a>
+                <a href="#" class="tab-button" id="sale-tab">Sale</a>
+                <a href="#" class="tab-button" id="vouchers-tab">Mã giảm từ shop</a>
+                <a href="#" class="tab-button" id="profile-tab">Hồ sơ cửa hàng</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop Stats -->
+    <div class="container mx-auto px-4 my-8">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div class="stats-card bg-white">
+                <div class="p-4">
+                    <div class="text-2xl font-bold text-red-500">4.7/5</div>
+                    <div class="text-gray-600 text-sm">Đánh giá</div>
+                    <div class="flex mt-1 text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-card bg-white">
+                <div class="p-4">
+                    <div class="text-2xl font-bold text-red-500">98%</div>
+                    <div class="text-gray-600 text-sm">Tỉ lệ phản hồi</div>
+                    <div class="mt-1 text-xs text-green-500">
+                        <i class="fas fa-arrow-up mr-1"></i>
+                        5% so với tháng trước
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-card bg-white">
+                <div class="p-4">
+                    <div class="text-2xl font-bold text-red-500">1.5h</div>
+                    <div class="text-gray-600 text-sm">Thời gian phản hồi</div>
+                    <div class="mt-1 text-xs text-green-500">
+                        <i class="fas fa-bolt mr-1"></i>
+                        Rất nhanh
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-card bg-white">
+                <div class="p-4">
+                    <div class="text-2xl font-bold text-red-500">42</div>
+                    <div class="text-gray-600 text-sm">Sản phẩm</div>
+                    <div class="mt-1 text-xs text-green-500">
+                        <i class="fas fa-plus mr-1"></i>
+                        5 sản phẩm mới
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-card bg-white">
+                <div class="p-4">
+                    <div class="text-2xl font-bold text-red-500">66k</div>
+                    <div class="text-gray-600 text-sm">Người theo dõi</div>
+                    <div class="mt-1 text-xs text-green-500">
+                        <i class="fas fa-user-plus mr-1"></i>
+                        1.2k tháng này
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-card bg-white">
+                <div class="p-4">
+                    <div class="text-2xl font-bold text-red-500">19+</div>
+                    <div class="text-gray-600 text-sm">Tháng hoạt động</div>
+                    <div class="mt-1 text-xs text-green-500">
+                        <i class="fas fa-medal mr-1"></i>
+                        Top seller
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Content Container -->
+    <div class="container mx-auto px-4 my-8">
+        <!-- Tab Tổng quan -->
+        <div id="overview-content" class="tab-content active">
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                <h2 class="text-xl font-bold mb-6">Tổng quan về YAKO Official Store</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="border border-gray-100 rounded-lg p-5">
+                        <h3 class="font-bold mb-3">Thông tin cửa hàng</h3>
+                        <p class="text-gray-600 mb-4">YAKO Official Store là cửa hàng chuyên phân phối các sản phẩm công nghệ chính hãng từ Apple, Samsung, Xiaomi và nhiều thương hiệu khác.</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span>Trụ sở: 123 Nguyễn Văn Linh, Đà Nẵng</span>
+                        </div>
+                    </div>
+                    
+                    <div class="border border-gray-100 rounded-lg p-5">
+                        <h3 class="font-bold mb-3">Thành tích</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-center">
+                                <i class="fas fa-award text-yellow-500 mr-2"></i>
+                                <span>Top 1 Seller 2024</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-medal text-blue-500 mr-2"></i>
+                                <span>Đối tác Vàng của Apple</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-star text-green-500 mr-2"></i>
+                                <span>4.8/5 đánh giá (10k+ đánh giá)</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="border border-gray-100 rounded-lg p-5">
+                        <h3 class="font-bold mb-3">Thống kê hoạt động</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Tỉ lệ phản hồi</span>
+                                    <span>98%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 98%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Tỉ lệ đánh giá tốt</span>
+                                    <span>95%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 95%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Thời gian phản hồi</span>
+                                    <span>1.5 giờ</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-purple-500 h-2 rounded-full" style="width: 90%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h3 class="font-bold mb-4">Lý do chọn YAKO</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                <i class="fas fa-check-circle text-blue-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">100% chính hãng</h4>
+                                <p class="text-sm text-gray-600">Cam kết hàng chính hãng, có đầy đủ hóa đơn VAT</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-green-100 p-2 rounded-full mr-3">
+                                <i class="fas fa-shield-alt text-green-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Bảo hành dài hạn</h4>
+                                <p class="text-sm text-gray-600">Bảo hành chính hãng lên đến 24 tháng</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-purple-100 p-2 rounded-full mr-3">
+                                <i class="fas fa-truck text-purple-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Giao hàng siêu tốc</h4>
+                                <p class="text-sm text-gray-600">Giao hàng trong 2h tại Hà Nội & TP.HCM</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-red-100 p-2 rounded-full mr-3">
+                                <i class="fas fa-headset text-red-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Hỗ trợ 24/7</h4>
+                                <p class="text-sm text-gray-600">Đội ngũ CSKH luôn sẵn sàng hỗ trợ</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tab Sản phẩm -->
+        <div id="products-content" class="tab-content hidden">
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                <div class="flex flex-wrap justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold">Tất cả sản phẩm (42)</h2>
+                    
+                    <div class="flex flex-wrap items-center gap-3">
+                        <div class="text-sm text-gray-600">Sắp xếp:</div>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="filter-btn active">Mới nhất</button>
+                            <button class="filter-btn">Bán chạy</button>
+                            <button class="filter-btn">Giá thấp</button>
+                            <button class="filter-btn">Giá cao</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                    <!-- Product 1 -->
+                    <div class="product-card bg-white rounded-lg border border-gray-100 overflow-hidden">
+                        <div class="relative">
+                            <img src="https://via.placeholder.com/300x300?text=Product+1" alt="Sản phẩm" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 left-2">
+                                <span class="promotion-badge badge">-20%</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 mb-1 line-clamp-2">Điện thoại iPhone 13 Pro Max 128GB - Chính hãng Apple</h3>
+                            <div class="flex items-center mb-2">
+                                <div class="text-red-500 font-bold">12.990.000đ</div>
+                                <div class="text-gray-400 text-sm line-through ml-2">15.990.000đ</div>
+                            </div>
+                            <div class="flex items-center text-xs text-gray-500">
+                                <div class="flex text-yellow-400 mr-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span>(128)</span>
+                            </div>
+                            <div class="mt-3 text-xs text-green-600">
+                                <i class="fas fa-shipping-fast mr-1"></i> Miễn phí vận chuyển
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 2 -->
+                    <div class="product-card bg-white rounded-lg border border-gray-100 overflow-hidden">
+                        <div class="relative">
+                            <img src="https://via.placeholder.com/300x300?text=Product+2" alt="Sản phẩm" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 left-2">
+                                <span class="discount-badge badge">-20%</span>
+                            </div>
+                            <div class="absolute top-2 right-2">
+                                <span class="new-badge badge">Mới</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 mb-1 line-clamp-2">Tai nghe AirPods Pro 2 - Hàng chính hãng Apple</h3>
+                            <div class="flex items-center mb-2">
+                                <div class="text-red-500 font-bold">4.990.000đ</div>
+                                <div class="text-gray-400 text-sm line-through ml-2">5.538.900đ</div>
+                            </div>
+                            <div class="flex items-center text-xs text-gray-500">
+                                <div class="flex text-yellow-400 mr-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span>(245)</span>
+                            </div>
+                            <div class="mt-3 text-xs text-green-600">
+                                <i class="fas fa-bolt mr-1"></i> Giao nhanh trong 2h
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 3 -->
+                    <div class="product-card bg-white rounded-lg border border-gray-100 overflow-hidden">
+                        <div class="relative">
+                            <img src="https://via.placeholder.com/300x300?text=Product+3" alt="Sản phẩm" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 left-2">
+                                <span class="discount-badge badge">-30%</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 mb-1 line-clamp-2">Apple Watch Series 8 GPS, 41mm - Viền nhôm dây silicone</h3>
+                            <div class="flex items-center mb-2">
+                                <div class="text-red-500 font-bold">8.490.000đ</div>
+                                <div class="text-gray-400 text-sm line-through ml-2">12.990.000đ</div>
+                            </div>
+                            <div class="flex items-center text-xs text-gray-500">
+                                <div class="flex text-yellow-400 mr-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span>(76)</span>
+                            </div>
+                            <div class="mt-3 text-xs text-green-600">
+                                <i class="fas fa-gift mr-1"></i> Tặng kèm dây đeo
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 4 -->
+                    <div class="product-card bg-white rounded-lg border border-gray-100 overflow-hidden">
+                        <div class="relative">
+                            <img src="https://via.placeholder.com/300x300?text=Product+4" alt="Sản phẩm" class="w-full h-48 object-cover">
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 mb-1 line-clamp-2">iPad Pro M1 11 inch WiFi 128GB - Chính hãng Apple Việt Nam</h3>
+                            <div class="flex items-center mb-2">
+                                <div class="text-red-500 font-bold">18.990.000đ</div>
+                            </div>
+                            <div class="flex items-center text-xs text-gray-500">
+                                <div class="flex text-yellow-400 mr-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span>(92)</span>
+                            </div>
+                            <div class="mt-3 text-xs text-green-600">
+                                <i class="fas fa-shield-alt mr-1"></i> Bảo hành 12 tháng
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 5 -->
+                    <div class="product-card bg-white rounded-lg border border-gray-100 overflow-hidden">
+                        <div class="relative">
+                            <img src="https://via.placeholder.com/300x300?text=Product+5" alt="Sản phẩm" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 left-2">
+                                <span class="promotion-badge badge">-15%</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 mb-1 line-clamp-2">MacBook Air M1 2020 13 inch 8GB/256GB - Chính hãng Apple</h3>
+                            <div class="flex items-center mb-2">
+                                <div class="text-red-500 font-bold">21.990.000đ</div>
+                                <div class="text-gray-400 text-sm line-through ml-2">25.990.000đ</div>
+                            </div>
+                            <div class="flex items-center text-xs text-gray-500">
+                                <div class="flex text-yellow-400 mr-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span>(156)</span>
+                            </div>
+                            <div class="mt-3 text-xs text-green-600">
+                                <i class="fas fa-tag mr-1"></i> Giảm thêm 500k
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="flex justify-center mt-10 gap-2">
+                    <button class="pagination-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">3</button>
+                    <button class="pagination-btn">4</button>
+                    <button class="pagination-btn">5</button>
+                    <button class="pagination-btn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Reviews Section -->
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold">Đánh giá từ khách hàng (1.2k)</h2>
+                    <button class="text-blue-500 font-medium">Xem tất cả <i class="fas fa-chevron-right ml-1"></i></button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Review 1 -->
+                    <div class="review-card bg-white border border-gray-100">
+                        <div class="p-5">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+                                    <span class="font-bold text-gray-700">NV</span>
+                                </div>
+                                <div>
+                                    <div class="font-bold">Nguyễn Văn A</div>
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <div class="flex text-yellow-400 mr-2">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <span>2 ngày trước</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <h3 class="font-bold mb-2">Sản phẩm tuyệt vời</h3>
+                            <p class="text-gray-600 mb-4">Mình mới mua iPhone 13 Pro Max được 1 tuần và rất hài lòng. Máy chạy mượt, pin trâu, camera chụp ảnh đẹp. Shop giao hàng nhanh, đóng gói cẩn thận.</p>
+                            
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <img src="https://via.placeholder.com/80x80?text=Review+1" alt="Review" class="w-16 h-16 rounded-md object-cover">
+                                <img src="https://via.placeholder.com/80x80?text=Review+2" alt="Review" class="w-16 h-16 rounded-md object-cover">
+                            </div>
+                            
+                            <div class="text-sm text-gray-500">
+                                <span class="font-medium">Sản phẩm:</span> iPhone 13 Pro Max 128GB
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Review 2 -->
+                    <div class="review-card bg-white border border-gray-100">
+                        <div class="p-5">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+                                    <span class="font-bold text-gray-700">TB</span>
+                                </div>
+                                <div>
+                                    <div class="font-bold">Trần Thị B</div>
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <div class="flex text-yellow-400 mr-2">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <span>1 tuần trước</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <h3 class="font-bold mb-2">Phục vụ tốt, sản phẩm chất lượng</h3>
+                            <p class="text-gray-600 mb-4">Mua MacBook Air M1 tại shop, sản phẩm chính hãng, mới 100%. Nhân viên tư vấn nhiệt tình, giao hàng siêu nhanh. Pin trâu, máy chạy mượt.</p>
+                            
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <img src="https://via.placeholder.com/80x80?text=Review+3" alt="Review" class="w-16 h-16 rounded-md object-cover">
+                            </div>
+                            
+                            <div class="text-sm text-gray-500">
+                                <span class="font-medium">Sản phẩm:</span> MacBook Air M1 2020
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Shop Policies -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h2 class="text-xl font-bold mb-6">Chính sách của shop</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="border border-gray-100 rounded-lg p-5">
+                        <div class="flex items-center mb-3">
+                            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-500 mr-3">
+                                <i class="fas fa-shipping-fast"></i>
+                            </div>
+                            <h3 class="font-bold">Vận chuyển</h3>
+                        </div>
+                        <ul class="list-disc list-inside text-gray-600 pl-1 space-y-1">
+                            <li>Miễn phí vận chuyển cho đơn từ 500.000đ</li>
+                            <li>Giao hàng toàn quốc</li>
+                            <li>Giao nhanh 2h tại Hà Nội & TP.HCM</li>
+                            <li>Đối tác vận chuyển: GHTK, Viettel Post, J&T</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="border border-gray-100 rounded-lg p-5">
+                        <div class="flex items-center mb-3">
+                            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-500 mr-3">
+                                <i class="fas fa-sync-alt"></i>
+                            </div>
+                            <h3 class="font-bold">Đổi trả</h3>
+                        </div>
+                        <ul class="list-disc list-inside text-gray-600 pl-1 space-y-1">
+                            <li>Đổi trả trong 7 ngày nếu lỗi do nhà sản xuất</li>
+                            <li>Hỗ trợ đổi size, màu sắc trong 3 ngày</li>
+                            <li>Hoàn tiền 100% nếu sản phẩm không đúng mô tả</li>
+                            <li>Miễn phí đổi trả tại cửa hàng</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="border border-gray-100 rounded-lg p-5">
+                        <div class="flex items-center mb-3">
+                            <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-500 mr-3">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3 class="font-bold">Bảo hành</h3>
+                        </div>
+                        <ul class="list-disc list-inside text-gray-600 pl-1 space-y-1">
+                            <li>Bảo hành chính hãng 12 tháng</li>
+                            <li>Hỗ trợ bảo hành tại 63 tỉnh thành</li>
+                            <li>Bảo hành mở rộng có sẵn</li>
+                            <li>Hỗ trợ kỹ thuật 24/7</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        
+        <!-- Tab Sale -->
+        <div id="sale-content" class="tab-content hidden">
+            <div class="container mx-auto px-4">
+                <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold">Sản phẩm đang Sale</h2>
+                    <div class="flex items-center text-sm">
+                        <span class="text-gray-600 mr-2">Kết thúc sau:</span>
+                        <div class="bg-red-500 text-white px-3 py-1 rounded-full font-medium">
+                            <span id="countdown">23:59:59</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                    <!-- Product 1 -->
+                    <div class="product-card bg-white rounded-lg border border-gray-100 overflow-hidden">
+                        <div class="relative">
+                            <img src="https://via.placeholder.com/300x300?text=Sale+1" alt="Sản phẩm" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 left-2">
+                                <span class="promotion-badge badge">-30%</span>
+                            </div>
+                            <div class="absolute top-2 right-2">
+                                <span class="new-badge badge">Hot</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 mb-1 line-clamp-2">iPhone 14 Pro Max 128GB - Giảm sốc</h3>
+                            <div class="flex items-center mb-2">
+                                <div class="text-red-500 font-bold">22.990.000đ</div>
+                                <div class="text-gray-400 text-sm line-through ml-2">32.990.000đ</div>
+                            </div>
+                            <div class="flex items-center justify-between text-xs text-gray-500">
+                                <div class="flex items-center">
+                                    <div class="flex text-yellow-400 mr-1">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <span>(128)</span>
+                                </div>
+                                <span class="text-red-500 font-medium">Còn 12 sp</span>
+                            </div>
+                            <div class="mt-3">
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-red-500 h-2 rounded-full" style="width: 70%"></div>
+                                </div>
+                                <div class="text-xs text-gray-500 mt-1">Đã bán 84%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 2 -->
+                    <div class="product-card bg-white rounded-lg border border-gray-100 overflow-hidden">
+                        <div class="relative">
+                            <img src="https://via.placeholder.com/300x300?text=Sale+2" alt="Sản phẩm" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 left-2">
+                                <span class="promotion-badge badge">-50%</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 mb-1 line-clamp-2">Apple Watch Series 9 GPS 41mm</h3>
+                            <div class="flex items-center mb-2">
+                                <div class="text-red-500 font-bold">8.990.000đ</div>
+                                <div class="text-gray-400 text-sm line-through ml-2">17.990.000đ</div>
+                            </div>
+                            <div class="flex items-center justify-between text-xs text-gray-500">
+                                <div class="flex items-center">
+                                    <div class="flex text-yellow-400 mr-1">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                    <span>(42)</span>
+                                </div>
+                                <span class="text-red-500 font-medium">Còn 5 sp</span>
+                            </div>
+                            <div class="mt-3">
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-red-500 h-2 rounded-full" style="width: 90%"></div>
+                                </div>
+                                <div class="text-xs text-gray-500 mt-1">Đã bán 90%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Thêm các sản phẩm sale khác tại đây -->
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        <!-- Tab Mã giảm từ shop -->
+        <div id="vouchers-content" class="tab-content hidden">
+            <div class="container mx-auto px-4">
+                <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                <h2 class="text-xl font-bold mb-6">Mã giảm giá từ YAKO Official Store</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Voucher 1 -->
+                    <div class="voucher-card border border-gray-200 rounded-lg overflow-hidden flex">
+                        <div class="bg-red-500 text-white p-4 flex flex-col items-center justify-center w-1/3">
+                            <div class="text-2xl font-bold">GIẢM 10%</div>
+                            <div class="text-sm mt-1">Tối đa 500K</div>
+                        </div>
+                        <div class="p-4 flex-1">
+                            <h3 class="font-bold mb-2">YAKO10OFF</h3>
+                            <p class="text-sm text-gray-600 mb-3">Áp dụng cho đơn từ 5.000.000đ</p>
+                            <div class="text-xs text-gray-500">HSD: 31/12/2025</div>
+                            <button class="mt-3 bg-red-500 text-white px-4 py-1 rounded-full text-sm font-medium">Lưu mã</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Voucher 2 -->
+                    <div class="voucher-card border border-gray-200 rounded-lg overflow-hidden flex">
+                        <div class="bg-blue-500 text-white p-4 flex flex-col items-center justify-center w-1/3">
+                            <div class="text-2xl font-bold">GIẢM 200K</div>
+                            <div class="text-sm mt-1">Cho đơn từ 2TR</div>
+                        </div>
+                        <div class="p-4 flex-1">
+                            <h3 class="font-bold mb-2">YAKO200K</h3>
+                            <p class="text-sm text-gray-600 mb-3">Áp dụng cho tất cả sản phẩm</p>
+                            <div class="text-xs text-gray-500">HSD: 30/06/2025</div>
+                            <button class="mt-3 bg-blue-500 text-white px-4 py-1 rounded-full text-sm font-medium">Lưu mã</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Voucher 3 -->
+                    <div class="voucher-card border border-gray-200 rounded-lg overflow-hidden flex">
+                        <div class="bg-purple-500 text-white p-4 flex flex-col items-center justify-center w-1/3">
+                            <div class="text-2xl font-bold">FREESHIP</div>
+                            <div class="text-sm mt-1">0Đ vận chuyển</div>
+                        </div>
+                        <div class="p-4 flex-1">
+                            <h3 class="font-bold mb-2">YAKOFREESHIP</h3>
+                            <p class="text-sm text-gray-600 mb-3">Áp dụng cho tất cả đơn hàng</p>
+                            <div class="text-xs text-gray-500">HSD: 15/08/2025</div>
+                            <button class="mt-3 bg-purple-500 text-white px-4 py-1 rounded-full text-sm font-medium">Lưu mã</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Voucher 4 -->
+                    <div class="voucher-card border border-gray-200 rounded-lg overflow-hidden flex">
+                        <div class="bg-green-500 text-white p-4 flex flex-col items-center justify-center w-1/3">
+                            <div class="text-2xl font-bold">GIẢM 30%</div>
+                            <div class="text-sm mt-1">Tối đa 1TR</div>
+                        </div>
+                        <div class="p-4 flex-1">
+                            <h3 class="font-bold mb-2">YAKO30PER</h3>
+                            <p class="text-sm text-gray-600 mb-3">Áp dụng cho phụ kiện</p>
+                            <div class="text-xs text-gray-500">HSD: 31/07/2025</div>
+                            <button class="mt-3 bg-green-500 text-white px-4 py-1 rounded-full text-sm font-medium">Lưu mã</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        <!-- Tab Hồ sơ cửa hàng -->
+        <div id="profile-content" class="tab-content hidden">
+            <div class="container mx-auto px-4">
+                <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                <h2 class="text-xl font-bold mb-6">Hồ sơ cửa hàng</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="md:col-span-2">
+                        <h3 class="font-bold mb-3">Giới thiệu cửa hàng</h3>
+                        <p class="text-gray-600 mb-4">YAKO Official Store là đại lý ủy quyền chính thức của Apple tại Việt Nam, chuyên cung cấp các sản phẩm công nghệ chính hãng với giá tốt nhất thị trường.</p>
+                        <p class="text-gray-600 mb-4">Với hơn 5 năm kinh nghiệm trong lĩnh vực phân phối thiết bị công nghệ, chúng tôi tự hào mang đến cho khách hàng những sản phẩm chất lượng cùng dịch vụ chăm sóc khách hàng tận tâm.</p>
+                        <p class="text-gray-600">Hiện nay, YAKO có 3 cửa hàng trưng bày tại Hà Nội, Đà Nẵng và TP.HCM cùng hệ thống bán hàng online phủ sóng toàn quốc.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-bold mb-3">Thông tin liên hệ</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-map-marker-alt text-blue-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Địa chỉ</h4>
+                                    <p class="text-sm text-gray-600">123 Nguyễn Văn Linh, Q. Hải Châu, TP. Đà Nẵng</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-green-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-phone-alt text-green-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Điện thoại</h4>
+                                    <p class="text-sm text-gray-600">1900 1234 - 0905 123 456</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-purple-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-envelope text-purple-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Email</h4>
+                                    <p class="text-sm text-gray-600">support@yako-store.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-red-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-clock text-red-500"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Giờ làm việc</h4>
+                                    <p class="text-sm text-gray-600">8:00 - 22:00 hàng ngày</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="font-bold mb-4">Hình ảnh cửa hàng</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <img src="https://via.placeholder.com/300x200?text=Store+1" alt="Cửa hàng" class="rounded-lg">
+                        <img src="https://via.placeholder.com/300x200?text=Store+2" alt="Cửa hàng" class="rounded-lg">
+                        <img src="https://via.placeholder.com/300x200?text=Store+3" alt="Cửa hàng" class="rounded-lg">
+                        <img src="https://via.placeholder.com/300x200?text=Store+4" alt="Cửa hàng" class="rounded-lg">
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Về chúng tôi</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Giới thiệu</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Tuyển dụng</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Điều khoản</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Dành cho khách hàng</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Trung tâm trợ giúp</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Hướng dẫn mua hàng</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Thanh toán</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Vận chuyển</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Liên hệ</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span class="text-gray-300">Đà Nẵng, Việt Nam</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2"></i>
+                            <span class="text-gray-300">1900 1234</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2"></i>
+                            <span class="text-gray-300">support@eshop.com</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Kết nối với chúng tôi</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="bg-blue-400 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="bg-red-600 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Tải ứng dụng</h4>
+                        <div class="flex space-x-2">
+                            <a href="#" class="bg-black p-2 rounded">
+                                <i class="fab fa-apple text-xl"></i>
+                            </a>
+                            <a href="#" class="bg-black p-2 rounded">
+                                <i class="fab fa-google-play text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-6 text-center text-gray-400">
+                <p>© 2025 NuenTaru-Shop. Tất cả các quyền được bảo lưu.</p>
+                <p class="mt-2 text-sm">Số ĐKKD: 0123456789 | Ngày cấp: 01/01/2025 | Nơi cấp: Sở Kế hoạch và Đầu tư Đà Nẵng</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all tabs
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Hide all tab contents
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                    content.classList.add('hidden');
+                });
+                
+                // Show the corresponding tab content
+                const tabId = this.id;
+                if (tabId === 'overview-tab') {
+                    document.getElementById('overview-content').classList.remove('hidden');
+                    document.getElementById('overview-content').classList.add('active');
+                } else if (tabId === 'products-tab') {
+                    document.getElementById('products-content').classList.remove('hidden');
+                    document.getElementById('products-content').classList.add('active');
+                } else if (tabId === 'sale-tab') {
+                    document.getElementById('sale-content').classList.remove('hidden');
+                    document.getElementById('sale-content').classList.add('active');
+                } else if (tabId === 'vouchers-tab') {
+                    document.getElementById('vouchers-content').classList.remove('hidden');
+                    document.getElementById('vouchers-content').classList.add('active');
+                } else if (tabId === 'profile-tab') {
+                    document.getElementById('profile-content').classList.remove('hidden');
+                    document.getElementById('profile-content').classList.add('active');
+                }
+            });
+        });
+        
+        // Filter button functionality
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all filter buttons
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+            });
+        });
+        
+        // Product card hover effect
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 10px 25px rgba(0,0,0,0.1)';
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.boxShadow = '';
+                this.style.transform = '';
+            });
+        });
+        
+        // Countdown timer for sale tab
+        function updateCountdown() {
+            const now = new Date();
+            const endOfDay = new Date();
+            endOfDay.setHours(23, 59, 59, 0);
+            
+            const diff = endOfDay - now;
+            
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('countdown').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>

@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký Đối Tác - E-Shop | Trở Thành Nhà Bán Hàng</title>
+    <meta name="description" content="Đăng ký trở thành đối tác nhà bán hàng trên E-Shop. Mở rộng kinh doanh, tiếp cận hàng triệu khách hàng tiềm năng.">
+    <meta name="keywords" content="đăng ký đối tác, bán hàng trên eshop, trở thành nhà cung cấp, bán hàng online">
+    <meta name="author" content="E-Shop">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Đăng Ký Đối Tác - E-Shop | Trở Thành Nhà Bán Hàng">
+    <meta property="og:description" content="Đăng ký bán hàng trên E-Shop - Nền tảng thương mại điện tử hàng đầu Việt Nam">
+    <meta property="og:image" content="https://www.your-eshop.com/image/logo/nuentaru1.png">
+    <meta property="og:url" content="https://www.your-eshop.com/partner-registration.html">
+    <meta property="og:type" content="website">
+    
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon_io/favicon.ico">
+    <link rel="canonical" href="https://www.your-eshop.com/partner-registration.html">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Reuse styles from index.html */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-spacer {
+            height: 130px;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 40px;
+        }
+        
+        .step-indicator::before {
+            content: '';
+            position: absolute;
+            top: 19px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #e2e8f0;
+            z-index: 1;
+        }
+        
+        .step {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #64748b;
+        }
+        
+        .step.active .step-icon {
+            background-color: #ff424f;
+            color: white;
+        }
+        
+        .step.completed .step-icon {
+            background-color: #10b981;
+            color: white;
+        }
+        
+        .step-label {
+            font-size: 14px;
+            color: #64748b;
+            text-align: center;
+        }
+        
+        .step.active .step-label {
+            color: #ff424f;
+            font-weight: 600;
+        }
+        
+        .form-section {
+            display: none;
+        }
+        
+        .form-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+        }
+        
+        .form-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #1e293b;
+        }
+        
+        .form-subtitle {
+            font-size: 16px;
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+        
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        /* File upload */
+        .file-upload {
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            background-color: #f8fafc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload:hover {
+            border-color: #94a3b8;
+            background-color: #f1f5f9;
+        }
+        
+        .file-upload.drag-over {
+            border-color: #ff424f;
+            background-color: #fff5f5;
+        }
+        
+        .file-list {
+            margin-top: 15px;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            background: #f1f5f9;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        
+        .file-item-name {
+            flex: 1;
+            font-size: 14px;
+        }
+        
+        .file-item-remove {
+            color: #ef4444;
+            cursor: pointer;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .step-label {
+                font-size: 12px;
+            }
+            
+            .form-footer {
+                flex-direction: column-reverse;
+                gap: 15px;
+            }
+            
+            .form-footer .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- SEO: Hidden H1 for page title -->
+    <h1>Đăng Ký Trở Thành Đối Tác - E-Shop | Nền Tảng Thương Mại Điện Tử</h1>
+    
+    <!-- Header (same as index.html) -->
+    <header class="bg-[#ff424f] text-white shadow-md fixed-header">
+        <div class="container mx-auto px-4">
+            <!-- Top Row: User Actions -->
+            <div class="flex justify-end items-center py-2 space-x-6 text-sm">
+                <!-- Notification dropdown container -->
+                <div class="notification-container">
+                    <a href="#" class="hover:text-yellow-200 flex items-center" id="notification-icon" aria-label="Thông báo">
+                        <i class="fas fa-bell mr-1" aria-hidden="true"></i>
+                        <span>Thông báo</span>
+                        <div class="notification-count">5</div>
+                    </a>
+                </div>
+                <a href="promotion.html" class="hover:text-yellow-200 flex items-center" aria-label="Khuyến mãi">
+                    <i class="fas fa-tag mr-1" aria-hidden="true"></i>
+                    <span>Khuyến mãi</span>
+                </a>
+                <a href="help/support.html" class="hover:text-yellow-200 flex items-center" aria-label="Hỗ trợ">
+                    <i class="fas fa-headset mr-1" aria-hidden="true"></i>
+                    <span>Hỗ trợ</span>
+                </a>
+            </div>
+
+            <!-- Main Header: Logo + Search -->
+            <div class="flex items-center justify-between pb-3">
+                <!-- Logo with alt text -->
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
+                        <img src="assets/img/logo/nuentaru1.png" alt="E-Shop - Trang mua sắm trực tuyến">
+                    </a>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="flex-1 mx-8">
+                    <form action="/search" method="GET" role="search">
+                        <div class="relative mb-1">
+                            <input type="text" name="q" placeholder="Tìm kiếm sản phẩm..." 
+                                class="w-full py-2 px-4 rounded-full text-gray-800 focus:outline-none"
+                                aria-label="Tìm kiếm sản phẩm">
+                            <button type="submit" class="absolute right-0 top-0 h-full px-4 bg-yellow-400 rounded-r-full text-gray-800" aria-label="Tìm kiếm">
+                                <i class="fas fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- User Actions -->
+                <div class="flex items-center space-x-6">
+                    <a href="auth/login.html" class="flex flex-col items-center" aria-label="Tài khoản">
+                        <i class="fas fa-user text-xl" aria-hidden="true"></i>
+                        <span class="text-xs mt-1">Tài khoản</span>
+                    </a>
+                    <a href="cart.html" class="flex flex-col items-center relative" aria-label="Giỏ hàng">
+                        <i class="fas fa-shopping-cart text-xl" aria-hidden="true"></i>
+                        <span class="text-xs mt-1">Giỏ hàng</span>
+                        <span class="absolute -top-2 -right-2 bg-yellow-400 text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Spacer for fixed header -->
+    <div class="header-spacer"></div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Đăng Ký Trở Thành Đối Tác E-Shop</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Tham gia nền tảng thương mại điện tử hàng đầu Việt Nam, tiếp cận hàng triệu khách hàng 
+                    và tăng trưởng doanh nghiệp của bạn.
+                </p>
+            </div>
+            
+            <!-- Step Indicator -->
+            <div class="step-indicator">
+                <div class="step completed" data-step="1">
+                    <div class="step-icon">
+                        <i class="fas fa-check" aria-hidden="true"></i>
+                    </div>
+                    <div class="step-label">Thông tin cá nhân</div>
+                </div>
+                <div class="step active" data-step="2">
+                    <div class="step-icon">2</div>
+                    <div class="step-label">Thông tin doanh nghiệp</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-icon">3</div>
+                    <div class="step-label">Tài khoản & Bảo mật</div>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="step-icon">4</div>
+                    <div class="step-label">Xác nhận</div>
+                </div>
+            </div>
+            
+            <!-- Form Sections -->
+            <div class="form-card">
+                <!-- Step 1: Personal Information -->
+                <section id="step-1" class="form-section active">
+                    <h3 class="form-title">Thông Tin Cá Nhân</h3>
+                    <p class="form-subtitle">
+                        Vui lòng cung cấp thông tin cá nhân của người đại diện doanh nghiệp
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="fullname" class="block text-sm font-medium text-gray-700 mb-1">Họ và tên *</label>
+                            <input type="text" id="fullname" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                        </div>
+                        
+                        <div>
+                            <label for="position" class="block text-sm font-medium text-gray-700 mb-1">Chức vụ *</label>
+                            <input type="text" id="position" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                            <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                        </div>
+                        
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Số điện thoại *</label>
+                            <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                        </div>
+                        
+                        <div>
+                            <label for="id-number" class="block text-sm font-medium text-gray-700 mb-1">Số CMND/CCCD *</label>
+                            <input type="text" id="id-number" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                        </div>
+                        
+                        <div>
+                            <label for="id-date" class="block text-sm font-medium text-gray-700 mb-1">Ngày cấp *</label>
+                            <input type="date" id="id-date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                        </div>
+                        
+                        <div>
+                            <label for="id-place" class="block text-sm font-medium text-gray-700 mb-1">Nơi cấp *</label>
+                            <input type="text" id="id-place" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                        </div>
+                        
+                        <div>
+                            <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Địa chỉ thường trú *</label>
+                            <input type="text" id="address" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-footer">
+                        <div></div> <!-- Empty div for spacing -->
+                        <button type="button" class="btn-next bg-red-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-red-700 transition">
+                            Tiếp theo <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </section>
+                
+                <!-- Step 2: Business Information -->
+                <section id="step-2" class="form-section">
+                    <h3 class="form-title">Thông Tin Doanh Nghiệp</h3>
+                    <p class="form-subtitle">
+                        Vui lòng cung cấp thông tin công ty/doanh nghiệp của bạn
+                    </p>
+                    
+                    <div class="grid grid-cols-1 gap-6">
+                        <div>
+                            <label for="business-name" class="block text-sm font-medium text-gray-700 mb-1">Tên doanh nghiệp *</label>
+                            <input type="text" id="business-name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="tax-code" class="block text-sm font-medium text-gray-700 mb-1">Mã số thuế *</label>
+                                <input type="text" id="tax-code" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                            </div>
+                            
+                            <div>
+                                <label for="business-type" class="block text-sm font-medium text-gray-700 mb-1">Loại hình doanh nghiệp *</label>
+                                <select id="business-type" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                                    <option value="">Chọn loại hình</option>
+                                    <option value="individual">Cá nhân</option>
+                                    <option value="household">Hộ kinh doanh</option>
+                                    <option value="company">Công ty TNHH</option>
+                                    <option value="joint-stock">Công ty cổ phần</option>
+                                    <option value="other">Khác</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="business-address" class="block text-sm font-medium text-gray-700 mb-1">Địa chỉ trụ sở chính *</label>
+                            <input type="text" id="business-address" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="business-phone" class="block text-sm font-medium text-gray-700 mb-1">Điện thoại doanh nghiệp *</label>
+                                <input type="tel" id="business-phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                            </div>
+                            
+                            <div>
+                                <label for="website" class="block text-sm font-medium text-gray-700 mb-1">Website (nếu có)</label>
+                                <input type="url" id="website" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Lĩnh vực kinh doanh chính *</label>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="rounded border-gray-300 text-red-600 focus:ring-red-500">
+                                    <span class="ml-2 text-sm">Thời trang</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="rounded border-gray-300 text-red-600 focus:ring-red-500">
+                                    <span class="ml-2 text-sm">Điện tử</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="rounded border-gray-300 text-red-600 focus:ring-red-500">
+                                    <span class="ml-2 text-sm">Gia dụng</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="rounded border-gray-300 text-red-600 focus:ring-red-500">
+                                    <span class="ml-2 text-sm">Làm đẹp</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="rounded border-gray-300 text-red-600 focus:ring-red-500">
+                                    <span class="ml-2 text-sm">Mẹ & Bé</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="rounded border-gray-300 text-red-600 focus:ring-red-500">
+                                    <span class="ml-2 text-sm">Thực phẩm</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="rounded border-gray-300 text-red-600 focus:ring-red-500">
+                                    <span class="ml-2 text-sm">Sức khỏe</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="rounded border-gray-300 text-red-600 focus:ring-red-500">
+                                    <span class="ml-2 text-sm">Khác</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tải lên giấy tờ pháp lý *</label>
+                            <p class="text-sm text-gray-500 mb-3">(Giấy phép kinh doanh, Giấy chứng nhận đăng ký doanh nghiệp, v.v.)</p>
+                            
+                            <div id="legal-documents" class="file-upload">
+                                <div class="flex flex-col items-center justify-center">
+                                    <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-3" aria-hidden="true"></i>
+                                    <p class="font-medium">Kéo thả tệp vào đây hoặc <span class="text-red-600">chọn tệp</span></p>
+                                    <p class="text-sm text-gray-500 mt-1">Định dạng: PDF, JPG, PNG (Tối đa 5MB mỗi tệp)</p>
+                                </div>
+                                <input type="file" id="file-input" class="hidden" multiple>
+                            </div>
+                            
+                            <div id="file-list" class="file-list"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-footer">
+                        <button type="button" class="btn-prev bg-gray-200 text-gray-800 px-6 py-2 rounded-lg font-medium hover:bg-gray-300 transition">
+                            <i class="fas fa-arrow-left mr-2" aria-hidden="true"></i> Quay lại
+                        </button>
+                        <button type="button" class="btn-next bg-red-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-red-700 transition">
+                            Tiếp theo <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </section>
+                
+                <!-- Step 3: Account & Security -->
+                <section id="step-3" class="form-section">
+                    <h3 class="form-title">Tài Khoản & Bảo Mật</h3>
+                    <p class="form-subtitle">
+                        Thiết lập thông tin đăng nhập cho tài khoản đối tác
+                    </p>
+                    
+                    <div class="grid grid-cols-1 gap-6">
+                        <div>
+                            <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Tên đăng nhập *</label>
+                            <input type="text" id="username" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                            <p class="text-sm text-gray-500 mt-1">Tên đăng nhập phải có ít nhất 6 ký tự</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu *</label>
+                                <input type="password" id="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                                <div class="password-strength mt-2">
+                                    <div class="flex items-center mb-1">
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="bg-red-600 h-2 rounded-full" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-gray-500">Mật khẩu nên bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt</p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-1">Xác nhận mật khẩu *</label>
+                                <input type="password" id="confirm-password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Câu hỏi bảo mật *</label>
+                            <div class="space-y-4">
+                                <div>
+                                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                                        <option value="">Chọn câu hỏi bảo mật</option>
+                                        <option value="1">Tên trường tiểu học của bạn là gì?</option>
+                                        <option value="2">Tên vật nuôi đầu tiên của bạn là gì?</option>
+                                        <option value="3">Bạn sinh ra ở thành phố nào?</option>
+                                        <option value="4">Mẹ đẻ của bạn tên là gì?</option>
+                                        <option value="5">Biệt danh thời thơ ấu của bạn là gì?</option>
+                                    </select>
+                                    <input type="text" class="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" placeholder="Câu trả lời" required>
+                                </div>
+                                
+                                <div>
+                                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                                        <option value="">Chọn câu hỏi bảo mật</option>
+                                        <option value="1">Tên trường tiểu học của bạn là gì?</option>
+                                        <option value="2">Tên vật nuôi đầu tiên của bạn là gì?</option>
+                                        <option value="3">Bạn sinh ra ở thành phố nào?</option>
+                                        <option value="4">Mẹ đẻ của bạn tên là gì?</option>
+                                        <option value="5">Biệt danh thời thơ ấu của bạn là gì?</option>
+                                    </select>
+                                    <input type="text" class="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" placeholder="Câu trả lời" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-footer">
+                        <button type="button" class="btn-prev bg-gray-200 text-gray-800 px-6 py-2 rounded-lg font-medium hover:bg-gray-300 transition">
+                            <i class="fas fa-arrow-left mr-2" aria-hidden="true"></i> Quay lại
+                        </button>
+                        <button type="button" class="btn-next bg-red-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-red-700 transition">
+                            Tiếp theo <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </section>
+                
+                <!-- Step 4: Confirmation -->
+                <section id="step-4" class="form-section">
+                    <h3 class="form-title">Xác Nhận Thông Tin</h3>
+                    <p class="form-subtitle">
+                        Vui lòng kiểm tra lại thông tin trước khi gửi đơn đăng ký
+                    </p>
+                    
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-exclamation-circle text-yellow-500" aria-hidden="true"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-yellow-700">
+                                    Sau khi gửi đơn, bộ phận đối tác của E-Shop sẽ liên hệ với bạn trong vòng 3-5 ngày làm việc để xác minh thông tin và hướng dẫn các bước tiếp theo.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="border border-gray-200 rounded-lg overflow-hidden mb-6">
+                        <!-- Personal Info Summary -->
+                        <div class="border-b border-gray-200">
+                            <div class="bg-gray-50 px-4 py-3">
+                                <h4 class="font-medium text-gray-900">Thông Tin Cá Nhân</h4>
+                            </div>
+                            <div class="px-4 py-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-sm text-gray-500">Họ và tên</p>
+                                    <p id="summary-fullname" class="font-medium">Nguyễn Văn A</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Chức vụ</p>
+                                    <p id="summary-position" class="font-medium">Giám đốc</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Email</p>
+                                    <p id="summary-email" class="font-medium">nguyenvana@example.com</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Số điện thoại</p>
+                                    <p id="summary-phone" class="font-medium">0912 345 678</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Business Info Summary -->
+                        <div class="border-b border-gray-200">
+                            <div class="bg-gray-50 px-4 py-3">
+                                <h4 class="font-medium text-gray-900">Thông Tin Doanh Nghiệp</h4>
+                            </div>
+                            <div class="px-4 py-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-sm text-gray-500">Tên doanh nghiệp</p>
+                                    <p id="summary-business-name" class="font-medium">Công ty TNHH Thương Mại ABC</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Mã số thuế</p>
+                                    <p id="summary-tax-code" class="font-medium">0123456789</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Loại hình doanh nghiệp</p>
+                                    <p id="summary-business-type" class="font-medium">Công ty TNHH</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">Địa chỉ trụ sở</p>
+                                    <p id="summary-business-address" class="font-medium">123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Account Info Summary -->
+                        <div>
+                            <div class="bg-gray-50 px-4 py-3">
+                                <h4 class="font-medium text-gray-900">Thông Tin Tài Khoản</h4>
+                            </div>
+                            <div class="px-4 py-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-sm text-gray-500">Tên đăng nhập</p>
+                                    <p id="summary-username" class="font-medium">congty_abc</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <div class="flex items-start">
+                            <input type="checkbox" id="terms" class="mt-1 rounded border-gray-300 text-red-600 focus:ring-red-500" required>
+                            <label for="terms" class="ml-2 block text-sm text-gray-700">
+                                Tôi đã đọc và đồng ý với <a href="/terms" class="text-red-600 hover:underline">Điều khoản sử dụng</a> 
+                                và <a href="/privacy" class="text-red-600 hover:underline">Chính sách bảo mật</a> của E-Shop. 
+                                Tôi cam kết thông tin cung cấp là chính xác và chịu trách nhiệm trước pháp luật về thông tin đã đăng ký.
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-footer">
+                        <button type="button" class="btn-prev bg-gray-200 text-gray-800 px-6 py-2 rounded-lg font-medium hover:bg-gray-300 transition">
+                            <i class="fas fa-arrow-left mr-2" aria-hidden="true"></i> Quay lại
+                        </button>
+                        <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-green-700 transition">
+                            <i class="fas fa-paper-plane mr-2" aria-hidden="true"></i> Gửi Đơn Đăng Ký
+                        </button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-4 gap-8 mb-8">
+                <!-- Column 1 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Về chúng tôi</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/gioi-thieu" class="text-gray-300 hover:text-white">Giới thiệu</a></li>
+                        <li><a href="/tuyen-dung" class="text-gray-300 hover:text-white">Tuyển dụng</a></li>
+                        <li><a href="/dieu-khoan" class="text-gray-300 hover:text-white">Điều khoản</a></li>
+                        <li><a href="/chinh-sach-bao-mat" class="text-gray-300 hover:text-white">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 2 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Dành cho khách hàng</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/trung-tam-tro-giup" class="text-gray-300 hover:text-white">Trung tâm trợ giúp</a></li>
+                        <li><a href="/huong-dan-mua-hang" class="text-gray-300 hover:text-white">Hướng dẫn mua hàng</a></li>
+                        <li><a href="/thanh-toan" class="text-gray-300 hover:text-white">Thanh toán</a></li>
+                        <li><a href="/van-chuyen" class="text-gray-300 hover:text-white">Vận chuyển</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 3 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Liên hệ</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">Đà Nẵng, Việt Nam</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">1900 1234</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">support@eshop.com</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Column 4 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Kết nối với chúng tôi</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="https://facebook.com/your-eshop" class="bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Facebook">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://instagram.com/your-eshop" class="bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Instagram">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://twitter.com/your-eshop" class="bg-blue-400 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Twitter">
+                            <i class="fab fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://youtube.com/your-eshop" class="bg-red-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="YouTube">
+                            <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Tải ứng dụng</h4>
+                        <div class="flex space-x-2">
+                            <a href="https://apps.apple.com/app/your-eshop" class="bg-black p-2 rounded" aria-label="Tải ứng dụng trên App Store">
+                                <i class="fab fa-apple text-xl" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://play.google.com/store/apps/details?id=com.youreshop" class="bg-black p-2 rounded" aria-label="Tải ứng dụng trên Google Play">
+                                <i class="fab fa-google-play text-xl" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-6 text-center text-gray-400">
+                <p>© 2025 NuenTaru-Shop. Tất cả các quyền được bảo lưu.</p>
+                <p class="mt-2 text-sm">Số ĐKKD: 0123456789 | Ngày cấp: 01/01/2025 | Nơi cấp: Sở Kế hoạch và Đầu tư Đà Nẵng</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Form navigation
+        const steps = document.querySelectorAll('.step');
+        const formSections = document.querySelectorAll('.form-section');
+        let currentStep = 1;
+        
+        // Initialize form
+        showStep(currentStep);
+        
+        // Next button click handler
+        document.querySelectorAll('.btn-next').forEach(button => {
+            button.addEventListener('click', function() {
+                if (validateStep(currentStep)) {
+                    currentStep++;
+                    showStep(currentStep);
+                    updateStepIndicator();
+                }
+            });
+        });
+        
+        // Previous button click handler
+        document.querySelectorAll('.btn-prev').forEach(button => {
+            button.addEventListener('click', function() {
+                currentStep--;
+                showStep(currentStep);
+                updateStepIndicator();
+            });
+        });
+        
+        // Show current step
+        function showStep(step) {
+            formSections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(`step-${step}`).classList.add('active');
+        }
+        
+        // Update step indicator
+        function updateStepIndicator() {
+            steps.forEach(step => {
+                const stepNum = parseInt(step.dataset.step);
+                step.classList.remove('active', 'completed');
+                
+                if (stepNum < currentStep) {
+                    step.classList.add('completed');
+                } else if (stepNum === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+        }
+        
+        // Simple validation for each step
+        function validateStep(step) {
+            let isValid = true;
+            const currentSection = document.getElementById(`step-${step}`);
+            const requiredFields = currentSection.querySelectorAll('[required]');
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.classList.add('border-red-500');
+                    field.addEventListener('input', function() {
+                        if (this.value.trim()) {
+                            this.classList.remove('border-red-500');
+                        }
+                    });
+                }
+            });
+            
+            // Additional validation for step 3 (passwords match)
+            if (step === 3) {
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                
+                if (password !== confirmPassword) {
+                    isValid = false;
+                    alert('Mật khẩu và xác nhận mật khẩu không khớp');
+                }
+            }
+            
+            return isValid;
+        }
+        
+        // File Upload
+        const fileUpload = document.getElementById('legal-documents');
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.multiple = true;
+        fileInput.className = 'hidden';
+        fileUpload.appendChild(fileInput);
+        
+        fileUpload.addEventListener('click', function(e) {
+            if (e.target.tagName !== 'INPUT') {
+                fileInput.click();
+            }
+        });
+        
+        fileUpload.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        });
+        
+        fileUpload.addEventListener('dragleave', function() {
+            this.classList.remove('drag-over');
+        });
+        
+        fileUpload.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+            handleFiles(e.dataTransfer.files);
+        });
+        
+        fileInput.addEventListener('change', function() {
+            handleFiles(this.files);
+        });
+        
+        function handleFiles(files) {
+            const fileList = document.getElementById('file-list');
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                
+                // Check file size (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert(`Tệp ${file.name} vượt quá kích thước cho phép (5MB)`);
+                    continue;
+                }
+                
+                // Check file type
+                const validTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+                if (!validTypes.includes(file.type)) {
+                    alert(`Tệp ${file.name} không đúng định dạng (chỉ chấp nhận JPG, PNG, PDF)`);
+                    continue;
+                }
+                
+                // Create file item
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                
+                fileItem.innerHTML = `
+                    <div class="file-item-name">${file.name}</div>
+                    <div class="file-item-remove">
+                        <i class="fas fa-times" aria-hidden="true"></i>
+                    </div>
+                `;
+                
+                fileList.appendChild(fileItem);
+                
+                // Add remove functionality
+                fileItem.querySelector('.file-item-remove').addEventListener('click', function() {
+                    fileItem.remove();
+                });
+            }
+        }
+        
+        // Password strength indicator
+        const passwordInput = document.getElementById('password');
+        if (passwordInput) {
+            passwordInput.addEventListener('input', function() {
+                const strengthBar = this.nextElementSibling.querySelector('.bg-red-600');
+                const password = this.value;
+                let strength = 0;
+                
+                if (password.length >= 8) strength += 25;
+                if (/[A-Z]/.test(password)) strength += 25;
+                if (/[0-9]/.test(password)) strength += 25;
+                if (/[^A-Za-z0-9]/.test(password)) strength += 25;
+                
+                strengthBar.style.width = `${strength}%`;
+                
+                // Change color based on strength
+                if (strength < 50) {
+                    strengthBar.classList.remove('bg-green-500', 'bg-yellow-500');
+                    strengthBar.classList.add('bg-red-600');
+                } else if (strength < 75) {
+                    strengthBar.classList.remove('bg-red-600', 'bg-green-500');
+                    strengthBar.classList.add('bg-yellow-500');
+                } else {
+                    strengthBar.classList.remove('bg-red-600', 'bg-yellow-500');
+                    strengthBar.classList.add('bg-green-500');
+                }
+            });
+        }
+        
+        // Form submission
+        const submitButton = document.querySelector('button[type="submit"]');
+        if (submitButton) {
+            submitButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                const terms = document.getElementById('terms');
+                
+                if (!terms.checked) {
+                    alert('Vui lòng đồng ý với điều khoản sử dụng và chính sách bảo mật');
+                    return;
+                }
+                
+                // Collect data for summary
+                document.getElementById('summary-fullname').textContent = document.getElementById('fullname').value;
+                document.getElementById('summary-position').textContent = document.getElementById('position').value;
+                document.getElementById('summary-email').textContent = document.getElementById('email').value;
+                document.getElementById('summary-phone').textContent = document.getElementById('phone').value;
+                document.getElementById('summary-business-name').textContent = document.getElementById('business-name').value;
+                document.getElementById('summary-tax-code').textContent = document.getElementById('tax-code').value;
+                document.getElementById('summary-business-type').textContent = document.getElementById('business-type').options[document.getElementById('business-type').selectedIndex].text;
+                document.getElementById('summary-business-address').textContent = document.getElementById('business-address').value;
+                document.getElementById('summary-username').textContent = document.getElementById('username').value;
+                
+                // Show success message
+                alert('Đơn đăng ký của bạn đã được gửi thành công! Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.');
+                
+                // Reset form and go to step 1
+                document.querySelector('form').reset();
+                currentStep = 1;
+                showStep(currentStep);
+                updateStepIndicator();
+                document.getElementById('file-list').innerHTML = '';
+            });
+        }
+    });
+    </script>
+</body>
+</html>

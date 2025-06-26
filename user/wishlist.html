@@ -387,6 +387,45 @@
     </div>
 
     <script>
+        // Hàm gửi chiều cao về trang chủ
+  function sendHeightToParent() {
+    const height = Math.max(
+      document.body.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.clientHeight,
+      document.documentElement.scrollHeight,
+      document.documentElement.offsetHeight
+    );
+    
+    // Gửi chiều cao về trang chủ
+    window.parent.postMessage({
+      type: 'resize',
+      height: height
+    }, '*');
+  }
+
+  // Gửi chiều cao khi trang tải xong
+  window.addEventListener('load', sendHeightToParent);
+  
+  // Gửi chiều cao khi cửa sổ thay đổi kích thước
+  window.addEventListener('resize', sendHeightToParent);
+  
+  // Gửi chiều cao khi có thay đổi nội dung (MutationObserver)
+  const observer = new MutationObserver(sendHeightToParent);
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    characterData: true
+  });
+
+  // Trả lời khi nhận được yêu cầu từ trang chủ
+  window.addEventListener('message', (event) => {
+    if (event.data === 'getHeight') {
+      sendHeightToParent();
+    }
+  });
+  
         // Sample product data
         const sampleProducts = [
             {

@@ -69,6 +69,149 @@
           height: 120px;
         }
 
+        /* Notification dropdown */
+        .notification-container {
+            position: relative;
+        }
+        
+        .notification-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 380px;
+            max-height: 500px;
+            overflow-y: auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+            display: none;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .notification-dropdown.show {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .notification-header {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid #f5f5f5;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .notification-item:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .notification-item.unread {
+            background-color: #f0f7ff;
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-time {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .notification-mark-all {
+            color: #ff424f;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .notification-footer {
+            padding: 15px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+        
+        .notification-count {
+            position: absolute;
+            top: -7px;
+            right: -15px;
+            background-color: #ff424f;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        /* Fixed header */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Spacer */
+        .header-spacer {
+            height: 130px;
+        }
+        
+        /* Login required */
+        .login-required {
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .login-icon {
+            font-size: 48px;
+            color: #ff424f;
+            margin-bottom: 20px;
+        }
+        
+        .login-btn {
+            background-color: #ff424f;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            background-color: #e53e3e;
+            transform: translateY(-2px);
+        }
+
         /* Slider */
         .slider-container {
             overflow: hidden;
@@ -255,19 +398,116 @@
     <h1>E-Shop - Trang Mua Sắm Trực Tuyến Hàng Đầu Việt Nam | Điện Tử, Thời Trang, Gia Dụng</h1>
     
     <!-- Header with trending searches -->
-    <header class="bg-[#ff424f] text-white shadow-md">
+    <header class="bg-[#ff424f] text-white shadow-md ">
         <div class="container mx-auto px-4">
             <!-- Top Row: User Actions -->
             <div class="flex justify-end items-center py-2 space-x-6 text-sm">
-                <a href="/thong-bao" class="hover:text-yellow-200 flex items-center" aria-label="Thông báo">
-                    <i class="fas fa-bell mr-1" aria-hidden="true"></i>
-                    <span>Thông báo</span>
-                </a>
-                <a href="/khuyen-mai" class="hover:text-yellow-200 flex items-center" aria-label="Khuyến mãi">
+                <!-- Notification dropdown container -->
+                <div class="notification-container">
+                    <a href="#" class="hover:text-yellow-200 flex items-center" id="notification-icon" aria-label="Thông báo">
+                        <i class="fas fa-bell mr-1" aria-hidden="true"></i>
+                        <span>Thông báo</span>
+                        <div class="notification-count bg-yellow-400 text-red-600">5</div>
+                    </a>
+                    <!-- Notification dropdown -->
+                    <div class="notification-dropdown" id="notification-dropdown">
+                        <div class="notification-header">
+                            <h3 class="font-bold text-gray-800">Thông báo</h3>
+                            <span class="notification-mark-all">Đánh dấu đã đọc</span>
+                        </div>
+                        
+                        <!-- Login Required Message -->
+                        <div class="login-required hidden" id="login-required">
+                            <div class="login-icon">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Đăng nhập để xem thông báo</h3>
+                            <p class="text-gray-600 mb-4">Vui lòng đăng nhập để xem các thông báo mới nhất của bạn</p>
+                            <a href="/auth/login" class="login-btn">Đăng nhập ngay</a>
+                        </div>
+                        
+                        <!-- Notification List (hidden by default) -->
+                        <div class="notification-list hidden">
+                            <!-- Notification 1 -->
+                            <div class="notification-item unread">
+                                <div class="flex">
+                                    <div class="notification-icon bg-red-100">
+                                        <i class="fas fa-tag text-red-500"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <div class="font-medium text-gray-800">MÃ SHOPEE CHOICE VỀ VÍ</div>
+                                        <p class="text-sm text-gray-600 mt-1">Bạn đã nhận voucher giảm ngay 25% khi mua hàng tại Shopee Choice! Hiệu lực từ ngày: 27-06-2025 → Bấm để xem Shopee Choice!</p>
+                                        <div class="notification-time">10 phút trước</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Notification 2 -->
+                            <div class="notification-item unread">
+                                <div class="flex">
+                                    <div class="notification-icon bg-blue-100">
+                                        <i class="fas fa-cloud-rain text-blue-500"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <div class="font-medium text-gray-800">Hình như có mưa? MUA LỤA ĐÃI KHÙNG ĐÓ</div>
+                                        <p class="text-sm text-gray-600 mt-1">Không cần che ô vì mua này cực đãi 😊 Nestle, Coolmate, Adidas... GIẢM ĐẾN 50% 💬 Thêm mã giảm 3 Triệu từ Apple 💭 Chỉ còn vài tiếng - Tranh thủ mua ngay!</p>
+                                        <div class="notification-time">1 giờ trước</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Notification 3 -->
+                            <div class="notification-item">
+                                <div class="flex">
+                                    <div class="notification-icon bg-yellow-100">
+                                        <i class="fas fa-tv text-yellow-500"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <div class="font-medium text-gray-800">21H DEAL -50% CHIẾM SÓNG SHOPEE LIVE</div>
+                                        <p class="text-sm text-gray-600 mt-1">Săn thêm mã giảm đến 1 Triệu tại Video 💭 Mã giảm 500K, 250K,...được nạp đầy 💭 Vải tiếng sale cuối - Cần gì mua hết ngay!</p>
+                                        <div class="notification-time">3 giờ trước</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Notification 4 -->
+                            <div class="notification-item">
+                                <div class="flex">
+                                    <div class="notification-icon bg-green-100">
+                                        <i class="fas fa-ticket-alt text-green-500"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <div class="font-medium text-gray-800">Nghe nói Nguyễn Tam Trực cần thêm mã giảm</div>
+                                        <p class="text-sm text-gray-600 mt-1">Mã giảm toàn sàn đến 500.000đ 💭 Thêm mã giảm ngành hàng đến 2 Triệu 💭 Cùng nhiều mã Freeship 0đ 💭 Tất cả đã sẵn sàng - Chốt đơn tiếp thôi!</p>
+                                        <div class="notification-time">5 giờ trước</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Notification 5 -->
+                            <div class="notification-item">
+                                <div class="flex">
+                                    <div class="notification-icon bg-purple-100">
+                                        <i class="fas fa-gift text-purple-500"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <div class="font-medium text-gray-800">CHÂN ĐỘNG! MUA 1 ĐƯỢC 10😊</div>
+                                        <p class="text-sm text-gray-600 mt-1">Chỉ 50K có ngay 10 đơn hàng ngẫu nhiên 💭 Trải nghiệm Hộp Cam Bí Ẩn ngay!</p>
+                                        <div class="notification-time">1 ngày trước</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notification-footer hidden">
+                            <a href="#" class="text-blue-500 text-sm">Xem tất cả thông báo</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="promotion.html" class="hover:text-yellow-200 flex items-center" aria-label="Khuyến mãi">
                     <i class="fas fa-tag mr-1" aria-hidden="true"></i>
                     <span>Khuyến mãi</span>
                 </a>
-                <a href="/ho-tro" class="hover:text-yellow-200 flex items-center" aria-label="Hỗ trợ">
+                <a href="help/support.html" class="hover:text-yellow-200 flex items-center" aria-label="Hỗ trợ">
                     <i class="fas fa-headset mr-1" aria-hidden="true"></i>
                     <span>Hỗ trợ</span>
                 </a>
@@ -285,7 +525,7 @@
                 <!-- Search Bar with Trending Searches -->
                 <div class="flex-1 mx-8">
                     <!-- Search Bar with proper form -->
-                    <form action="/search" method="GET" role="search">
+                    <form action="/search.html" method="GET" role="search">
                         <div class="relative mb-1">
                             <input type="text" name="q" placeholder="Tìm kiếm sản phẩm..." 
                                 class="w-full py-2 px-4 rounded-full text-gray-800 focus:outline-none"
@@ -318,11 +558,11 @@
 
                 <!-- User Actions -->
                 <div class="flex items-center space-x-6">
-                    <a href="/tai-khoan" class="flex flex-col items-center" aria-label="Tài khoản">
+                    <a href="auth/login.html" class="flex flex-col items-center" aria-label="Tài khoản">
                         <i class="fas fa-user text-xl" aria-hidden="true"></i>
                         <span class="text-xs mt-1">Tài khoản</span>
                     </a>
-                    <a href="/gio-hang" class="flex flex-col items-center relative" aria-label="Giỏ hàng">
+                    <a href="cart.html" class="flex flex-col items-center relative" aria-label="Giỏ hàng">
                         <i class="fas fa-shopping-cart text-xl" aria-hidden="true"></i>
                         <span class="text-xs mt-1">Giỏ hàng</span>
                         <span class="absolute -top-2 -right-2 bg-yellow-400 text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
@@ -378,7 +618,7 @@
     </div>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-6">
+    <main class="container mx-auto px-4 py-6 ">
         <!-- Banner Slider with semantic markup -->
         <section aria-label="Banner khuyến mãi" class="slider-container rounded-xl overflow-hidden mb-8">
             <!-- Slider Track -->
@@ -1093,6 +1333,83 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // ==================== NOTIFICATION FIX ====================
+        const notificationIcon = document.getElementById('notification-icon');
+        const notificationDropdown = document.getElementById('notification-dropdown');
+        const notificationList = document.querySelector('.notification-list');
+        const notificationFooter = document.querySelector('.notification-footer');
+        const loginRequired = document.getElementById('login-required');
+        
+        // Giả sử trạng thái đăng nhập (false = chưa đăng nhập)
+        let isLoggedIn = false;
+        
+        // Toggle dropdown when clicking on notification icon
+        notificationIcon.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Kiểm tra trạng thái đăng nhập
+            if (!isLoggedIn) {
+                // Hiển thị thông báo yêu cầu đăng nhập
+                loginRequired.classList.remove('hidden');
+                notificationList.classList.add('hidden');
+                notificationFooter.classList.add('hidden');
+            } else {
+                // Hiển thị danh sách thông báo
+                loginRequired.classList.add('hidden');
+                notificationList.classList.remove('hidden');
+                notificationFooter.classList.remove('hidden');
+            }
+            
+            notificationDropdown.classList.toggle('show');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!notificationDropdown.contains(e.target) && !notificationIcon.contains(e.target)) {
+                notificationDropdown.classList.remove('show');
+            }
+        });
+        
+        // Mark all as read
+        const markAllRead = document.querySelector('.notification-mark-all');
+        markAllRead.addEventListener('click', function(e) {
+            e.preventDefault();
+            const unreadItems = document.querySelectorAll('.notification-item.unread');
+            unreadItems.forEach(item => {
+                item.classList.remove('unread');
+            });
+            document.querySelector('.notification-count').textContent = '0';
+        });
+        
+        // Close dropdown when clicking on a notification item
+        const notificationItems = document.querySelectorAll('.notification-item');
+        notificationItems.forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.remove('unread');
+                
+                // Update notification count
+                const unreadCount = document.querySelectorAll('.notification-item.unread').length;
+                document.querySelector('.notification-count').textContent = unreadCount;
+            });
+        });
+        
+        // Login simulation (for demo purposes)
+        document.querySelector('.login-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            isLoggedIn = true;
+            alert("Bạn đã đăng nhập thành công! Đóng thông báo này để tiếp tục.");
+            
+            // Đóng dropdown và mở lại để hiển thị thông báo
+            notificationDropdown.classList.remove('show');
+            setTimeout(() => {
+                notificationDropdown.classList.add('show');
+                loginRequired.classList.add('hidden');
+                notificationList.classList.remove('hidden');
+                notificationFooter.classList.remove('hidden');
+            }, 100);
+        });
+
         // Hàm chung để khởi tạo slider
         function initSlider(config) {
             const {

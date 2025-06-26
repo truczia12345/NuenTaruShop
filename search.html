@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm kiếm sản phẩm - E-Shop | Kết quả tìm kiếm</title>
+    <meta name="description" content="Tìm kiếm sản phẩm trên E-Shop với hàng ngàn mặt hàng đa dạng. Dễ dàng tìm thấy sản phẩm bạn cần với giá tốt nhất.">
+    <meta name="keywords" content="tìm kiếm sản phẩm, mua sắm online, thương mại điện tử, eshop">
+    <meta name="author" content="E-Shop">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Tìm kiếm sản phẩm - E-Shop | Kết quả tìm kiếm">
+    <meta property="og:description" content="Tìm kiếm sản phẩm trên E-Shop với hàng ngàn mặt hàng đa dạng.">
+    <meta property="og:image" content="https://www.your-eshop.com/image/logo/nuentaru1.png">
+    <meta property="og:url" content="https://www.your-eshop.com/search.html">
+    <meta property="og:type" content="website">
+    
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon_io/favicon.ico">
+    <link rel="canonical" href="https://www.your-eshop.com/search.html">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Header */
+        .pb-3 img {
+          width: 120px;
+          height: 120px;
+        }
+
+        /* Reuse styles */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-spacer {
+            height: 130px;
+        }
+        
+        /* Search Hero */
+        .search-hero {
+            background: linear-gradient(135deg, #ff424f 0%, #ff6b6b 100%);
+            padding: 60px 0 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .search-hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+            opacity: 0.3;
+        }
+        
+        /* Search Form */
+        .search-form {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .search-input-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            padding-right: 60px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background: #ff424f;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-btn:hover {
+            background: #e53e3e;
+            transform: scale(1.02);
+        }
+        
+        .trending-searches {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .trending-tag {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .trending-tag:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .filter-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .filter-label {
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .filter-select {
+            padding: 8px 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .view-btn {
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .view-btn.active, .view-btn:hover {
+            background: #ff424f;
+            color: white;
+            border-color: #ff424f;
+        }
+        
+        /* Main Content */
+        .search-content {
+            display: flex;
+            gap: 30px;
+            padding: 30px 0;
+        }
+        
+        /* Filters Sidebar */
+        .filters-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+        }
+        
+        .filter-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+        
+        .filter-header {
+            padding: 15px 20px;
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+            font-weight: 600;
+            color: #ff424f;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .filter-body {
+            padding: 20px;
+        }
+        
+        .filter-category {
+            margin-bottom: 20px;
+        }
+        
+        .filter-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+        
+        .filter-options {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .filter-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .filter-option input {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .filter-option label {
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .filter-option .count {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        .price-range {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .price-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+        }
+        
+        .price-btn {
+            background: #ff424f;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+        
+        .rating-stars {
+            color: #ffc107;
+            font-size: 0.9rem;
+        }
+        
+        /* Products Grid */
+        .products-grid {
+            flex: 1;
+        }
+        
+        .results-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .results-count {
+            font-weight: 600;
+        }
+        
+        .results-sort {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .sort-label {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+        
+        .sort-select {
+            padding: 8px 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #ff424f;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .product-image {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .product-info {
+            padding: 15px;
+        }
+        
+        .product-title {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            height: 40px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        
+        .product-price {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #ff424f;
+            margin-bottom: 8px;
+        }
+        
+        .product-original-price {
+            text-decoration: line-through;
+            color: #9ca3af;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .stars {
+            color: #ffc107;
+            font-size: 0.9rem;
+        }
+        
+        .rating-count {
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .add-to-cart {
+            flex: 1;
+            background: #ff424f;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .add-to-cart:hover {
+            background: #e53e3e;
+        }
+        
+        .wishlist-btn {
+            width: 40px;
+            height: 40px;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .wishlist-btn:hover {
+            color: #ff424f;
+            border-color: #ff424f;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .pagination-container {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .page-btn, .pagination a {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            background: white;
+            color: #4b5563;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .page-btn:hover, .pagination a:hover {
+            border-color: #ff424f;
+            color: #ff424f;
+        }
+        
+        .page-btn.active {
+            background: #ff424f;
+            color: white;
+            border-color: #ff424f;
+        }
+        
+        .page-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .search-content {
+                flex-direction: column;
+            }
+            
+            .filters-sidebar {
+                width: 100%;
+            }
+            
+            .filter-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .products-container {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+            
+            .search-hero {
+                padding: 40px 0 30px;
+            }
+            
+            .search-input {
+                padding: 12px 20px;
+                padding-right: 50px;
+            }
+            
+            .search-btn {
+                padding: 8px 20px;
+            }
+            
+            .filter-group {
+                flex-wrap: wrap;
+            }
+            
+            .product-actions {
+                flex-direction: column;
+            }
+            
+            .add-to-cart {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .products-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+            
+            .trending-searches {
+                justify-content: flex-start;
+                padding: 0 15px;
+            }
+            
+            .results-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .product-title {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- SEO: Hidden H1 for page title -->
+    <h1>Tìm kiếm sản phẩm - E-Shop | Kết quả tìm kiếm</h1>
+    
+    <!-- Header -->
+    <header class="bg-[#ff424f] text-white shadow-md fixed-header">
+        <div class="container mx-auto px-4">
+            <!-- Top Row: User Actions -->
+            <div class="flex justify-end items-center py-2 space-x-6 text-sm">
+                <a href="#" class="hover:text-yellow-200 flex items-center" aria-label="Thông báo">
+                    <i class="fas fa-bell mr-1" aria-hidden="true"></i>
+                    <span>Thông báo</span>
+                    <span class="ml-1 bg-yellow-400 text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">5</span>
+                </a>
+                <a href="promotion.html" class="hover:text-yellow-200 flex items-center" aria-label="Khuyến mãi">
+                    <i class="fas fa-tag mr-1" aria-hidden="true"></i>
+                    <span>Khuyến mãi</span>
+                </a>
+                <a href="help/support.html" class="hover:text-yellow-200 flex items-center" aria-label="Hỗ trợ">
+                    <i class="fas fa-headset mr-1" aria-hidden="true"></i>
+                    <span>Hỗ trợ</span>
+                </a>
+            </div>
+
+            <!-- Main Header: Logo + Search -->
+            <div class="flex items-center justify-between pb-3">
+                <!-- Logo with alt text -->
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
+                        <img src="assets/img/logo/nuentaru1.png" alt="E-Shop - Trang mua sắm trực tuyến" class="h-10">
+                    </a>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="flex-1 mx-8">
+                    <form action="/search" method="GET" role="search">
+                        <div class="relative mb-1">
+                            <input type="text" name="q" placeholder="Tìm kiếm sản phẩm..." 
+                                class="w-full py-2 px-4 rounded-full text-gray-800 focus:outline-none"
+                                aria-label="Tìm kiếm sản phẩm" value="iPhone">
+                            <button type="submit" class="absolute right-0 top-0 h-full px-4 bg-yellow-400 rounded-r-full text-gray-800" aria-label="Tìm kiếm">
+                                <i class="fas fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- User Actions -->
+                <div class="flex items-center space-x-6">
+                    <a href="auth/login.html" class="flex flex-col items-center" aria-label="Tài khoản">
+                        <i class="fas fa-user text-xl" aria-hidden="true"></i>
+                        <span class="text-xs mt-1">Tài khoản</span>
+                    </a>
+                    <a href="cart.html" class="flex flex-col items-center relative" aria-label="Giỏ hàng">
+                        <i class="fas fa-shopping-cart text-xl" aria-hidden="true"></i>
+                        <span class="text-xs mt-1">Giỏ hàng</span>
+                        <span class="absolute -top-2 -right-2 bg-yellow-400 text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Spacer for fixed header -->
+    <div class="header-spacer"></div>
+
+    <!-- Search Hero -->
+    <section class="search-hero text-white">
+        <div class="container mx-auto px-4">
+            <div class="search-form">
+                <form action="/search" method="GET" role="search">
+                    <div class="search-input-container">
+                        <input type="text" name="q" class="search-input" 
+                            placeholder="Tìm kiếm sản phẩm, thương hiệu, danh mục..." 
+                            aria-label="Tìm kiếm sản phẩm" value="iPhone">
+                        <button type="submit" class="search-btn">
+                            <i class="fas fa-search mr-2" aria-hidden="true"></i>Tìm kiếm
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="trending-searches">
+                    <span class="mr-2">Tìm kiếm hàng đầu:</span>
+                    <a href="/search?q=iPhone+15" class="trending-tag">iPhone 15</a>
+                    <a href="/search?q=Laptop" class="trending-tag">Laptop</a>
+                    <a href="/search?q=Áo+thun" class="trending-tag">Áo thun</a>
+                    <a href="/search?q=Giày+thể+thao" class="trending-tag">Giày thể thao</a>
+                    <a href="/search?q=Tai+nghe" class="trending-tag">Tai nghe</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="container mx-auto px-4">
+            <div class="filter-container">
+                <div class="filter-group">
+                    <span class="filter-label">Lọc theo:</span>
+                    <select class="filter-select">
+                        <option>Tất cả danh mục</option>
+                        <option>Điện thoại</option>
+                        <option>Laptop</option>
+                        <option>Thời trang</option>
+                        <option>Điện tử</option>
+                        <option>Gia dụng</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>Tất cả thương hiệu</option>
+                        <option>Apple</option>
+                        <option>Samsung</option>
+                        <option>Xiaomi</option>
+                        <option>Oppo</option>
+                        <option>Nike</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>Mức giá</option>
+                        <option>Dưới 1 triệu</option>
+                        <option>1-5 triệu</option>
+                        <option>5-10 triệu</option>
+                        <option>10-20 triệu</option>
+                        <option>Trên 20 triệu</option>
+                    </select>
+                </div>
+                
+                <div class="view-toggle">
+                    <button class="view-btn active" aria-label="Lưới">
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button class="view-btn" aria-label="Danh sách">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4">
+        <div class="search-content">
+            <!-- Filters Sidebar -->
+            <aside class="filters-sidebar">
+                <div class="filter-card">
+                    <div class="filter-header">
+                        <span>Danh mục</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="filter-body">
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="checkbox" id="cat1" checked>
+                                <label for="cat1">Điện thoại & Máy tính bảng</label>
+                                <span class="count">(1,248)</span>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="cat2">
+                                <label for="cat2">Laptop & Máy tính</label>
+                                <span class="count">(876)</span>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="cat3">
+                                <label for="cat3">Thời trang</label>
+                                <span class="count">(2,543)</span>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="cat4">
+                                <label for="cat4">Điện tử</label>
+                                <span class="count">(1,092)</span>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="cat5">
+                                <label for="cat5">Gia dụng</label>
+                                <span class="count">(765)</span>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="cat6">
+                                <label for="cat6">Sức khỏe & Làm đẹp</label>
+                                <span class="count">(432)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-card">
+                    <div class="filter-header">
+                        <span>Thương hiệu</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="filter-body">
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="checkbox" id="brand1" checked>
+                                <label for="brand1">Apple</label>
+                                <span class="count">(348)</span>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="brand2">
+                                <label for="brand2">Samsung</label>
+                                <span class="count">(276)</span>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="brand3">
+                                <label for="brand3">Xiaomi</label>
+                                <span class="count">(198)</span>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="brand4">
+                                <label for="brand4">Oppo</label>
+                                <span class="count">(154)</span>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="brand5">
+                                <label for="brand5">Nike</label>
+                                <span class="count">(132)</span>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="brand6">
+                                <label for="brand6">Adidas</label>
+                                <span class="count">(98)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-card">
+                    <div class="filter-header">
+                        <span>Mức giá</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="filter-body">
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="radio" name="price" id="price1" checked>
+                                <label for="price1">Tất cả mức giá</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="radio" name="price" id="price2">
+                                <label for="price2">Dưới 1 triệu</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="radio" name="price" id="price3">
+                                <label for="price3">1 - 5 triệu</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="radio" name="price" id="price4">
+                                <label for="price4">5 - 10 triệu</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="radio" name="price" id="price5">
+                                <label for="price5">10 - 20 triệu</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="radio" name="price" id="price6">
+                                <label for="price6">Trên 20 triệu</label>
+                            </div>
+                        </div>
+                        <div class="price-range">
+                            <input type="text" class="price-input" placeholder="Từ">
+                            <input type="text" class="price-input" placeholder="Đến">
+                            <button class="price-btn">Áp dụng</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-card">
+                    <div class="filter-header">
+                        <span>Đánh giá</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="filter-body">
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="checkbox" id="rating5">
+                                <label for="rating5">
+                                    <span class="rating-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="rating4">
+                                <label for="rating4">
+                                    <span class="rating-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i> & Từ 4 sao
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="rating3">
+                                <label for="rating3">
+                                    <span class="rating-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i> & Từ 3 sao
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-card">
+                    <div class="filter-header">
+                        <span>Tình trạng</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="filter-body">
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="checkbox" id="condition1" checked>
+                                <label for="condition1">Hàng mới</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="condition2">
+                                <label for="condition2">Hàng giảm giá</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="condition3">
+                                <label for="condition3">Hàng đã qua sử dụng</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            
+            <!-- Products Grid -->
+            <div class="products-grid">
+                <div class="results-info">
+                    <div class="results-count">Tìm thấy <strong>128</strong> sản phẩm cho "<strong>iPhone</strong>"</div>
+                    <div class="results-sort">
+                        <span class="sort-label">Sắp xếp theo:</span>
+                        <select class="sort-select">
+                            <option>Phổ biến nhất</option>
+                            <option>Mới nhất</option>
+                            <option>Giá thấp đến cao</option>
+                            <option>Giá cao đến thấp</option>
+                            <option>Đánh giá cao nhất</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="products-container">
+                    <!-- Product 1 -->
+                    <div class="product-card">
+                        <div class="product-badge">-20%</div>
+                        <div class="product-image">
+                            <img src="https://cdn.tgdd.vn/Products/Images/42/305658/iphone-15-pro-max-blue-thumbnew-600x600.jpg" alt="iPhone 15 Pro Max 256GB">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">iPhone 15 Pro Max 256GB - Chính hãng VN/A</h3>
+                            <div class="product-price">28.990.000đ</div>
+                            <div class="product-original-price">36.990.000đ</div>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <div class="rating-count">(128)</div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart">
+                                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
+                                </button>
+                                <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 2 -->
+                    <div class="product-card">
+                        <div class="product-badge">-15%</div>
+                        <div class="product-image">
+                            <img src="https://cdn.tgdd.vn/Products/Images/42/281570/iphone-15-plus-hong-thumb-600x600.jpg" alt="iPhone 15 Plus 128GB">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">iPhone 15 Plus 128GB - Chính hãng VN/A</h3>
+                            <div class="product-price">22.490.000đ</div>
+                            <div class="product-original-price">26.490.000đ</div>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <div class="rating-count">(76)</div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart">
+                                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
+                                </button>
+                                <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 3 -->
+                    <div class="product-card">
+                        <div class="product-badge">Mới</div>
+                        <div class="product-image">
+                            <img src="https://cdn.tgdd.vn/Products/Images/42/305658/iphone-15-pro-max-blue-thumbnew-600x600.jpg" alt="iPhone 14 Pro 256GB">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">iPhone 14 Pro 256GB - Chính hãng VN/A</h3>
+                            <div class="product-price">24.990.000đ</div>
+                            <div class="product-original-price">27.990.000đ</div>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="rating-count">(215)</div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart">
+                                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
+                                </button>
+                                <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 4 -->
+                    <div class="product-card">
+                        <div class="product-badge">-25%</div>
+                        <div class="product-image">
+                            <img src="https://cdn.tgdd.vn/Products/Images/42/247508/iphone-14-pro-max-tim-thumb-600x600.jpg" alt="iPhone 14 Pro Max 128GB">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">iPhone 14 Pro Max 128GB - Chính hãng VN/A</h3>
+                            <div class="product-price">25.490.000đ</div>
+                            <div class="product-original-price">33.990.000đ</div>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <div class="rating-count">(189)</div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart">
+                                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
+                                </button>
+                                <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 5 -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://cdn.tgdd.vn/Products/Images/42/251216/iphone-13-green-thumb-600x600.jpg" alt="iPhone 13 128GB">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">iPhone 13 128GB - Chính hãng VN/A</h3>
+                            <div class="product-price">15.990.000đ</div>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <div class="rating-count">(342)</div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart">
+                                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
+                                </button>
+                                <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 6 -->
+                    <div class="product-card">
+                        <div class="product-badge">-10%</div>
+                        <div class="product-image">
+                            <img src="https://cdn.tgdd.vn/Products/Images/42/236780/iphone-12-mini-purple-200x200.jpg" alt="iPhone 12 mini 64GB">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">iPhone 12 mini 64GB - Chính hãng VN/A</h3>
+                            <div class="product-price">11.490.000đ</div>
+                            <div class="product-original-price">12.990.000đ</div>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <div class="rating-count">(98)</div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart">
+                                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
+                                </button>
+                                <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 7 -->
+                    <div class="product-card">
+                        <div class="product-badge">-30%</div>
+                        <div class="product-image">
+                            <img src="https://cdn.tgdd.vn/Products/Images/42/228744/iphone-11-trang-600x600.jpg" alt="iPhone 11 64GB">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">iPhone 11 64GB - Chính hãng VN/A</h3>
+                            <div class="product-price">9.990.000đ</div>
+                            <div class="product-original-price">14.990.000đ</div>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <div class="rating-count">(512)</div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart">
+                                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
+                                </button>
+                                <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 8 -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://cdn.tgdd.vn/Products/Images/42/153856/iphone-xr-128gb-red-600x600.jpg" alt="iPhone XR 128GB">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">iPhone XR 128GB - Chính hãng VN/A</h3>
+                            <div class="product-price">7.490.000đ</div>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <div class="rating-count">(287)</div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart">
+                                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
+                                </button>
+                                <button class="wishlist-btn" aria-label="Thêm vào yêu thích">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination">
+                    <div class="pagination-container">
+                        <button class="page-btn disabled" aria-label="Trang trước">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <a href="#" class="page-btn active">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <span>...</span>
+                        <a href="#">12</a>
+                        <button class="page-btn" aria-label="Trang sau">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-4 gap-8 mb-8">
+                <!-- Column 1 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Về chúng tôi</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/gioi-thieu" class="text-gray-300 hover:text-white">Giới thiệu</a></li>
+                        <li><a href="/tuyen-dung" class="text-gray-300 hover:text-white">Tuyển dụng</a></li>
+                        <li><a href="/dieu-khoan" class="text-gray-300 hover:text-white">Điều khoản</a></li>
+                        <li><a href="/chinh-sach-bao-mat" class="text-gray-300 hover:text-white">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 2 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Dành cho khách hàng</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/trung-tam-tro-giup" class="text-gray-300 hover:text-white">Trung tâm trợ giúp</a></li>
+                        <li><a href="/huong-dan-mua-hang" class="text-gray-300 hover:text-white">Hướng dẫn mua hàng</a></li>
+                        <li><a href="/thanh-toan" class="text-gray-300 hover:text-white">Thanh toán</a></li>
+                        <li><a href="/van-chuyen" class="text-gray-300 hover:text-white">Vận chuyển</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 3 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Liên hệ</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">Đà Nẵng, Việt Nam</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">1900 1234</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">support@eshop.com</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Column 4 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Kết nối với chúng tôi</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="https://facebook.com/your-eshop" class="bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Facebook">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://instagram.com/your-eshop" class="bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Instagram">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://twitter.com/your-eshop" class="bg-blue-400 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Twitter">
+                            <i class="fab fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://youtube.com/your-eshop" class="bg-red-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="YouTube">
+                            <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Tải ứng dụng</h4>
+                        <div class="flex space-x-2">
+                            <a href="https://apps.apple.com/app/your-eshop" class="bg-black p-2 rounded" aria-label="Tải ứng dụng trên App Store">
+                                <i class="fab fa-apple text-xl" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://play.google.com/store/apps/details?id=com.youreshop" class="bg-black p-2 rounded" aria-label="Tải ứng dụng trên Google Play">
+                                <i class="fab fa-google-play text-xl" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-6 text-center text-gray-400">
+                <p>© 2025 E-Shop. Tất cả các quyền được bảo lưu.</p>
+                <p class="mt-2 text-sm">Số ĐKKD: 0123456789 | Ngày cấp: 01/01/2025 | Nơi cấp: Sở Kế hoạch và Đầu tư Đà Nẵng</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // View toggle
+        const viewBtns = document.querySelectorAll('.view-btn');
+        const productsContainer = document.querySelector('.products-container');
+        
+        viewBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                viewBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                if (this.querySelector('.fa-list')) {
+                    productsContainer.classList.add('list-view');
+                } else {
+                    productsContainer.classList.remove('list-view');
+                }
+            });
+        });
+        
+        // Filter toggle
+        const filterHeaders = document.querySelectorAll('.filter-header');
+        
+        filterHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                const body = this.nextElementSibling;
+                const icon = this.querySelector('i');
+                
+                body.style.display = body.style.display === 'none' ? 'block' : 'none';
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            });
+        });
+        
+        // Add to cart buttons
+        const addToCartBtns = document.querySelectorAll('.add-to-cart');
+        
+        addToCartBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const productCard = this.closest('.product-card');
+                const productTitle = productCard.querySelector('.product-title').textContent;
+                
+                // Animation effect
+                const btnRect = this.getBoundingClientRect();
+                const cartIcon = document.querySelector('.fa-shopping-cart');
+                
+                const flyingItem = document.createElement('div');
+                flyingItem.innerHTML = '<i class="fas fa-shopping-cart"></i>';
+                flyingItem.style.position = 'fixed';
+                flyingItem.style.left = `${btnRect.left}px`;
+                flyingItem.style.top = `${btnRect.top}px`;
+                flyingItem.style.color = '#ff424f';
+                flyingItem.style.fontSize = '20px';
+                flyingItem.style.zIndex = '10000';
+                flyingItem.style.transition = 'all 0.8s ease';
+                document.body.appendChild(flyingItem);
+                
+                setTimeout(() => {
+                    const cartRect = cartIcon.getBoundingClientRect();
+                    flyingItem.style.left = `${cartRect.left}px`;
+                    flyingItem.style.top = `${cartRect.top}px`;
+                    flyingItem.style.opacity = '0.5';
+                    flyingItem.style.transform = 'scale(0.5)';
+                }, 10);
+                
+                setTimeout(() => {
+                    flyingItem.remove();
+                    
+                    // Update cart count
+                    const cartCount = document.querySelector('.header-spacer + header .fa-shopping-cart + span');
+                    let count = parseInt(cartCount.textContent) || 0;
+                    count++;
+                    cartCount.textContent = count;
+                    
+                    // Show notification
+                    showNotification(`Đã thêm ${productTitle} vào giỏ hàng`);
+                }, 800);
+            });
+        });
+        
+        // Wishlist buttons
+        const wishlistBtns = document.querySelectorAll('.wishlist-btn');
+        
+        wishlistBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('far')) {
+                    icon.classList.replace('far', 'fas');
+                    icon.style.color = '#ff424f';
+                    showNotification('Đã thêm vào danh sách yêu thích');
+                } else {
+                    icon.classList.replace('fas', 'far');
+                    icon.style.color = '';
+                    showNotification('Đã xóa khỏi danh sách yêu thích');
+                }
+            });
+        });
+        
+        // Show notification function
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = '#333';
+            notification.style.color = 'white';
+            notification.style.padding = '15px 25px';
+            notification.style.borderRadius = '6px';
+            notification.style.zIndex = '10000';
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateY(20px)';
+            notification.style.transition = 'all 0.3s ease';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateY(0)';
+            }, 10);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+    });
+    </script>
+</body>
+</html>

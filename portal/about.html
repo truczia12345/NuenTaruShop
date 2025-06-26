@@ -1,372 +1,740 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Shopee Clone</title>
+    <title>Giới Thiệu - E-Shop | Trang Mua Sắm Trực Tuyến Hàng Đầu</title>
+    <meta name="description" content="Tìm hiểu về E-Shop - Sứ mệnh, tầm nhìn và giá trị của chúng tôi. Cam kết mang đến trải nghiệm mua sắm trực tuyến tốt nhất cho người Việt.">
+    <meta name="keywords" content="giới thiệu eshop, về chúng tôi, công ty thương mại điện tử, mua sắm online">
+    <meta name="author" content="E-Shop">
     
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Giới Thiệu - E-Shop | Trang Mua Sắm Trực Tuyến Hàng Đầu">
+    <meta property="og:description" content="Khám phá câu chuyện và sứ mệnh của E-Shop - Nền tảng thương mại điện tử hàng đầu Việt Nam">
+    <meta property="og:image" content="https://www.your-eshop.com/image/logo/nuentaru1.png">
+    <meta property="og:url" content="https://www.your-eshop.com/about.html">
+    <meta property="og:type" content="website">
     
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon_io/favicon.ico">
+    <link rel="canonical" href="https://www.your-eshop.com/about.html">
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
     
-    <!-- Custom CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        :root {
-        --primary-color: #6cb4ee;
-        --secondary-color: #3a8fd3;
-      }
-      body {
-        font-family: "Segoe UI", sans-serif;
-        background-color: #f8f9fa;
-      }
-
-      /* Header Navbar Styling */
-      .topbar {
-        background-color: #4d7799;
-        font-size: 0.9rem;
-        padding: 6px 0;
-      }
-      .topbar .top-links a {
-        color: #fff;
-        text-decoration: none;
-        margin-left: 15px;
-      }
-      .navbar-custom {
-        background: linear-gradient(to right, #112637, var(--secondary-color));
-      }
-      .nav-link {
-        color: var(--bs-navbar-brand-color);
-      }
-      .search-bar {
-        display: flex;
-        width: 100%;
-      }
-      .search-input {
-        flex: 1;
-        border-radius: 30px 0 0 30px;
-        border: none;
-        padding-left: 20px;
-        height: 42px;
-      }
-      .search-button {
-        border-radius: 0 30px 30px 0;
-        background-color: var(--secondary-color);
-        color: white;
-        border: none;
-        width: 48px;
-        height: 42px;
-      }
-      .header-quicklink {
-        text-align: center;
-        padding: 10px;
-        background: white;
-        border-bottom: 1px solid #ddd;
-      }
-      .header-quicklink a {
-        margin: 0 10px;
-        color: #444;
-        text-decoration: none;
-      }
-        
-        .search-bar {
-            width: 100%;
-            max-width: 800px;
+        /* Header */
+        .pb-3 img {
+          width: 120px;
+          height: 120px;
+        }
+        /* Reuse styles from index.html */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        .hero-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-                        url('https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg');
+        .header-spacer {
+            height: 130px;
+        }
+
+        .hero-about {
+            background-image: url('/assets/img/bg/hero-about-bg.jpeg');
+            background-repeat: no-repeat;
+            background-position: center center;
             background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 150px 0;
-            margin-bottom: 60px;
         }
-
-        .value-card {
-            transition: transform 0.3s;
-            height: 100%;
+        
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
         }
-
-        .value-card:hover {
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 70px;
+            height: 4px;
+            background: #ff424f;
+            border-radius: 2px;
+        }
+        
+        .team-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .team-card:hover {
             transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
-
-        .team-member-card {
-            transition: transform 0.3s;
-        }
-
-        .team-member-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .milestone-card {
+        
+        .stat-card {
+            border: 1px solid #e2e8f0;
             border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            border-color: #ff424f;
+            box-shadow: 0 10px 25px rgba(255, 66, 79, 0.15);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #ff424f;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 24px;
+            bottom: -40px;
+            width: 2px;
+            background: #e2e8f0;
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .value-card {
             background: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #f1f5f9;
         }
-
-        .milestone-card:hover {
-            transform: scale(1.05);
+        
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: #ffd6d9;
         }
-
-        .milestone-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: var(--primary-color);
+        
+        .value-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            background: #fff5f5;
+            color: #ff424f;
+            font-size: 28px;
         }
-
-        .footer {
-            background-color: #fbfbfb;
-            padding: 40px 0;
-            margin-top: 40px;
+        
+        /* Responsive adjustments */
+        @media (max-width: 1023px) {
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
         }
     </style>
 </head>
-<body>
-    <div class="topbar d-flex justify-content-between align-items-center px-4">
-      <div class="text-white fw-semibold">
-        <i class="fas fa-phone-alt me-1"></i> Hotline: 1900 1234
-      </div>
-      <div class="top-links">
-        <a href="#"><i class="fas fa-bell"></i> Thông báo</a>
-        <a href="#"><i class="fas fa-question-circle"></i> Hỗ trợ</a>
-      </div>
-    </div>
+<body class="bg-gray-50">
+    <!-- SEO: Hidden H1 for page title -->
+    <h1>Giới Thiệu - E-Shop | Trang Mua Sắm Trực Tuyến Hàng Đầu Việt Nam</h1>
+    
+    <!-- Header (same as index.html) -->
+    <header class="bg-[#ff424f] text-white shadow-md fixed-header">
+        <div class="container mx-auto px-4">
+            <!-- Top Row: User Actions -->
+            <div class="flex justify-end items-center py-2 space-x-6 text-sm">
+                <!-- Notification dropdown container -->
+                <div class="notification-container">
+                    <a href="#" class="hover:text-yellow-200 flex items-center" id="notification-icon" aria-label="Thông báo">
+                        <i class="fas fa-bell mr-1" aria-hidden="true"></i>
+                        <span>Thông báo</span>
+                        <div class="notification-count">5</div>
+                    </a>
+                </div>
+                <a href="promotion.html" class="hover:text-yellow-200 flex items-center" aria-label="Khuyến mãi">
+                    <i class="fas fa-tag mr-1" aria-hidden="true"></i>
+                    <span>Khuyến mãi</span>
+                </a>
+                <a href="help/support.html" class="hover:text-yellow-200 flex items-center" aria-label="Hỗ trợ">
+                    <i class="fas fa-headset mr-1" aria-hidden="true"></i>
+                    <span>Hỗ trợ</span>
+                </a>
+            </div>
 
-    <header class="navbar navbar-expand-lg navbar-dark navbar-custom">
-      <div class="container">
-        <a class="navbar-brand fw-bold" href="#">NuenTaru</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <div class="search-bar mx-4">
-            <input
-              type="text"
-              class="form-control search-input"
-              placeholder="Tìm kiếm sản phẩm..."
-            />
-            <button class="search-button"><i class="fas fa-search"></i></button>
-          </div>
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="#"
-                ><i class="fas fa-shopping-cart"></i> Giỏ hàng</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#"
-                ><i class="fas fa-user"></i> Đăng nhập</a
-              >
-            </li>
-          </ul>
+            <!-- Main Header: Logo + Search -->
+            <div class="flex items-center justify-between pb-3">
+                <!-- Logo with alt text -->
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
+                        <img src="/assets/img/logo/nuentaru1.png" alt="E-Shop - Trang mua sắm trực tuyến">
+                    </a>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="flex-1 mx-8">
+                    <form action="/search" method="GET" role="search">
+                        <div class="relative mb-1">
+                            <input type="text" name="q" placeholder="Tìm kiếm sản phẩm..." 
+                                class="w-full py-2 px-4 rounded-full text-gray-800 focus:outline-none"
+                                aria-label="Tìm kiếm sản phẩm">
+                            <button type="submit" class="absolute right-0 top-0 h-full px-4 bg-yellow-400 rounded-r-full text-gray-800" aria-label="Tìm kiếm">
+                                <i class="fas fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- User Actions -->
+                <div class="flex items-center space-x-6">
+                    <a href="auth/login.html" class="flex flex-col items-center" aria-label="Tài khoản">
+                        <i class="fas fa-user text-xl" aria-hidden="true"></i>
+                        <span class="text-xs mt-1">Tài khoản</span>
+                    </a>
+                    <a href="cart.html" class="flex flex-col items-center relative" aria-label="Giỏ hàng">
+                        <i class="fas fa-shopping-cart text-xl" aria-hidden="true"></i>
+                        <span class="text-xs mt-1">Giỏ hàng</span>
+                        <span class="absolute -top-2 -right-2 bg-yellow-400 text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
     </header>
+    
+    <!-- Spacer for fixed header -->
+    <div class="header-spacer"></div>
 
-    <nav class="header-quicklink">
-      <a href="#">Hàng mới về</a>
-      <a href="#">Giảm giá sốc</a>
-      <a href="#">Hàng cao cấp</a>
-      <a href="#">Phổ biến nhất</a>
-      <a href="#">Gợi ý hôm nay</a>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero-section text-center">
-        <div class="container">
-            <h1 class="display-4 mb-4">About Shopee</h1>
-            <p class="lead mb-4">Leading the Future of E-commerce</p>
-        </div>
-    </section>
-
-    <!-- Our Story Section -->
-    <section class="container mb-5">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <h2 class="mb-4">Our Story</h2>
-                <p class="lead">Founded in 2024, Shopee has grown from a small startup to one of the region's leading e-commerce platforms.</p>
-                <p>We believe in making online shopping accessible, secure, and enjoyable for everyone. Our platform connects millions of buyers and sellers, creating opportunities and bringing convenience to people's lives.</p>
-                <p>What started as a simple idea has transformed into a comprehensive ecosystem that serves diverse communities across multiple countries.</p>
-            </div>
-            <div class="col-md-6">
-                <img src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg" alt="Our Story" class="img-fluid rounded shadow">
-            </div>
-        </div>
-    </section>
-
-    <!-- Our Values Section -->
-    <section class="container mb-5">
-        <h2 class="text-center mb-5">Our Values</h2>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card value-card h-100">
-                    <div class="card-body text-center p-4">
-                        <i class="fas fa-users fa-3x text-primary mb-3"></i>
-                        <h4 class="card-title">Customer First</h4>
-                        <p class="card-text">We prioritize our customers' needs and continuously strive to exceed their expectations through innovation and service excellence.</p>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Banner -->
+        <section class="relative rounded-xl overflow-hidden mb-12">
+            <div class="bg-gradient-to-r from-[#ff424f] to-[#ff7e87] h-96 flex items-center justify-center">
+                <div class="text-center text-white px-4 max-w-3xl z-10">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4 fade-in">Câu Chuyện Của E-Shop</h1>
+                    <p class="text-xl mb-8 max-w-2xl mx-auto fade-in">Hành trình xây dựng nền tảng thương mại điện tử hàng đầu Việt Nam</p>
+                    <div class="flex justify-center space-x-4 fade-in">
+                        <a href="#our-story" class="bg-white text-red-600 px-6 py-3 rounded-full font-bold hover:bg-gray-100 transition">
+                            Khám Phá Ngay
+                        </a>
+                        <a href="contact.html" class="bg-transparent border-2 border-white text-white px-6 py-3 rounded-full font-bold hover:bg-white hover:text-red-600 transition">
+                            Liên Hệ Chúng Tôi
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card value-card h-100">
-                    <div class="card-body text-center p-4">
-                        <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
-                        <h4 class="card-title">Trust & Safety</h4>
-                        <p class="card-text">We maintain the highest standards of security and reliability to ensure a safe shopping environment for our community.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card value-card h-100">
-                    <div class="card-body text-center p-4">
-                        <i class="fas fa-globe fa-3x text-primary mb-3"></i>
-                        <h4 class="card-title">Global Impact</h4>
-                        <p class="card-text">We're committed to making a positive impact on communities worldwide through sustainable practices and social responsibility.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            <div class="hero-about absolute inset-0 bg-black bg-opacity-20"></div>
+        </section>
 
-    <!-- Milestones Section -->
-    <section class="container mb-5">
-        <h2 class="text-center mb-5">Our Milestones</h2>
-        <div class="row g-4">
-            <div class="col-md-3">
-                <div class="milestone-card text-center p-4">
-                    <div class="milestone-number">10M+</div>
-                    <p class="mb-0">Active Users</p>
+        <!-- Our Story -->
+        <section id="our-story" class="mb-16 fade-in">
+            <div class="flex flex-col md:flex-row items-center gap-10">
+                <div class="md:w-1/2">
+                    <div class="bg-gray-200 border-2 border-dashed rounded-xl w-full h-96 flex items-center justify-center">
+                        <span class="text-gray-500">Hình ảnh công ty hoặc đội ngũ</span>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl font-bold mb-6 section-title">Hành Trình Của Chúng Tôi</h2>
+                    <p class="text-gray-700 mb-4">
+                        E-Shop được thành lập vào năm 2020 với sứ mệnh cách mạng hóa trải nghiệm mua sắm trực tuyến tại Việt Nam. 
+                        Từ một nhóm nhỏ với tầm nhìn lớn, chúng tôi đã phát triển thành nền tảng thương mại điện tử hàng đầu, 
+                        kết nối hàng triệu người mua và người bán trên khắp cả nước.
+                    </p>
+                    <p class="text-gray-700 mb-4">
+                        Trong suốt hành trình, chúng tôi luôn đặt khách hàng làm trung tâm, không ngừng cải tiến công nghệ 
+                        và dịch vụ để mang đến trải nghiệm mua sắm tiện lợi, an toàn và thú vị nhất.
+                    </p>
+                    <div class="mt-8">
+                        <a href="#our-mission" class="text-red-500 font-medium hover:text-red-700 flex items-center">
+                            Tìm hiểu sứ mệnh của chúng tôi
+                            <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="milestone-card text-center p-4">
-                    <div class="milestone-number">50K+</div>
-                    <p class="mb-0">Sellers</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="milestone-card text-center p-4">
-                    <div class="milestone-number">100K+</div>
-                    <p class="mb-0">Products</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="milestone-card text-center p-4">
-                    <div class="milestone-number">20+</div>
-                    <p class="mb-0">Countries</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Team Section -->
-    <section class="container mb-5">
-        <h2 class="text-center mb-5">Our Leadership Team</h2>
-        <div class="row g-4">
-            <div class="col-md-3">
-                <div class="card team-member-card">
-                    <img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg" class="card-img-top" alt="CEO">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">John Smith</h5>
-                        <p class="card-text text-muted">CEO & Founder</p>
+        <!-- Mission and Vision -->
+        <section id="our-mission" class="py-12 bg-gray-50 rounded-xl mb-16 fade-in">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-4">Sứ Mệnh & Tầm Nhìn</h2>
+                    <p class="text-gray-600 max-w-3xl mx-auto">
+                        Chúng tôi không chỉ bán sản phẩm - chúng tôi tạo dựng niềm tin và xây dựng cộng đồng
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div class="bg-white p-8 rounded-xl shadow-md">
+                        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-6">
+                            <i class="fas fa-bullseye text-red-500 text-2xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Sứ Mệnh</h3>
+                        <p class="text-gray-700 mb-4">
+                            Mang đến cho người Việt trải nghiệm mua sắm trực tuyến tốt nhất, kết nối người mua và người bán 
+                            trong một hệ sinh thái minh bạch, hiệu quả và đáng tin cậy.
+                        </p>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-red-500 mt-1 mr-2" aria-hidden="true"></i>
+                                <span>Đơn giản hóa quy trình mua sắm</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-red-500 mt-1 mr-2" aria-hidden="true"></i>
+                                <span>Bảo vệ quyền lợi người tiêu dùng</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-red-500 mt-1 mr-2" aria-hidden="true"></i>
+                                <span>Hỗ trợ doanh nghiệp vừa và nhỏ phát triển</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-white p-8 rounded-xl shadow-md">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
+                            <i class="fas fa-eye text-blue-500 text-2xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Tầm Nhìn</h3>
+                        <p class="text-gray-700 mb-4">
+                            Trở thành nền tảng thương mại điện tử được yêu thích nhất tại Việt Nam và khu vực Đông Nam Á, 
+                            là đối tác tin cậy của mọi hộ gia đình và doanh nghiệp.
+                        </p>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-start">
+                                <i class="fas fa-star text-yellow-500 mt-1 mr-2" aria-hidden="true"></i>
+                                <span>Dẫn đầu về công nghệ và trải nghiệm khách hàng</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-star text-yellow-500 mt-1 mr-2" aria-hidden="true"></i>
+                                <span>Mở rộng ra 5 quốc gia Đông Nam Á vào năm 2030</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-star text-yellow-500 mt-1 mr-2" aria-hidden="true"></i>
+                                <span>Góp phần phát triển hệ sinh thái thương mại điện tử Việt Nam</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card team-member-card">
-                    <img src="https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg" class="card-img-top" alt="CTO">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Sarah Johnson</h5>
-                        <p class="card-text text-muted">CTO</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card team-member-card">
-                    <img src="https://images.pexels.com/photos/2381069/pexels-photo-2381069.jpeg" class="card-img-top" alt="COO">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Michael Chen</h5>
-                        <p class="card-text text-muted">COO</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card team-member-card">
-                    <img src="https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg" class="card-img-top" alt="CMO">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Emily Brown</h5>
-                        <p class="card-text text-muted">CMO</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 mb-4">
-                    <h5>Customer Service</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-decoration-none text-dark">Help Center</a></li>
-                        <li><a href="#" class="text-decoration-none text-dark">Contact Us</a></li>
-                        <li><a href="#" class="text-decoration-none text-dark">Returns & Refunds</a></li>
-                        <li><a href="#" class="text-decoration-none text-dark">Shipping Info</a></li>
+        <!-- Core Values -->
+        <section class="mb-16 fade-in">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Giá Trị Cốt Lõi</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">
+                    Những nguyên tắc định hướng mọi hành động và quyết định tại E-Shop
+                </p>
+            </div>
+            
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-users" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-center">Khách Hàng Là Trung Tâm</h3>
+                    <p class="text-gray-700 text-center">
+                        Mọi quyết định đều hướng đến lợi ích và trải nghiệm của khách hàng. 
+                        Chúng tôi lắng nghe, thấu hiểu và không ngừng cải tiến để phục vụ tốt hơn.
+                    </p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-center">Đổi Mới Không Ngừng</h3>
+                    <p class="text-gray-700 text-center">
+                        Chúng tôi dám nghĩ khác, dám làm khác để tạo ra những giải pháp đột phá. 
+                        Mỗi ngày là cơ hội để học hỏi và cải tiến.
+                    </p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-handshake" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-center">Minh Bạch & Chính Trực</h3>
+                    <p class="text-gray-700 text-center">
+                        Trung thực trong mọi giao dịch, minh bạch trong mọi quy trình. 
+                        Chúng tôi xây dựng niềm tin bằng hành động cụ thể và nhất quán.
+                    </p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-rocket" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-center">Tốc Độ & Hiệu Quả</h3>
+                    <p class="text-gray-700 text-center">
+                        Chúng tôi hành động nhanh chóng, quyết đoán và hiệu quả. 
+                        Mọi quy trình được tối ưu để mang đến giá trị tốt nhất trong thời gian ngắn nhất.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Milestones -->
+        <section class="py-12 bg-gray-50 rounded-xl mb-16 fade-in">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-4">Chặng Đường Phát Triển</h2>
+                    <p class="text-gray-600 max-w-3xl mx-auto">
+                        Những dấu mốc quan trọng trong hành trình của E-Shop
+                    </p>
+                </div>
+                
+                <div class="max-w-4xl mx-auto">
+                    <div class="timeline-item">
+                        <div class="bg-white p-6 rounded-xl shadow-sm">
+                            <div class="text-red-500 font-bold mb-2">Tháng 3, 2020</div>
+                            <h3 class="text-xl font-bold mb-3">Thành Lập E-Shop</h3>
+                            <p class="text-gray-700">
+                                E-Shop chính thức ra mắt với đội ngũ 10 thành viên, 
+                                khởi đầu với 3 danh mục sản phẩm và hơn 100 đối tác bán hàng.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="bg-white p-6 rounded-xl shadow-sm">
+                            <div class="text-red-500 font-bold mb-2">Tháng 9, 2021</div>
+                            <h3 class="text-xl font-bold mb-3">Đạt 1 Triệu Người Dùng</h3>
+                            <p class="text-gray-700">
+                                Cộng đồng người dùng E-Shop đạt mốc 1 triệu thành viên. 
+                                Ra mắt ứng dụng di động trên cả iOS và Android.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="bg-white p-6 rounded-xl shadow-sm">
+                            <div class="text-red-500 font-bold mb-2">Tháng 6, 2022</div>
+                            <h3 class="text-xl font-bold mb-3">Mở Rộng Hệ Sinh Thái</h3>
+                            <p class="text-gray-700">
+                                Giới thiệu dịch vụ E-ShopPay - giải pháp thanh toán đa năng. 
+                                Hợp tác với hơn 2,000 doanh nghiệp vừa và nhỏ trên toàn quốc.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="bg-white p-6 rounded-xl shadow-sm">
+                            <div class="text-red-500 font-bold mb-2">Tháng 1, 2023</div>
+                            <h3 class="text-xl font-bold mb-3">Top 3 Nền Tảng TMĐT</h3>
+                            <p class="text-gray-700">
+                                E-Shop được vinh danh là một trong 3 nền tảng thương mại điện tử 
+                                được yêu thích nhất Việt Nam theo khảo sát của VnEconomy.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="bg-white p-6 rounded-xl shadow-sm">
+                            <div class="text-red-500 font-bold mb-2">Tháng 5, 2024</div>
+                            <h3 class="text-xl font-bold mb-3">Ra Mắt Dịch Vụ Quốc Tế</h3>
+                            <p class="text-gray-700">
+                                Chính thức mở rộng dịch vụ sang thị trường Campuchia, 
+                                đánh dấu bước tiến đầu tiên trong kế hoạch mở rộng khu vực.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- By The Numbers -->
+        <section class="mb-16 fade-in">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">E-Shop Trong Những Con Số</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">
+                    Những thành tựu đáng tự hào của chúng tôi
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 stat-grid">
+                <div class="stat-card p-6 text-center">
+                    <div class="text-4xl font-bold text-red-500 mb-2">5M+</div>
+                    <div class="text-lg font-medium">Khách Hàng Thường Xuyên</div>
+                    <div class="text-gray-500 mt-2">Hàng tháng</div>
+                </div>
+                
+                <div class="stat-card p-6 text-center">
+                    <div class="text-4xl font-bold text-red-500 mb-2">50K+</div>
+                    <div class="text-lg font-medium">Đối Tác Bán Hàng</div>
+                    <div class="text-gray-500 mt-2">Doanh nghiệp & cá nhân</div>
+                </div>
+                
+                <div class="stat-card p-6 text-center">
+                    <div class="text-4xl font-bold text-red-500 mb-2">10M+</div>
+                    <div class="text-lg font-medium">Sản Phẩm Đa Dạng</div>
+                    <div class="text-gray-500 mt-2">Thuộc 30+ danh mục</div>
+                </div>
+                
+                <div class="stat-card p-6 text-center">
+                    <div class="text-4xl font-bold text-red-500 mb-2">99%</div>
+                    <div class="text-lg font-medium">Khách Hàng Hài Lòng</div>
+                    <div class="text-gray-500 mt-2">Theo khảo sát độc lập</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leadership Team -->
+        <section class="mb-16 fade-in">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Đội Ngũ Lãnh Đạo</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">
+                    Những người dẫn dắt E-Shop trên hành trình đổi mới thương mại điện tử
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 team-grid">
+                <div class="team-card bg-white rounded-xl overflow-hidden shadow-md">
+                    <div class="bg-gray-200 border-2 border-dashed w-full h-64 flex items-center justify-center">
+                        <span class="text-gray-500">Hình ảnh lãnh đạo</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-1">Nguyễn Văn A</h3>
+                        <p class="text-red-500 mb-3">Nhà Sáng Lập & CEO</p>
+                        <p class="text-gray-700">
+                            Với hơn 15 năm kinh nghiệm trong lĩnh vực công nghệ và thương mại điện tử, 
+                            anh là người định hướng chiến lược phát triển của E-Shop.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="team-card bg-white rounded-xl overflow-hidden shadow-md">
+                    <div class="bg-gray-200 border-2 border-dashed w-full h-64 flex items-center justify-center">
+                        <span class="text-gray-500">Hình ảnh lãnh đạo</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-1">Trần Thị B</h3>
+                        <p class="text-red-500 mb-3">Giám Đốc Kinh Doanh</p>
+                        <p class="text-gray-700">
+                            Chuyên gia trong lĩnh vực phát triển đối tác và mở rộng thị trường, 
+                            chị đã xây dựng mạng lưới hơn 50,000 đối tác cho E-Shop.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="team-card bg-white rounded-xl overflow-hidden shadow-md">
+                    <div class="bg-gray-200 border-2 border-dashed w-full h-64 flex items-center justify-center">
+                        <span class="text-gray-500">Hình ảnh lãnh đạo</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-1">Lê Văn C</h3>
+                        <p class="text-red-500 mb-3">Giám Đốc Công Nghệ</p>
+                        <p class="text-gray-700">
+                            Kiến trúc sư trưởng của nền tảng công nghệ E-Shop, 
+                            với kinh nghiệm phát triển hệ thống quy mô lớn tại các tập đoàn đa quốc gia.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="bg-gradient-to-r from-[#ff424f] to-[#ff7e87] rounded-xl p-8 md:p-12 mb-16 fade-in">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Sẵn Sàng Tham Gia Hành Trình?</h2>
+                <p class="text-white text-xl mb-8 max-w-2xl mx-auto">
+                    Dù bạn là khách hàng hay đối tác, hãy cùng chúng tôi kiến tạo tương lai của thương mại điện tử
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="/auth/seller/register.html" class="bg-white text-red-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition">
+                        Trở Thành Đối Tác
+                    </a>
+                    <a href="/careers" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-red-600 transition">
+                        Gia Nhập Đội Ngũ
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-4 gap-8 mb-8">
+                <!-- Column 1 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Về chúng tôi</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/gioi-thieu" class="text-gray-300 hover:text-white">Giới thiệu</a></li>
+                        <li><a href="/tuyen-dung" class="text-gray-300 hover:text-white">Tuyển dụng</a></li>
+                        <li><a href="/dieu-khoan" class="text-gray-300 hover:text-white">Điều khoản</a></li>
+                        <li><a href="/chinh-sach-bao-mat" class="text-gray-300 hover:text-white">Chính sách bảo mật</a></li>
                     </ul>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <h5>About Us</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-decoration-none text-dark">About Shopee</a></li>
-                        <li><a href="#" class="text-decoration-none text-dark">Careers</a></li>
-                        <li><a href="#" class="text-decoration-none text-dark">Terms & Conditions</a></li>
-                        <li><a href="#" class="text-decoration-none text-dark">Privacy Policy</a></li>
+                
+                <!-- Column 2 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Dành cho khách hàng</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/trung-tam-tro-giup" class="text-gray-300 hover:text-white">Trung tâm trợ giúp</a></li>
+                        <li><a href="/huong-dan-mua-hang" class="text-gray-300 hover:text-white">Hướng dẫn mua hàng</a></li>
+                        <li><a href="/thanh-toan" class="text-gray-300 hover:text-white">Thanh toán</a></li>
+                        <li><a href="/van-chuyen" class="text-gray-300 hover:text-white">Vận chuyển</a></li>
                     </ul>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <h5>Payment Methods</h5>
-                    <ul class="list-unstyled">
-                        <li><i class="fab fa-cc-visa me-2"></i>Visa</li>
-                        <li><i class="fab fa-cc-mastercard me-2"></i>Mastercard</li>
-                        <li><i class="fab fa-cc-paypal me-2"></i>PayPal</li>
-                        <li><i class="fas fa-money-bill-wave me-2"></i>Cash on Delivery</li>
+                
+                <!-- Column 3 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Liên hệ</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">Đà Nẵng, Việt Nam</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">1900 1234</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">support@eshop.com</span>
+                        </li>
                     </ul>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <h5>Follow Us</h5>
-                    <div class="social-links">
-                        <a href="#" class="text-dark me-3"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-dark me-3"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-dark me-3"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-dark"><i class="fab fa-youtube"></i></a>
+                
+                <!-- Column 4 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Kết nối với chúng tôi</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="https://facebook.com/your-eshop" class="bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Facebook">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://instagram.com/your-eshop" class="bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Instagram">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://twitter.com/your-eshop" class="bg-blue-400 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Twitter">
+                            <i class="fab fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://youtube.com/your-eshop" class="bg-red-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="YouTube">
+                            <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Tải ứng dụng</h4>
+                        <div class="flex space-x-2">
+                            <a href="https://apps.apple.com/app/your-eshop" class="bg-black p-2 rounded" aria-label="Tải ứng dụng trên App Store">
+                                <i class="fab fa-apple text-xl" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://play.google.com/store/apps/details?id=com.youreshop" class="bg-black p-2 rounded" aria-label="Tải ứng dụng trên Google Play">
+                                <i class="fab fa-google-play text-xl" aria-hidden="true"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-            <hr>
-            <div class="row">
-                <div class="col-12 text-center">
-                    <p class="mb-0">&copy; 2024 Shopee Clone. All rights reserved.</p>
-                </div>
+            
+            <div class="border-t border-gray-700 pt-6 text-center text-gray-400">
+                <p>© 2025 NuenTaru-Shop. Tất cả các quyền được bảo lưu.</p>
+                <p class="mt-2 text-sm">Số ĐKKD: 0123456789 | Ngày cấp: 01/01/2025 | Nơi cấp: Sở Kế hoạch và Đầu tư Đà Nẵng</p>
             </div>
         </div>
     </footer>
 
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Animation on scroll
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        fadeElements.forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+        
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        if (mobileMenuButton) {
+            mobileMenuButton.addEventListener('click', function() {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
+        }
+    });
+    </script>
 </body>
 </html>

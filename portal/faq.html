@@ -1,424 +1,720 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAQ - Shopee Clone</title>
+    <title>Hỏi & Đáp - E-Shop | Giải đáp thắc mắc thường gặp</title>
+    <meta name="description" content="Tìm câu trả lời cho các câu hỏi thường gặp về đặt hàng, thanh toán, vận chuyển và chính sách tại E-Shop.">
+    <meta name="keywords" content="faq eshop, câu hỏi thường gặp, hỏi đáp, giải đáp thắc mắc, chính sách mua hàng">
+    <meta name="author" content="E-Shop">
     
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Hỏi & Đáp - E-Shop | Giải đáp thắc mắc thường gặp">
+    <meta property="og:description" content="Tìm câu trả lời nhanh cho các câu hỏi phổ biến về mua sắm tại E-Shop">
+    <meta property="og:image" content="https://www.your-eshop.com/image/logo/nuentaru1.png">
+    <meta property="og:url" content="https://www.your-eshop.com/faq.html">
+    <meta property="og:type" content="website">
     
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon_io/favicon.ico">
+    <link rel="canonical" href="https://www.your-eshop.com/faq.html">
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
     
-    <!-- Custom CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        :root {
-        --primary-color: #6cb4ee;
-        --secondary-color: #3a8fd3;
-      }
-      body {
-        font-family: "Segoe UI", sans-serif;
-        background-color: #f8f9fa;
-      }
+        /* Header */
+        .pb-3 img {
+          width: 120px;
+          height: 120px;
+        }
 
-      /* Header Navbar Styling */
-      .topbar {
-        background-color: #4d7799;
-        font-size: 0.9rem;
-        padding: 6px 0;
-      }
-      .topbar .top-links a {
-        color: #fff;
-        text-decoration: none;
-        margin-left: 15px;
-      }
-      .navbar-custom {
-        background: linear-gradient(to right, #112637, var(--secondary-color));
-      }
-      .nav-link {
-        color: var(--bs-navbar-brand-color);
-      }
-      .search-bar {
-        display: flex;
-        width: 100%;
-      }
-      .search-input {
-        flex: 1;
-        border-radius: 30px 0 0 30px;
-        border: none;
-        padding-left: 20px;
-        height: 42px;
-      }
-      .search-button {
-        border-radius: 0 30px 30px 0;
-        background-color: var(--secondary-color);
-        color: white;
-        border: none;
-        width: 48px;
-        height: 42px;
-      }
-      .header-quicklink {
-        text-align: center;
-        padding: 10px;
-        background: white;
-        border-bottom: 1px solid #ddd;
-      }
-      .header-quicklink a {
-        margin: 0 10px;
-        color: #444;
-        text-decoration: none;
-      }
+        /* Reuse styles from index.html */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
         
-        .search-bar {
+        .header-spacer {
+            height: 130px;
+        }
+        
+        /* Hero Section */
+        .faq-hero {
+            background: linear-gradient(135deg, #ff424f 0%, #ff6b6b 100%);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .faq-hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 800px;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+            opacity: 0.3;
         }
         
-        .faq-header {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-                        url('https://images.pexels.com/photos/4101143/pexels-photo-4101143.jpeg');
-            background-size: cover;
-            background-position: center;
+        /* Search Box */
+        .search-container {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .search-container input {
+            padding: 15px 20px;
+            border-radius: 50px;
+            width: 100%;
+            font-size: 16px;
+            border: 2px solid #ff424f;
+            box-shadow: 0 5px 15px rgba(255, 66, 79, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .search-container input:focus {
+            outline: none;
+            box-shadow: 0 8px 25px rgba(255, 66, 79, 0.3);
+        }
+        
+        .search-container button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #ff424f;
             color: white;
-            padding: 80px 0;
-            margin-bottom: 60px;
-        }
-
-        .faq-section {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        }
-
-        .accordion-button:not(.collapsed) {
-            background-color: #fff;
-            color: var(--primary-color);
-            box-shadow: none;
-        }
-
-        .accordion-button:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(238, 77, 45, 0.25);
-        }
-
-        .category-card {
-            transition: transform 0.3s;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
-
-        .category-card:hover {
-            transform: translateY(-5px);
+        
+        .search-container button:hover {
+            background: #e53e3e;
+            transform: translateY(-50%) scale(1.05);
         }
-
-        .category-icon {
-            font-size: 2rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
+        
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 40px;
         }
-
-        .footer {
-            background-color: #fbfbfb;
-            padding: 40px 0;
-            margin-top: 40px;
+        
+        .category-tab {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .category-tab:hover, .category-tab.active {
+            background: #ff424f;
+            color: white;
+            border-color: #ff424f;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 66, 79, 0.2);
+        }
+        
+        /* FAQ Item */
+        .faq-item {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            padding: 20px 25px;
+            background: white;
+            border: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background: #fff5f5;
+        }
+        
+        .faq-question i {
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-answer {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            background: #f9fafb;
+            border-top: 1px solid #f3f4f6;
+        }
+        
+        .faq-answer p {
+            padding: 20px 0;
+            color: #4b5563;
+            line-height: 1.7;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 0 25px;
+        }
+        
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        
+        /* Contact Banner */
+        .contact-banner {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border-radius: 15px;
+            padding: 30px;
+            color: white;
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .faq-hero {
+                padding: 80px 0;
+            }
+            
+            .category-tabs {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
+                margin-left: -15px;
+                margin-right: -15px;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            
+            .category-tab {
+                flex-shrink: 0;
+            }
         }
     </style>
 </head>
-<body>
-    <div class="topbar d-flex justify-content-between align-items-center px-4">
-      <div class="text-white fw-semibold">
-        <i class="fas fa-phone-alt me-1"></i> Hotline: 1900 1234
-      </div>
-      <div class="top-links">
-        <a href="#"><i class="fas fa-bell"></i> Thông báo</a>
-        <a href="#"><i class="fas fa-question-circle"></i> Hỗ trợ</a>
-      </div>
-    </div>
+<body class="bg-gray-50">
+    <!-- SEO: Hidden H1 for page title -->
+    <h1>Hỏi & Đáp - E-Shop | Giải đáp thắc mắc thường gặp</h1>
+    
+    <!-- Header -->
+    <header class="bg-[#ff424f] text-white shadow-md fixed-header">
+        <div class="container mx-auto px-4">
+            <!-- Top Row: User Actions -->
+            <div class="flex justify-end items-center py-2 space-x-6 text-sm">
+                <!-- Notification dropdown container -->
+                <div class="notification-container">
+                    <a href="#" class="hover:text-yellow-200 flex items-center" id="notification-icon" aria-label="Thông báo">
+                        <i class="fas fa-bell mr-1" aria-hidden="true"></i>
+                        <span>Thông báo</span>
+                        <div class="notification-count">5</div>
+                    </a>
+                </div>
+                <a href="promotion.html" class="hover:text-yellow-200 flex items-center" aria-label="Khuyến mãi">
+                    <i class="fas fa-tag mr-1" aria-hidden="true"></i>
+                    <span>Khuyến mãi</span>
+                </a>
+                <a href="help/support.html" class="hover:text-yellow-200 flex items-center" aria-label="Hỗ trợ">
+                    <i class="fas fa-headset mr-1" aria-hidden="true"></i>
+                    <span>Hỗ trợ</span>
+                </a>
+            </div>
 
-    <header class="navbar navbar-expand-lg navbar-dark navbar-custom">
-      <div class="container">
-        <a class="navbar-brand fw-bold" href="#">NuenTaru</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <div class="search-bar mx-4">
-            <input
-              type="text"
-              class="form-control search-input"
-              placeholder="Tìm kiếm sản phẩm..."
-            />
-            <button class="search-button"><i class="fas fa-search"></i></button>
-          </div>
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="#"
-                ><i class="fas fa-shopping-cart"></i> Giỏ hàng</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#"
-                ><i class="fas fa-user"></i> Đăng nhập</a
-              >
-            </li>
-          </ul>
+            <!-- Main Header: Logo + Search -->
+            <div class="flex items-center justify-between pb-3">
+                <!-- Logo with alt text -->
+                <div class="flex items-center logo-container">
+                    <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
+                        <img src="/assets/img/logo/nuentaru1.png" alt="E-Shop - Trang mua sắm trực tuyến">
+                    </a>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="flex-1 mx-8">
+                    <form action="/search" method="GET" role="search">
+                        <div class="relative mb-1">
+                            <input type="text" name="q" placeholder="Tìm kiếm sản phẩm..." 
+                                class="w-full py-2 px-4 rounded-full text-gray-800 focus:outline-none"
+                                aria-label="Tìm kiếm sản phẩm">
+                            <button type="submit" class="absolute right-0 top-0 h-full px-4 bg-yellow-400 rounded-r-full text-gray-800" aria-label="Tìm kiếm">
+                                <i class="fas fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- User Actions -->
+                <div class="flex items-center space-x-6">
+                    <a href="auth/login.html" class="flex flex-col items-center" aria-label="Tài khoản">
+                        <i class="fas fa-user text-xl" aria-hidden="true"></i>
+                        <span class="text-xs mt-1">Tài khoản</span>
+                    </a>
+                    <a href="cart.html" class="flex flex-col items-center relative" aria-label="Giỏ hàng">
+                        <i class="fas fa-shopping-cart text-xl" aria-hidden="true"></i>
+                        <span class="text-xs mt-1">Giỏ hàng</span>
+                        <span class="absolute -top-2 -right-2 bg-yellow-400 text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
     </header>
+    
+    <!-- Spacer for fixed header -->
+    <div class="header-spacer"></div>
 
-    <nav class="header-quicklink">
-      <a href="#">Hàng mới về</a>
-      <a href="#">Giảm giá sốc</a>
-      <a href="#">Hàng cao cấp</a>
-      <a href="#">Phổ biến nhất</a>
-      <a href="#">Gợi ý hôm nay</a>
-    </nav>
-    <!-- FAQ Header -->
-    <header class="faq-header text-center">
-        <div class="container">
-            <h1 class="display-4 mb-4">Frequently Asked Questions</h1>
-            <p class="lead">Find answers to common questions about shopping on Shopee</p>
-        </div>
-    </header>
-
-    <!-- FAQ Categories -->
-    <div class="container mb-5">
-        <div class="row g-4">
-            <div class="col-md-3">
-                <div class="category-card text-center p-4 bg-white rounded shadow-sm" onclick="filterFAQs('orders')">
-                    <i class="fas fa-shopping-bag category-icon"></i>
-                    <h5>Orders & Shipping</h5>
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="faq-hero text-white">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 fade-in">Hỏi & Đáp</h1>
+                <p class="text-xl mb-8 max-w-3xl mx-auto fade-in delay-1">Tìm câu trả lời cho các câu hỏi thường gặp</p>
+                
+                <div class="search-container fade-in delay-2">
+                    <input type="text" id="faq-search" placeholder="Tìm kiếm câu hỏi...">
+                    <button id="search-btn" aria-label="Tìm kiếm">
+                        <i class="fas fa-search" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="category-card text-center p-4 bg-white rounded shadow-sm" onclick="filterFAQs('payments')">
-                    <i class="fas fa-credit-card category-icon"></i>
-                    <h5>Payments</h5>
+        </section>
+
+        <!-- FAQ Content -->
+        <section class="py-16">
+            <div class="container mx-auto px-4">
+                <!-- Category Tabs -->
+                <div class="category-tabs">
+                    <button class="category-tab active" data-category="all">
+                        <i class="fas fa-list"></i> Tất cả
+                    </button>
+                    <button class="category-tab" data-category="ordering">
+                        <i class="fas fa-shopping-cart"></i> Đặt hàng
+                    </button>
+                    <button class="category-tab" data-category="payment">
+                        <i class="fas fa-credit-card"></i> Thanh toán
+                    </button>
+                    <button class="category-tab" data-category="shipping">
+                        <i class="fas fa-truck"></i> Vận chuyển
+                    </button>
+                    <button class="category-tab" data-category="returns">
+                        <i class="fas fa-undo"></i> Đổi trả
+                    </button>
+                    <button class="category-tab" data-category="account">
+                        <i class="fas fa-user"></i> Tài khoản
+                    </button>
+                </div>
+                
+                <!-- FAQ List -->
+                <div class="max-w-4xl mx-auto">
+                    <div id="faq-list">
+                        <!-- FAQ Item 1 -->
+                        <div class="faq-item fade-in delay-1" data-categories="ordering">
+                            <button class="faq-question">
+                                <span>Làm thế nào để đặt hàng trên E-Shop?</span>
+                                <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Để đặt hàng trên E-Shop, bạn thực hiện theo các bước sau:</p>
+                                <ol class="list-decimal pl-5 space-y-2 mt-3">
+                                    <li>Tìm sản phẩm bạn muốn mua bằng cách sử dụng thanh tìm kiếm hoặc duyệt danh mục</li>
+                                    <li>Nhấn vào sản phẩm để xem chi tiết</li>
+                                    <li>Chọn số lượng và nhấn "Thêm vào giỏ hàng"</li>
+                                    <li>Khi đã chọn đủ sản phẩm, nhấn vào biểu tượng giỏ hàng và chọn "Thanh toán"</li>
+                                    <li>Điền đầy đủ thông tin giao hàng và chọn phương thức thanh toán</li>
+                                    <li>Xác nhận đơn hàng và hoàn tất thanh toán</li>
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ Item 2 -->
+                        <div class="faq-item fade-in delay-2" data-categories="payment">
+                            <button class="faq-question">
+                                <span>Các phương thức thanh toán được chấp nhận?</span>
+                                <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>E-Shop chấp nhận các phương thức thanh toán sau:</p>
+                                <ul class="list-disc pl-5 space-y-2 mt-3">
+                                    <li><strong>Thanh toán khi nhận hàng (COD)</strong>: Trả tiền mặt khi nhận hàng</li>
+                                    <li><strong>Thẻ tín dụng/Thẻ ghi nợ</strong>: Visa, MasterCard, JCB</li>
+                                    <li><strong>Ví điện tử</strong>: Momo, ZaloPay, VNPay, ShopeePay</li>
+                                    <li><strong>Chuyển khoản ngân hàng</strong>: Qua Internet Banking hoặc tại quầy giao dịch</li>
+                                    <li><strong>Trả góp</strong>: Hỗ trợ trả góp qua thẻ tín dụng của các ngân hàng đối tác</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ Item 3 -->
+                        <div class="faq-item fade-in delay-3" data-categories="shipping">
+                            <button class="faq-question">
+                                <span>Thời gian giao hàng là bao lâu?</span>
+                                <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Thời gian giao hàng phụ thuộc vào địa chỉ nhận hàng và phương thức vận chuyển:</p>
+                                <ul class="list-disc pl-5 space-y-2 mt-3">
+                                    <li><strong>Nội thành TP. Hồ Chí Minh/Hà Nội</strong>: 1-2 ngày làm việc</li>
+                                    <li><strong>Các tỉnh thành khác</strong>: 2-5 ngày làm việc</li>
+                                    <li><strong>Khu vực vùng sâu, vùng xa</strong>: 5-7 ngày làm việc</li>
+                                </ul>
+                                <p class="mt-3">Lưu ý: Thời gian trên không bao gồm ngày lễ, Tết và có thể thay đổi do các yếu tố bất khả kháng.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ Item 4 -->
+                        <div class="faq-item fade-in delay-1" data-categories="returns">
+                            <button class="faq-question">
+                                <span>Chính sách đổi trả hàng như thế nào?</span>
+                                <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>E-Shop áp dụng chính sách đổi trả hàng trong vòng 30 ngày kể từ ngày nhận hàng với các điều kiện sau:</p>
+                                <ul class="list-disc pl-5 space-y-2 mt-3">
+                                    <li>Sản phẩm còn nguyên vẹn, chưa qua sử dụng</li>
+                                    <li>Còn đầy đủ hộp, phụ kiện, tem mác và phiếu bảo hành</li>
+                                    <li>Có hóa đơn mua hàng hoặc email xác nhận đơn hàng</li>
+                                    <li>Sản phẩm lỗi kỹ thuật do nhà sản xuất</li>
+                                    <li>Sản phẩm không đúng với mô tả trên website</li>
+                                </ul>
+                                <p class="mt-3">Để yêu cầu đổi trả, vui lòng liên hệ bộ phận chăm sóc khách hàng qua hotline 1900 1234 hoặc email support@eshop.com.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ Item 5 -->
+                        <div class="faq-item fade-in delay-2" data-categories="account">
+                            <button class="faq-question">
+                                <span>Làm thế nào để đổi mật khẩu tài khoản?</span>
+                                <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Để đổi mật khẩu tài khoản E-Shop, bạn thực hiện theo các bước:</p>
+                                <ol class="list-decimal pl-5 space-y-2 mt-3">
+                                    <li>Đăng nhập vào tài khoản của bạn</li>
+                                    <li>Nhấn vào biểu tượng tài khoản ở góc trên bên phải</li>
+                                    <li>Chọn "Cài đặt tài khoản"</li>
+                                    <li>Chọn "Đổi mật khẩu"</li>
+                                    <li>Nhập mật khẩu hiện tại và mật khẩu mới</li>
+                                    <li>Nhấn "Lưu thay đổi"</li>
+                                </ol>
+                                <p class="mt-3">Nếu quên mật khẩu, bạn có thể nhấn vào "Quên mật khẩu" tại trang đăng nhập và làm theo hướng dẫn để đặt lại mật khẩu qua email.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ Item 6 -->
+                        <div class="faq-item fade-in delay-3" data-categories="ordering">
+                            <button class="faq-question">
+                                <span>Tôi có thể hủy đơn hàng sau khi đặt không?</span>
+                                <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Bạn có thể hủy đơn hàng trong các trường hợp sau:</p>
+                                <ul class="list-disc pl-5 space-y-2 mt-3">
+                                    <li><strong>Trước khi đơn hàng được xử lý</strong>: Hủy trực tiếp trong phần "Đơn hàng của tôi"</li>
+                                    <li><strong>Sau khi đơn hàng được xử lý</strong>: Liên hệ hotline 1900 1234 để được hỗ trợ</li>
+                                </ul>
+                                <p class="mt-3">Lưu ý: Nếu đơn hàng đã được đóng gói và chuyển cho đơn vị vận chuyển, bạn có thể từ chối nhận hàng khi nhân viên giao hàng đến.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ Item 7 -->
+                        <div class="faq-item fade-in delay-1" data-categories="payment">
+                            <button class="faq-question">
+                                <span>Làm sao để kiểm tra tình trạng thanh toán?</span>
+                                <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Bạn có thể kiểm tra tình trạng thanh toán theo các cách sau:</p>
+                                <ol class="list-decimal pl-5 space-y-2 mt-3">
+                                    <li>Đăng nhập vào tài khoản E-Shop của bạn</li>
+                                    <li>Truy cập mục "Lịch sử đơn hàng"</li>
+                                    <li>Chọn đơn hàng bạn muốn kiểm tra</li>
+                                    <li>Xem chi tiết tình trạng thanh toán trong phần thông tin đơn hàng</li>
+                                </ol>
+                                <p class="mt-3">Nếu có bất kỳ thắc mắc nào về thanh toán, vui lòng liên hệ bộ phận chăm sóc khách hàng qua hotline 1900 1234 hoặc email payment@eshop.com.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ Item 8 -->
+                        <div class="faq-item fade-in delay-2" data-categories="shipping">
+                            <button class="faq-question">
+                                <span>Làm thế nào để theo dõi đơn hàng?</span>
+                                <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Bạn có thể theo dõi đơn hàng của mình bằng các cách sau:</p>
+                                <ul class="list-disc pl-5 space-y-2 mt-3">
+                                    <li><strong>Trên website E-Shop</strong>: Đăng nhập tài khoản > Lịch sử đơn hàng > Chọn đơn hàng > Xem trạng thái vận chuyển</li>
+                                    <li><strong>Qua email</strong>: Chúng tôi sẽ gửi email cập nhật khi đơn hàng thay đổi trạng thái</li>
+                                    <li><strong>Qua SMS</strong>: Nhận tin nhắn cập nhật tình trạng đơn hàng (nếu bạn cung cấp số điện thoại)</li>
+                                    <li><strong>Liên hệ tổng đài</strong>: Gọi 1900 1234 và cung cấp mã đơn hàng để nhận thông tin</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- No results message -->
+                    <div id="no-results" class="text-center py-10 hidden">
+                        <div class="text-5xl mb-4">😢</div>
+                        <h3 class="text-xl font-bold mb-2">Không tìm thấy kết quả phù hợp</h3>
+                        <p class="text-gray-600 mb-4">Xin vui lòng thử lại với từ khóa khác hoặc liên hệ với chúng tôi để được hỗ trợ</p>
+                        <a href="contact.html" class="inline-block bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700">
+                            Liên hệ hỗ trợ
+                        </a>
+                    </div>
+                    
+                    <!-- Contact Banner -->
+                    <div class="contact-banner mt-16 fade-in delay-4">
+                        <div class="flex flex-col md:flex-row items-center justify-between">
+                            <div class="text-center md:text-left mb-6 md:mb-0">
+                                <h3 class="text-2xl font-bold mb-2">Vẫn còn thắc mắc?</h3>
+                                <p class="max-w-md">Đội ngũ hỗ trợ của chúng tôi luôn sẵn sàng giải đáp mọi câu hỏi của bạn</p>
+                            </div>
+                            <a href="contact.html" class="bg-white text-blue-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition text-lg whitespace-nowrap">
+                                Liên hệ ngay <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="category-card text-center p-4 bg-white rounded shadow-sm" onclick="filterFAQs('returns')">
-                    <i class="fas fa-undo category-icon"></i>
-                    <h5>Returns & Refunds</h5>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="category-card text-center p-4 bg-white rounded shadow-sm" onclick="filterFAQs('account')">
-                    <i class="fas fa-user-circle category-icon"></i>
-                    <h5>Account & Security</h5>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- FAQ Accordion -->
-    <div class="container mb-5">
-        <div class="faq-section p-4">
-            <div class="accordion" id="faqAccordion">
-                <!-- Orders & Shipping -->
-                <div class="accordion-item orders-faq">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                            How long will it take to receive my order?
-                        </button>
-                    </h2>
-                    <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            Standard shipping typically takes 3-5 business days. Express shipping is available for select items and locations, with delivery in 1-2 business days. International shipping may take 7-14 business days depending on the destination.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item orders-faq">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                            How can I track my order?
-                        </button>
-                    </h2>
-                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            Once your order is shipped, you'll receive a tracking number via email. You can track your order by entering this number in the "Track Order" section of your account or clicking the tracking link in your shipping confirmation email.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Payments -->
-                <div class="accordion-item payments-faq">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                            What payment methods do you accept?
-                        </button>
-                    </h2>
-                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            We accept various payment methods including credit/debit cards (Visa, MasterCard, American Express), PayPal, and cash on delivery for eligible locations. All payments are processed securely through our encrypted payment gateway.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item payments-faq">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
-                            Is it safe to use my credit card on your website?
-                        </button>
-                    </h2>
-                    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            Yes, all payment information is encrypted using industry-standard SSL technology. We never store your full credit card information on our servers. Our payment processing system complies with PCI DSS requirements for secure transactions.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Returns & Refunds -->
-                <div class="accordion-item returns-faq">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
-                            What is your return policy?
-                        </button>
-                    </h2>
-                    <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            We offer a 30-day return policy for most items. Products must be unused and in their original packaging. Some items, such as personalized products or intimate apparel, are not eligible for return. Please check the product page for specific return eligibility.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item returns-faq">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
-                            How long does it take to process a refund?
-                        </button>
-                    </h2>
-                    <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            Once we receive your returned item, refunds are typically processed within 3-5 business days. The time it takes for the refund to appear in your account depends on your payment method and financial institution, usually 5-10 business days.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Account & Security -->
-                <div class="accordion-item account-faq">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
-                            How can I reset my password?
-                        </button>
-                    </h2>
-                    <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            Click the "Forgot Password" link on the login page. Enter your email address, and we'll send you instructions to reset your password. For security reasons, password reset links expire after 24 hours.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item account-faq">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
-                            How can I update my account information?
-                        </button>
-                    </h2>
-                    <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            Log in to your account and go to "Account Settings" or "Profile." Here you can update your personal information, shipping addresses, and communication preferences. Some information may require verification for security purposes.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Still Have Questions -->
-    <div class="container mb-5">
-        <div class="text-center p-5 bg-white rounded shadow-sm">
-            <h3>Still Have Questions?</h3>
-            <p class="mb-4">Can't find the answer you're looking for? Please chat to our friendly team.</p>
-            <a href="contact.html" class="btn btn-primary btn-lg" style="background-color: var(--primary-color); border: none;">
-                Contact Us
-            </a>
-        </div>
-    </div>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 mb-4">
-                    <h5>Customer Service</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-decoration-none text-dark">Help Center</a></li>
-                        <li><a href="#" class="text-decoration-none text-dark">Contact Us</a></li>
-                        <li><a href="#" class="text-decoration-none text-dark">Returns & Refunds</a></li>
-                        <li><a href="#" class="text-decoration-none text-dark">Shipping Info</a></li>
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-4 gap-8 mb-8">
+                <!-- Column 1 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Về chúng tôi</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/gioi-thieu" class="text-gray-300 hover:text-white">Giới thiệu</a></li>
+                        <li><a href="/tuyen-dung" class="text-gray-300 hover:text-white">Tuyển dụng</a></li>
+                        <li><a href="/dieu-khoan" class="text-gray-300 hover:text-white">Điều khoản</a></li>
+                        <li><a href="/chinh-sach-bao-mat" class="text-gray-300 hover:text-white">Chính sách bảo mật</a></li>
                     </ul>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <h5>About Us</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-decoration-none text-dark">About Shopee</a></li>
-                        <li><a href="#" class="text-decoration-none text-dark">Careers</a></li>
-                        <li><a href="#" class="text-decoration-none text-dark">Terms & Conditions</a></li>
-                        <li><a href="#" class="text-decoration-none text-dark">Privacy Policy</a></li>
+                
+                <!-- Column 2 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Dành cho khách hàng</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/trung-tam-tro-giup" class="text-gray-300 hover:text-white">Trung tâm trợ giúp</a></li>
+                        <li><a href="/huong-dan-mua-hang" class="text-gray-300 hover:text-white">Hướng dẫn mua hàng</a></li>
+                        <li><a href="/thanh-toan" class="text-gray-300 hover:text-white">Thanh toán</a></li>
+                        <li><a href="/van-chuyen" class="text-gray-300 hover:text-white">Vận chuyển</a></li>
                     </ul>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <h5>Payment Methods</h5>
-                    <ul class="list-unstyled">
-                        <li><i class="fab fa-cc-visa me-2"></i>Visa</li>
-                        <li><i class="fab fa-cc-mastercard me-2"></i>Mastercard</li>
-                        <li><i class="fab fa-cc-paypal me-2"></i>PayPal</li>
-                        <li><i class="fas fa-money-bill-wave me-2"></i>Cash on Delivery</li>
+                
+                <!-- Column 3 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Liên hệ</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">Đà Nẵng, Việt Nam</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">1900 1234</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">support@eshop.com</span>
+                        </li>
                     </ul>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <h5>Follow Us</h5>
-                    <div class="social-links">
-                        <a href="#" class="text-dark me-3"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-dark me-3"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-dark me-3"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-dark"><i class="fab fa-youtube"></i></a>
+                
+                <!-- Column 4 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Kết nối với chúng tôi</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="https://facebook.com/your-eshop" class="bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Facebook">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://instagram.com/your-eshop" class="bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Instagram">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://twitter.com/your-eshop" class="bg-blue-400 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Twitter">
+                            <i class="fab fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://youtube.com/your-eshop" class="bg-red-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="YouTube">
+                            <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Tải ứng dụng</h4>
+                        <div class="flex space-x-2">
+                            <a href="https://apps.apple.com/app/your-eshop" class="bg-black p-2 rounded" aria-label="Tải ứng dụng trên App Store">
+                                <i class="fab fa-apple text-xl" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://play.google.com/store/apps/details?id=com.youreshop" class="bg-black p-2 rounded" aria-label="Tải ứng dụng trên Google Play">
+                                <i class="fab fa-google-play text-xl" aria-hidden="true"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-            <hr>
-            <div class="row">
-                <div class="col-12 text-center">
-                    <p class="mb-0">&copy; 2024 Shopee Clone. All rights reserved.</p>
-                </div>
+            
+            <div class="border-t border-gray-700 pt-6 text-center text-gray-400">
+                <p>© 2025 NuenTaru-Shop. Tất cả các quyền được bảo lưu.</p>
+                <p class="mt-2 text-sm">Số ĐKKD: 0123456789 | Ngày cấp: 01/01/2025 | Nơi cấp: Sở Kế hoạch và Đầu tư Đà Nẵng</p>
             </div>
         </div>
     </footer>
 
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
-
-    <!-- Custom JavaScript -->
     <script>
-        function filterFAQs(category) {
-            // Hide all FAQ items
-            document.querySelectorAll('.accordion-item').forEach(item => {
-                item.style.display = 'none';
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animation on scroll
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
             });
-            
-            // Show items from selected category
-            document.querySelectorAll('.' + category + '-faq').forEach(item => {
-                item.style.display = 'block';
+        }, {
+            threshold: 0.1
+        });
+        
+        fadeElements.forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+        
+        // FAQ Accordion
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', function() {
+                const faqItem = this.parentNode;
+                faqItem.classList.toggle('active');
             });
+        });
+        
+        // FAQ Search
+        const faqSearch = document.getElementById('faq-search');
+        const searchBtn = document.getElementById('search-btn');
+        const faqItems = document.querySelectorAll('.faq-item');
+        const noResults = document.getElementById('no-results');
+        
+        function searchFAQs() {
+            const searchTerm = faqSearch.value.toLowerCase().trim();
+            let foundResults = false;
             
-            // If no category selected (or 'all'), show everything
-            if (!category) {
-                document.querySelectorAll('.accordion-item').forEach(item => {
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question span').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
                     item.style.display = 'block';
-                });
+                    foundResults = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Show/hide no results message
+            if (foundResults || searchTerm === '') {
+                noResults.classList.add('hidden');
+            } else {
+                noResults.classList.remove('hidden');
             }
         }
+        
+        // Search on button click
+        searchBtn.addEventListener('click', searchFAQs);
+        
+        // Search on Enter key
+        faqSearch.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                searchFAQs();
+            }
+        });
+        
+        // Category filtering
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        
+        categoryTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                categoryTabs.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                const category = this.dataset.category;
+                
+                // Filter FAQ items
+                faqItems.forEach(item => {
+                    if (category === 'all' || item.dataset.categories.includes(category)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // Hide no results message
+                noResults.classList.add('hidden');
+            });
+        });
+    });
     </script>
 </body>
 </html>

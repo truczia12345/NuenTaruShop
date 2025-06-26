@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Shop Blog - Tin tức Sản phẩm, Công nghệ và Xu hướng Mua sắm</title>
+    <meta name="description" content="Cập nhật tin tức, đánh giá sản phẩm và xu hướng mua sắm mới nhất tại E-Shop Blog. Khám phá các bài viết chuyên sâu về công nghệ, điện tử, gia dụng, thời trang và hơn thế nữa.">
+    <meta name="keywords" content="blog thương mại điện tử, đánh giá sản phẩm, mẹo mua sắm, xu hướng công nghệ, tin tức sản phẩm mới">
+    <meta name="author" content="E-Shop">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+        }
+        
+        /* Header */
+        .header-gradient {
+            background: linear-gradient(135deg, #ff424f 0%, #e62e3a 100%);
+        }
+        
+        /* Blog Hero */
+        .blog-hero {
+            background: linear-gradient(105deg, #1a202c 0%, #2d3748 100%);
+            height: 480px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .blog-hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') center/cover no-repeat;
+            opacity: 0.15;
+        }
+        
+        /* Blog Card */
+        .blog-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 16px;
+            overflow: hidden;
+            height: 100%;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .blog-card:hover .blog-image {
+            transform: scale(1.05);
+        }
+        
+        .blog-image {
+            height: 220px;
+            transition: transform 0.5s ease;
+        }
+        
+        .blog-category {
+            display: inline-block;
+            background: linear-gradient(90deg, #ff424f 0%, #ff6b7c 100%);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        
+        /* Sidebar */
+        .sidebar-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            padding: 1.75rem;
+            margin-bottom: 1.75rem;
+        }
+        
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid #ff424f;
+            display: inline-block;
+        }
+        
+        .popular-post {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        
+        .popular-post:hover {
+            background-color: #f9fafb;
+            transform: translateX(4px);
+        }
+        
+        .popular-post img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+        
+        .tag {
+            display: inline-block;
+            background: #f0f2f5;
+            color: #4a5568;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin: 0 8px 8px 0;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        
+        .tag:hover {
+            background: linear-gradient(90deg, #ff424f 0%, #ff6b7c 100%);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Pagination */
+        .pagination .page-item {
+            display: inline-block;
+            margin: 0 4px;
+        }
+        
+        .pagination .page-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #f0f2f5;
+            color: #4a5568;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .pagination .page-link:hover, 
+        .pagination .page-link.active {
+            background: linear-gradient(90deg, #ff424f 0%, #ff6b7c 100%);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* Featured Post */
+        .featured-post {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .featured-image {
+            height: 380px;
+        }
+        
+        /* Newsletter */
+        .newsletter-form input {
+            transition: all 0.3s ease;
+        }
+        
+        .newsletter-form input:focus {
+            box-shadow: 0 0 0 3px rgba(255, 66, 79, 0.2);
+        }
+        
+        .subscribe-btn {
+            background: linear-gradient(90deg, #ff424f 0%, #e62e3a 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .subscribe-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(255, 66, 79, 0.3);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .blog-hero {
+                height: 380px;
+            }
+            
+            .featured-image {
+                height: 300px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .blog-hero {
+                height: 320px;
+            }
+            
+            .blog-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .featured-image {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-gradient text-white shadow-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold flex items-center">
+                        <span class="bg-white text-red-600 px-3 py-1 rounded-lg mr-2">E</span>
+                        <span class="hidden sm:inline-block">SHOP BLOG</span>
+                    </a>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="/" class="hover:text-gray-200 font-medium">Trang chủ</a>
+                    <a href="#" class="text-yellow-300 font-medium border-b-2 border-yellow-300 pb-1">Tin tức</a>
+                    <a href="#" class="hover:text-gray-200 font-medium">Đánh giá</a>
+                    <a href="#" class="hover:text-gray-200 font-medium">Xu hướng</a>
+                    <a href="#" class="hover:text-gray-200 font-medium">Mẹo hay</a>
+                </nav>
+                
+                <!-- Search and User -->
+                <div class="flex items-center space-x-4">
+                    <button class="p-2 rounded-full hover:bg-red-500 transition">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="p-2 rounded-full hover:bg-red-500 transition">
+                        <i class="fas fa-user"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="md:hidden bg-white shadow-md py-3">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <div class="text-xl font-bold text-red-600">MENU</div>
+                <button id="mobile-menu-button" class="text-gray-700">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden mt-4 pb-2">
+                <div class="flex flex-wrap gap-3">
+                    <a href="#" class="px-4 py-2 bg-red-100 text-red-600 rounded-full font-medium">Tin tức</a>
+                    <a href="#" class="px-4 py-2 hover:bg-gray-100 rounded-full font-medium">Đánh giá</a>
+                    <a href="#" class="px-4 py-2 hover:bg-gray-100 rounded-full font-medium">Xu hướng</a>
+                    <a href="#" class="px-4 py-2 hover:bg-gray-100 rounded-full font-medium">Mẹo hay</a>
+                    <a href="#" class="px-4 py-2 hover:bg-gray-100 rounded-full font-medium">Công nghệ</a>
+                    <a href="#" class="px-4 py-2 hover:bg-gray-100 rounded-full font-medium">Khám phá</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="blog-hero flex items-center">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-3xl">
+                <div class="inline-block bg-red-500 text-white px-4 py-1 rounded-full mb-4 text-sm font-medium">
+                    BÀI VIẾT MỚI NHẤT
+                </div>
+                <h1 class="text-4xl font-bold text-white mb-4">Xu hướng công nghệ 2025: AI, IoT và trải nghiệm mua sắm tương lai</h1>
+                <p class="text-xl text-gray-300 mb-6">Khám phá cách công nghệ đang thay đổi ngành thương mại điện tử và tạo nên trải nghiệm mua sắm cá nhân hóa chưa từng có</p>
+                <div class="flex items-center">
+                    <div class="flex items-center mr-6">
+                        <div class="w-10 h-10 rounded-full bg-gray-200 border-2 border-white mr-3"></div>
+                        <div>
+                            <div class="text-white font-medium">Trần Minh Anh</div>
+                            <div class="text-gray-300 text-sm">15/06/2025 • 8 phút đọc</div>
+                        </div>
+                    </div>
+                    <a href="#" class="inline-flex items-center bg-white text-red-600 px-6 py-3 rounded-full font-bold hover:bg-gray-100 transition">
+                        Đọc ngay
+                        <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Main Content -->
+            <div class="w-full lg:w-2/3">
+                <!-- Featured Post -->
+                <article class="featured-post bg-white mb-12">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1501&q=80" 
+                             alt="Laptop gaming" 
+                             class="w-full featured-image object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-6">
+                            <div class="blog-category">CÔNG NGHỆ</div>
+                            <h2 class="text-2xl font-bold text-white mb-2">Top 5 Laptop Gaming Tốt Nhất 2025: Hiệu Năng Vượt Trội, Giá Hợp Lý</h2>
+                            <div class="flex items-center text-gray-300 text-sm">
+                                <span class="mr-4">Trần Văn Nam</span>
+                                <span>•</span>
+                                <span class="mx-4">12/06/2025</span>
+                                <span>•</span>
+                                <span class="ml-4">12 phút đọc</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-700 mb-4">
+                            Từ ASUS ROG đến MSI, khám phá những chiếc laptop gaming đáng mua nhất năm 2025 với cấu hình khủng, tản nhiệt tốt và thiết kế đẹp mắt...
+                        </p>
+                        <a href="#" class="inline-flex items-center text-red-600 font-medium hover:text-red-800">
+                            Đọc tiếp
+                            <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Recent Posts Title -->
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800">Bài Viết Mới Nhất</h2>
+                    <div class="flex">
+                        <button class="p-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 mx-1">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button class="p-2 rounded-full bg-red-500 text-white hover:bg-red-600 mx-1">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Blog Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                    <!-- Blog Post 1 -->
+                    <article class="blog-card">
+                        <a href="#">
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1528&q=80" 
+                                     alt="Đồng hồ thông minh" 
+                                     class="w-full blog-image object-cover">
+                            </div>
+                            <div class="p-5">
+                                <div class="blog-category">ĐÁNH GIÁ</div>
+                                <h3 class="text-xl font-bold mb-2 line-clamp-2">Đồng Hồ Thông Minh Nào Phù Hợp Cho Người Tập Thể Thao?</h3>
+                                <p class="text-gray-600 text-sm mb-3 line-clamp-2">
+                                    So sánh chi tiết Apple Watch, Samsung Galaxy Watch và Garmin - lựa chọn nào tốt nhất cho runner, gym và bơi lội...
+                                </p>
+                                <div class="flex items-center text-gray-500 text-xs">
+                                    <span class="mr-3"><i class="far fa-calendar mr-1"></i> 08/06/2025</span>
+                                    <span><i class="far fa-eye mr-1"></i> 4.2K</span>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                    
+                    <!-- Blog Post 2 -->
+                    <article class="blog-card">
+                        <a href="#">
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                                     alt="Mẹo mua sắm online" 
+                                     class="w-full blog-image object-cover">
+                            </div>
+                            <div class="p-5">
+                                <div class="blog-category" style="background:linear-gradient(90deg, #4c51bf 0%, #667eea 100%)">MẸO HAY</div>
+                                <h3 class="text-xl font-bold mb-2 line-clamp-2">15 Mẹo Mua Sắm Online Tiết Kiệm Đến 50% Mà Ít Người Biết</h3>
+                                <p class="text-gray-600 text-sm mb-3 line-clamp-2">
+                                    Tận dụng cashback, mã giảm giá ẩn, mua theo combo và nhiều bí kíp khác giúp bạn mua sắm thông minh hơn, tiết kiệm hơn...
+                                </p>
+                                <div class="flex items-center text-gray-500 text-xs">
+                                    <span class="mr-3"><i class="far fa-calendar mr-1"></i> 05/06/2025</span>
+                                    <span><i class="far fa-eye mr-1"></i> 8.7K</span>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                    
+                    <!-- Blog Post 3 -->
+                    <article class="blog-card">
+                        <a href="#">
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1526947425960-945c6e72858f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                                     alt="Chăm sóc da" 
+                                     class="w-full blog-image object-cover">
+                            </div>
+                            <div class="p-5">
+                                <div class="blog-category" style="background:linear-gradient(90deg, #d53f8c 0%, #ed64a6 100%)">LÀM ĐẸP</div>
+                                <h3 class="text-xl font-bold mb-2 line-clamp-2">Bí Quyết Chăm Sóc Da Mùa Hè: 5 Sản Phẩm Được Chuyên Gia Khuyên Dùng</h3>
+                                <p class="text-gray-600 text-sm mb-3 line-clamp-2">
+                                    Chống nắng, dưỡng ẩm và làm sạch - bộ ba không thể thiếu cho làn da khỏe mạnh dưới cái nóng 40°C...
+                                </p>
+                                <div class="flex items-center text-gray-500 text-xs">
+                                    <span class="mr-3"><i class="far fa-calendar mr-1"></i> 02/06/2025</span>
+                                    <span><i class="far fa-eye mr-1"></i> 5.9K</span>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                    
+                    <!-- Blog Post 4 -->
+                    <article class="blog-card">
+                        <a href="#">
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1601924582970-9238bcb495d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1478&q=80" 
+                                     alt="Thiết bị gia dụng" 
+                                     class="w-full blog-image object-cover">
+                            </div>
+                            <div class="p-5">
+                                <div class="blog-category" style="background:linear-gradient(90deg, #38a169 0%, #48bb78 100%)">GIA DỤNG</div>
+                                <h3 class="text-xl font-bold mb-2 line-clamp-2">Điểm Danh 7 Thiết Bị Gia Dụng Thông Minh Đáng Mua Nhất Năm 2025</h3>
+                                <p class="text-gray-600 text-sm mb-3 line-clamp-2">
+                                    Robot hút bụi tự lau nhà, nồi chiên không dầu đa năng, máy lọc không khí thông minh - giải pháp cho ngôi nhà hiện đại...
+                                </p>
+                                <div class="flex items-center text-gray-500 text-xs">
+                                    <span class="mr-3"><i class="far fa-calendar mr-1"></i> 30/05/2025</span>
+                                    <span><i class="far fa-eye mr-1"></i> 3.8K</span>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                </div>
+
+                <!-- Popular Categories -->
+                <div class="mb-12">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Chuyên Mục Phổ Biến</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <a href="#" class="bg-white rounded-xl p-5 text-center shadow-md hover:shadow-lg transition">
+                            <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-mobile-alt text-lg"></i>
+                            </div>
+                            <h3 class="font-bold">Công nghệ</h3>
+                            <p class="text-gray-500 text-sm mt-1">24 bài viết</p>
+                        </a>
+                        <a href="#" class="bg-white rounded-xl p-5 text-center shadow-md hover:shadow-lg transition">
+                            <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-star text-lg"></i>
+                            </div>
+                            <h3 class="font-bold">Đánh giá</h3>
+                            <p class="text-gray-500 text-sm mt-1">18 bài viết</p>
+                        </a>
+                        <a href="#" class="bg-white rounded-xl p-5 text-center shadow-md hover:shadow-lg transition">
+                            <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-lightbulb text-lg"></i>
+                            </div>
+                            <h3 class="font-bold">Mẹo hay</h3>
+                            <p class="text-gray-500 text-sm mt-1">15 bài viết</p>
+                        </a>
+                        <a href="#" class="bg-white rounded-xl p-5 text-center shadow-md hover:shadow-lg transition">
+                            <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-tshirt text-lg"></i>
+                            </div>
+                            <h3 class="font-bold">Thời trang</h3>
+                            <p class="text-gray-500 text-sm mt-1">12 bài viết</p>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <nav class="flex justify-center">
+                    <ul class="pagination flex">
+                        <li class="page-item"><a href="#" class="page-link"><i class="fas fa-chevron-left"></i></a></li>
+                        <li class="page-item"><a href="#" class="page-link active">1</a></li>
+                        <li class="page-item"><a href="#" class="page-link">2</a></li>
+                        <li class="page-item"><a href="#" class="page-link">3</a></li>
+                        <li class="page-item"><a href="#" class="page-link">4</a></li>
+                        <li class="page-item"><a href="#" class="page-link"><i class="fas fa-chevron-right"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="w-full lg:w-1/3">
+                <!-- About Widget -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Về Blog E-Shop</h3>
+                    <p class="text-gray-700 mb-4">
+                        Nơi cập nhật tin tức, đánh giá sản phẩm và chia sẻ mẹo mua sắm thông minh. Chúng tôi giúp bạn khám phá công nghệ mới, xu hướng tiêu dùng và sản phẩm đáng chú ý.
+                    </p>
+                    <div class="flex space-x-3">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-red-500 hover:text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-red-500 hover:text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-red-500 hover:text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-red-500 hover:text-white">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Popular Posts -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Bài Viết Nổi Bật</h3>
+                    <div>
+                        <div class="popular-post">
+                            <img src="https://images.unsplash.com/photo-1483982258113-b72862e6cff6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                                 alt="Flash sale">
+                            <div class="ml-4">
+                                <a href="#" class="font-semibold hover:text-red-600 transition">Bí Kíp Săn Flash Sale Thành Công Trên E-Shop</a>
+                                <div class="text-gray-500 text-xs mt-1"><i class="far fa-calendar mr-1"></i> 18/05/2025</div>
+                            </div>
+                        </div>
+                        <div class="popular-post">
+                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                                 alt="Tai nghe không dây">
+                            <div class="ml-4">
+                                <a href="#" class="font-semibold hover:text-red-600 transition">Top 5 Tai Nghe Không Dây Tốt Nhất 2025 Dưới 2 Triệu</a>
+                                <div class="text-gray-500 text-xs mt-1"><i class="far fa-calendar mr-1"></i> 12/05/2025</div>
+                            </div>
+                        </div>
+                        <div class="popular-post">
+                            <img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" 
+                                 alt="Máy ảnh">
+                            <div class="ml-4">
+                                <a href="#" class="font-semibold hover:text-red-600 transition">Hướng Dẫn Chọn Máy Ảnh Mirrorless Cho Người Mới Bắt Đầu</a>
+                                <div class="text-gray-500 text-xs mt-1"><i class="far fa-calendar mr-1"></i> 28/04/2025</div>
+                            </div>
+                        </div>
+                        <div class="popular-post">
+                            <img src="https://images.unsplash.com/photo-1523206489230-c012c64b2b48?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" 
+                                 alt="Đánh giá iPhone">
+                            <div class="ml-4">
+                                <a href="#" class="font-semibold hover:text-red-600 transition">Đánh Giá Chi Tiết iPhone 15 Pro Max Sau 3 Tháng Sử Dụng</a>
+                                <div class="text-gray-500 text-xs mt-1"><i class="far fa-calendar mr-1"></i> 20/04/2025</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tags -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Thẻ Phổ Biến</h3>
+                    <div>
+                        <a href="#" class="tag">công nghệ</a>
+                        <a href="#" class="tag">đánh giá</a>
+                        <a href="#" class="tag">iphone</a>
+                        <a href="#" class="tag">samsung</a>
+                        <a href="#" class="tag">laptop</a>
+                        <a href="#" class="tag">giảm giá</a>
+                        <a href="#" class="tag">mẹo mua sắm</a>
+                        <a href="#" class="tag">thời trang</a>
+                        <a href="#" class="tag">làm đẹp</a>
+                        <a href="#" class="tag">skincare</a>
+                        <a href="#" class="tag">gia dụng</a>
+                        <a href="#" class="tag">smart home</a>
+                        <a href="#" class="tag">xu hướng 2025</a>
+                    </div>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Nhận Bản Tin</h3>
+                    <p class="text-gray-700 mb-4">Đăng ký để nhận thông báo khi có bài viết mới và các ưu đãi đặc biệt</p>
+                    <form class="newsletter-form">
+                        <div class="mb-3">
+                            <input type="email" placeholder="Email của bạn" class="w-full border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:border-red-500">
+                        </div>
+                        <button type="submit" class="subscribe-btn w-full text-white rounded-full py-3 font-medium">
+                            Đăng Ký Ngay
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <!-- Column 1 -->
+                <div>
+                    <h3 class="font-bold text-xl mb-4 flex items-center">
+                        <span class="bg-white text-red-600 px-2 py-1 rounded-lg mr-2">E</span>
+                        SHOP BLOG
+                    </h3>
+                    <p class="text-gray-400 mb-4">
+                        Nơi cập nhật tin tức, đánh giá sản phẩm và chia sẻ mẹo mua sắm thông minh.
+                    </p>
+                    <div class="flex space-x-3">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Column 2 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Chuyên Mục</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Công nghệ mới</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Đánh giá sản phẩm</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Mẹo mua sắm</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Xu hướng thời trang</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Gia dụng thông minh</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Làm đẹp & Sức khỏe</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 3 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Liên Kết Hữu Ích</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Về chúng tôi</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Chính sách bảo mật</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Điều khoản sử dụng</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Liên hệ quảng cáo</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Tuyển dụng</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Sơ đồ trang</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 4 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Liên Hệ</h3>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-red-500"></i>
+                            <span>123 Đường Thương Mại, Quận Cầu Giấy, Hà Nội</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-3 text-red-500"></i>
+                            <span>1900 1234</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3 text-red-500"></i>
+                            <span>blog@eshop.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>© 2025 E-Shop Blog. Tất cả các quyền được bảo lưu.</p>
+                <p class="mt-2 text-sm">Thông tin trên blog chỉ mang tính chất tham khảo</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('mobile-menu');
+            const button = document.getElementById('mobile-menu-button');
+            
+            if (!menu.contains(event.target) && event.target !== button) {
+                menu.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

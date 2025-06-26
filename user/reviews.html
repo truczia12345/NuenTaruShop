@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đánh giá của tôi - E-Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .review-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .review-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .star-rating i {
+            color: #e2e8f0;
+            transition: color 0.2s ease;
+        }
+        
+        .star-rating i.active {
+            color: #f59e0b;
+        }
+        
+        .empty-reviews {
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn {
+            transition: all 0.2s ease;
+            border-radius: 20px;
+            padding: 6px 16px;
+            background-color: #f3f4f6;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background-color: #ff424f;
+            color: white;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+        
+        .loading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(79, 70, 229, 0.2);
+            border-radius: 50%;
+            border-top-color: #4f46e5;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .review-images {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .review-image {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .review-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+        
+        .modal-image {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 8px;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .review-item {
+            transition: all 0.3s ease;
+        }
+        
+        .review-item.removing {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        
+        .helpful-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .helpful-btn:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .helpful-btn.active {
+            background-color: #dbeafe;
+            color: #3b82f6;
+        }
+        
+        .pagination-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background-color: #f3f4f6;
+            transition: all 0.2s ease;
+        }
+        
+        .pagination-btn:hover:not(.disabled) {
+            background-color: #e5e7eb;
+        }
+        
+        .pagination-btn.active {
+            background-color: #ff424f;
+            color: white;
+        }
+        
+        .pagination-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="modal-overlay" id="image-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="modal-image" class="modal-image" src="" alt="Review image">
+        </div>
+    </div>
+
+    <!-- Profile Header -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Đánh giá của tôi</h1>
+                <p class="text-gray-600 mt-1">Xem và quản lý tất cả đánh giá bạn đã viết</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex items-center">
+                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                    <i class="fas fa-star mr-1"></i> <span id="review-count">8</span> đánh giá
+                </div>
+            </div>
+        </div>
+    </div>
+            
+    <!-- Filter Controls -->
+    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between">
+            <div class="mb-4 md:mb-0">
+                <span class="text-gray-600 mr-3">Lọc theo:</span>
+                <div class="flex flex-wrap gap-2 mt-2">
+                    <button class="filter-btn active" data-filter="all">Tất cả</button>
+                    <button class="filter-btn" data-filter="5">5 sao</button>
+                    <button class="filter-btn" data-filter="4">4 sao</button>
+                    <button class="filter-btn" data-filter="3">3 sao</button>
+                    <button class="filter-btn" data-filter="2">2 sao</button>
+                    <button class="filter-btn" data-filter="1">1 sao</button>
+                </div>
+            </div>
+            
+            <div class="flex items-center">
+                <span class="text-gray-600 mr-3">Sắp xếp:</span>
+                <div class="flex flex-wrap gap-2">
+                    <button class="filter-btn active" data-sort="newest">Mới nhất</button>
+                    <button class="filter-btn" data-sort="oldest">Cũ nhất</button>
+                </div>
+            </div>
+        </div>
+    </div>
+            
+    <!-- Reviews List -->
+    <div id="reviews-container">
+        <!-- Loading Indicator -->
+        <div class="text-center py-12" id="loading-indicator">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+            <p class="text-gray-600">Đang tải đánh giá...</p>
+        </div>
+        
+        <!-- Empty State -->
+        <div id="empty-state" class="empty-reviews bg-white rounded-lg shadow-md p-8 text-center hidden">
+            <div class="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                <i class="fas fa-star text-3xl text-gray-400"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-700 mb-2">Bạn chưa có đánh giá nào</h3>
+            <p class="text-gray-500 mb-6">Hãy đánh giá sản phẩm bạn đã mua để chia sẻ trải nghiệm với cộng đồng!</p>
+            <a href="/" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-300">
+                Mua sắm ngay
+            </a>
+        </div>
+        
+        <!-- Reviews Grid -->
+        <div class="space-y-6" id="reviews-list">
+            <!-- Review items will be loaded here dynamically -->
+        </div>
+    </div>
+    
+    <!-- Pagination -->
+    <div id="pagination-container" class="mt-8 flex justify-center">
+        <div class="flex items-center gap-2">
+            <button id="prev-page" class="pagination-btn disabled">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            
+            <button class="pagination-btn active">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            
+            <button id="next-page" class="pagination-btn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Hàm gửi chiều cao về trang chủ
+  function sendHeightToParent() {
+    const height = Math.max(
+      document.body.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.clientHeight,
+      document.documentElement.scrollHeight,
+      document.documentElement.offsetHeight
+    );
+    
+    // Gửi chiều cao về trang chủ
+    window.parent.postMessage({
+      type: 'resize',
+      height: height
+    }, '*');
+  }
+
+  // Gửi chiều cao khi trang tải xong
+  window.addEventListener('load', sendHeightToParent);
+  
+  // Gửi chiều cao khi cửa sổ thay đổi kích thước
+  window.addEventListener('resize', sendHeightToParent);
+  
+  // Gửi chiều cao khi có thay đổi nội dung (MutationObserver)
+  const observer = new MutationObserver(sendHeightToParent);
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    characterData: true
+  });
+
+  // Trả lời khi nhận được yêu cầu từ trang chủ
+  window.addEventListener('message', (event) => {
+    if (event.data === 'getHeight') {
+      sendHeightToParent();
+    }
+  });
+  
+        // Sample reviews data
+        const sampleReviews = [
+            {
+                id: 1,
+                product: {
+                    id: 101,
+                    name: "iPhone 15 Pro Max 256GB",
+                    image: "https://cdn2.cellphones.com.vn/x/media/catalog/product/i/p/iphone-15-pro-max_3.png",
+                    price: 28990000,
+                    purchasedAt: "2025-05-15"
+                },
+                rating: 5,
+                reviewTitle: "Sản phẩm tuyệt vời",
+                reviewContent: "Mình dùng được 1 tháng rồi, máy chạy mượt, pin trâu. Camera chụp ảnh đẹp hơn hẳn đời trước. Khuyên mọi người nên mua!",
+                images: [
+                    "https://via.placeholder.com/300x300?text=Review+1",
+                    "https://via.placeholder.com/300x300?text=Review+2",
+                    "https://via.placeholder.com/300x300?text=Review+3"
+                ],
+                reviewDate: "2025-06-20",
+                helpfulCount: 24,
+                isHelpful: true,
+                comments: 5
+            },
+            {
+                id: 2,
+                product: {
+                    id: 205,
+                    name: "Tai nghe Sony WH-1000XM5",
+                    image: "https://via.placeholder.com/300x300?text=Sony+Headphones",
+                    price: 6990000,
+                    purchasedAt: "2025-06-10"
+                },
+                rating: 4,
+                reviewTitle: "Âm thanh tốt, thoải mái khi đeo",
+                reviewContent: "Âm thanh rất hay, chống ồn tốt. Đeo lâu hơi đau tai một chút nhưng vẫn chấp nhận được. Pin dùng được lâu.",
+                images: [
+                    "https://via.placeholder.com/300x300?text=Review+4"
+                ],
+                reviewDate: "2025-06-18",
+                helpfulCount: 12,
+                isHelpful: false,
+                comments: 2
+            },
+            {
+                id: 3,
+                product: {
+                    id: 307,
+                    name: "Máy chơi game PlayStation 5",
+                    image: "https://via.placeholder.com/300x300?text=PlayStation+5",
+                    price: 13990000,
+                    purchasedAt: "2025-05-20"
+                },
+                rating: 5,
+                reviewTitle: "Trải nghiệm game tuyệt vời",
+                reviewContent: "Máy chạy mượt, đồ họa đẹp. Tốc độ load game nhanh hơn hẳn PS4. Tuyệt vời!",
+                images: [],
+                reviewDate: "2025-06-15",
+                helpfulCount: 45,
+                isHelpful: true,
+                comments: 8
+            },
+            {
+                id: 4,
+                product: {
+                    id: 402,
+                    name: "MacBook Pro M2 14-inch 512GB",
+                    image: "https://via.placeholder.com/300x300?text=MacBook+Pro",
+                    price: 38990000,
+                    purchasedAt: "2025-04-22"
+                },
+                rating: 3,
+                reviewTitle: "Tốt nhưng giá hơi cao",
+                reviewContent: "Máy chạy mượt, thiết kế đẹp. Nhưng giá hơi cao so với cấu hình. Pin dùng được khoảng 8 tiếng làm việc văn phòng.",
+                images: [
+                    "https://via.placeholder.com/300x300?text=Review+5",
+                    "https://via.placeholder.com/300x300?text=Review+6"
+                ],
+                reviewDate: "2025-06-10",
+                helpfulCount: 8,
+                isHelpful: false,
+                comments: 3
+            },
+            {
+                id: 5,
+                product: {
+                    id: 503,
+                    name: "Máy ảnh Sony Alpha A7 III",
+                    image: "https://via.placeholder.com/300x300?text=Sony+Camera",
+                    price: 35990000,
+                    purchasedAt: "2025-05-05"
+                },
+                rating: 5,
+                reviewTitle: "Hoàn hảo cho nhiếp ảnh gia",
+                reviewContent: "Máy ảnh này thực sự tuyệt vời. Chất lượng hình ảnh sắc nét, khả năng chụp thiếu sáng tốt. Rất đáng tiền!",
+                images: [
+                    "https://via.placeholder.com/300x300?text=Review+7",
+                    "https://via.placeholder.com/300x300?text=Review+8",
+                    "https://via.placeholder.com/300x300?text=Review+9",
+                    "https://via.placeholder.com/300x300?text=Review+10"
+                ],
+                reviewDate: "2025-06-05",
+                helpfulCount: 32,
+                isHelpful: true,
+                comments: 7
+            },
+            {
+                id: 6,
+                product: {
+                    id: 608,
+                    name: "Bàn phím cơ Keychron K2",
+                    image: "https://via.placeholder.com/300x300?text=Keychron+K2",
+                    price: 1890000,
+                    purchasedAt: "2025-06-01"
+                },
+                rating: 4,
+                reviewTitle: "Bàn phím tốt cho dân văn phòng",
+                reviewContent: "Cảm giác gõ tốt, kết nối Bluetooth ổn định. Thiết kế đẹp, gọn nhẹ. Nhược điểm là không có phần đỡ cổ tay.",
+                images: [],
+                reviewDate: "2025-06-03",
+                helpfulCount: 6,
+                isHelpful: false,
+                comments: 1
+            }
+        ];
+        
+        // DOM Elements
+        const reviewsList = document.getElementById('reviews-list');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const emptyState = document.getElementById('empty-state');
+        const paginationContainer = document.getElementById('pagination-container');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const reviewCountElement = document.getElementById('review-count');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const imageModal = document.getElementById('image-modal');
+        const modalImage = document.getElementById('modal-image');
+        const modalClose = document.getElementById('modal-close');
+        
+        // Format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(amount);
+        }
+        
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
+        
+        // Render reviews
+        function renderReviews(reviews) {
+            loadingIndicator.classList.add('hidden');
+            
+            if (reviews.length === 0) {
+                emptyState.classList.remove('hidden');
+                reviewsList.innerHTML = '';
+                paginationContainer.classList.add('hidden');
+                reviewCountElement.textContent = '0';
+                return;
+            }
+            
+            emptyState.classList.add('hidden');
+            reviewsList.innerHTML = '';
+            
+            reviews.forEach(review => {
+                const product = review.product;
+                
+                // Render star rating
+                let starsHtml = '';
+                for (let i = 1; i <= 5; i++) {
+                    starsHtml += `<i class="fas fa-star ${i <= review.rating ? 'active' : ''}"></i>`;
+                }
+                
+                // Render images
+                let imagesHtml = '';
+                if (review.images.length > 0) {
+                    imagesHtml = `
+                        <div class="review-images">
+                            ${review.images.map((img, index) => `
+                                <img src="${img}" alt="Review image ${index + 1}" class="review-image" data-index="${index}">
+                            `).join('')}
+                        </div>
+                    `;
+                }
+                
+                // Render helpful button
+                const helpfulClass = review.isHelpful ? 'active' : '';
+                const helpfulText = review.isHelpful ? 'Hữu ích' : 'Hữu ích?';
+                
+                const reviewItem = document.createElement('div');
+                reviewItem.className = 'review-item bg-white rounded-lg shadow-md p-6 review-card';
+                reviewItem.dataset.id = review.id;
+                
+                reviewItem.innerHTML = `
+                    <div class="flex flex-col md:flex-row">
+                        <!-- Product Image -->
+                        <div class="md:w-1/4 mb-4 md:mb-0 md:mr-6">
+                            <div class="bg-gray-100 rounded-lg overflow-hidden">
+                                <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-contain">
+                            </div>
+                        </div>
+                        
+                        <!-- Review Content -->
+                        <div class="md:w-3/4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-bold text-gray-800 text-lg">${product.name}</h3>
+                                    <div class="text-gray-600 mt-1">Mua ngày: ${formatDate(product.purchasedAt)}</div>
+                                </div>
+                                <div>
+                                    <span class="font-bold text-red-600">${formatCurrency(product.price)}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <div class="flex items-center mb-2">
+                                    <div class="star-rating flex text-xl mr-3">
+                                        ${starsHtml}
+                                    </div>
+                                    <div class="font-bold text-gray-800">${review.reviewTitle}</div>
+                                </div>
+                                
+                                <div class="text-gray-700 mb-3">
+                                    ${review.reviewContent}
+                                </div>
+                                
+                                ${imagesHtml}
+                                
+                                <div class="flex justify-between items-center mt-4">
+                                    <div class="text-gray-500 text-sm">
+                                        Đánh giá ngày: ${formatDate(review.reviewDate)}
+                                    </div>
+                                    
+                                    <div class="flex items-center space-x-4">
+                                        <button class="helpful-btn ${helpfulClass} flex items-center px-3 py-1 rounded-full text-sm">
+                                            <i class="fas fa-thumbs-up mr-1"></i>
+                                            <span>${helpfulText} (${review.helpfulCount})</span>
+                                        </button>
+                                        
+                                        <button class="flex items-center text-gray-500 hover:text-gray-700">
+                                            <i class="fas fa-comment mr-1"></i>
+                                            <span>${review.comments}</span>
+                                        </button>
+                                        
+                                        <div class="flex space-x-2">
+                                            <button class="edit-btn text-blue-600 hover:text-blue-800">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="delete-btn text-red-600 hover:text-red-800">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                reviewsList.appendChild(reviewItem);
+            });
+            
+            attachEventListeners();
+            
+            // Update review count
+            reviewCountElement.textContent = reviews.length;
+            
+            // Show pagination
+            paginationContainer.classList.remove('hidden');
+        }
+        
+        // Attach event listeners
+        function attachEventListeners() {
+            // Delete buttons
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const reviewItem = this.closest('.review-item');
+                    const reviewId = reviewItem.dataset.id;
+                    removeReview(reviewId);
+                });
+            });
+            
+            // Edit buttons
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const reviewItem = this.closest('.review-item');
+                    const reviewId = reviewItem.dataset.id;
+                    editReview(reviewId);
+                });
+            });
+            
+            // Helpful buttons
+            document.querySelectorAll('.helpful-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    this.classList.toggle('active');
+                    
+                    const textSpan = this.querySelector('span');
+                    if (this.classList.contains('active')) {
+                        const currentCount = parseInt(textSpan.textContent.match(/\((\d+)\)/)[1]);
+                        textSpan.innerHTML = `Hữu ích (${currentCount + 1})`;
+                    } else {
+                        const currentCount = parseInt(textSpan.textContent.match(/\((\d+)\)/)[1]);
+                        textSpan.innerHTML = `Hữu ích? (${currentCount - 1})`;
+                    }
+                });
+            });
+            
+            // Review images
+            document.querySelectorAll('.review-image').forEach(img => {
+                img.addEventListener('click', function() {
+                    showImageModal(this.src);
+                });
+            });
+        }
+        
+        // Show image modal
+        function showImageModal(src) {
+            modalImage.src = src;
+            imageModal.classList.add('active');
+        }
+        
+        // Close image modal
+        modalClose.addEventListener('click', () => {
+            imageModal.classList.remove('active');
+        });
+        
+        // Remove review
+        function removeReview(reviewId) {
+            if (confirm('Bạn có chắc chắn muốn xóa đánh giá này?')) {
+                const reviewItem = document.querySelector(`.review-item[data-id="${reviewId}"]`);
+                
+                if (!reviewItem) return;
+                
+                // Show loading overlay
+                showLoading();
+                
+                // Add removing class for animation
+                reviewItem.classList.add('removing');
+                
+                // Simulate API call delay
+                setTimeout(() => {
+                    // Remove from UI
+                    reviewItem.remove();
+                    
+                    // Update review count
+                    const items = document.querySelectorAll('.review-item');
+                    reviewCountElement.textContent = items.length;
+                    
+                    // Show empty state if no items left
+                    if (items.length === 0) {
+                        emptyState.classList.remove('hidden');
+                    }
+                    
+                    hideLoading();
+                }, 500);
+            }
+        }
+        
+        // Edit review
+        function editReview(reviewId) {
+            // In a real app, this would open an edit modal
+            alert(`Chỉnh sửa đánh giá ${reviewId}`);
+        }
+        
+        // Show/hide loading overlay
+        function showLoading() {
+            loadingOverlay.classList.add('active');
+        }
+        
+        function hideLoading() {
+            loadingOverlay.classList.remove('active');
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Filter buttons
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Handle filter buttons
+                    if (this.dataset.filter) {
+                        filterButtons.forEach(b => {
+                            if (b.dataset.filter) b.classList.remove('active');
+                        });
+                    }
+                    
+                    // Handle sort buttons
+                    if (this.dataset.sort) {
+                        filterButtons.forEach(b => {
+                            if (b.dataset.sort) b.classList.remove('active');
+                        });
+                    }
+                    
+                    this.classList.add('active');
+                    
+                    // In a real app, you would filter/sort reviews
+                });
+            });
+            
+            // Pagination buttons
+            document.querySelectorAll('.pagination-btn:not(#prev-page):not(#next-page)').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.pagination-btn').forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    // In a real app, you would load the selected page
+                });
+            });
+            
+            // Prev/next buttons
+            document.getElementById('prev-page').addEventListener('click', function() {
+                if (this.classList.contains('disabled')) return;
+                // Load previous page
+            });
+            
+            document.getElementById('next-page').addEventListener('click', function() {
+                // Load next page
+            });
+            
+            // Simulate loading reviews from API
+            setTimeout(() => {
+                renderReviews(sampleReviews);
+            }, 1200);
+        });
+    </script>
+</body>
+</html>

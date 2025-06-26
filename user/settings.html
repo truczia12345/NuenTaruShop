@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cài đặt tài khoản - E-Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .setting-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .setting-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #e2e8f0;
+            transition: .4s;
+            border-radius: 30px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: #3b82f6;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+        
+        .tab-btn {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab-btn.active {
+            border-bottom-color: #3b82f6;
+            color: #3b82f6;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+        
+        .loading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(79, 70, 229, 0.2);
+            border-radius: 50%;
+            border-top-color: #4f46e5;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .language-option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .language-option:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .language-option.active {
+            background-color: #dbeafe;
+            border: 1px solid #3b82f6;
+        }
+        
+        .delete-account-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+        
+        .delete-account-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .danger-zone {
+            border-left: 4px solid #ef4444;
+            background-color: #fef2f2;
+        }
+        
+        .danger-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .danger-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
+        }
+        
+        .security-level {
+            height: 8px;
+            border-radius: 4px;
+            background-color: #e2e8f0;
+            overflow: hidden;
+        }
+        
+        .security-level-bar {
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+        
+        .security-level-text {
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Delete Account Modal -->
+    <div class="delete-account-modal" id="delete-account-modal">
+        <div class="modal-content">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Xác nhận xóa tài khoản</h3>
+            
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-exclamation-triangle text-red-500 text-xl"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-red-800 font-medium">Hành động này không thể hoàn tác!</p>
+                        <div class="mt-2 text-red-700">
+                            <p>Tất cả dữ liệu tài khoản của bạn sẽ bị xóa vĩnh viễn. Bạn sẽ không thể khôi phục lại tài khoản này.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-6">
+                <label for="confirm-password" class="block text-gray-700 font-medium mb-2">Nhập mật khẩu của bạn để xác nhận</label>
+                <input 
+                    type="password" 
+                    id="confirm-delete-password" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors"
+                    placeholder="Nhập mật khẩu của bạn"
+                >
+            </div>
+            
+            <div class="flex justify-end gap-3">
+                <button 
+                    id="cancel-delete" 
+                    class="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition-colors"
+                >
+                    Hủy bỏ
+                </button>
+                <button 
+                    id="confirm-delete" 
+                    class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors danger-btn"
+                >
+                    <i class="fas fa-trash-alt mr-2"></i> Xóa tài khoản
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Header -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Cài đặt tài khoản</h1>
+                <p class="text-gray-600 mt-1">Tùy chỉnh trải nghiệm và quản lý tài khoản của bạn</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex items-center">
+                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                    <i class="fas fa-shield-alt mr-1"></i> Bảo mật cao
+                </div>
+            </div>
+        </div>
+    </div>
+            
+    <!-- Settings Tabs -->
+    <div class="bg-white rounded-lg shadow-md mb-6">
+        <!-- Tab Navigation -->
+        <div class="flex border-b">
+            <button class="tab-btn px-6 py-4 font-medium" data-tab="account">Thông tin tài khoản</button>
+            <button class="tab-btn px-6 py-4 font-medium" data-tab="security">Bảo mật</button>
+            <button class="tab-btn px-6 py-4 font-medium" data-tab="notifications">Thông báo</button>
+            <button class="tab-btn px-6 py-4 font-medium" data-tab="language">Ngôn ngữ & Vùng</button>
+            <button class="tab-btn px-6 py-4 font-medium" data-tab="privacy">Quyền riêng tư</button>
+        </div>
+        
+        <!-- Tab Contents -->
+        <div class="p-6">
+            <!-- Account Settings -->
+            <div class="tab-content active" id="account-tab">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Account Info -->
+                    <div class="setting-card bg-white rounded-lg p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Thông tin tài khoản</h2>
+                        
+                        <div class="flex items-center mb-6">
+                            <div class="relative">
+                                <img src="https://i.pravatar.cc/120?img=12" alt="User Avatar" class="w-20 h-20 rounded-full border-2 border-white shadow">
+                                <button class="absolute bottom-0 right-0 bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center">
+                                    <i class="fas fa-pencil-alt text-xs"></i>
+                                </button>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="font-bold text-lg">Nguyễn Văn A</h3>
+                                <p class="text-gray-500">Thành viên từ: 15/02/2024</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Tên hiển thị</label>
+                                <input 
+                                    type="text" 
+                                    value="Nguyễn Văn A" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                >
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Email</label>
+                                <div class="flex items-center">
+                                    <input 
+                                        type="email" 
+                                        value="nguyenvana@example.com" 
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                        disabled
+                                    >
+                                    <button class="ml-2 text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Số điện thoại</label>
+                                <div class="flex items-center">
+                                    <input 
+                                        type="tel" 
+                                        value="0987654321" 
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                    >
+                                    <button class="ml-2 text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <button class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
+                                <i class="fas fa-save mr-2"></i> Lưu thay đổi
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Account Preferences -->
+                    <div class="setting-card bg-white rounded-lg p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Tùy chọn tài khoản</h2>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Chủ đề</label>
+                                <div class="flex gap-4">
+                                    <button class="px-4 py-3 bg-blue-600 text-white rounded-lg flex-1">
+                                        <i class="fas fa-sun mr-2"></i> Sáng
+                                    </button>
+                                    <button class="px-4 py-3 bg-gray-800 text-white rounded-lg flex-1">
+                                        <i class="fas fa-moon mr-2"></i> Tối
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Đơn vị tiền tệ</label>
+                                <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                    <option>Việt Nam Đồng (VND)</option>
+                                    <option>US Dollar (USD)</option>
+                                    <option>Euro (EUR)</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Tùy chọn hiển thị</label>
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span>Hiển thị sản phẩm đã xem gần đây</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <span>Hiển thị sản phẩm đã yêu thích</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <span>Hiển thị đề xuất sản phẩm</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Security Settings -->
+            <div class="tab-content" id="security-tab">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Password & Security -->
+                    <div class="setting-card bg-white rounded-lg p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Mật khẩu & Bảo mật</h2>
+                        
+                        <div class="mb-6">
+                            <h3 class="font-medium text-gray-700 mb-2">Mức độ bảo mật</h3>
+                            <div class="security-level mb-1">
+                                <div class="security-level-bar bg-green-500" style="width: 85%"></div>
+                            </div>
+                            <div class="security-level-text text-green-600">
+                                <i class="fas fa-shield-alt mr-1"></i> Bảo mật cao
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
+                                <div>
+                                    <h3 class="font-medium text-gray-800">Mật khẩu</h3>
+                                    <p class="text-gray-600 text-sm">Cập nhật lần cuối: 15/05/2025</p>
+                                </div>
+                                <a href="account/change-password.html" class="text-blue-600 hover:text-blue-800 font-medium">
+                                    Thay đổi <i class="fas fa-chevron-right ml-1"></i>
+                                </a>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
+                                <div>
+                                    <h3 class="font-medium text-gray-800">Xác thực 2 bước</h3>
+                                    <p class="text-gray-600 text-sm">Hiện đang tắt</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
+                                <div>
+                                    <h3 class="font-medium text-gray-800">Xác minh email</h3>
+                                    <p class="text-gray-600 text-sm">nguyenvana@example.com</p>
+                                </div>
+                                <span class="text-green-600 font-medium">
+                                    <i class="fas fa-check-circle mr-1"></i> Đã xác minh
+                                </span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
+                                <div>
+                                    <h3 class="font-medium text-gray-800">Xác minh số điện thoại</h3>
+                                    <p class="text-gray-600 text-sm">0987****21</p>
+                                </div>
+                                <button class="text-blue-600 hover:text-blue-800 font-medium">
+                                    Xác minh <i class="fas fa-chevron-right ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Session Management -->
+                    <div class="setting-card bg-white rounded-lg p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Quản lý phiên đăng nhập</h2>
+                        
+                        <div class="mb-6">
+                            <h3 class="font-medium text-gray-700 mb-2">Thiết bị đang hoạt động</h3>
+                            <div class="space-y-4">
+                                <div class="p-4 border border-gray-200 rounded-lg">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-desktop text-xl text-blue-500 mr-3"></i>
+                                            <div>
+                                                <h4 class="font-medium">Windows 11 - Chrome</h4>
+                                                <p class="text-gray-600 text-sm">Đang hoạt động</p>
+                                            </div>
+                                        </div>
+                                        <span class="text-green-600 text-sm">Hiện tại</span>
+                                    </div>
+                                    <p class="text-gray-600 text-sm">Địa chỉ IP: 192.168.1.101 • Đăng nhập lúc: 26/06/2025 14:30</p>
+                                </div>
+                                
+                                <div class="p-4 border border-gray-200 rounded-lg">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-mobile-alt text-xl text-purple-500 mr-3"></i>
+                                            <div>
+                                                <h4 class="font-medium">iOS 17 - Safari</h4>
+                                                <p class="text-gray-600 text-sm">Hoạt động 2 giờ trước</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-600 text-sm">Địa chỉ IP: 192.168.1.102 • Đăng nhập lúc: 26/06/2025 12:45</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-medium text-gray-700 mb-2">Lịch sử đăng nhập</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <div>
+                                        <h4 class="font-medium">Android 14 - Chrome</h4>
+                                        <p class="text-gray-600 text-sm">25/06/2025 09:15</p>
+                                    </div>
+                                    <button class="text-red-600 hover:text-red-800">
+                                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                                    </button>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                    <div>
+                                        <h4 class="font-medium">MacOS - Safari</h4>
+                                        <p class="text-gray-600 text-sm">24/06/2025 21:30</p>
+                                    </div>
+                                    <button class="text-red-600 hover:text-red-800">
+                                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <button class="px-6 py-3 bg-gray-100 text-gray-800 font-medium rounded-lg hover:bg-gray-200 transition-colors">
+                                <i class="fas fa-sign-out-alt mr-2"></i> Đăng xuất tất cả thiết bị
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Notification Settings -->
+            <div class="tab-content" id="notifications-tab">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Notification Preferences -->
+                    <div class="setting-card bg-white rounded-lg p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Tùy chỉnh thông báo</h2>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="font-medium text-gray-800 mb-3">Email</h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span>Khuyến mãi và ưu đãi đặc biệt</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <span>Cập nhật đơn hàng</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <span>Sản phẩm mới phù hợp</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <span>Tin tức và cập nhật</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="font-medium text-gray-800 mb-3">Thông báo ứng dụng</h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span>Thông báo khuyến mãi</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <span>Thông báo đơn hàng</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <span>Thông báo giao hàng</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <span>Nhắc nhở đánh giá sản phẩm</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Notification Methods -->
+                    <div class="setting-card bg-white rounded-lg p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Phương thức nhận thông báo</h2>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="font-medium text-gray-800 mb-2">Email chính</h3>
+                                <div class="flex items-center">
+                                    <input 
+                                        type="email" 
+                                        value="nguyenvana@example.com" 
+                                        class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                    >
+                                    <button class="ml-2 text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="font-medium text-gray-800 mb-2">Email dự phòng</h3>
+                                <div class="flex items-center">
+                                    <input 
+                                        type="email" 
+                                        placeholder="Thêm email dự phòng" 
+                                        class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                    >
+                                    <button class="ml-2 text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="font-medium text-gray-800 mb-2">Số điện thoại nhận SMS</h3>
+                                <div class="flex items-center">
+                                    <input 
+                                        type="tel" 
+                                        value="0987654321" 
+                                        class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                    >
+                                    <button class="ml-2 text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8">
+                                <button class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
+                                    <i class="fas fa-bell mr-2"></i> Lưu cài đặt thông báo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Language & Region Settings -->
+            <div class="tab-content" id="language-tab">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Language Preferences -->
+                    <div class="setting-card bg-white rounded-lg p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Ngôn ngữ</h2>
+                        
+                        <div class="space-y-4">
+                            <div class="language-option active">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                                    <span class="text-blue-800 font-bold">VI</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium">Tiếng Việt</h3>
+                                    <p class="text-gray-600 text-sm">Ngôn ngữ mặc định</p>
+                                </div>
+                            </div>
+                            
+                            <div class="language-option">
+                                <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mr-4">
+                                    <span class="text-gray-800 font-bold">EN</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium">Tiếng Anh</h3>
+                                    <p class="text-gray-600 text-sm">English</p>
+                                </div>
+                            </div>
+                            
+                            <div class="language-option">
+                                <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mr-4">
+                                    <span class="text-gray-800 font-bold">ZH</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium">Tiếng Trung</h3>
+                                    <p class="text-gray-600 text-sm">中文</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Region Preferences -->
+                    <div class="setting-card bg-white rounded-lg p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Khu vực & Múi giờ</h2>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Quốc gia/Khu vực</label>
+                                <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                    <option selected>Việt Nam</option>
+                                    <option>United States</option>
+                                    <option>United Kingdom</option>
+                                    <option>Singapore</option>
+                                    <option>Thailand</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Múi giờ</label>
+                                <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                    <option selected>(GMT+7) Giờ Đông Dương (Bangkok, Hanoi)</option>
+                                    <option>(GMT+8) Giờ Singapore (Singapore)</option>
+                                    <option>(GMT+9) Giờ Tokyo (Tokyo)</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Định dạng ngày giờ</label>
+                                <div class="flex gap-4">
+                                    <button class="px-4 py-3 bg-blue-600 text-white rounded-lg flex-1">
+                                        DD/MM/YYYY
+                                    </button>
+                                    <button class="px-4 py-3 bg-gray-100 text-gray-800 rounded-lg flex-1">
+                                        MM/DD/YYYY
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Privacy Settings -->
+            <div class="tab-content" id="privacy-tab">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Privacy Preferences -->
+                    <div class="setting-card bg-white rounded-lg p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Quyền riêng tư</h2>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="font-medium text-gray-800 mb-3">Tùy chọn quyền riêng tư</h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span>Cho phép đề xuất theo hoạt động</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <span>Hiển thị tôi trong kết quả tìm kiếm</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <span>Cho phép nhắn tin từ người lạ</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <span>Chia sẻ dữ liệu với đối tác tiếp thị</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="font-medium text-gray-800 mb-3">Tùy chọn dữ liệu</h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                        <div>
+                                            <h4 class="font-medium">Tải xuống dữ liệu của bạn</h4>
+                                            <p class="text-gray-600 text-sm">Xuất toàn bộ dữ liệu tài khoản</p>
+                                        </div>
+                                        <button class="text-blue-600 hover:text-blue-800">
+                                            <i class="fas fa-download mr-1"></i> Tải xuống
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                        <div>
+                                            <h4 class="font-medium">Xóa lịch sử hoạt động</h4>
+                                            <p class="text-gray-600 text-sm">Xem, tìm kiếm, đánh giá, v.v.</p>
+                                        </div>
+                                        <button class="text-blue-600 hover:text-blue-800">
+                                            <i class="fas fa-trash-alt mr-1"></i> Xóa
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Account Management -->
+                    <div class="setting-card bg-white rounded-lg p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Quản lý tài khoản</h2>
+                        
+                        <div class="space-y-6">
+                            <div class="danger-zone p-6 rounded-lg">
+                                <h3 class="font-bold text-red-600 mb-4">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i> Khu vực nguy hiểm
+                                </h3>
+                                
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between p-4 bg-white rounded-lg">
+                                        <div>
+                                            <h4 class="font-medium">Vô hiệu hóa tài khoản tạm thời</h4>
+                                            <p class="text-gray-600 text-sm">Tài khoản của bạn sẽ bị ẩn trong 30 ngày</p>
+                                        </div>
+                                        <button class="text-red-600 hover:text-red-800 font-medium">
+                                            Vô hiệu hóa
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between p-4 bg-white rounded-lg">
+                                        <div>
+                                            <h4 class="font-medium">Xóa tài khoản vĩnh viễn</h4>
+                                            <p class="text-gray-600 text-sm">Tất cả dữ liệu sẽ bị xóa và không thể khôi phục</p>
+                                        </div>
+                                        <button id="delete-account-btn" class="text-red-600 hover:text-red-800 font-medium">
+                                            Xóa tài khoản
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="p-6 bg-blue-50 rounded-lg">
+                                <h3 class="font-medium text-gray-800 mb-3">Liên kết tài khoản</h3>
+                                
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center mr-3">
+                                                <i class="fab fa-facebook-f text-white"></i>
+                                            </div>
+                                            <span>Facebook</span>
+                                        </div>
+                                        <button class="text-blue-600 hover:text-blue-800 font-medium">
+                                            Liên kết
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 rounded-full bg-black flex items-center justify-center mr-3">
+                                                <i class="fab fa-apple text-white"></i>
+                                            </div>
+                                            <span>Apple</span>
+                                        </div>
+                                        <span class="text-green-600 font-medium">
+                                            <i class="fas fa-check-circle mr-1"></i> Đã liên kết
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center mr-3">
+                                                <i class="fab fa-google text-white"></i>
+                                            </div>
+                                            <span>Google</span>
+                                        </div>
+                                        <button class="text-blue-600 hover:text-blue-800 font-medium">
+                                            Liên kết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Hàm gửi chiều cao về trang chủ
+  function sendHeightToParent() {
+    const height = Math.max(
+      document.body.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.clientHeight,
+      document.documentElement.scrollHeight,
+      document.documentElement.offsetHeight
+    );
+    
+    // Gửi chiều cao về trang chủ
+    window.parent.postMessage({
+      type: 'resize',
+      height: height
+    }, '*');
+  }
+
+  // Gửi chiều cao khi trang tải xong
+  window.addEventListener('load', sendHeightToParent);
+  
+  // Gửi chiều cao khi cửa sổ thay đổi kích thước
+  window.addEventListener('resize', sendHeightToParent);
+  
+  // Gửi chiều cao khi có thay đổi nội dung (MutationObserver)
+  const observer = new MutationObserver(sendHeightToParent);
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    characterData: true
+  });
+
+  // Trả lời khi nhận được yêu cầu từ trang chủ
+  window.addEventListener('message', (event) => {
+    if (event.data === 'getHeight') {
+      sendHeightToParent();
+    }
+  });
+  
+        // DOM Elements
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const deleteAccountBtn = document.getElementById('delete-account-btn');
+        const deleteAccountModal = document.getElementById('delete-account-modal');
+        const cancelDeleteBtn = document.getElementById('cancel-delete');
+        const confirmDeleteBtn = document.getElementById('confirm-delete');
+        
+        // Initialize tabs
+        function initTabs() {
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = this.dataset.tab;
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // Set first tab as active by default
+            tabBtns[0].classList.add('active');
+            tabContents[0].classList.add('active');
+        }
+        
+        // Show/hide loading overlay
+        function showLoading() {
+            loadingOverlay.classList.add('active');
+        }
+        
+        function hideLoading() {
+            loadingOverlay.classList.remove('active');
+        }
+        
+        // Delete account functionality
+        deleteAccountBtn.addEventListener('click', () => {
+            deleteAccountModal.classList.add('active');
+        });
+        
+        cancelDeleteBtn.addEventListener('click', () => {
+            deleteAccountModal.classList.remove('active');
+        });
+        
+        confirmDeleteBtn.addEventListener('click', () => {
+            const password = document.getElementById('confirm-delete-password').value;
+            if (!password) {
+                alert('Vui lòng nhập mật khẩu để xác nhận');
+                return;
+            }
+            
+            showLoading();
+            
+            // Simulate API call
+            setTimeout(() => {
+                hideLoading();
+                alert('Tài khoản của bạn đã được xóa thành công.');
+                // In a real app, this would redirect to homepage or login page
+            }, 1500);
+        });
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initTabs();
+            
+            // Language selection
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.language-option').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+            });
+            
+            // Theme selection
+            document.querySelectorAll('.bg-blue-600, .bg-gray-800').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.bg-blue-600, .bg-gray-800').forEach(b => {
+                        b.classList.remove('bg-blue-600', 'text-white');
+                        b.classList.add('bg-gray-100', 'text-gray-800');
+                    });
+                    this.classList.remove('bg-gray-100', 'text-gray-800');
+                    this.classList.add('bg-blue-600', 'text-white');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

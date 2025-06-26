@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuyển Dụng - E-Shop | Cơ Hội Nghề Nghiệp Hấp Dẫn</title>
+    <meta name="description" content="Khám phá cơ hội nghề nghiệp tại E-Shop - Nền tảng thương mại điện tử hàng đầu Việt Nam. Tìm hiểu văn hóa công ty và các vị trí tuyển dụng hiện tại.">
+    <meta name="keywords" content="tuyển dụng eshop, việc làm thương mại điện tử, cơ hội nghề nghiệp, việc làm it">
+    <meta name="author" content="E-Shop">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Tuyển Dụng - E-Shop | Cơ Hội Nghề Nghiệp Hấp Dẫn">
+    <meta property="og:description" content="Tham gia đội ngũ E-Shop - Nền tảng thương mại điện tử hàng đầu Việt Nam">
+    <meta property="og:image" content="https://www.your-eshop.com/image/logo/nuentaru1.png">
+    <meta property="og:url" content="https://www.your-eshop.com/careers.html">
+    <meta property="og:type" content="website">
+    
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon_io/favicon.ico">
+    <link rel="canonical" href="https://www.your-eshop.com/careers.html">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Header */
+        .pb-3 img {
+          width: 120px;
+          height: 120px;
+        }
+
+        /* Reuse styles from index.html */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-spacer {
+            height: 130px;
+        }
+        
+        .career-hero {
+            background-image: url('/assets/img/bg/hero-bg.avif');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+        }
+        
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 70px;
+            height: 4px;
+            background: #ff424f;
+            border-radius: 2px;
+        }
+        
+        .job-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: #ffd6d9;
+        }
+        
+        .benefit-card {
+            transition: all 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .process-step {
+            position: relative;
+            padding-left: 80px;
+            margin-bottom: 40px;
+        }
+        
+        .step-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #ff424f;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .job-filter {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+        }
+        
+        .job-list {
+            max-height: 600px;
+            overflow-y: auto;
+            /* Sửa lỗi lề */
+            margin: 0;
+            padding: 0;
+        }
+        
+        .job-item {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            /* Sửa lỗi lề */
+            margin: 0;
+        }
+        
+        .job-item:hover, .job-item.active {
+            background-color: #fff5f5;
+        }
+        
+        .job-detail {
+            position: sticky;
+            top: 150px;
+        }
+        
+        .job-highlight {
+            background: #fff5f5;
+            border-left: 4px solid #ff424f;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .apply-form {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 1023px) {
+            .job-layout {
+                flex-direction: column;
+            }
+            
+            .job-list {
+                max-height: none;
+                overflow-y: visible;
+            }
+            
+            .job-detail {
+                position: static;
+                margin-top: 30px;
+            }
+            
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .benefit-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .process-step {
+                padding-left: 60px;
+            }
+            
+            .step-number {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+        }
+
+        /* Sửa lỗi logo */
+        .logo-container img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- SEO: Hidden H1 for page title -->
+    <h1>Tuyển Dụng - E-Shop | Cơ Hội Nghề Nghiệp Trong Ngành Thương Mại Điện Tử</h1>
+    
+    <!-- Header (same as index.html) -->
+    <header class="bg-[#ff424f] text-white shadow-md fixed-header">
+        <div class="container mx-auto px-4">
+            <!-- Top Row: User Actions -->
+            <div class="flex justify-end items-center py-2 space-x-6 text-sm">
+                <!-- Notification dropdown container -->
+                <div class="notification-container">
+                    <a href="#" class="hover:text-yellow-200 flex items-center" id="notification-icon" aria-label="Thông báo">
+                        <i class="fas fa-bell mr-1" aria-hidden="true"></i>
+                        <span>Thông báo</span>
+                        <div class="notification-count">5</div>
+                    </a>
+                </div>
+                <a href="promotion.html" class="hover:text-yellow-200 flex items-center" aria-label="Khuyến mãi">
+                    <i class="fas fa-tag mr-1" aria-hidden="true"></i>
+                    <span>Khuyến mãi</span>
+                </a>
+                <a href="help/support.html" class="hover:text-yellow-200 flex items-center" aria-label="Hỗ trợ">
+                    <i class="fas fa-headset mr-1" aria-hidden="true"></i>
+                    <span>Hỗ trợ</span>
+                </a>
+            </div>
+
+            <!-- Main Header: Logo + Search -->
+            <div class="flex items-center justify-between pb-3">
+                <!-- Logo with alt text -->
+                <div class="flex items-center logo-container">
+                    <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
+                        <!-- Sửa lỗi logo -->
+                        <img src="/assets/img/logo/nuentaru1.png" alt="E-Shop - Trang mua sắm trực tuyến">
+                    </a>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="flex-1 mx-8">
+                    <form action="/search" method="GET" role="search">
+                        <div class="relative mb-1">
+                            <input type="text" name="q" placeholder="Tìm kiếm sản phẩm..." 
+                                class="w-full py-2 px-4 rounded-full text-gray-800 focus:outline-none"
+                                aria-label="Tìm kiếm sản phẩm">
+                            <button type="submit" class="absolute right-0 top-0 h-full px-4 bg-yellow-400 rounded-r-full text-gray-800" aria-label="Tìm kiếm">
+                                <i class="fas fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- User Actions -->
+                <div class="flex items-center space-x-6">
+                    <a href="auth/login.html" class="flex flex-col items-center" aria-label="Tài khoản">
+                        <i class="fas fa-user text-xl" aria-hidden="true"></i>
+                        <span class="text-xs mt-1">Tài khoản</span>
+                    </a>
+                    <a href="cart.html" class="flex flex-col items-center relative" aria-label="Giỏ hàng">
+                        <i class="fas fa-shopping-cart text-xl" aria-hidden="true"></i>
+                        <span class="text-xs mt-1">Giỏ hàng</span>
+                        <span class="absolute -top-2 -right-2 bg-yellow-400 text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Spacer for fixed header -->
+    <div class="header-spacer"></div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="career-hero py-20 flex items-center">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 fade-in">Khởi Nghiệp Sự Nghiệp Cùng E-Shop</h1>
+                <p class="text-xl text-white mb-8 max-w-3xl mx-auto fade-in">
+                    Tham gia đội ngũ tiên phong trong cuộc cách mạng thương mại điện tử tại Việt Nam
+                </p>
+                <div class="fade-in">
+                    <a href="#job-list" class="bg-white text-red-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition inline-block mr-3">
+                        Xem Vị Trí Tuyển Dụng
+                    </a>
+                    <a href="#why-join" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-red-600 transition inline-block">
+                        Tìm Hiểu Văn Hóa
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Join Section -->
+        <section id="why-join" class="py-16 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-4">Tại Sao Nên Gia Nhập E-Shop?</h2>
+                    <p class="text-gray-600 max-w-3xl mx-auto">
+                        Chúng tôi không chỉ cung cấp công việc - chúng tôi xây dựng sự nghiệp
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="benefit-card fade-in">
+                        <div class="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
+                            <i class="fas fa-rocket text-red-600 text-2xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-center mb-3">Môi Trường Năng Động</h3>
+                        <p class="text-gray-700 text-center">
+                            Làm việc trong môi trường startup năng động, sáng tạo, nơi ý tưởng của bạn được trân trọng và phát triển.
+                        </p>
+                    </div>
+                    
+                    <div class="benefit-card fade-in">
+                        <div class="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
+                            <i class="fas fa-chart-line text-red-600 text-2xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-center mb-3">Cơ Hội Thăng Tiến</h3>
+                        <p class="text-gray-700 text-center">
+                            Con đường thăng tiến rõ ràng với chính sách đánh giá năng lực định kỳ và cơ hội thăng chức công bằng.
+                        </p>
+                    </div>
+                    
+                    <div class="benefit-card fade-in">
+                        <div class="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
+                            <i class="fas fa-users text-red-600 text-2xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-center mb-3">Đội Ngũ Chuyên Nghiệp</h3>
+                        <p class="text-gray-700 text-center">
+                            Cộng tác với những chuyên gia hàng đầu trong ngành, học hỏi và phát triển cùng những người giỏi nhất.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Job Openings -->
+        <section id="job-list" class="py-16 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-4">Vị Trí Tuyển Dụng</h2>
+                    <p class="text-gray-600 max-w-3xl mx-auto">
+                        Khám phá các cơ hội nghề nghiệp đang chờ đón bạn tại E-Shop
+                    </p>
+                </div>
+                
+                <div class="job-layout flex gap-8">
+                    <!-- Job Filter and List -->
+                    <div class="w-full md:w-1/3">
+                        <div class="job-filter mb-6">
+                            <h3 class="font-bold text-lg mb-4">Lọc Vị Trí</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Bộ phận</label>
+                                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                        <option value="">Tất cả bộ phận</option>
+                                        <option value="tech">Công nghệ</option>
+                                        <option value="marketing">Marketing</option>
+                                        <option value="sale">Kinh doanh</option>
+                                        <option value="customer-service">Chăm sóc khách hàng</option>
+                                        <option value="finance">Tài chính</option>
+                                        <option value="hr">Nhân sự</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Địa điểm</label>
+                                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                        <option value="">Tất cả địa điểm</option>
+                                        <option value="hanoi">Hà Nội</option>
+                                        <option value="danang">Đà Nẵng</option>
+                                        <option value="hcm">TP. Hồ Chí Minh</option>
+                                        <option value="remote">Làm việc từ xa</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Loại hình công việc</label>
+                                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                        <option value="">Tất cả loại hình</option>
+                                        <option value="fulltime">Toàn thời gian</option>
+                                        <option value="parttime">Bán thời gian</option>
+                                        <option value="internship">Thực tập</option>
+                                    </select>
+                                </div>
+                                
+                                <button class="w-full bg-red-600 text-white py-2 rounded-lg font-medium hover:bg-red-700 transition">
+                                    Áp dụng bộ lọc
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="job-list bg-white rounded-lg shadow">
+                            <div class="job-item p-3 active" data-job="backend-dev">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-bold text-lg">Backend Developer (Java/Spring)</h3>
+                                        <div class="flex flex-wrap gap-2 mt-2">
+                                            <span class="tag bg-red-100 text-red-800">Công nghệ</span>
+                                            <span class="tag bg-blue-100 text-blue-800">Hà Nội</span>
+                                            <span class="tag bg-green-100 text-green-800">Toàn thời gian</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-red-600 font-medium">$1500 - $2500</span>
+                                </div>
+                                <div class="mt-3 text-sm text-gray-600">
+                                    <i class="far fa-clock mr-1" aria-hidden="true"></i> Đăng 2 ngày trước
+                                </div>
+                            </div>
+                            
+                            <div class="job-item p-3" data-job="data-analyst">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-bold text-lg">Data Analyst</h3>
+                                        <div class="flex flex-wrap gap-2 mt-2">
+                                            <span class="tag bg-red-100 text-red-800">Công nghệ</span>
+                                            <span class="tag bg-blue-100 text-blue-800">TP. Hồ Chí Minh</span>
+                                            <span class="tag bg-green-100 text-green-800">Toàn thời gian</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-red-600 font-medium">$1200 - $2000</span>
+                                </div>
+                                <div class="mt-3 text-sm text-gray-600">
+                                    <i class="far fa-clock mr-1" aria-hidden="true"></i> Đăng 5 ngày trước
+                                </div>
+                            </div>
+                            
+                            <div class="job-item p-3" data-job="marketing-manager">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-bold text-lg">Marketing Manager</h3>
+                                        <div class="flex flex-wrap gap-2 mt-2">
+                                            <span class="tag bg-purple-100 text-purple-800">Marketing</span>
+                                            <span class="tag bg-blue-100 text-blue-800">Đà Nẵng</span>
+                                            <span class="tag bg-green-100 text-green-800">Toàn thời gian</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-red-600 font-medium">$1800 - $3000</span>
+                                </div>
+                                <div class="mt-3 text-sm text-gray-600">
+                                    <i class="far fa-clock mr-1" aria-hidden="true"></i> Đăng 1 tuần trước
+                                </div>
+                            </div>
+                            
+                            <div class="job-item p-3" data-job="ux-designer">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-bold text-lg">UX/UI Designer</h3>
+                                        <div class="flex flex-wrap gap-2 mt-2">
+                                            <span class="tag bg-red-100 text-red-800">Công nghệ</span>
+                                            <span class="tag bg-blue-100 text-blue-800">Làm việc từ xa</span>
+                                            <span class="tag bg-green-100 text-green-800">Toàn thời gian</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-red-600 font-medium">$1300 - $2200</span>
+                                </div>
+                                <div class="mt-3 text-sm text-gray-600">
+                                    <i class="far fa-clock mr-1" aria-hidden="true"></i> Đăng 3 ngày trước
+                                </div>
+                            </div>
+                            
+                            <div class="job-item p-3" data-job="sale-executive">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-bold text-lg">Sales Executive</h3>
+                                        <div class="flex flex-wrap gap-2 mt-2">
+                                            <span class="tag bg-yellow-100 text-yellow-800">Kinh doanh</span>
+                                            <span class="tag bg-blue-100 text-blue-800">Hà Nội</span>
+                                            <span class="tag bg-green-100 text-green-800">Toàn thời gian</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-red-600 font-medium">$800 - $1500</span>
+                                </div>
+                                <div class="mt-3 text-sm text-gray-600">
+                                    <i class="far fa-clock mr-1" aria-hidden="true"></i> Đăng 4 ngày trước
+                                </div>
+                            </div>
+                            
+                            <div class="job-item p-3" data-job="customer-support">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-bold text-lg">Customer Support Specialist</h3>
+                                        <div class="flex flex-wrap gap-2 mt-2">
+                                            <span class="tag bg-indigo-100 text-indigo-800">Chăm sóc KH</span>
+                                            <span class="tag bg-blue-100 text-blue-800">TP. Hồ Chí Minh</span>
+                                            <span class="tag bg-green-100 text-green-800">Toàn thời gian</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-red-600 font-medium">$700 - $1200</span>
+                                </div>
+                                <div class="mt-3 text-sm text-gray-600">
+                                    <i class="far fa-clock mr-1" aria-hidden="true"></i> Đăng 1 tuần trước
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Job Details -->
+                    <div class="w-full md:w-2/3 job-detail">
+                        <div class="bg-white rounded-lg shadow p-8">
+                            <!-- Default Job Detail -->
+                            <div id="backend-dev" class="job-detail-content">
+                                <div class="flex justify-between items-start mb-6">
+                                    <div>
+                                        <h2 class="text-2xl font-bold">Backend Developer (Java/Spring)</h2>
+                                        <div class="flex flex-wrap gap-2 mt-2">
+                                            <span class="tag bg-red-100 text-red-800">Công nghệ</span>
+                                            <span class="tag bg-blue-100 text-blue-800">Hà Nội</span>
+                                            <span class="tag bg-green-100 text-green-800">Toàn thời gian</span>
+                                        </div>
+                                    </div>
+                                    <button class="bg-red-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-red-700 transition">
+                                        Ứng tuyển ngay
+                                    </button>
+                                </div>
+                                
+                                <div class="job-highlight p-4 mb-6">
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <div class="text-center">
+                                            <div class="text-red-600 font-bold text-xl">$1500 - $2500</div>
+                                            <div class="text-gray-600">Mức lương</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-red-600 font-bold text-xl">Hà Nội</div>
+                                            <div class="text-gray-600">Địa điểm</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-red-600 font-bold text-xl">2 năm</div>
+                                            <div class="text-gray-600">Kinh nghiệm</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-8">
+                                    <h3 class="text-xl font-bold mb-4">Mô Tả Công Việc</h3>
+                                    <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                        <li>Thiết kế, phát triển và duy trì các dịch vụ backend sử dụng Java/Spring</li>
+                                        <li>Xây dựng API chất lượng cao cho hệ thống E-Shop</li>
+                                        <li>Tối ưu hóa hiệu suất và khả năng mở rộng của hệ thống</li>
+                                        <li>Phối hợp với các team frontend, mobile và QA để đảm bảo sản phẩm hoạt động tốt</li>
+                                        <li>Tham gia vào quy trình code review và đóng góp vào việc cải thiện chất lượng code</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="mb-8">
+                                    <h3 class="text-xl font-bold mb-4">Yêu Cầu Công Việc</h3>
+                                    <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                        <li>Tốt nghiệp Đại học chuyên ngành CNTT hoặc lĩnh vực liên quan</li>
+                                        <li>Có ít nhất 2 năm kinh nghiệm phát triển backend với Java/Spring</li>
+                                        <li>Hiểu biết vững về cấu trúc dữ liệu, giải thuật và thiết kế hệ thống</li>
+                                        <li>Kinh nghiệm làm việc với cơ sở dữ liệu SQL/NoSQL</li>
+                                        <li>Quen thuộc với các công cụ quản lý phiên bản (Git)</li>
+                                        <li>Kỹ năng giải quyết vấn đề tốt, tư duy logic</li>
+                                    </ul>
+                                </div>
+                                
+                                <div>
+                                    <h3 class="text-xl font-bold mb-4">Quyền Lợi</h3>
+                                    <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                        <li>Mức lương cạnh tranh, thưởng hiệu suất hàng quý</li>
+                                        <li>Bảo hiểm sức khỏe cao cấp cho bản thân và gia đình</li>
+                                        <li>Chế độ nghỉ phép 15 ngày/năm, tăng theo thâm niên</li>
+                                        <li>Cơ hội đào tạo và phát triển kỹ năng chuyên môn</li>
+                                        <li>Môi trường làm việc trẻ trung, năng động, sáng tạo</li>
+                                        <li>Tham gia các hoạt động team building, sự kiện công ty</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <!-- Other job details will be displayed here dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recruitment Process -->
+        <section class="py-16 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-4">Quy Trình Tuyển Dụng</h2>
+                    <p class="text-gray-600 max-w-3xl mx-auto">
+                        Chúng tôi đảm bảo quy trình minh bạch và hiệu quả để tìm kiếm ứng viên phù hợp nhất
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 process-steps">
+                    <div class="process-step fade-in">
+                        <div class="step-number">1</div>
+                        <h3 class="text-xl font-bold mb-3">Nộp Hồ Sơ</h3>
+                        <p class="text-gray-700">
+                            Ứng viên nộp hồ sơ trực tuyến qua hệ thống của chúng tôi. Hồ sơ bao gồm CV và thư giới thiệu (nếu có).
+                        </p>
+                    </div>
+                    
+                    <div class="process-step fade-in">
+                        <div class="step-number">2</div>
+                        <h3 class="text-xl font-bold mb-3">Đánh Giá Hồ Sơ</h3>
+                        <p class="text-gray-700">
+                            Bộ phận nhân sự và quản lý liên quan sẽ đánh giá hồ sơ của bạn trong vòng 3-5 ngày làm việc.
+                        </p>
+                    </div>
+                    
+                    <div class="process-step fade-in">
+                        <div class="step-number">3</div>
+                        <h3 class="text-xl font-bold mb-3">Phỏng Vấn Vòng 1</h3>
+                        <p class="text-gray-700">
+                            Phỏng vấn trực tiếp hoặc trực tuyến với bộ phận nhân sự để đánh giá sự phù hợp với văn hóa công ty.
+                        </p>
+                    </div>
+                    
+                    <div class="process-step fade-in">
+                        <div class="step-number">4</div>
+                        <h3 class="text-xl font-bold mb-3">Phỏng Vấn Chuyên Môn</h3>
+                        <p class="text-gray-700">
+                            Phỏng vấn với quản lý trực tiếp và các thành viên trong team để đánh giá năng lực chuyên môn.
+                        </p>
+                    </div>
+                    
+                    <div class="process-step fade-in">
+                        <div class="step-number">5</div>
+                        <h3 class="text-xl font-bold mb-3">Bài Kiểm Tra</h3>
+                        <p class="text-gray-700">
+                            Đối với một số vị trí, ứng viên có thể được yêu cầu hoàn thành bài kiểm tra kỹ năng hoặc case study.
+                        </p>
+                    </div>
+                    
+                    <div class="process-step fade-in">
+                        <div class="step-number">6</div>
+                        <h3 class="text-xl font-bold mb-3">Thư Mời & Đàm Phán</h3>
+                        <p class="text-gray-700">
+                            Ứng viên thành công sẽ nhận được thư mời làm việc và đàm phán về các điều khoản hợp đồng.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Employee Testimonials -->
+        <section class="py-16 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-4">Cảm Nhận Của Nhân Viên</h2>
+                    <p class="text-gray-600 max-w-3xl mx-auto">
+                        Lắng nghe chia sẻ từ những người đã và đang làm việc tại E-Shop
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 testimonial-grid">
+                    <div class="testimonial-card p-6 fade-in">
+                        <div class="flex items-start mb-4">
+                            <div class="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16"></div>
+                            <div class="ml-4">
+                                <h4 class="font-bold">Trần Minh Anh</h4>
+                                <p class="text-red-600">Trưởng Phòng Marketing</p>
+                                <div class="flex text-yellow-400 mt-1">
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 italic">
+                            "Tôi đã làm việc tại E-Shop được 3 năm và đây thực sự là môi trường tuyệt vời để phát triển sự nghiệp. 
+                            Công ty luôn tạo điều kiện để nhân viên học hỏi, sáng tạo và thử thách bản thân. 
+                            Văn hóa minh bạch và sự ghi nhận thành tích khiến tôi cảm thấy được trân trọng."
+                        </p>
+                    </div>
+                    
+                    <div class="testimonial-card p-6 fade-in">
+                        <div class="flex items-start mb-4">
+                            <div class="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16"></div>
+                            <div class="ml-4">
+                                <h4 class="font-bold">Nguyễn Văn Bình</h4>
+                                <p class="text-red-600">Senior Backend Developer</p>
+                                <div class="flex text-yellow-400 mt-1">
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 italic">
+                            "Là kỹ sư phần mềm, tôi đánh giá cao môi trường làm việc tại E-Shop. 
+                            Chúng tôi được tiếp cận với công nghệ mới nhất và có cơ hội giải quyết các bài toán quy mô lớn. 
+                            Đội ngũ lãnh đạo luôn lắng nghe ý kiến nhân viên và tạo điều kiện để chúng tôi phát huy tối đa năng lực."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section class="py-16 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-4">Quyền Lợi Dành Cho Nhân Viên</h2>
+                    <p class="text-gray-600 max-w-3xl mx-auto">
+                        Chúng tôi cam kết mang đến môi trường làm việc tốt nhất và chế độ đãi ngộ hấp dẫn
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 benefit-grid">
+                    <div class="benefit-card p-6 bg-gray-50 rounded-lg text-center fade-in">
+                        <div class="bg-red-100 w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <i class="fas fa-money-bill-wave text-red-600 text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">Lương Thưởng Cạnh Tranh</h3>
+                        <p class="text-gray-700">
+                            Mức lương hấp dẫn, thưởng hiệu suất theo quý, thưởng dự án và thưởng cuối năm
+                        </p>
+                    </div>
+                    
+                    <div class="benefit-card p-6 bg-gray-50 rounded-lg text-center fade-in">
+                        <div class="bg-red-100 w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <i class="fas fa-heartbeat text-red-600 text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">Bảo Hiểm Sức Khỏe</h3>
+                        <p class="text-gray-700">
+                            Bảo hiểm sức khỏe cao cấp cho nhân viên và gia đình, khám sức khỏe định kỳ hàng năm
+                        </p>
+                    </div>
+                    
+                    <div class="benefit-card p-6 bg-gray-50 rounded-lg text-center fade-in">
+                        <div class="bg-red-100 w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <i class="fas fa-graduation-cap text-red-600 text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">Đào Tạo & Phát Triển</h3>
+                        <p class="text-gray-700">
+                            Ngân sách đào tạo hàng năm, workshop kỹ năng, hỗ trợ học phí các khóa học liên quan
+                        </p>
+                    </div>
+                    
+                    <div class="benefit-card p-6 bg-gray-50 rounded-lg text-center fade-in">
+                        <div class="bg-red-100 w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <i class="fas fa-umbrella-beach text-red-600 text-xl" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">Nghỉ Phép Linh Hoạt</h3>
+                        <p class="text-gray-700">
+                            15 ngày phép/năm, tăng theo thâm niên, ngày nghỉ cá nhân, nghỉ có lương trong các dịp đặc biệt
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Application Form -->
+        <section id="apply" class="py-16 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="max-w-3xl mx-auto apply-form fade-in">
+                    <h2 class="text-3xl font-bold mb-2">Ứng Tuyển Ngay</h2>
+                    <p class="text-gray-600 mb-8">Điền thông tin để ứng tuyển vào vị trí mong muốn tại E-Shop</p>
+                    
+                    <form id="career-form">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label for="apply-name" class="block text-sm font-medium text-gray-700 mb-1">Họ và tên *</label>
+                                <input type="text" id="apply-name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                            </div>
+                            
+                            <div>
+                                <label for="apply-email" class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                                <input type="email" id="apply-email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                            </div>
+                            
+                            <div>
+                                <label for="apply-phone" class="block text-sm font-medium text-gray-700 mb-1">Số điện thoại *</label>
+                                <input type="tel" id="apply-phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                                <div id="phone-error" class="text-red-600 text-sm mt-1 hidden">Số điện thoại không hợp lệ (10 số, bắt đầu bằng 0)</div>
+                            </div>
+                            
+                            <div>
+                                <label for="apply-position" class="block text-sm font-medium text-gray-700 mb-1">Vị trí ứng tuyển *</label>
+                                <select id="apply-position" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+                                    <option value="">Chọn vị trí</option>
+                                    <option value="backend-dev">Backend Developer (Java/Spring)</option>
+                                    <option value="data-analyst">Data Analyst</option>
+                                    <option value="marketing-manager">Marketing Manager</option>
+                                    <option value="ux-designer">UX/UI Designer</option>
+                                    <option value="sale-executive">Sales Executive</option>
+                                    <option value="customer-support">Customer Support Specialist</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tải lên CV *</label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer" id="cv-upload-area">
+                                <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-3" aria-hidden="true"></i>
+                                <p class="font-medium">Kéo thả tệp CV vào đây hoặc <span class="text-red-600" id="browse-file">chọn tệp</span></p>
+                                <p class="text-sm text-gray-500 mt-1">Định dạng: PDF, DOC, DOCX (Tối đa 5MB)</p>
+                                <input type="file" id="cv-file" class="hidden" accept=".pdf,.doc,.docx" required>
+                            </div>
+                            <div id="cv-filename" class="text-sm mt-2 text-green-600"></div>
+                            <div id="cv-error" class="text-sm mt-2 text-red-600"></div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="apply-message" class="block text-sm font-medium text-gray-700 mb-1">Thư giới thiệu (nếu có)</label>
+                            <textarea id="apply-message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" placeholder="Giới thiệu ngắn gọn về bản thân và lý do ứng tuyển..."></textarea>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="flex items-start">
+                                <input type="checkbox" id="apply-terms" class="mt-1 rounded border-gray-300 text-red-600 focus:ring-red-500" required>
+                                <label for="apply-terms" class="ml-2 block text-sm text-gray-700">
+                                    Tôi đồng ý với <a href="/privacy" class="text-red-600 hover:underline">chính sách bảo mật</a> 
+                                    và <a href="/terms" class="text-red-600 hover:underline">điều khoản</a> của E-Shop
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-700 transition">
+                            Gửi Đơn Ứng Tuyển
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-4 gap-8 mb-8">
+                <!-- Column 1 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Về chúng tôi</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/gioi-thieu" class="text-gray-300 hover:text-white">Giới thiệu</a></li>
+                        <li><a href="/tuyen-dung" class="text-gray-300 hover:text-white">Tuyển dụng</a></li>
+                        <li><a href="/dieu-khoan" class="text-gray-300 hover:text-white">Điều khoản</a></li>
+                        <li><a href="/chinh-sach-bao-mat" class="text-gray-300 hover:text-white">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 2 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Dành cho khách hàng</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/trung-tam-tro-giup" class="text-gray-300 hover:text-white">Trung tâm trợ giúp</a></li>
+                        <li><a href="/huong-dan-mua-hang" class="text-gray-300 hover:text-white">Hướng dẫn mua hàng</a></li>
+                        <li><a href="/thanh-toan" class="text-gray-300 hover:text-white">Thanh toán</a></li>
+                        <li><a href="/van-chuyen" class="text-gray-300 hover:text-white">Vận chuyển</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 3 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Liên hệ</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">Đà Nẵng, Việt Nam</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">1900 1234</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2" aria-hidden="true"></i>
+                            <span class="text-gray-300">support@eshop.com</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Column 4 -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Kết nối với chúng tôi</h3>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="https://facebook.com/your-eshop" class="bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Facebook">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://instagram.com/your-eshop" class="bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Instagram">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://twitter.com/your-eshop" class="bg-blue-400 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Twitter">
+                            <i class="fab fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://youtube.com/your-eshop" class="bg-red-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="YouTube">
+                            <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Tải ứng dụng</h4>
+                        <div class="flex space-x-2">
+                            <a href="https://apps.apple.com/app/your-eshop" class="bg-black p-2 rounded" aria-label="Tải ứng dụng trên App Store">
+                                <i class="fab fa-apple text-xl" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://play.google.com/store/apps/details?id=com.youreshop" class="bg-black p-2 rounded" aria-label="Tải ứng dụng trên Google Play">
+                                <i class="fab fa-google-play text-xl" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-6 text-center text-gray-400">
+                <p>© 2025 NuenTaru-Shop. Tất cả các quyền được bảo lưu.</p>
+                <p class="mt-2 text-sm">Số ĐKKD: 0123456789 | Ngày cấp: 01/01/2025 | Nơi cấp: Sở Kế hoạch và Đầu tư Đà Nẵng</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Job list interaction
+        const jobItems = document.querySelectorAll('.job-item');
+        const jobDetailContents = document.querySelector('.job-detail-content');
+        
+        jobItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                jobItems.forEach(i => i.classList.remove('active'));
+                
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                // Update job details (in a real app, this would fetch from server)
+                const jobId = this.dataset.job;
+                
+                // Simulate content change
+                jobDetailContents.innerHTML = `
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold">${this.querySelector('h3').textContent}</h2>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                ${this.querySelector('.flex-wrap').innerHTML}
+                            </div>
+                        </div>
+                        <button class="bg-red-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-red-700 transition">
+                            Ứng tuyển ngay
+                        </button>
+                    </div>
+                    
+                    <div class="job-highlight p-4 mb-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="text-center">
+                                <div class="text-red-600 font-bold text-xl">${this.querySelector('.text-red-600').textContent}</div>
+                                <div class="text-gray-600">Mức lương</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-red-600 font-bold text-xl">${this.querySelector('.bg-blue-100').textContent}</div>
+                                <div class="text-gray-600">Địa điểm</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-red-600 font-bold text-xl">2-5 năm</div>
+                                <div class="text-gray-600">Kinh nghiệm</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-4">Mô Tả Công Việc</h3>
+                        <p class="text-gray-700">
+                            Thông tin chi tiết về công việc sẽ được hiển thị tại đây. Trong ứng dụng thực tế, nội dung này sẽ được tải từ cơ sở dữ liệu hoặc API.
+                        </p>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-4">Yêu Cầu Công Việc</h3>
+                        <p class="text-gray-700">
+                            Các yêu cầu và kỹ năng cần thiết cho vị trí này sẽ được hiển thị tại đây.
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">Quyền Lợi</h3>
+                        <p class="text-gray-700">
+                            Thông tin về quyền lợi và chế độ đãi ngộ sẽ được hiển thị tại đây.
+                        </p>
+                    </div>
+                `;
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Apply now button in job detail
+        document.querySelector('.job-detail').addEventListener('click', function(e) {
+            if (e.target.classList.contains('bg-red-600')) {
+                document.querySelector('#apply-position').value = 'backend-dev'; // In real app, set to current job
+                document.querySelector('#apply').scrollIntoView({behavior: 'smooth'});
+            }
+        });
+        
+        // Animation on scroll
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        fadeElements.forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+        
+        // ==================== CV UPLOAD ====================
+        const cvUploadArea = document.getElementById('cv-upload-area');
+        const cvFileInput = document.getElementById('cv-file');
+        const cvFilename = document.getElementById('cv-filename');
+        const cvError = document.getElementById('cv-error');
+        const browseFile = document.getElementById('browse-file');
+
+        // Open file dialog when clicking on the upload area
+        cvUploadArea.addEventListener('click', () => {
+            cvFileInput.click();
+        });
+
+        // Also allow clicking on the "chọn tệp" text
+        browseFile.addEventListener('click', (e) => {
+            e.stopPropagation();
+            cvFileInput.click();
+        });
+
+        // Handle file selection
+        cvFileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                const file = this.files[0];
+                const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+                const validExtensions = ['.pdf', '.doc', '.docx'];
+                const maxSize = 5 * 1024 * 1024; // 5MB
+
+                // Check file type
+                const fileType = file.type;
+                const fileName = file.name;
+                const fileExtension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
+
+                if (!validTypes.includes(fileType) && !validExtensions.includes(fileExtension)) {
+                    cvError.textContent = 'Định dạng file không hợp lệ. Vui lòng chọn file PDF, DOC hoặc DOCX.';
+                    this.value = '';
+                    cvFilename.textContent = '';
+                    return;
+                }
+
+                // Check file size
+                if (file.size > maxSize) {
+                    cvError.textContent = 'Kích thước file quá lớn (tối đa 5MB).';
+                    this.value = '';
+                    cvFilename.textContent = '';
+                    return;
+                }
+
+                // Valid file
+                cvError.textContent = '';
+                cvFilename.textContent = `File đã chọn: ${file.name}`;
+            }
+        });
+
+        // ==================== PHONE VALIDATION ====================
+        const phoneInput = document.getElementById('apply-phone');
+        const phoneError = document.getElementById('phone-error');
+
+        phoneInput.addEventListener('input', function() {
+            const phoneValue = this.value.trim();
+            // Vietnamese phone number regex: 10 digits starting with 0
+            const phoneRegex = /^0[0-9]{9}$/;
+            
+            if (!phoneRegex.test(phoneValue)) {
+                phoneError.classList.remove('hidden');
+            } else {
+                phoneError.classList.add('hidden');
+            }
+        });
+
+        // ==================== FORM SUBMISSION ====================
+        const applyForm = document.getElementById('career-form');
+        if (applyForm) {
+            applyForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // Validate phone number
+                const phoneValue = phoneInput.value.trim();
+                const phoneRegex = /^0[0-9]{9}$/;
+                
+                if (!phoneRegex.test(phoneValue)) {
+                    phoneError.classList.remove('hidden');
+                    phoneInput.focus();
+                    return;
+                }
+
+                // Check if CV is uploaded
+                if (cvFileInput.files.length === 0) {
+                    cvError.textContent = 'Vui lòng tải lên CV.';
+                    cvUploadArea.style.borderColor = '#ff424f';
+                    return;
+                }
+
+                // If all validations pass
+                alert('Đơn ứng tuyển của bạn đã được gửi thành công! Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.');
+                this.reset();
+                cvFilename.textContent = '';
+                cvError.textContent = '';
+                cvUploadArea.style.borderColor = '#e2e8f0';
+            });
+        }
+    });
+    </script>
+</body>
+</html>

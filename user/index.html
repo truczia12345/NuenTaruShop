@@ -185,8 +185,9 @@
         
         #content-iframe {
             width: 100%;
-            height: 100%;
+            height: auto; /* Thay đổi từ height: 100% */
             border: none;
+            min-height: 500px; /* Chiều cao tối thiểu */
         }
         
         .iframe-loading {
@@ -359,9 +360,17 @@
                     <i class="fas fa-lock mr-3 text-lg"></i>
                     <span>Đổi mật khẩu</span>
                 </a>
+                <a href="notification.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
+                    <i class="fas fa-bell mr-3 text-lg"></i>
+                    <span>Thông báo</span>
+                </a>
                 <a href="reviews.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
                     <i class="fas fa-star mr-3 text-lg"></i>
                     <span>Đánh giá</span>
+                </a>
+                <a href="point.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
+                    <i class="fas fa-coins mr-3 text-lg"></i>
+                    <span>Điểm</span>
                 </a>
                 <a href="settings.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
                     <i class="fas fa-cog mr-3 text-lg"></i>
@@ -376,23 +385,6 @@
         
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col min-h-0">
-            <!-- Profile Header -->
-            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-                    <div>
-                        <h1 class="text-2xl font-bold text-gray-800">Hồ sơ của tôi</h1>
-                        <p class="text-gray-600 mt-1">Quản lý thông tin cá nhân, đơn hàng và các hoạt động của bạn</p>
-                    </div>
-                    <div class="mt-4 md:mt-0 flex items-center">
-                        <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                            <i class="fas fa-medal mr-1"></i> Thành viên Bạc
-                        </div>
-                        <div class="ml-4 bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
-                            <i class="fas fa-coins mr-1"></i> 1,250 điểm
-                        </div>
-                    </div>
-                </div>
-            </div>
             
             <div class="iframe-container">
                 <div id="iframe-loading" class="iframe-loading">
@@ -509,10 +501,33 @@
         const iframeError = document.getElementById('iframe-error');
         const retryButton = document.getElementById('retry-button');
         
+        // Hàm điều chỉnh chiều cao iframe
+        function adjustIframeHeight(height) {
+            contentIframe.style.height = `${height}px`;
+            
+            // Cuộn lên đầu trang
+            window.scrollTo(0, 0);
+        }
+
+        // Lắng nghe sự kiện từ iframe con
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'resize') {
+                adjustIframeHeight(event.data.height);
+            }
+        });
+        
         // Ẩn loading khi iframe tải xong
-        contentIframe.addEventListener('load', () => {
+        contentIframe.addEventListener('load', function() {
             iframeLoading.style.display = 'none';
             iframeError.classList.add('hidden');
+            
+            // Gửi yêu cầu lấy chiều cao cho iframe con
+            contentIframe.contentWindow.postMessage('getHeight', '*');
+            
+            // Gọi lại sau 500ms để đảm bảo nếu có nội dung động
+            setTimeout(() => {
+                contentIframe.contentWindow.postMessage('getHeight', '*');
+            }, 500);
         });
         
         // Xử lý lỗi tải iframe
@@ -565,33 +580,6 @@
                 iframeError.classList.remove('hidden');
             }
         }, 5000);
-        
-        // Simulate loading content in iframe
-        document.querySelectorAll('.sidebar-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Remove active class from all items
-                document.querySelectorAll('.sidebar-item').forEach(el => {
-                    el.classList.remove('active');
-                });
-                
-                // Add active class to clicked item
-                this.classList.add('active');
-                
-                // Update iframe src
-                const iframe = document.querySelector('iframe');
-                if (this.href) {
-                    iframe.src = this.href;
-                }
-                
-                // Close sidebar on mobile after selection
-                if (window.innerWidth < 768) {
-                    sidebar.classList.remove('active');
-                    sidebarOverlay.classList.remove('active');
-                }
-            });
-        });
     </script>
 </body>
 </html>
