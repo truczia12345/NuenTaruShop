@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đơn hàng của tôi - E-Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .order-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            background-color: #ffedd5;
+            color: #f97316;
+        }
+        
+        .status-processing {
+            background-color: #dbeafe;
+            color: #3b82f6;
+        }
+        
+        .status-shipping {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+        
+        .status-delivered {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+        
+        .status-cancelled {
+            background-color: #fee2e2;
+            color: #ef4444;
+        }
+        
+        .order-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .order-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .filter-btn {
+            transition: all 0.2s ease;
+            border-radius: 20px;
+            padding: 6px 16px;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background-color: #ff424f;
+            color: white;
+        }
+        
+        .order-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        
+        .order-detail.open {
+            max-height: 1000px;
+        }
+        
+        .pagination-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        
+        .pagination-btn.active {
+            background-color: #ff424f;
+            color: white;
+        }
+        
+        .pagination-btn:not(.disabled):hover {
+            background-color: #f0f0f0;
+        }
+        
+        .empty-state {
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+        
+        .order-item {
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .order-item:hover {
+            background-color: #f9fafb;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 24px;
+        }
+        
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #d1d5db;
+        }
+        
+        .timeline-item.active:before {
+            background-color: #ff424f;
+            box-shadow: 0 0 0 4px rgba(255, 66, 79, 0.2);
+        }
+        
+        .timeline-item.completed:before {
+            background-color: #10b981;
+        }
+        
+        .timeline-connector {
+            position: absolute;
+            left: 7px;
+            top: 24px;
+            bottom: -24px;
+            width: 2px;
+            background-color: #e5e7eb;
+        }
+        
+        .timeline-item:last-child .timeline-connector {
+            display: none;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+        
+        .badge-pending {
+            background-color: #ffedd5;
+            color: #f97316;
+        }
+        
+        .badge-shipping {
+            background-color: #dbeafe;
+            color: #3b82f6;
+        }
+        
+        .badge-delivered {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+        
+        .badge-cancelled {
+            background-color: #fee2e2;
+            color: #ef4444;
+        }
+        
+        .action-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .search-input {
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(255, 66, 79, 0.2);
+            border-color: #ff424f;
+        }
+        
+        .status-filter-container {
+            overflow-x: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #ff424f #f3f4f6;
+            padding-bottom: 8px;
+        }
+        
+        .status-filter-container::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .status-filter-container::-webkit-scrollbar-track {
+            background: #f3f4f6;
+            border-radius: 10px;
+        }
+        
+        .status-filter-container::-webkit-scrollbar-thumb {
+            background-color: #ff424f;
+            border-radius: 10px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Profile Header -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Đơn hàng của tôi</h1>
+                <p class="text-gray-600 mt-1">Quản lý và theo dõi các đơn hàng của bạn</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex items-center">
+                <button id="new-order-btn" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center transition-all duration-300 shadow-md hover:shadow-lg">
+                    <i class="fas fa-plus mr-2"></i> Đặt hàng mới
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <div class="status-filter-container flex pb-1">
+                <div class="flex flex-nowrap gap-2">
+                    <button class="filter-btn active" data-status="all">Tất cả đơn hàng</button>
+                    <button class="filter-btn" data-status="pending">Chờ xác nhận</button>
+                    <button class="filter-btn" data-status="processing">Đang chuẩn bị</button>
+                    <button class="filter-btn" data-status="shipping">Đang vận chuyển</button>
+                    <button class="filter-btn" data-status="delivered">Đã giao</button>
+                    <button class="filter-btn" data-status="cancelled">Đã hủy</button>
+                </div>
+            </div>
+            
+            <div class="mt-4 flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Tìm kiếm đơn hàng</label>
+                    <div class="relative">
+                        <input id="order-search" type="text" placeholder="Nhập mã đơn hàng..." class="search-input w-full p-2 border rounded-lg pl-10 focus:outline-none">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                </div>
+                
+                <div class="w-full md:w-48">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Thời gian</label>
+                    <select id="time-filter" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-200">
+                        <option value="30">30 ngày gần đây</option>
+                        <option value="90">3 tháng gần đây</option>
+                        <option value="180">6 tháng gần đây</option>
+                        <option value="2025">Năm 2025</option>
+                        <option value="all">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <div class="status-filter-container flex pb-1">
+                <div class="flex flex-nowrap gap-2">
+                    <button class="filter-btn active" data-status="all">Tất cả đơn hàng</button>
+                    <button class="filter-btn" data-status="pending">Chờ xác nhận</button>
+                    <button class="filter-btn" data-status="processing">Đang chuẩn bị</button>
+                    <button class="filter-btn" data-status="shipping">Đang vận chuyển</button>
+                    <button class="filter-btn" data-status="delivered">Đã giao</button>
+                    <button class="filter-btn" data-status="cancelled">Đã hủy</button>
+                </div>
+            </div>
+            
+            <div class="mt-4 flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Tìm kiếm đơn hàng</label>
+                    <div class="relative">
+                        <input id="order-search" type="text" placeholder="Nhập mã đơn hàng..." class="search-input w-full p-2 border rounded-lg pl-10 focus:outline-none">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                </div>
+                
+                <div class="w-full md:w-48">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Thời gian</label>
+                    <select id="time-filter" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-200">
+                        <option value="30">30 ngày gần đây</option>
+                        <option value="90">3 tháng gần đây</option>
+                        <option value="180">6 tháng gần đây</option>
+                        <option value="2025">Năm 2025</option>
+                        <option value="all">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders List -->
+        <div id="orders-container" class="space-y-4">
+            <!-- Orders will be loaded dynamically -->
+            <div id="loading-indicator" class="text-center py-12">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500 mb-4"></div>
+                <p class="text-gray-600">Đang tải đơn hàng...</p>
+            </div>
+            
+            <div id="empty-state" class="empty-state bg-white rounded-lg shadow-md p-8 text-center hidden">
+                <div class="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-box-open text-3xl text-gray-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-700 mb-2">Chưa có đơn hàng</h3>
+                <p class="text-gray-500 mb-6">Bạn chưa có đơn hàng nào. Hãy bắt đầu mua sắm ngay!</p>
+                <button id="start-shopping-btn" class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg transition-colors duration-300">
+                    Mua sắm ngay
+                </button>
+            </div>
+        </div>
+        
+        <!-- Pagination -->
+        <div id="pagination-container" class="mt-8 flex justify-center hidden">
+            <div class="flex items-center gap-1">
+                <button id="prev-page" class="pagination-btn disabled text-gray-300">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                
+                <span class="px-2 text-gray-500">...</span>
+                
+                <button class="pagination-btn">8</button>
+                
+                <button id="next-page" class="pagination-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-6">
+        
+        <!-- Filter Section -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <div class="status-filter-container flex pb-1">
+                <div class="flex flex-nowrap gap-2">
+                    <button class="filter-btn active" data-status="all">Tất cả đơn hàng</button>
+                    <button class="filter-btn" data-status="pending">Chờ xác nhận</button>
+                    <button class="filter-btn" data-status="processing">Đang chuẩn bị</button>
+                    <button class="filter-btn" data-status="shipping">Đang vận chuyển</button>
+                    <button class="filter-btn" data-status="delivered">Đã giao</button>
+                    <button class="filter-btn" data-status="cancelled">Đã hủy</button>
+                </div>
+            </div>
+            
+            <div class="mt-4 flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Tìm kiếm đơn hàng</label>
+                    <div class="relative">
+                        <input id="order-search" type="text" placeholder="Nhập mã đơn hàng..." class="search-input w-full p-2 border rounded-lg pl-10 focus:outline-none">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                </div>
+                
+                <div class="w-full md:w-48">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Thời gian</label>
+                    <select id="time-filter" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-200">
+                        <option value="30">30 ngày gần đây</option>
+                        <option value="90">3 tháng gần đây</option>
+                        <option value="180">6 tháng gần đây</option>
+                        <option value="2025">Năm 2025</option>
+                        <option value="all">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders List -->
+        <div id="orders-container" class="space-y-4">
+            <!-- Đơn hàng Đã giao -->
+            <div class="bg-white p-6 rounded-lg shadow-md order-card" data-status="delivered">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <span class="font-bold">Mã đơn: ĐH230901</span>
+                        <span class="order-status status-delivered ml-4">Đã giao</span>
+                        <div class="text-sm text-gray-500">Ngày đặt: 01/09/2025</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-red-600 font-bold text-lg">1.110.000₫</div>
+                        <div class="text-sm text-gray-500">3 sản phẩm</div>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex items-center">
+                        <img src="https://via.placeholder.com/60x60?text=S1" class="w-16 h-16 rounded mr-4">
+                        <div>
+                            <div class="font-medium">Tai nghe Bluetooth Sony WH-1000XM5</div>
+                            <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 1.000.000₫</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <img src="https://via.placeholder.com/60x60?text=S2" class="w-16 h-16 rounded mr-4">
+                        <div>
+                            <div class="font-medium">Ốp lưng iPhone 14 Pro Max</div>
+                            <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 250.000₫</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <img src="https://via.placeholder.com/60x60?text=S3" class="w-16 h-16 rounded mr-4">
+                        <div>
+                            <div class="font-medium">Củ sạc Apple</div>
+                            <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 800.000₫</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 justify-end mt-4">
+                    <button class="border px-4 py-2 rounded hover:bg-gray-50">Mua lại</button>
+                    <button class="border px-4 py-2 rounded text-red-600 hover:bg-gray-50 return-request" data-id="ĐH230901">Yêu cầu Trả hàng/Hoàn tiền</button>
+                    <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Xác nhận</button>
+                    <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Đánh giá</button>
+                    <button class="bg-gray-100 px-4 py-2 rounded hover:bg-gray-200 view-detail" data-id="ĐH230901">Chi tiết</button>
+                </div>
+            </div>
+
+            <!-- Đơn hàng Đang vận chuyển -->
+            <div class="bg-white p-6 rounded-lg shadow-md order-card" data-status="shipping">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <span class="font-bold">Mã đơn: ĐH230825</span>
+                        <span class="order-status status-shipping ml-4">Đang vận chuyển</span>
+                        <div class="text-sm text-gray-500">Ngày đặt: 25/08/2025</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-red-600 font-bold text-lg">18.680.000₫</div>
+                        <div class="text-sm text-gray-500">2 sản phẩm</div>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex items-center">
+                        <img src="https://via.placeholder.com/60x60?text=S4" class="w-16 h-16 rounded mr-4">
+                        <div>
+                            <div class="font-medium">Laptop Dell XPS 13 9315</div>
+                            <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 17.500.000₫</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <img src="https://via.placeholder.com/60x60?text=S5" class="w-16 h-16 rounded mr-4">
+                        <div>
+                            <div class="font-medium">Túi chống sốc laptop 15.6 inch</div>
+                            <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 600.000₫</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 justify-end mt-4">
+                    <button class="bg-gray-100 px-4 py-2 rounded hover:bg-gray-200 view-detail" data-id="ĐH230825">Chi tiết</button>
+                </div>
+            </div>
+
+            <!-- Đơn hàng Chờ xác nhận -->
+            <div class="bg-white p-6 rounded-lg shadow-md order-card" data-status="pending">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <span class="font-bold">Mã đơn: ĐH230815</span>
+                        <span class="order-status status-pending ml-4">Chờ xác nhận</span>
+                        <div class="text-sm text-gray-500">Ngày đặt: 15/08/2025</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-red-600 font-bold text-lg">280.000₫</div>
+                        <div class="text-sm text-gray-500">1 sản phẩm</div>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex items-center">
+                        <img src="https://via.placeholder.com/60x60?text=S6" class="w-16 h-16 rounded mr-4">
+                        <div>
+                            <div class="font-medium">Chuột không dây Logitech MX Master 3</div>
+                            <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 320.000₫</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 justify-end mt-4">
+                    <button class="border px-4 py-2 rounded hover:bg-gray-50 cancel-order" data-id="ĐH230815">Hủy đơn</button>
+                    <button class="bg-gray-100 px-4 py-2 rounded hover:bg-gray-200 view-detail" data-id="ĐH230815">Chi tiết</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pagination -->
+        <div id="pagination-container" class="mt-8 flex justify-center">
+            <div class="flex items-center gap-1">
+                <button id="prev-page" class="pagination-btn disabled text-gray-300">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                
+                <span class="px-2 text-gray-500">...</span>
+                
+                <button class="pagination-btn">8</button>
+                
+                <button id="next-page" class="pagination-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Detail Modal -->
+    <div id="order-detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div class="flex justify-between items-center border-b p-4">
+                <h2 class="text-xl font-bold text-gray-800">Chi tiết đơn hàng <span id="modal-order-id" class="text-red-600"></span></h2>
+                <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="overflow-y-auto flex-1 p-4 md:p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div class="md:col-span-2">
+                        <h3 class="font-bold text-lg mb-4">Sản phẩm</h3>
+                        <div id="order-items-container" class="space-y-4">
+                            <!-- Order items will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-bold text-lg mb-4">Tóm tắt đơn hàng</h3>
+                        <div class="bg-gray-50 rounded-lg p-5 shadow-sm">
+                            <div class="flex justify-between mb-3 pb-3 border-b">
+                                <div class="font-medium">Trạng thái:</div>
+                                <div>
+                                    <span id="order-status-summary" class="status-badge"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-2 mb-4">
+                                <div class="flex justify-between">
+                                    <div>Tạm tính:</div>
+                                    <div id="subtotal-amount">0₫</div>
+                                </div>
+                                <div class="flex justify-between">
+                                    <div>Phí vận chuyển:</div>
+                                    <div id="shipping-fee">0₫</div>
+                                </div>
+                                <div class="flex justify-between">
+                                    <div>Giảm giá:</div>
+                                    <div id="discount-amount" class="text-green-600">-0₫</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between font-bold text-lg pt-4 border-t">
+                                <div>Tổng cộng:</div>
+                                <div id="total-amount" class="text-red-600">0₫</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <h4 class="font-medium mb-2">Thông tin thanh toán</h4>
+                            <div id="payment-info" class="text-sm">
+                                <!-- Payment info will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-medium mb-2">Thông tin người nhận</h4>
+                        <div id="recipient-info" class="bg-white border rounded-lg p-4">
+                            <!-- Recipient info will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium mb-2">Lịch sử đơn hàng</h4>
+                        <div id="order-history" class="relative pl-4">
+                            <!-- Timeline will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t p-4 flex justify-end">
+                <button id="close-detail-btn" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                    Đóng
+                </button>
+                <button id="return-request-btn" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 ml-2 hidden">
+                    Yêu cầu Trả hàng/Hoàn tiền
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Dữ liệu mẫu cho chi tiết đơn hàng
+        const sampleOrders = [
+            {
+                id: "ĐH230901",
+                date: "01/09/2025",
+                status: "delivered",
+                total: 1110000,
+                items: [
+                    {
+                        name: "Tai nghe Bluetooth Sony WH-1000XM5",
+                        quantity: 1,
+                        price: 1000000,
+                        image: "https://via.placeholder.com/60x60?text=S1"
+                    },
+                    {
+                        name: "Ốp lưng iPhone 14 Pro Max",
+                        quantity: 1,
+                        price: 250000,
+                        image: "https://via.placeholder.com/60x60?text=S2"
+                    },
+                    {
+                        name: "Củ sạc Apple",
+                        quantity: 1,
+                        price: 800000,
+                        image: "https://via.placeholder.com/60x60?text=S3"
+                    }
+                ],
+                shippingAddress: "123 Đường Nguyễn Văn Linh, Quận Hải Châu, Đà Nẵng",
+                paymentMethod: "Thanh toán khi nhận hàng (COD)",
+                paymentDate: "01/09/2025",
+                subtotal: 1150000,
+                shippingFee: 30000,
+                discount: 70000,
+                history: [
+                    {
+                        event: "Đơn hàng đã giao thành công",
+                        date: "01/09/2025 - 15:20",
+                        details: "Người nhận: Nguyễn Văn A",
+                        status: "completed"
+                    },
+                    {
+                        event: "Đơn hàng đang giao",
+                        date: "01/09/2025 - 10:45",
+                        details: "Nhân viên giao hàng: Trần Văn B - 0909123456",
+                        status: "completed"
+                    },
+                    {
+                        event: "Đơn hàng đã được đóng gói",
+                        date: "31/08/2025 - 16:30",
+                        details: "",
+                        status: "completed"
+                    },
+                    {
+                        event: "Đơn hàng đã được xác nhận",
+                        date: "31/08/2025 - 14:15",
+                        details: "",
+                        status: "completed"
+                    },
+                    {
+                        event: "Đơn hàng đã đặt",
+                        date: "31/08/2025 - 13:15",
+                        details: "",
+                        status: "completed"
+                    }
+                ]
+            },
+            {
+                id: "ĐH230825",
+                date: "25/08/2025",
+                status: "shipping",
+                total: 18680000,
+                items: [
+                    {
+                        name: "Laptop Dell XPS 13 9315",
+                        quantity: 1,
+                        price: 17500000,
+                        image: "https://via.placeholder.com/60x60?text=S4"
+                    },
+                    {
+                        name: "Túi chống sốc laptop 15.6 inch",
+                        quantity: 1,
+                        price: 600000,
+                        image: "https://via.placeholder.com/60x60?text=S5"
+                    }
+                ],
+                shippingAddress: "456 Đường Lê Duẩn, Đà Nẵng",
+                paymentMethod: "Thanh toán khi nhận hàng (COD)",
+                paymentDate: "",
+                subtotal: 18150000,
+                shippingFee: 600000,
+                discount: 70000,
+                history: [
+                    {
+                        event: "Đơn hàng đang giao",
+                        date: "01/09/2025 - 10:45",
+                        details: "Nhân viên giao hàng: Trần Văn B - 0909123456",
+                        status: "active"
+                    },
+                    {
+                        event: "Đơn hàng đã được đóng gói",
+                        date: "31/08/2025 - 16:30",
+                        details: "",
+                        status: "completed"
+                    },
+                    {
+                        event: "Đơn hàng đã được xác nhận",
+                        date: "31/08/2025 - 14:15",
+                        details: "",
+                        status: "completed"
+                    },
+                    {
+                        event: "Đơn hàng đã đặt",
+                        date: "31/08/2025 - 13:15",
+                        details: "",
+                        status: "completed"
+                    }
+                ]
+            },
+            {
+                id: "ĐH230815",
+                date: "15/08/2025",
+                status: "pending",
+                total: 280000,
+                items: [
+                    {
+                        name: "Chuột không dây Logitech MX Master 3",
+                        quantity: 1,
+                        price: 320000,
+                        image: "https://via.placeholder.com/60x60?text=S6"
+                    }
+                ],
+                shippingAddress: "789 Đường Hùng Vương, Đà Nẵng",
+                paymentMethod: "Thanh toán khi nhận hàng (COD)",
+                paymentDate: "",
+                subtotal: 320000,
+                shippingFee: 30000,
+                discount: 70000,
+                history: [
+                    {
+                        event: "Đơn hàng đã được xác nhận",
+                        date: "31/08/2025 - 14:15",
+                        details: "",
+                        status: "completed"
+                    },
+                    {
+                        event: "Đơn hàng đã đặt",
+                        date: "31/08/2025 - 13:15",
+                        details: "",
+                        status: "completed"
+                    }
+                ]
+            }
+        ];
+
+        // DOM Elements
+        const orderDetailModal = document.getElementById('order-detail-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const closeDetailBtn = document.getElementById('close-detail-btn');
+        const returnRequestBtn = document.getElementById('return-request-btn');
+        
+        // Status mapping
+        const statusMap = {
+            'pending': {
+                text: 'Chờ xác nhận',
+                class: 'status-pending'
+            },
+            'processing': {
+                text: 'Đang chuẩn bị',
+                class: 'status-processing'
+            },
+            'shipping': {
+                text: 'Đang vận chuyển',
+                class: 'status-shipping'
+            },
+            'delivered': {
+                text: 'Đã giao',
+                class: 'status-delivered'
+            },
+            'cancelled': {
+                text: 'Đã hủy',
+                class: 'status-cancelled'
+            }
+        };
+        
+        // Format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(amount);
+        }
+        
+        // Show order detail
+        function showOrderDetail(orderId) {
+            const order = sampleOrders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            const status = statusMap[order.status];
+            
+            // Update modal header
+            document.getElementById('modal-order-id').textContent = orderId;
+            
+            // Update order status
+            const statusBadge = document.getElementById('order-status-summary');
+            statusBadge.textContent = status.text;
+            statusBadge.className = `status-badge ${
+                order.status === 'pending' ? 'badge-pending' : 
+                order.status === 'shipping' ? 'badge-shipping' : 
+                order.status === 'delivered' ? 'badge-delivered' : 
+                order.status === 'cancelled' ? 'badge-cancelled' : 'badge-pending'
+            }`;
+            
+            // Update order items
+            const itemsContainer = document.getElementById('order-items-container');
+            itemsContainer.innerHTML = order.items.map(item => `
+                <div class="order-item flex items-center p-3 border rounded-lg">
+                    <img src="${item.image}" alt="${item.name}" class="w-16 h-16 rounded-md object-cover">
+                    <div class="ml-4 flex-1">
+                        <div class="font-medium">${item.name}</div>
+                        <div class="text-gray-500 text-sm mt-1">Số lượng: ${item.quantity}</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-medium">${formatCurrency(item.price)}</div>
+                        <div class="text-gray-500 text-sm">${formatCurrency(item.price * item.quantity)}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Update order summary
+            document.getElementById('subtotal-amount').textContent = formatCurrency(order.subtotal);
+            document.getElementById('shipping-fee').textContent = formatCurrency(order.shippingFee);
+            document.getElementById('discount-amount').textContent = `-${formatCurrency(order.discount)}`;
+            document.getElementById('total-amount').textContent = formatCurrency(order.total);
+            
+            // Update payment info
+            const paymentInfo = document.getElementById('payment-info');
+            paymentInfo.innerHTML = `
+                <div class="flex items-center mb-3">
+                    <i class="fas fa-money-bill-wave text-green-500 text-xl mr-3"></i>
+                    <div>
+                        <div class="font-medium">${order.paymentMethod}</div>
+                        ${order.paymentDate ? `
+                            <div class="text-sm text-gray-500">Đã thanh toán: ${order.paymentDate}</div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+            
+            // Update recipient info
+            const recipientInfo = document.getElementById('recipient-info');
+            recipientInfo.innerHTML = `
+                <div class="mb-2"><span class="font-medium">Đơn vị vận chuyển:</span> GHN</div>
+                <div class="mb-2"><span class="font-medium">Họ tên:</span> Nguyễn Văn A</div>
+                <div class="mb-2"><span class="font-medium">SĐT:</span> 0987654321</div>
+                <div><span class="font-medium">Địa chỉ:</span> ${order.shippingAddress}</div>
+            `;
+            
+            // Update order history
+            const orderHistory = document.getElementById('order-history');
+            orderHistory.innerHTML = order.history.map((event, index) => `
+                <div class="timeline-item ${event.status === 'active' ? 'active' : event.status === 'completed' ? 'completed' : ''}">
+                    <div class="timeline-connector"></div>
+                    <div class="font-medium">${event.event}</div>
+                    <div class="text-gray-500 text-sm">${event.date}</div>
+                    ${event.details ? `<div class="text-sm mt-1">${event.details}</div>` : ''}
+                </div>
+            `).join('');
+            
+            // Set data attribute for return request button in modal
+            returnRequestBtn.setAttribute('data-id', orderId);
+            
+            // Show/hide return button based on order status
+            if (order.status === 'delivered') {
+                returnRequestBtn.classList.remove('hidden');
+            } else {
+                returnRequestBtn.classList.add('hidden');
+            }
+            
+            // Show modal
+            orderDetailModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Cancel order
+        function cancelOrder(orderId) {
+            if (confirm(`Bạn có chắc chắn muốn hủy đơn hàng ${orderId}?`)) {
+                // In a real app, you would send a request to your backend
+                alert(`Đơn hàng ${orderId} đã được hủy thành công!`);
+                
+                // For demo purposes, update the order status
+                const orderCard = document.querySelector(`[data-id="${orderId}"]`);
+                if (orderCard) {
+                    // Update status text
+                    const statusElement = orderCard.querySelector('.order-status');
+                    statusElement.textContent = 'Đã hủy';
+                    statusElement.className = 'order-status status-cancelled';
+                    
+                    // Hide cancel button
+                    const cancelBtn = orderCard.querySelector('.cancel-order');
+                    if (cancelBtn) cancelBtn.classList.add('hidden');
+                }
+            }
+        }
+
+        // Redirect to return page
+        function goToReturnPage(orderId) {
+            // In a real application, you would redirect to the return page with order ID
+            // For this example, we'll show an alert and open a new tab
+            alert(`Chuyển hướng đến trang yêu cầu trả hàng cho đơn hàng ${orderId}`);
+            
+            // Open the return page in a new tab
+            window.open('account/return.html?order_id=' + orderId, '_blank');
+        }
+
+        // Gắn sự kiện
+        function attachEventListeners() {
+            // View detail buttons
+            document.querySelectorAll('.view-detail').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const orderId = this.dataset.id;
+                    showOrderDetail(orderId);
+                });
+            });
+            
+            // Cancel order buttons
+            document.querySelectorAll('.cancel-order').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const orderId = this.dataset.id;
+                    cancelOrder(orderId);
+                });
+            });
+            
+            // Return request buttons
+            document.querySelectorAll('.return-request').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const orderId = this.dataset.id;
+                    goToReturnPage(orderId);
+                });
+            });
+            
+            // Return request button in modal
+            returnRequestBtn.addEventListener('click', function() {
+                const orderId = this.getAttribute('data-id');
+                if (orderId) {
+                    goToReturnPage(orderId);
+                }
+            });
+            
+            // Close modal buttons
+            closeModalBtn.addEventListener('click', () => {
+                orderDetailModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            });
+            
+            closeDetailBtn.addEventListener('click', () => {
+                orderDetailModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Close modal when clicking outside
+            orderDetailModal.addEventListener('click', (e) => {
+                if (e.target === orderDetailModal) {
+                    orderDetailModal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // New order button
+            document.getElementById('new-order-btn').addEventListener('click', () => {
+                alert('Chuyển hướng đến trang mua sắm...');
+            });
+        }
+        
+        // Khởi tạo sự kiện khi trang được tải
+        document.addEventListener('DOMContentLoaded', function() {
+            attachEventListeners();
+        });
+    </script>
+</body>
+</html>

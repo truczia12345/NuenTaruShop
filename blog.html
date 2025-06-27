@@ -26,6 +26,42 @@
             background: linear-gradient(135deg, #ff424f 0%, #e62e3a 100%);
         }
         
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 14px 20px;
+            padding-right: 50px;
+            border-radius: 50px;
+            border: none;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-button {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background: #ff424f;
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-button:hover {
+            background: #e62e3a;
+            transform: scale(1.05);
+        }
+        
         /* Blog Hero */
         .blog-hero {
             background: linear-gradient(105deg, #1a202c 0%, #2d3748 100%);
@@ -197,6 +233,89 @@
             box-shadow: 0 7px 15px rgba(255, 66, 79, 0.3);
         }
         
+        /* Menu */
+        .main-menu {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+        
+        .menu-item {
+            position: relative;
+            padding: 15px 0;
+        }
+        
+        .menu-item > a {
+            font-weight: 600;
+            color: white;
+            padding: 10px 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-item > a:hover {
+            color: #ffd700;
+        }
+        
+        .menu-item > a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: #ffd700;
+            transition: width 0.3s ease;
+        }
+        
+        .menu-item:hover > a:after {
+            width: 100%;
+        }
+        
+        .submenu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            min-width: 220px;
+            padding: 15px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        
+        .menu-item:hover .submenu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .submenu a {
+            display: block;
+            padding: 10px 25px;
+            color: #4a5568;
+            transition: all 0.2s ease;
+            font-size: 15px;
+        }
+        
+        .submenu a:hover {
+            background: #fff5f5;
+            color: #ff424f;
+            padding-left: 30px;
+        }
+        
+        .submenu-title {
+            font-weight: 700;
+            color: #ff424f;
+            padding: 5px 25px 10px;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 10px;
+        }
+        
         /* Responsive */
         @media (max-width: 1024px) {
             .blog-hero {
@@ -205,6 +324,10 @@
             
             .featured-image {
                 height: 300px;
+            }
+            
+            .main-menu {
+                gap: 15px;
             }
         }
         
@@ -220,6 +343,15 @@
             .featured-image {
                 height: 250px;
             }
+            
+            .main-menu {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .menu-item {
+                padding: 10px 0;
+            }
         }
     </style>
 </head>
@@ -231,29 +363,94 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="/" class="text-2xl font-bold flex items-center">
-                        <span class="bg-white text-red-600 px-3 py-1 rounded-lg mr-2">E</span>
+                        <img src="assets/img/logo/nuentaru1.png" class="w-20 h-20" alt="nuentaru Logo">
                         <span class="hidden sm:inline-block">SHOP BLOG</span>
                     </a>
                 </div>
                 
-                <!-- Navigation -->
-                <nav class="hidden md:flex space-x-8">
-                    <a href="/" class="hover:text-gray-200 font-medium">Trang chủ</a>
-                    <a href="#" class="text-yellow-300 font-medium border-b-2 border-yellow-300 pb-1">Tin tức</a>
-                    <a href="#" class="hover:text-gray-200 font-medium">Đánh giá</a>
-                    <a href="#" class="hover:text-gray-200 font-medium">Xu hướng</a>
-                    <a href="#" class="hover:text-gray-200 font-medium">Mẹo hay</a>
-                </nav>
-                
-                <!-- Search and User -->
-                <div class="flex items-center space-x-4">
-                    <button class="p-2 rounded-full hover:bg-red-500 transition">
-                        <i class="fas fa-search"></i>
-                    </button>
-                    <button class="p-2 rounded-full hover:bg-red-500 transition">
-                        <i class="fas fa-user"></i>
-                    </button>
+                <!-- Search Bar -->
+                <div class="hidden md:block flex-1 mx-8">
+                    <form action="/search" method="GET" role="search" class="search-container">
+                        <input type="text" name="q" placeholder="Tìm kiếm bài viết, sản phẩm..." 
+                               class="search-input" aria-label="Tìm kiếm">
+                        <button type="submit" class="search-button" aria-label="Tìm kiếm">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
                 </div>
+                
+                <!-- User -->
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="p-2 rounded-full hover:bg-red-500 transition">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Navigation -->
+        <div class="border-t border-red-500 border-opacity-30">
+            <div class="container mx-auto px-4">
+                <nav class="main-menu py-3">
+                    <div class="menu-item">
+                        <a href="index.html">Trang chủ</a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="#">Sức khỏe & Làm đẹp</a>
+                        <div class="submenu">
+                            <div class="submenu-title">Sức khỏe & Làm đẹp</div>
+                            <a href="#">Chăm sóc da mặt</a>
+                            <a href="#">Dưỡng tóc & Tóc đẹp</a>
+                            <a href="#">Thực phẩm chức năng</a>
+                            <a href="#">Thể thao & Fitness</a>
+                            <a href="#">Mẹo sức khỏe</a>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <a href="#">Thời Trang</a>
+                        <div class="submenu">
+                            <div class="submenu-title">Thời Trang</div>
+                            <a href="#">Xu hướng thời trang</a>
+                            <a href="#">Thời trang nam</a>
+                            <a href="#">Thời trang nữ</a>
+                            <a href="#">Phụ kiện thời trang</a>
+                            <a href="#">Giày dép & Túi xách</a>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <a href="#">Tin Công Nghệ</a>
+                        <div class="submenu">
+                            <div class="submenu-title">Tin Công Nghệ</div>
+                            <a href="#">Điện thoại & Máy tính bảng</a>
+                            <a href="#">Laptop & Máy tính</a>
+                            <a href="#">Thiết bị thông minh</a>
+                            <a href="#">Đánh giá sản phẩm</a>
+                            <a href="#">Tin tức công nghệ</a>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <a href="#">Gia Dụng & Nhà Cửa</a>
+                        <div class="submenu">
+                            <div class="submenu-title">Gia Dụng & Nhà Cửa</div>
+                            <a href="#">Thiết bị nhà bếp</a>
+                            <a href="#">Dọn dẹp nhà cửa</a>
+                            <a href="#">Nội thất & Trang trí</a>
+                            <a href="#">Đồ gia dụng thông minh</a>
+                            <a href="#">Tiết kiệm năng lượng</a>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <a href="#">Mẹ & Bé</a>
+                        <div class="submenu">
+                            <div class="submenu-title">Mẹ & Bé</div>
+                            <a href="#">Chăm sóc mẹ bầu</a>
+                            <a href="#">Đồ dùng trẻ em</a>
+                            <a href="#">Dinh dưỡng cho bé</a>
+                            <a href="#">Đồ chơi giáo dục</a>
+                            <a href="#">Mẹo chăm sóc bé</a>
+                        </div>
+                    </div>
+                </nav>
             </div>
         </div>
     </header>
@@ -262,19 +459,26 @@
     <div class="md:hidden bg-white shadow-md py-3">
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center">
-                <div class="text-xl font-bold text-red-600">MENU</div>
-                <button id="mobile-menu-button" class="text-gray-700">
+                <div class="search-container">
+                    <form action="/search" method="GET" role="search">
+                        <input type="text" name="q" placeholder="Tìm kiếm bài viết..." 
+                               class="search-input" aria-label="Tìm kiếm">
+                        <button type="submit" class="search-button" aria-label="Tìm kiếm">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+                <button id="mobile-menu-button" class="text-gray-700 ml-3">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
             <div id="mobile-menu" class="hidden mt-4 pb-2">
                 <div class="flex flex-wrap gap-3">
-                    <a href="#" class="px-4 py-2 bg-red-100 text-red-600 rounded-full font-medium">Tin tức</a>
-                    <a href="#" class="px-4 py-2 hover:bg-gray-100 rounded-full font-medium">Đánh giá</a>
-                    <a href="#" class="px-4 py-2 hover:bg-gray-100 rounded-full font-medium">Xu hướng</a>
-                    <a href="#" class="px-4 py-2 hover:bg-gray-100 rounded-full font-medium">Mẹo hay</a>
-                    <a href="#" class="px-4 py-2 hover:bg-gray-100 rounded-full font-medium">Công nghệ</a>
-                    <a href="#" class="px-4 py-2 hover:bg-gray-100 rounded-full font-medium">Khám phá</a>
+                    <a href="#" class="px-4 py-2 bg-red-100 text-red-600 rounded-full font-medium">Sức khỏe & Làm đẹp</a>
+                    <a href="#" class="px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-medium">Thời Trang</a>
+                    <a href="#" class="px-4 py-2 bg-green-100 text-green-600 rounded-full font-medium">Tin Công Nghệ</a>
+                    <a href="#" class="px-4 py-2 bg-yellow-100 text-yellow-600 rounded-full font-medium">Gia Dụng & Nhà Cửa</a>
+                    <a href="#" class="px-4 py-2 bg-purple-100 text-purple-600 rounded-full font-medium">Mẹ & Bé</a>
                 </div>
             </div>
         </div>
@@ -599,23 +803,23 @@
                 <!-- Column 1 -->
                 <div>
                     <h3 class="font-bold text-xl mb-4 flex items-center">
-                        <span class="bg-white text-red-600 px-2 py-1 rounded-lg mr-2">E</span>
+                        <img src="assets/img/logo/nuentaru1.png" class="w-20 h-20" alt="">
                         SHOP BLOG
                     </h3>
                     <p class="text-gray-400 mb-4">
                         Nơi cập nhật tin tức, đánh giá sản phẩm và chia sẻ mẹo mua sắm thông minh.
                     </p>
                     <div class="flex space-x-3">
-                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white">
+                        <a href="https://www.facebook.com/truc.nguyen.19" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white">
+                        <a href="https://www.x.com/TrcNguy16004746" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white">
+                        <a href="https://www.instagram.com/nguyentamtruc379" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white">
+                        <a href="https://www.youtube.com/@tamtrucnguyen765" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white">
                             <i class="fab fa-youtube"></i>
                         </a>
                     </div>
@@ -653,7 +857,7 @@
                     <ul class="space-y-3 text-gray-400">
                         <li class="flex items-start">
                             <i class="fas fa-map-marker-alt mt-1 mr-3 text-red-500"></i>
-                            <span>123 Đường Thương Mại, Quận Cầu Giấy, Hà Nội</span>
+                            <span>123 Đường Tôn Đức Thấng, Quận Liên Chiểu, Đà Nẵng</span>
                         </li>
                         <li class="flex items-center">
                             <i class="fas fa-phone-alt mr-3 text-red-500"></i>
@@ -689,6 +893,19 @@
             if (!menu.contains(event.target) && event.target !== button) {
                 menu.classList.add('hidden');
             }
+        });
+
+        // Search functionality
+        document.querySelectorAll('form[role="search"]').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const searchTerm = this.querySelector('input[name="q"]').value;
+                if (searchTerm.trim()) {
+                    alert(`Tìm kiếm bài viết với từ khóa: "${searchTerm}"`);
+                    // Thực tế: chuyển hướng đến trang kết quả tìm kiếm
+                    // window.location.href = `/search?q=${encodeURIComponent(searchTerm)}`;
+                }
+            });
         });
     </script>
 </body>
