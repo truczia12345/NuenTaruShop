@@ -288,6 +288,7 @@
             background-color: #e53e3e;
         }
         
+        /* Review display modal */
         .review-display-modal {
             position: fixed;
             top: 0;
@@ -463,6 +464,294 @@
             background: #e53e3e;
         }
         
+        /* Review form modal */
+        .review-form-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .review-form-content {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .review-form-header {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ff424f;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            color: white;
+        }
+        
+        .review-form-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .review-form-close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+        }
+        
+        .review-form-body {
+            padding: 25px;
+        }
+
+        .rating-section {
+            margin-bottom: 25px;
+        }
+        
+        .rating-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .rating-stars {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .rating-star {
+            font-size: 32px;
+            color: #e5e7eb;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .rating-star.active {
+            color: #ffd700;
+        }
+        
+        .review-text-section {
+            margin-bottom: 25px;
+        }
+        
+        .review-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        .review-textarea:focus {
+            outline: none;
+            border-color: #ff424f;
+            box-shadow: 0 0 0 3px rgba(255, 66, 79, 0.2);
+        }
+        
+        .image-upload-section {
+            margin-bottom: 25px;
+        }
+        
+        .image-upload-label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .image-upload-note {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+        
+        .image-upload-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .image-upload-box {
+            width: 100px;
+            height: 100px;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .image-upload-box:hover {
+            border-color: #ff424f;
+            background-color: #fff1f2;
+        }
+        
+        .image-upload-icon {
+            font-size: 24px;
+            color: #aaa;
+            margin-bottom: 8px;
+        }
+        
+        .image-upload-text {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .image-preview-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .image-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .remove-image {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 24px;
+            height: 24px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Thêm các style cho phần video upload */
+        .video-upload-section {
+            margin-bottom: 25px;
+        }
+
+        .video-upload-label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .video-upload-note {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .video-upload-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .video-upload-box {
+            width: 160px;
+            height: 120px;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .video-upload-box:hover {
+            border-color: #ff424f;
+            background-color: #fff1f2;
+        }
+
+        .video-upload-icon {
+            font-size: 24px;
+            color: #aaa;
+            margin-bottom: 8px;
+        }
+
+        .video-upload-text {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+
+        .video-preview-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .video-preview {
+            width: 160px;
+            height: 120px;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        .video-preview video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-video {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 24px;
+            height: 24px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .review-form-footer {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            border-top: 1px solid #eee;
+        }
+        
         .hidden {
             display: none;
         }
@@ -521,7 +810,7 @@
 
     <!-- Orders List -->
     <div id="orders-container" class="space-y-4">
-        <!-- Đơn hàng Đã giao -->
+        <!-- Đơn hàng Đã giao (Đã đánh giá) -->
         <div class="bg-white p-6 rounded-lg shadow-md order-card" data-status="delivered">
             <div class="flex justify-between items-center mb-4">
                 <div>
@@ -552,17 +841,52 @@
                 <div class="flex items-center">
                     <img src="https://via.placeholder.com/60x60?text=S3" class="w-16 h-16 rounded mr-4">
                     <div>
-                        <div class="font-medium">Củ sạc Apple</div>
+                        <div class="font-medium">Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên</div>
                         <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 800.000₫</div>
                     </div>
                 </div>
             </div>
             <div class="flex flex-wrap gap-2 justify-end mt-4">
                 <button class="border px-4 py-2 rounded hover:bg-gray-50">Mua lại</button>
-                <button class="border px-4 py-2 rounded text-red-600 hover:bg-gray-50 return-request" data-id="ĐH230901"><a href="return.html">Yêu cầu Trả hàng/Hoàn tiền</a></button>
-                <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Xác nhận</button>
-                <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 review-btn" data-id="ĐH230901" data-product="Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên">Đánh giá</button>
+                <button class="border px-4 py-2 rounded text-red-600 hover:bg-gray-50 return-request" data-id="ĐH230901">Yêu cầu Trả hàng/Hoàn tiền</button>
                 <button class="bg-gray-100 px-4 py-2 rounded hover:bg-gray-200 view-detail" data-id="ĐH230901">Chi tiết</button>
+                <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 review-btn" 
+                        data-id="ĐH230901" 
+                        data-product="Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên"
+                        data-reviewed="true">Đánh giá</button>
+            </div>
+        </div>
+
+        <!-- Đơn hàng Đã giao (Chưa đánh giá) -->
+        <div class="bg-white p-6 rounded-lg shadow-md order-card" data-status="delivered">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <span class="font-bold">Mã đơn: ĐH230902</span>
+                    <span class="order-status status-delivered ml-4">Đã giao</span>
+                    <div class="text-sm text-gray-500">Ngày đặt: 05/09/2025</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-red-600 font-bold text-lg">350.000₫</div>
+                    <div class="text-sm text-gray-500">1 sản phẩm</div>
+                </div>
+            </div>
+            <div class="space-y-3">
+                <div class="flex items-center">
+                    <img src="https://via.placeholder.com/60x60?text=Trà" class="w-16 h-16 rounded mr-4">
+                    <div>
+                        <div class="font-medium">Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên</div>
+                        <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 350.000₫</div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-wrap gap-2 justify-end mt-4">
+                <button class="border px-4 py-2 rounded hover:bg-gray-50">Mua lại</button>
+                <button class="border px-4 py-2 rounded text-red-600 hover:bg-gray-50 return-request" data-id="ĐH230902">Yêu cầu Trả hàng/Hoàn tiền</button>
+                <button class="bg-gray-100 px-4 py-2 rounded hover:bg-gray-200 view-detail" data-id="ĐH230902">Chi tiết</button>
+                <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 review-btn" 
+                        data-id="ĐH230902" 
+                        data-product="Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên"
+                        data-reviewed="false">Đánh giá</button>
             </div>
         </div>
 
@@ -801,7 +1125,7 @@
         </div>
     </div>
 
-    <!-- Modal Đánh giá sản phẩm -->
+    <!-- Modal Hiển thị đánh giá đã gửi -->
     <div id="review-display-modal" class="review-display-modal hidden">
         <div class="review-modal-content">
             <div class="review-modal-header">
@@ -828,11 +1152,11 @@
                             <div class="review-date">Đánh giá vào: 03/09/2025</div>
                         </div>
                         <div class="rating-display">
-                            <i class="fas fa-star rating-star"></i>
-                            <i class="fas fa-star rating-star"></i>
-                            <i class="fas fa-star rating-star"></i>
-                            <i class="fas fa-star rating-star"></i>
-                            <i class="fas fa-star rating-star"></i>
+                            <i class="fas fa-star rating-star active"></i>
+                            <i class="fas fa-star rating-star active"></i>
+                            <i class="fas fa-star rating-star active"></i>
+                            <i class="fas fa-star rating-star active"></i>
+                            <i class="fas fa-star rating-star active"></i>
                         </div>
                     </div>
                     
@@ -855,6 +1179,83 @@
         </div>
     </div>
 
+    <!-- Modal Đánh giá sản phẩm (chưa đánh giá) -->
+    <div id="review-form-modal" class="review-form-modal hidden">
+        <div class="review-form-content">
+            <div class="review-form-header">
+                <h3 class="review-form-title">Đánh Giá Sản Phẩm</h3>
+                <button class="review-form-close-btn" id="close-review-form-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="review-form-body">
+                <div class="product-info">
+                    <img src="https://via.placeholder.com/300x300?text=Trà+Đông+Trùng" alt="Trà Đông Trùng" class="product-image">
+                    <div class="product-details">
+                        <div class="product-name">Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên</div>
+                        <div class="product-order">Đơn hàng: <strong id="form-order-id">ĐH230902</strong></div>
+                    </div>
+                </div>
+                
+                <div class="rating-section">
+                    <div class="rating-title">Đánh giá của bạn</div>
+                    <div class="rating-stars">
+                        <i class="fas fa-star rating-star" data-value="1"></i>
+                        <i class="fas fa-star rating-star" data-value="2"></i>
+                        <i class="fas fa-star rating-star" data-value="3"></i>
+                        <i class="fas fa-star rating-star" data-value="4"></i>
+                        <i class="fas fa-star rating-star" data-value="5"></i>
+                    </div>
+                </div>
+                
+                <div class="review-text-section">
+                    <label class="rating-title">Nhận xét chi tiết</label>
+                    <textarea class="review-textarea" placeholder="Hãy chia sẻ cảm nhận của bạn về sản phẩm..." id="review-text"></textarea>
+                </div>
+                
+                <!-- Upload image -->
+                <div class="image-upload-section">
+                    <label class="image-upload-label">Hình ảnh đính kèm</label>
+                    <div class="image-upload-note">Tải lên tối đa 5 hình ảnh (định dạng JPG, PNG)</div>
+                    
+                    <div class="image-upload-container">
+                        <div class="image-upload-box" id="image-upload-btn">
+                            <i class="fas fa-camera image-upload-icon"></i>
+                            <div class="image-upload-text">Thêm ảnh</div>
+                        </div>
+                        
+                        <div class="image-preview-container" id="image-preview-container">
+                            <!-- Hình ảnh preview sẽ được thêm vào đây -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upload video -->
+                <div class="video-upload-section">
+                    <label class="video-upload-label">Video đính kèm</label>
+                    <div class="video-upload-note">Tải lên tối đa 1 video (định dạng MP4, MOV, kích thước tối đa 50MB)</div>
+                    
+                    <div class="video-upload-container">
+                        <div class="video-upload-box" id="video-upload-btn">
+                            <i class="fas fa-video video-upload-icon"></i>
+                            <div class="video-upload-text">Thêm video</div>
+                        </div>
+                        
+                        <div class="video-preview-container" id="video-preview-container">
+                            <!-- Video preview sẽ được thêm vào đây -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="review-form-footer">
+                <button class="btn btn-secondary" id="cancel-review-form-btn">Hủy</button>
+                <button class="btn btn-primary" id="submit-review-btn">Gửi đánh giá</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // DOM Elements
         const orderDetailModal = document.getElementById('order-detail-modal');
@@ -866,8 +1267,26 @@
         const reviewDisplayModal = document.getElementById('review-display-modal');
         const closeReviewDisplayModal = document.getElementById('close-review-display-modal');
         const closeReviewDisplayBtn = document.getElementById('close-review-display-btn');
+        
+        // Modal form đánh giá
+        const reviewFormModal = document.getElementById('review-form-modal');
+        const closeReviewFormModal = document.getElementById('close-review-form-modal');
+        const cancelReviewFormBtn = document.getElementById('cancel-review-form-btn');
+        const submitReviewBtn = document.getElementById('submit-review-btn');
+        const imageUploadBtn = document.getElementById('image-upload-btn');
+        const imagePreviewContainer = document.getElementById('image-preview-container');
+        const videoUploadBtn = document.getElementById('video-upload-btn');
+        const videoPreviewContainer = document.getElementById('video-preview-container');
+        const ratingStars = document.querySelectorAll('.review-form-modal .rating-star');
+        
         const reviewBtns = document.querySelectorAll('.review-btn');
         
+        // Biến lưu trữ tạm
+        let selectedRating = 0;
+        let uploadedImages = [];
+        let uploadedVideo = null;
+        let currentOrderId = '';
+
         // Hàm mở modal chi tiết
         function openOrderDetailModal() {
             orderDetailModal.classList.remove('hidden');
@@ -892,6 +1311,41 @@
             document.body.style.overflow = 'auto';
         }
         
+        // Hàm mở modal form đánh giá
+        function openReviewFormModal() {
+            reviewFormModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Hàm đóng modal form đánh giá
+        function closeReviewFormModalFunc() {
+            reviewFormModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            // Reset form
+            resetReviewForm();
+        }
+        
+        // Reset form đánh giá
+        function resetReviewForm() {
+            selectedRating = 0;
+            uploadedImages = [];
+            
+            // Reset video
+            if (uploadedVideo) {
+                URL.revokeObjectURL(uploadedVideo.url);
+                uploadedVideo = null;
+            }
+            
+            document.getElementById('review-text').value = '';
+            imagePreviewContainer.innerHTML = '';
+            videoPreviewContainer.innerHTML = '';
+            
+            // Reset sao đánh giá
+            ratingStars.forEach(star => {
+                star.classList.remove('active');
+            });
+        }
+        
         // Xử lý sự kiện cho nút xem chi tiết
         viewDetailBtns.forEach(btn => {
             btn.addEventListener('click', openOrderDetailModal);
@@ -899,16 +1353,30 @@
         
         // Xử lý sự kiện cho nút đánh giá
         reviewBtns.forEach(btn => {
-            btn.addEventListener('click', openReviewDisplayModal);
+            btn.addEventListener('click', function() {
+                const reviewed = this.getAttribute('data-reviewed') === 'true';
+                currentOrderId = this.getAttribute('data-id');
+                
+                if (reviewed) {
+                    openReviewDisplayModal();
+                } else {
+                    openReviewFormModal();
+                    document.getElementById('form-order-id').textContent = currentOrderId;
+                }
+            });
         });
         
         // Xử lý sự kiện đóng modal chi tiết
         closeModalBtn.addEventListener('click', closeOrderDetailModal);
         closeDetailBtn.addEventListener('click', closeOrderDetailModal);
         
-        // Xử lý sự kiện đóng modal đánh giá
+        // Xử lý sự kiện đóng modal hiển thị đánh giá
         closeReviewDisplayModal.addEventListener('click', closeReviewDisplayModalFunc);
         closeReviewDisplayBtn.addEventListener('click', closeReviewDisplayModalFunc);
+        
+        // Xử lý sự kiện đóng modal form đánh giá
+        closeReviewFormModal.addEventListener('click', closeReviewFormModalFunc);
+        cancelReviewFormBtn.addEventListener('click', closeReviewFormModalFunc);
         
         // Đóng modal khi click bên ngoài
         window.addEventListener('click', (e) => {
@@ -918,6 +1386,236 @@
             if (e.target === reviewDisplayModal) {
                 closeReviewDisplayModalFunc();
             }
+            if (e.target === reviewFormModal) {
+                closeReviewFormModalFunc();
+            }
+        });
+        
+        // Xử lý đánh giá sao trong form
+        ratingStars.forEach(star => {
+            star.addEventListener('click', function() {
+                const value = parseInt(this.getAttribute('data-value'));
+                selectedRating = value;
+                
+                ratingStars.forEach((s, i) => {
+                    if (i < value) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+        
+        // Xử lý tải ảnh đính kèm
+        imageUploadBtn.addEventListener('click', function() {
+            if (uploadedImages.length >= 5) { // Thay đổi từ 3 lên 5
+                alert('Bạn chỉ có thể tải lên tối đa 5 ảnh.');
+                return;
+            }
+            
+            // Tạo input file ẩn
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = 'image/*';
+            fileInput.multiple = true;
+            fileInput.style.display = 'none';
+            
+            fileInput.addEventListener('change', function(e) {
+                const files = e.target.files;
+                
+                for (let i = 0; i < files.length; i++) {
+                    if (uploadedImages.length >= 5) break; // Giới hạn 5 ảnh
+                    
+                    const file = files[i];
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(event) {
+                        const imageData = {
+                            name: file.name,
+                            url: event.target.result
+                        };
+                        
+                        uploadedImages.push(imageData);
+                        renderImagePreviews();
+                    };
+                    
+                    reader.readAsDataURL(file);
+                }
+                
+                document.body.removeChild(fileInput);
+            });
+            
+            document.body.appendChild(fileInput);
+            fileInput.click();
+        });
+
+        videoUploadBtn.addEventListener('click', function() {
+            if (uploadedVideo) {
+                alert('Bạn chỉ có thể tải lên tối đa 1 video.');
+                return;
+            }
+            
+            // Tạo input file ẩn
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = 'video/*';
+            fileInput.style.display = 'none';
+            
+            fileInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                
+                if (!file) return;
+                
+                // Kiểm tra kích thước video (tối đa 50MB)
+                if (file.size > 50 * 1024 * 1024) {
+                    alert('Kích thước video tối đa là 50MB. Vui lòng chọn video nhỏ hơn.');
+                    return;
+                }
+                
+                // Kiểm tra định dạng
+                const validTypes = ['video/mp4', 'video/quicktime', 'video/x-m4v'];
+                if (!validTypes.includes(file.type)) {
+                    alert('Chỉ chấp nhận định dạng MP4 hoặc MOV. Vui lòng chọn file khác.');
+                    return;
+                }
+                
+                const videoURL = URL.createObjectURL(file);
+                uploadedVideo = {
+                    file: file,
+                    url: videoURL,
+                    name: file.name
+                };
+                
+                renderVideoPreview();
+                
+                document.body.removeChild(fileInput);
+            });
+            
+            document.body.appendChild(fileInput);
+            fileInput.click();
+        });
+        
+        // Hiển thị preview ảnh
+        function renderImagePreviews() {
+            imagePreviewContainer.innerHTML = '';
+            
+            uploadedImages.forEach((image, index) => {
+                const preview = document.createElement('div');
+                preview.className = 'image-preview';
+                preview.innerHTML = `
+                    <img src="${image.url}" alt="Preview">
+                    <div class="remove-image" data-index="${index}">&times;</div>
+                `;
+                imagePreviewContainer.appendChild(preview);
+            });
+            
+            // Xử lý nút xóa ảnh
+            document.querySelectorAll('.remove-image').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    uploadedImages.splice(index, 1);
+                    renderImagePreviews();
+                });
+            });
+        }
+
+        function renderVideoPreview() {
+            videoPreviewContainer.innerHTML = '';
+            
+            if (uploadedVideo) {
+                const preview = document.createElement('div');
+                preview.className = 'video-preview';
+                preview.innerHTML = `
+                    <video controls>
+                        <source src="${uploadedVideo.url}" type="${uploadedVideo.file.type}">
+                        Trình duyệt của bạn không hỗ trợ video.
+                    </video>
+                    <div class="remove-video">&times;</div>
+                `;
+                videoPreviewContainer.appendChild(preview);
+                
+                // Xử lý nút xóa video
+                preview.querySelector('.remove-video').addEventListener('click', function() {
+                    URL.revokeObjectURL(uploadedVideo.url);
+                    uploadedVideo = null;
+                    renderVideoPreview();
+                });
+            }
+        }
+        
+        // Xử lý gửi đánh giá
+        submitReviewBtn.addEventListener('click', function() {
+            const reviewText = document.getElementById('review-text').value;
+            
+            if (selectedRating === 0) {
+                alert('Vui lòng chọn số sao đánh giá!');
+                return;
+            }
+            
+            if (!reviewText.trim()) {
+                alert('Vui lòng nhập nhận xét chi tiết!');
+                return;
+            }
+            
+            // Kiểm tra số lượng hình ảnh
+            if (uploadedImages.length > 5) {
+                alert('Bạn chỉ có thể tải lên tối đa 5 hình ảnh.');
+                return;
+            }
+            
+            // Tạo FormData để gửi file lên server
+            const formData = new FormData();
+            formData.append('orderId', currentOrderId);
+            formData.append('rating', selectedRating);
+            formData.append('review', reviewText);
+            
+            // Thêm hình ảnh
+            uploadedImages.forEach((image, index) => {
+                formData.append(`images[${index}]`, image.file);
+            });
+            
+            // Thêm video nếu có
+            if (uploadedVideo) {
+                formData.append('video', uploadedVideo.file);
+            }
+            
+            // Ở đây sẽ gọi API gửi đánh giá đến backend
+            // fetch('/api/submit-review', {
+            //     method: 'POST',
+            //     body: formData
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //     if (data.success) {
+            //         alert('Đánh giá của bạn đã được gửi thành công! Cảm ơn bạn đã đóng góp ý kiến.');
+            //         // Đánh dấu đơn hàng đã được đánh giá
+            //         document.querySelectorAll('.review-btn').forEach(btn => {
+            //             if (btn.getAttribute('data-id') === currentOrderId) {
+            //                 btn.setAttribute('data-reviewed', 'true');
+            //             }
+            //         });
+            //         closeReviewFormModalFunc();
+            //     } else {
+            //         alert('Có lỗi xảy ra: ' + data.message);
+            //     }
+            // })
+            // .catch(error => {
+            //     console.error('Error:', error);
+            //     alert('Đã xảy ra lỗi khi gửi đánh giá. Vui lòng thử lại.');
+            // });
+            
+            // Tạm thời dùng alert thay cho API
+            alert('Đánh giá của bạn đã được gửi thành công! Cảm ơn bạn đã đóng góp ý kiến.');
+            
+            // Đánh dấu đơn hàng đã được đánh giá
+            document.querySelectorAll('.review-btn').forEach(btn => {
+                if (btn.getAttribute('data-id') === currentOrderId) {
+                    btn.setAttribute('data-reviewed', 'true');
+                }
+            });
+            
+            closeReviewFormModalFunc();
         });
         
         // Xử lý hủy đơn hàng
