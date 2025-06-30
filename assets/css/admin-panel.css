@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+body {
+font-family: 'Inter', sans-serif;
+background-color: #f8fafc;
+color: #111;
+}
+/* Scrollbar for sidebar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+/* Reviews styles */
+.review-card {
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.review-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.review-1-star { border-left-color: #ef4444; }
+.review-2-star { border-left-color: #f97316; }
+.review-3-star { border-left-color: #eab308; }
+.review-4-star { border-left-color: #84cc16; }
+.review-5-star { border-left-color: #10b981; }
+
+.star-rating i {
+    color: #e2e8f0;
+}
+
+.star-rating .filled {
+    color: #f59e0b;
+}
+
+.filter-btn.active {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+}
