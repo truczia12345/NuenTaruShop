@@ -6,6 +6,7 @@
   <title>Chiến dịch Marketing | Admin Panel</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/@fortawesome/fontawesome-free/js/all.js" defer></script>
+  <script src="/assets/js/admin-panel.js"></script>
 </head>
 <body class="bg-gray-100 p-8 font-sans">
   <div class="p-6">
@@ -35,11 +36,11 @@
       <table class="w-full text-sm text-left">
         <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
           <tr>
-            <th class="p-3 font-medium">Mã chiến dịch</th>
-            <th class="p-3 font-medium">Tên chiến dịch</th>
-            <th class="p-3 font-medium">Thời gian</th>
-            <th class="p-3 font-medium">Trạng thái</th>
-            <th class="p-3 font-medium">Thao tác</th>
+            <th class="p-3">Mã chiến dịch</th>
+            <th class="p-3">Tên chiến dịch</th>
+            <th class="p-3">Thời gian</th>
+            <th class="p-3">Trạng thái</th>
+            <th class="p-3 text-center">Thao tác</th>
           </tr>
         </thead>
         <tbody>
@@ -50,17 +51,17 @@
             <td class="p-3">
               <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">Đang chạy</span>
             </td>
-            <td class="p-3 flex gap-2 text-lg text-gray-600">
-              <button title="Xem chi tiết" class="bg-blue-100 hover:bg-blue-200 text-blue-600 px-2 py-1 rounded">
-                <i class="fas fa-eye"></i>
-              </button>
-              <button title="Chỉnh sửa" class="bg-yellow-100 hover:bg-yellow-200 text-yellow-600 px-2 py-1 rounded">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button title="Xóa" class="bg-red-100 hover:bg-red-200 text-red-600 px-2 py-1 rounded">
-                <i class="fas fa-trash"></i>
-              </button>
-            </td>
+            <td class="p-3 flex justify-center gap-2 text-white text-sm">
+                <button class="bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded" title="Xem chi tiết">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="bg-yellow-500 hover:bg-yellow-600 px-2 py-1 rounded" title="Tạm dừng">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="bg-red-500 hover:bg-red-600 px-2 py-1 rounded" title="Hủy chiến dịch">
+                  <i class="fas fa-ban"></i>
+                </button>
+              </td>
           </tr>
 
           <tr class="border-t hover:bg-gray-50">
@@ -70,17 +71,17 @@
             <td class="p-3">
               <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-xs">Chờ duyệt</span>
             </td>
-            <td class="p-3 flex gap-2 text-lg text-gray-600">
-              <button title="Xem chi tiết" class="bg-blue-100 hover:bg-blue-200 text-blue-600 px-2 py-1 rounded">
-                <i class="fas fa-eye"></i>
-              </button>
-              <button title="Chỉnh sửa" class="bg-yellow-100 hover:bg-yellow-200 text-yellow-600 px-2 py-1 rounded">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button title="Xóa" class="bg-red-100 hover:bg-red-200 text-red-600 px-2 py-1 rounded">
-                <i class="fas fa-trash"></i>
-              </button>
-            </td>
+            <td class="p-3 flex justify-center gap-2 text-white text-sm">
+                <button class="bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded" title="Xem chi tiết">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="bg-yellow-500 hover:bg-yellow-600 px-2 py-1 rounded" title="Tạm dừng">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="bg-red-500 hover:bg-red-600 px-2 py-1 rounded" title="Hủy chiến dịch">
+                  <i class="fas fa-ban"></i>
+                </button>
+              </td>
           </tr>
         </tbody>
       </table>

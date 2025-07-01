@@ -7,6 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/@fortawesome/fontawesome-free/js/all.js" defer></script>
+  <script src="/assets/js/tabs.js"></script>
 </head>
 <body class="bg-gray-100 p-8 font-sans">
   <div class="p-6">
@@ -90,19 +91,6 @@
     </div>
 
     <script>
-      // Tabs
-      const tabs = document.querySelectorAll('.tab-link');
-      const contents = document.querySelectorAll('.tab-content');
-      tabs.forEach(tab => {
-        tab.addEventListener('click', function(e) {
-          e.preventDefault();
-          tabs.forEach(t => t.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600'));
-          contents.forEach(c => c.classList.add('hidden'));
-          tab.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
-          const id = tab.getAttribute('href');
-          document.querySelector(id).classList.remove('hidden');
-        });
-      });
 
       // Chart.js
       const totalCtx = document.getElementById('totalRevenueChart').getContext('2d');

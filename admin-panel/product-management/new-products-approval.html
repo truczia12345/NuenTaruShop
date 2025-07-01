@@ -11,7 +11,7 @@
   <div class="p-6">
     
     <!-- Tiêu đề -->
-    <div class="mb-6 flex items-center justify-between">
+    <div class="mb-6 flex justify-between items-start flex-wrap gap-4">
   <div>
     <h1 class="text-2xl font-semibold flex items-center gap-2">
       <i class="fas fa-check-circle text-blue-600"></i>
@@ -43,55 +43,55 @@
     </div>
 
     <!-- Bảng sản phẩm -->
-    <div class="overflow-x-auto">
-      <table class="min-w-full bg-white rounded-lg overflow-hidden">
-        <thead class="bg-gray-100 text-gray-700">
+    <div class="overflow-x-auto bg-white rounded-lg shadow">
+      <table class="w-full text-sm text-left">
+        <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
           <tr>
-            <th class="px-4 py-3 text-left">ID</th>
-            <th class="px-4 py-3 text-left">Sản phẩm</th>
-            <th class="px-4 py-3 text-left">Cửa hàng</th>
-            <th class="px-4 py-3 text-left">Giá</th>
-            <th class="px-4 py-3 text-left">Ngày gửi</th>
-            <th class="px-4 py-3 text-left">Thao tác</th>
+            <th class="p-3">ID</th>
+            <th class="p-3">Sản phẩm</th>
+            <th class="p-3">Cửa hàng</th>
+            <th class="p-3">Giá</th>
+            <th class="p-3">Ngày gửi</th>
+            <th class="p-3 text-center">Thao tác</th>
           </tr>
         </thead>
         <tbody class="text-gray-700">
-          <tr class="border-t">
-            <td class="px-4 py-3">101</td>
-            <td class="px-4 py-3">Chuột Gaming X-Pro</td>
-            <td class="px-4 py-3">Shop Công Nghệ</td>
-            <td class="px-4 py-3">450.000đ</td>
-            <td class="px-4 py-3">03/06/2025</td>
-            <td class="px-4 py-3 flex gap-2">
-              <button title="Duyệt" class="text-green-600 hover:text-green-800">
-                <i class="fas fa-check-circle"></i>
-              </button>
-              <button title="Từ chối" class="text-red-600 hover:text-red-800">
-                <i class="fas fa-times-circle"></i>
-              </button>
-              <button title="Xem chi tiết" class="text-blue-600 hover:text-blue-800">
-                <i class="fas fa-eye"></i>
-              </button>
-            </td>
+          <tr class="border-t hover:bg-gray-50">
+            <td class="p-3">101</td>
+            <td class="p-3">Chuột Gaming X-Pro</td>
+            <td class="p-3">Shop Công Nghệ</td>
+            <td class="p-3">450.000đ</td>
+            <td class="p-3">03/06/2025</td>
+            <td class="p-3 flex justify-center gap-2 text-white text-sm">
+                <button class="bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded" title="Xem chi tiết">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="bg-green-500 hover:bg-green-600 px-2 py-1 rounded" title="Duyệt">
+                  <i class="fas fa-check"></i>
+                </button>
+                <button class="bg-red-500 hover:bg-red-600 px-2 py-1 rounded" title="Từ chối">
+                  <i class="fas fa-ban"></i>
+                </button>
+              </td>
           </tr>
           <!-- Dòng khác -->
-          <tr class="border-t">
-            <td class="px-4 py-3">102</td>
-            <td class="px-4 py-3">Tai nghe Bluetooth T9</td>
-            <td class="px-4 py-3">AudioZone</td>
-            <td class="px-4 py-3">320.000đ</td>
-            <td class="px-4 py-3">04/06/2025</td>
-            <td class="px-4 py-3 flex gap-2">
-              <button title="Duyệt" class="text-green-600 hover:text-green-800">
-                <i class="fas fa-check-circle"></i>
-              </button>
-              <button title="Từ chối" class="text-red-600 hover:text-red-800">
-                <i class="fas fa-times-circle"></i>
-              </button>
-              <button title="Xem chi tiết" class="text-blue-600 hover:text-blue-800">
-                <i class="fas fa-eye"></i>
-              </button>
-            </td>
+          <tr class="border-t hover:bg-gray-50">
+            <td class="p-3">102</td>
+            <td class="p-3">Tai nghe Bluetooth T9</td>
+            <td class="p-3">AudioZone</td>
+            <td class="p-3">320.000đ</td>
+            <td class="p-3">04/06/2025</td>
+            <td class="p-3 flex justify-center gap-2 text-white text-sm">
+                <button class="bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded" title="Xem chi tiết">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="bg-green-500 hover:bg-green-600 px-2 py-1 rounded" title="Duyệt">
+                  <i class="fas fa-check"></i>
+                </button>
+                <button class="bg-red-500 hover:bg-red-600 px-2 py-1 rounded" title="Từ chối">
+                  <i class="fas fa-ban"></i>
+                </button>
+              </td>
           </tr>
         </tbody>
       </table>

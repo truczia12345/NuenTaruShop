@@ -55,9 +55,9 @@
       </div>
 
       <!-- Bảng -->
-      <div class="overflow-x-auto">
-        <table class="min-w-full bg-white text-sm rounded-lg shadow">
-          <thead class="bg-gray-100 text-left font-semibold">
+      <div class="overflow-x-auto bg-white rounded-lg shadow">
+        <table class="w-full text-sm text-left">
+          <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
             <tr>
               <th class="p-4">Mã</th>
               <th class="p-4">Tên chương trình</th>
@@ -74,7 +74,11 @@
               <td class="p-4">06/06 - 06/06</td>
               <td class="p-4">152 sản phẩm</td>
               <td class="p-4"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs">Đang hoạt động</span></td>
-              <td class="p-4 text-center"><button class="text-blue-600 hover:underline">Xem</button></td>
+              <td class="p-3 flex justify-center gap-2 text-white text-sm">
+                <button class="bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded" title="Xem chi tiết">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -96,9 +100,9 @@
       </div>
 
       <!-- Bảng -->
-      <div class="overflow-x-auto">
-        <table class="min-w-full bg-white text-sm rounded-lg shadow">
-          <thead class="bg-gray-100 text-left font-semibold">
+      <div class="overflow-x-auto bg-white rounded-lg shadow">
+        <table class="w-full text-sm text-left">
+          <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
             <tr>
               <th class="p-4">Mã</th>
               <th class="p-4">Tên chương trình</th>
@@ -125,7 +129,14 @@
               <td class="p-4">08/06 - 08/06</td>
               <td class="p-4">23 sản phẩm</td>
               <td class="p-4"><span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs">Chưa duyệt</span></td>
-              <td class="p-4 text-center"><button class="text-blue-600 hover:underline">Duyệt</button></td>
+              <td class="p-3 text-white text-center">
+                <button class="bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded" title="Xem chi tiết">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="bg-green-500 hover:bg-green-600 px-2 py-1 rounded" title="Tạm dừng">
+                  <i class="fas fa-check"></i>
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>

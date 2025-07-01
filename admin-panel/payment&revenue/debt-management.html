@@ -6,6 +6,8 @@
   <title>Công nợ | Admin Panel</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/@fortawesome/fontawesome-free/js/all.js" defer></script>
+  <script src="/assets/js/tabs.js"></script>
+
 </head>
 <body class="bg-gray-100 p-8 font-sans">
   <div class="p-6">
@@ -175,22 +177,6 @@
         </table>
       </div>
     </div>
-
-    <!-- Script chuyển tab -->
-    <script>
-      const tabs = document.querySelectorAll(".tab-link");
-      const contents = document.querySelectorAll(".tab-content");
-      tabs.forEach((tab) => {
-        tab.addEventListener("click", (e) => {
-          e.preventDefault();
-          tabs.forEach((t) => t.classList.remove("text-blue-600", "border-b-2", "border-blue-600"));
-          contents.forEach((c) => c.classList.add("hidden"));
-          tab.classList.add("text-blue-600", "border-b-2", "border-blue-600");
-          const target = document.querySelector(tab.getAttribute("href"));
-          if (target) target.classList.remove("hidden");
-        });
-      });
-    </script>
 
   </div>
 </body>

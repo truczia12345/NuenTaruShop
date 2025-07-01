@@ -6,6 +6,8 @@
   <title>Thông báo hệ thống | Nội dung & CMS</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/@fortawesome/fontawesome-free/js/all.js" defer></script>
+  <script src="/assets/js/modal.js" defer></script>
+
 </head>
 <body class="bg-gray-100 p-8 font-sans">
   <div class="p-6">
@@ -19,7 +21,7 @@
         <p class="text-gray-500 text-sm">Quản lý các thông báo quan trọng gửi đến người dùng hệ thống.</p>
       </div>
       <div class="flex gap-2">
-        <button onclick="openNotifyModal()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center gap-2 text-sm">
+        <button onclick="openModal('notifyModal')" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center gap-2 text-sm">
           <i class="fas fa-plus"></i> Tạo thông báo
         </button>
         <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 flex items-center gap-2 text-sm">
@@ -61,7 +63,7 @@
               <span class="px-2 py-1 text-xs bg-green-100 text-green-700 rounded-full">Đã gửi</span>
             </td>
             <td class="p-3 flex justify-center gap-2 text-sm text-white">
-              <button onclick="openNotifyModal()" class="bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded" title="Chỉnh sửa">
+              <button onclick="openModal('notifyModal')" class="bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded" title="Chỉnh sửa">
                 <i class="fas fa-edit"></i>
               </button>
               <button class="bg-red-500 hover:bg-red-600 px-2 py-1 rounded" title="Xóa">
@@ -75,8 +77,13 @@
   </div>
 
   <!-- Modal tạo/sửa thông báo -->
-  <div id="notifyModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl">
+  <div id="notifyModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden modal">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl relative">
+      <!-- Nút đóng -->
+      <button class="close-modal absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+
       <h2 class="text-xl font-semibold mb-4">Tạo / Sửa thông báo</h2>
       <div class="space-y-4">
         <div>
@@ -105,19 +112,10 @@
         </div>
       </div>
       <div class="mt-6 flex justify-end gap-2">
-        <button onclick="closeNotifyModal()" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Hủy</button>
+        <button onclick="closeModal('notifyModal')" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Hủy</button>
         <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Lưu</button>
       </div>
     </div>
   </div>
-
-  <script>
-    function openNotifyModal() {
-      document.getElementById('notifyModal').classList.remove('hidden');
-    }
-    function closeNotifyModal() {
-      document.getElementById('notifyModal').classList.add('hidden');
-    }
-  </script>
 </body>
 </html>

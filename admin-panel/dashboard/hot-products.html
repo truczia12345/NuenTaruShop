@@ -5,6 +5,7 @@
   <title>Sản phẩm hot - Dashboard Admin</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/@fortawesome/fontawesome-free/js/all.js" defer></script>
+    <script src="/assets/js/modal.js" defer></script>
 </head>
 <body class="bg-gray-100 p-8 font-sans">
 
@@ -58,7 +59,7 @@
               <td class="py-3 text-red-600 font-semibold">14.990.000đ</td>
               <td class="py-3">350</td>
               <td class="py-3 text-center">
-                <button onclick="viewProduct('1')" class="text-blue-600 hover:underline text-sm btn-view-product">
+                <button onclick="openModal('productModal')" class="text-blue-600 hover:underline text-sm btn-view-product">
                   <i class="fas fa-eye"></i> Xem
                 </button>
               </td>
@@ -82,36 +83,25 @@
   </section>
 
   <!-- Modal Chi tiết Sản phẩm -->
-  <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-    <div class="bg-white rounded-lg shadow-lg max-w-xl w-full p-6 relative">
-      <button onclick="closeProductModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">&times;</button>
+  <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden modal">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl relative">
+      <!-- Nút đóng -->
+      <button class="close-modal absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+
+      <button onclick="closeModal('productModal')" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">&times;</button>
       <h2 class="text-xl font-semibold mb-4">Chi tiết sản phẩm</h2>
       <div id="productDetail" class="space-y-3 text-sm text-gray-700">
-        <!-- Nội dung chi tiết sẽ render bằng JS -->
-      </div>
-    </div>
-  </div>
-
-  <!-- Script xử lý modal -->
-  <script>
-    function viewProduct(productId) {
-      const content = `
         <p><strong>Tên sản phẩm:</strong> Máy chơi game PS5</p>
         <p><strong>Danh mục:</strong> Điện tử</p>
         <p><strong>Giá:</strong> 14.990.000đ</p>
         <p><strong>Số lượng đã bán:</strong> 350</p>
         <p><strong>Mô tả:</strong> Sản phẩm hot nhất tháng 5 với hiệu năng vượt trội và trải nghiệm chơi game mượt mà.</p>
         <img src="https://via.placeholder.com/300x180" alt="ps5" class="rounded shadow mt-2">
-      `;
-      document.getElementById("productDetail").innerHTML = content;
-      document.getElementById("productModal").classList.remove("hidden");
-      document.getElementById("productModal").classList.add("flex");
-    }
-
-    function closeProductModal() {
-      document.getElementById("productModal").classList.add("hidden");
-    }
-  </script>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
