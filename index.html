@@ -24,7 +24,8 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <script src="/assets/js/main.js"></script>
     <!-- Schema.org markup for Google -->
     <script type="application/ld+json">
     {
@@ -61,349 +62,18 @@
       ]
     }
     </script>
-    
-    <style>
-        /* Header */
-        .pb-3 img {
-          width: 120px;
-          height: 120px;
-        }
-
-        /* Notification dropdown */
-        .notification-container {
-            position: relative;
-        }
-        
-        .notification-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            width: 380px;
-            max-height: 500px;
-            overflow-y: auto;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            z-index: 100;
-            display: none;
-            transform: translateY(10px);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        
-        .notification-dropdown.show {
-            display: block;
-            transform: translateY(0);
-            opacity: 1;
-        }
-        
-        .notification-header {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .notification-item {
-            padding: 15px;
-            border-bottom: 1px solid #f5f5f5;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        
-        .notification-item:hover {
-            background-color: #f9f9f9;
-        }
-        
-        .notification-item.unread {
-            background-color: #f0f7ff;
-        }
-        
-        .notification-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            flex-shrink: 0;
-        }
-        
-        .notification-content {
-            flex: 1;
-        }
-        
-        .notification-time {
-            font-size: 12px;
-            color: #888;
-            margin-top: 5px;
-        }
-        
-        .notification-mark-all {
-            color: #ff424f;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        .notification-footer {
-            padding: 15px;
-            text-align: center;
-            border-top: 1px solid #eee;
-        }
-        
-        .notification-count {
-            position: absolute;
-            top: -7px;
-            right: -15px;
-            background-color: #ff424f;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        
-        /* Fixed header */
-        .fixed-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        /* Spacer */
-        .header-spacer {
-            height: 130px;
-        }
-        
-        /* Login required */
-        .login-required {
-            padding: 40px 20px;
-            text-align: center;
-        }
-        
-        .login-icon {
-            font-size: 48px;
-            color: #ff424f;
-            margin-bottom: 20px;
-        }
-        
-        .login-btn {
-            background-color: #ff424f;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .login-btn:hover {
-            background-color: #e53e3e;
-            transform: translateY(-2px);
-        }
-
-        /* Slider */
-        .slider-container {
-            overflow: hidden;
-            position: relative;
-        }
-        .slider-track {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-        .slide {
-            min-width: 100%;
-        }
-        .slide-content {
-            height: 400px;
-            background-size: cover;
-            background-position: center;
-        }
-        .slide-1 { background-image: url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'); }
-        .slide-2 { background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'); }
-        .slide-3 { background-image: url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1399&q=80'); }
-        
-        .nav-dot.active {
-            background-color: white;
-            opacity: 1;
-        }
-        .slide-overlay {
-            background-color: rgba(0, 0, 0, 0.3);
-        }
-        .slide-btn {
-            transition: all 0.3s ease;
-        }
-        .slide-btn:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .flex.transition-transform {
-            will-change: transform;
-        }
-
-        /* Flash Sale Progress Bar */
-        .flash-sale-progress {
-            height: 4px;
-            background: linear-gradient(90deg, #ff424f 70%, #f3f4f6 30%);
-            animation: progressAnimation 60s linear infinite;
-        }
-
-        @keyframes progressAnimation {
-            0% { background: linear-gradient(90deg, #ff424f 100%, #f3f4f6 0%); }
-            100% { background: linear-gradient(90deg, #ff424f 0%, #f3f4f6 100%); }
-        }
-
-        .flash-sale .product-card .bg-red-50 {
-            margin-top: auto;
-        }
-
-        /* Category */
-        .category-item:hover .category-icon {
-            transform: translateY(-5px);
-            transition: all 0.3s ease;
-        }
-
-        /* Product Card */
-        .product-card {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .product-card .relative {
-            height: 150px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .product-card .text-center {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding-top: 10px;
-        }
-
-        .product-card h3 {
-            height: 40px;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            margin-bottom: 8px;
-        }
-
-        .product-card .text-red-500 {
-            margin-bottom: 4px;
-        }
-
-        /* Mobile Menu */
-        @media (max-width: 1023px) {
-            .category-grid {
-                grid-template-columns: repeat(5, 1fr);
-            }
-            
-            .product-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 640px) {
-            .category-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .product-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .flash-sale .product-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .category-section {
-                grid-template-columns: 1fr;
-            }
-            
-            .banner-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* SEO Improvements */
-        h1 {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-        
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-        
-        /* Flash sale timer */
-        .flash-timer {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .timer-unit {
-            background: #000;
-            color: white;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .timer-label {
-            font-size: 10px;
-            color: #ff424f;
-            font-weight: bold;
-        }
-    </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 mainin">
     <!-- SEO: Hidden H1 for page title -->
     <h1>E-Shop - Trang Mua Sắm Trực Tuyến Hàng Đầu Việt Nam | Điện Tử, Thời Trang, Gia Dụng</h1>
     
     <!-- Header with trending searches -->
-    <header class="bg-[#ff424f] text-white shadow-md ">
+    <header class="bg-[#ff424f] text-white shadow-md fixed-header">
         <div class="container mx-auto px-4">
             <!-- Top Row: User Actions -->
             <div class="flex justify-end items-center py-2 space-x-6 text-sm">
                 <!-- Notification dropdown container -->
-                <div class="notification-container">
+                <div class="notification-container relative">
                     <a href="#" class="hover:text-yellow-200 flex items-center" id="notification-icon" aria-label="Thông báo">
                         <i class="fas fa-bell mr-1" aria-hidden="true"></i>
                         <span>Thông báo</span>
@@ -518,7 +188,7 @@
                 <!-- Logo with alt text -->
                 <div class="flex items-center">
                     <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
-                        <img src="assets/img/logo/nuentaru1.png" alt="E-Shop - Trang mua sắm trực tuyến">
+                        <img src="assets/img/logo/nuentaru1.png" width="120px" height="120px" alt="E-Shop - Trang mua sắm trực tuyến">
                     </a>
                 </div>
 
@@ -571,6 +241,9 @@
             </div>
         </div>
     </header>
+    
+    <!-- Spacer for fixed header -->
+    <div class="header-spacer"></div>
     
     <!-- Mobile Menu -->
     <div class="lg:hidden bg-[#ff424f] text-white">
@@ -764,62 +437,62 @@
 
         <!-- Categories -->
         <section aria-label="Danh mục sản phẩm" class="grid grid-cols-10 gap-4 mb-8">
-            <a href="/dien-thoai" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Điện thoại">
-                <div class="category-icon bg-red-100 p-3 rounded-full mb-2">
+            <a href="/dien-thoai" class="mainin-category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Điện thoại">
+                <div class="mainin-category-icon bg-red-100 p-3 rounded-full mb-2">
                     <i class="fas fa-mobile-alt text-red-500 text-xl" aria-hidden="true"></i>
                 </div>
                 <span class="text-xs text-center">Điện thoại</span>
             </a>
-            <a href="/laptop" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Laptop">
-                <div class="category-icon bg-blue-100 p-3 rounded-full mb-2">
+            <a href="/laptop" class="mainin-category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Laptop">
+                <div class="mainin-category-icon bg-blue-100 p-3 rounded-full mb-2">
                     <i class="fas fa-laptop text-blue-500 text-xl" aria-hidden="true"></i>
                 </div>
                 <span class="text-xs text-center">Laptop</span>
             </a>
-            <a href="/thoi-trang" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Thời trang">
-                <div class="category-icon bg-green-100 p-3 rounded-full mb-2">
+            <a href="/thoi-trang" class="mainin-category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Thời trang">
+                <div class="mainin-category-icon bg-green-100 p-3 rounded-full mb-2">
                     <i class="fas fa-tshirt text-green-500 text-xl" aria-hidden="true"></i>
                 </div>
                 <span class="text-xs text-center">Thời trang</span>
             </a>
-            <a href="/nha-cua" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Nhà cửa">
-                <div class="category-icon bg-yellow-100 p-3 rounded-full mb-2">
+            <a href="/nha-cua" class="mainin-category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Nhà cửa">
+                <div class="mainin-category-icon bg-yellow-100 p-3 rounded-full mb-2">
                     <i class="fas fa-home text-yellow-500 text-xl" aria-hidden="true"></i>
                 </div>
                 <span class="text-xs text-center">Nhà cửa</span>
             </a>
-            <a href="/suc-khoe" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Sức khỏe">
-                <div class="category-icon bg-purple-100 p-3 rounded-full mb-2">
+            <a href="/suc-khoe" class="mainin-category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Sức khỏe">
+                <div class="mainin-category-icon bg-purple-100 p-3 rounded-full mb-2">
                     <i class="fas fa-heart text-purple-500 text-xl" aria-hidden="true"></i>
                 </div>
                 <span class="text-xs text-center">Sức khỏe</span>
             </a>
-            <a href="/me-va-be" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Mẹ & Bé">
-                <div class="category-icon bg-pink-100 p-3 rounded-full mb-2">
+            <a href="/me-va-be" class="mainin-category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Mẹ & Bé">
+                <div class="mainin-category-icon bg-pink-100 p-3 rounded-full mb-2">
                     <i class="fas fa-child text-pink-500 text-xl" aria-hidden="true"></i>
                 </div>
                 <span class="text-xs text-center">Mẹ & Bé</span>
             </a>
-            <a href="/do-choi" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Đồ chơi">
-                <div class="category-icon bg-indigo-100 p-3 rounded-full mb-2">
+            <a href="/do-choi" class="mainin-category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Đồ chơi">
+                <div class="mainin-category-icon bg-indigo-100 p-3 rounded-full mb-2">
                     <i class="fas fa-gamepad text-indigo-500 text-xl" aria-hidden="true"></i>
                 </div>
                 <span class="text-xs text-center">Đồ chơi</span>
             </a>
-            <a href="/thuc-pham" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Thực phẩm">
-                <div class="category-icon bg-orange-100 p-3 rounded-full mb-2">
+            <a href="/thuc-pham" class="mainin-category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Thực phẩm">
+                <div class="mainin-category-icon bg-orange-100 p-3 rounded-full mb-2">
                     <i class="fas fa-utensils text-orange-500 text-xl" aria-hidden="true"></i>
                 </div>
                 <span class="text-xs text-center">Thực phẩm</span>
             </a>
-            <a href="/o-to" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Ô tô">
-                <div class="category-icon bg-teal-100 p-3 rounded-full mb-2">
+            <a href="/o-to" class="mainin-category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Ô tô">
+                <div class="mainin-category-icon bg-teal-100 p-3 rounded-full mb-2">
                     <i class="fas fa-car text-teal-500 text-xl" aria-hidden="true"></i>
                 </div>
                 <span class="text-xs text-center">Ô tô</span>
             </a>
-            <a href="/danh-muc" class="category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Xem thêm danh mục">
-                <div class="category-icon bg-gray-100 p-3 rounded-full mb-2">
+            <a href="/danh-muc" class="mainin-category-item flex flex-col items-center p-3 rounded-lg hover:bg-white hover:shadow-md" aria-label="Xem thêm danh mục">
+                <div class="mainin-category-icon bg-gray-100 p-3 rounded-full mb-2">
                     <i class="fas fa-ellipsis-h text-gray-500 text-xl" aria-hidden="true"></i>
                 </div>
                 <span class="text-xs text-center">Xem thêm</span>
@@ -861,7 +534,7 @@
                 <!-- Product Item 1 -->
                 <article class="h-full">
                     <a href="/san-pham/iphone-13-pro-max" aria-label="Điện thoại iPhone 13 Pro Max 128GB">
-                        <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                        <div class="mainin-product-card bg-white p-3 rounded-lg border border-gray-100">
                             <div class="relative mb-3">
                                 <img src="https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-4-750x500.jpg" 
                                     alt="Điện thoại iPhone 13 Pro Max 128GB - Giảm 50%" 
@@ -881,7 +554,7 @@
                 <!-- Product Item 2 -->
                 <article class="h-full">
                     <a href="/san-pham/laptop-dell-xps-13" aria-label="Laptop Dell XPS 13 9350 71058714">
-                        <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                        <div class="mainin-product-card bg-white p-3 rounded-lg border border-gray-100">
                             <div class="relative mb-3">
                                 <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/t/e/text_ng_n_7__2_224.png?_gl=1*1q1btdk*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTEzODEkajU3JGwwJGgyMDM1MTE1NDc." 
                                     alt="Laptop Dell XPS 13 9350 71058714 - Giảm 30%" 
@@ -901,7 +574,7 @@
                 <!-- Product Item 3 -->
                 <article class="h-full">
                     <a href="/san-pham/tai-nghe-airpods-pro-2" aria-label="Tai nghe AirPods Pro 2">
-                        <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                        <div class="mainin-product-card bg-white p-3 rounded-lg border border-gray-100">
                             <div class="relative mb-3">
                                 <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/a/p/apple-airpods-pro-2-usb-c_8_.png?_gl=1*j9pahl*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTEyNzMkajU3JGwwJGgyMDM5MTE1NDc." 
                                     alt="Tai nghe AirPods Pro 2 - Giảm 60%" 
@@ -921,7 +594,7 @@
                 <!-- Product Item 4 -->
                 <article class="h-full">
                     <a href="/san-pham/smart-tivi-lg-4k" aria-label="Smart Tivi LG 4K 55 inch">
-                        <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                        <div class="mainin-product-card bg-white p-3 rounded-lg border border-gray-100">
                             <div class="relative mb-3">
                                 <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/s/m/smart-tivi-nanocell-lg-4k-43-inch-43nano76sqa_1__1_1.png?_gl=1*1n04yze*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTE0MDckajMxJGwwJGgyMDM1MTE1NDc." 
                                     alt="Smart Tivi LG 4K 55 inch - Giảm 45%" 
@@ -941,7 +614,7 @@
                 <!-- Product Item 5 -->
                 <article class="h-full">
                     <a href="/san-pham/may-loc-khong-khi-xiaomi" aria-label="Máy lọc không khí Xiaomi">
-                        <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                        <div class="mainin-product-card bg-white p-3 rounded-lg border border-gray-100">
                             <div class="relative mb-3">
                                 <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/3/_/3_19.png?_gl=1*1spzxtq*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTE0NDUkajU2JGwwJGgyMDM1MTE1NDc." 
                                     alt="Máy lọc không khí Xiaomi - Giảm 55%" 
@@ -961,7 +634,7 @@
                 <!-- Product Item 6 -->
                 <article class="h-full">
                     <a href="/san-pham/ban-phim-co-dareu-ek868" aria-label="Bàn phím cơ Dareu EK868">
-                        <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                        <div class="mainin-product-card bg-white p-3 rounded-lg border border-gray-100">
                             <div class="relative mb-3">
                                 <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/b/a/ban-phim-co-khong-day-dareu-ek868-brown-switch-2_2.png?_gl=1*1p5osoc*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTE0ODYkajE1JGwwJGgyMDM1MTE1NDc." 
                                     alt="Bàn phím cơ Dareu EK868 - Giảm 70%" 
@@ -1092,7 +765,7 @@
                 <!-- Product Item 1 -->
                 <article class="h-full">
                     <a href="/san-pham/may-anh-sony-alpha-a7-iii" aria-label="Máy ảnh Sony Alpha A7 III">
-                        <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                        <div class="mainin-product-card bg-white p-3 rounded-lg border border-gray-100">
                             <div class="relative mb-3">
                                 <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/t/e/text_ng_n_11__5_48.png?_gl=1*1xqg71b*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTE1NzEkajE3JGwwJGgyMDM1MTE1NDc." 
                                     alt="Máy ảnh Sony Alpha A7 III" 
@@ -1118,7 +791,7 @@
                 <!-- Product Item 2 -->
                 <article class="h-full">
                     <a href="/san-pham/loa-bluetooth-jbl-charge-5" aria-label="Loa Bluetooth JBL Charge 5">
-                        <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                        <div class="mainin-product-card bg-white p-3 rounded-lg border border-gray-100">
                             <div class="relative mb-3">
                                 <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/l/o/loa-bluetooth-jbl-charge-5_1_1.jpg?_gl=1*396xoa*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTE1OTgkajU7JGwwJGgyMDM1MTE1NDc." 
                                     alt="Loa Bluetooth JBL Charge 5" 
@@ -1144,7 +817,7 @@
                 <!-- Product Item 3 -->
                 <article class="h-full">
                     <a href="/san-pham/dong-ho-thong-minh-galaxy-watch-4" aria-label="Đồng hồ thông minh Galaxy Watch 4">
-                        <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                        <div class="mainin-product-card bg-white p-3 rounded-lg border border-gray-100">
                             <div class="relative mb-3">
                                 <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/s/m/sm-l705_001_front_titanium_silve.png?_gl=1*1ouhadj*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTE2MjMkajMyJGwwJGgyMDM1MTE1NDc." 
                                     alt="Đồng hồ thông minh Galaxy Watch 4" 
@@ -1170,7 +843,7 @@
                 <!-- Product Item 4 -->
                 <article class="h-full">
                     <a href="/san-pham/may-doc-sach-kindle-paperwhite" aria-label="Máy đọc sách Kindle Paperwhite">
-                        <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                        <div class="mainin-product-card bg-white p-3 rounded-lg border border-gray-100">
                             <div class="relative mb-3">
                                 <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/m/a/may-doc-sach-kindle-paperwhite-6-16gb_2__3.png?_gl=1*14mkn1d*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTE2NTEkajQkbDAkaDIwMzUxMTU0Nw.." 
                                     alt="Máy đọc sách Kindle Paperwhite" 
@@ -1196,7 +869,7 @@
                 <!-- Product Item 5 -->
                 <article class="h-full">
                     <a href="/san-pham/ban-phim-co-logitech-g-pro-x" aria-label="Bàn phím cơ Logitech G Pro X">
-                        <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                        <div class="mainin-product-card bg-white p-3 rounded-lg border border-gray-100">
                             <div class="relative mb-3">
                                 <img src="https://cdn2.cellphones.com.vn/x/media/catalog/product/g/r/group_165_5_.png?_gl=1*m29d8d*_gcl_au*MTI0OTc1MzIyMi4xNzQ5ODUxMDE1*_ga*MjA3MTE1NTI2Ni4xNzI5MjczMDg4*_ga_QLK8WFHNK9*czE3NDk4NTEwMTQkbzckZzEkdDE3NDk4NTE2NzUkajU4JGwwJGgyMDM1MTE1NDc." 
                                     alt="Bàn phím cơ Logitech G Pro X" 
@@ -1222,7 +895,7 @@
                 <!-- Product Item 6 -->
                 <article class="h-full">
                     <a href="/san-pham/bo-may-tinh-i5" aria-label="Bộ Máy Tính I5 Siêu nhanh">
-                        <div class="product-card bg-white p-3 rounded-lg border border-gray-100">
+                        <div class="mainin-product-card bg-white p-3 rounded-lg border border-gray-100">
                             <div class="relative mb-3">
                                 <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/5698/334320/singpc-minipc-i12450h682-w-i5-12450h-den-1-638750531627392750-750x500.jpg" 
                                     alt="Bộ Máy Tính I5 Siêu nhanh" 
@@ -1332,260 +1005,7 @@
     </footer>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // ==================== NOTIFICATION FIX ====================
-        const notificationIcon = document.getElementById('notification-icon');
-        const notificationDropdown = document.getElementById('notification-dropdown');
-        const notificationList = document.querySelector('.notification-list');
-        const notificationFooter = document.querySelector('.notification-footer');
-        const loginRequired = document.getElementById('login-required');
-        
-        // Giả sử trạng thái đăng nhập (false = chưa đăng nhập)
-        let isLoggedIn = false;
-        
-        // Toggle dropdown when clicking on notification icon
-        notificationIcon.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            // Kiểm tra trạng thái đăng nhập
-            if (!isLoggedIn) {
-                // Hiển thị thông báo yêu cầu đăng nhập
-                loginRequired.classList.remove('hidden');
-                notificationList.classList.add('hidden');
-                notificationFooter.classList.add('hidden');
-            } else {
-                // Hiển thị danh sách thông báo
-                loginRequired.classList.add('hidden');
-                notificationList.classList.remove('hidden');
-                notificationFooter.classList.remove('hidden');
-            }
-            
-            notificationDropdown.classList.toggle('show');
-        });
-        
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!notificationDropdown.contains(e.target) && !notificationIcon.contains(e.target)) {
-                notificationDropdown.classList.remove('show');
-            }
-        });
-        
-        // Mark all as read
-        const markAllRead = document.querySelector('.notification-mark-all');
-        markAllRead.addEventListener('click', function(e) {
-            e.preventDefault();
-            const unreadItems = document.querySelectorAll('.notification-item.unread');
-            unreadItems.forEach(item => {
-                item.classList.remove('unread');
-            });
-            document.querySelector('.notification-count').textContent = '0';
-        });
-        
-        // Close dropdown when clicking on a notification item
-        const notificationItems = document.querySelectorAll('.notification-item');
-        notificationItems.forEach(item => {
-            item.addEventListener('click', function() {
-                this.classList.remove('unread');
-                
-                // Update notification count
-                const unreadCount = document.querySelectorAll('.notification-item.unread').length;
-                document.querySelector('.notification-count').textContent = unreadCount;
-            });
-        });
-        
-        // Login simulation (for demo purposes)
-        document.querySelector('.login-btn').addEventListener('click', function(e) {
-            e.preventDefault();
-            isLoggedIn = true;
-            alert("Bạn đã đăng nhập thành công! Đóng thông báo này để tiếp tục.");
-            
-            // Đóng dropdown và mở lại để hiển thị thông báo
-            notificationDropdown.classList.remove('show');
-            setTimeout(() => {
-                notificationDropdown.classList.add('show');
-                loginRequired.classList.add('hidden');
-                notificationList.classList.remove('hidden');
-                notificationFooter.classList.remove('hidden');
-            }, 100);
-        });
-
-        // Hàm chung để khởi tạo slider
-        function initSlider(config) {
-            const {
-                trackSelector,
-                slideSelector,
-                prevBtnSelector,
-                nextBtnSelector,
-                dotSelector,
-                containerSelector,
-                autoPlayDelay = 5000
-            } = config;
-            
-            const track = document.querySelector(trackSelector);
-            const slides = document.querySelectorAll(slideSelector);
-            const prevBtn = document.querySelector(prevBtnSelector);
-            const nextBtn = document.querySelector(nextBtnSelector);
-            const dots = dotSelector ? document.querySelectorAll(dotSelector) : [];
-            const container = document.querySelector(containerSelector);
-            
-            let currentSlide = 0;
-            const slideCount = slides.length;
-            let slideInterval;
-            
-            function updateSlider() {
-                track.style.transform = `translateX(-${currentSlide * 100}%)`;
-                
-                // Cập nhật dots nếu có
-                dots.forEach((dot, index) => {
-                    dot.classList.toggle('active', index === currentSlide);
-                });
-            }
-            
-            function startSlideShow() {
-                slideInterval = setInterval(() => {
-                    currentSlide = (currentSlide + 1) % slideCount;
-                    updateSlider();
-                }, autoPlayDelay);
-            }
-            
-            function pauseSlideShow() {
-                clearInterval(slideInterval);
-            }
-            
-            // Sự kiện nút điều hướng
-            if (prevBtn) {
-                prevBtn.addEventListener('click', () => {
-                    currentSlide = (currentSlide - 1 + slideCount) % slideCount;
-                    updateSlider();
-                    pauseSlideShow();
-                    startSlideShow();
-                });
-            }
-            
-            if (nextBtn) {
-                nextBtn.addEventListener('click', () => {
-                    currentSlide = (currentSlide + 1) % slideCount;
-                    updateSlider();
-                    pauseSlideShow();
-                    startSlideShow();
-                });
-            }
-            
-            // Sự kiện dots nếu có
-            dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => {
-                    currentSlide = index;
-                    updateSlider();
-                    pauseSlideShow();
-                    startSlideShow();
-                });
-            });
-            
-            // Pause on hover
-            if (container) {
-                container.addEventListener('mouseenter', pauseSlideShow);
-                container.addEventListener('mouseleave', startSlideShow);
-            }
-            
-            // Khởi động
-            updateSlider();
-            startSlideShow();
-        }
-
-        // 1. Khởi tạo banner lớn
-        initSlider({
-            trackSelector: '.slider-track',
-            slideSelector: '.slide',
-            prevBtnSelector: '.prev-btn',
-            nextBtnSelector: '.next-btn',
-            dotSelector: '.nav-dot',
-            containerSelector: '.slider-container',
-            autoPlayDelay: 5000
-        });
-
-        // 2. Khởi tạo các banner nhỏ
-        const smallBanners = [
-            {
-                trackSelector: '.banner-grid > :first-child .flex',
-                slideSelector: '.banner-grid > :first-child .min-w-full',
-                prevBtnSelector: '.banner1-prev',
-                nextBtnSelector: '.banner1-next',
-                containerSelector: '.banner-grid > :first-child',
-                autoPlayDelay: 5000
-            },
-            {
-                trackSelector: '.banner-grid > :last-child .flex',
-                slideSelector: '.banner-grid > :last-child .min-w-full',
-                prevBtnSelector: '.banner2-prev',
-                nextBtnSelector: '.banner2-next',
-                containerSelector: '.banner-grid > :last-child',
-                autoPlayDelay: 6000
-            }
-        ];
-
-        smallBanners.forEach(banner => initSlider(banner));
-        
-        // Flash Sale Countdown Timer
-        function updateFlashSaleTimer() {
-            // Set the end time for the flash sale (example: 3 days from now)
-            const endTime = new Date();
-            endTime.setDate(endTime.getDate() + 3); // 3 days from now
-            endTime.setHours(23, 59, 59); // 23:59:59
-            
-            const now = new Date();
-            const diff = endTime - now;
-            
-            if (diff <= 0) {
-                // Sale has ended
-                document.getElementById('flash-hours').textContent = '00';
-                document.getElementById('flash-minutes').textContent = '00';
-                document.getElementById('flash-seconds').textContent = '00';
-                return;
-            }
-            
-            // Calculate hours, minutes, seconds
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            // Update the timer display
-            document.getElementById('flash-hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('flash-minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('flash-seconds').textContent = seconds.toString().padStart(2, '0');
-        }
-        
-        // Initialize and update the timer every second
-        updateFlashSaleTimer();
-        setInterval(updateFlashSaleTimer, 1000);
-        
-        // PWA Installation Prompt
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent the mini-infobar from appearing on mobile
-            e.preventDefault();
-            // Stash the event so it can be triggered later
-            deferredPrompt = e;
-            // Show install button
-            console.log('PWA installation available');
-        });
-    });
-
-    // Mobile Menu Toggle
-    document.getElementById('mobile-menu-button').addEventListener('click', function() {
-        const menu = document.getElementById('mobile-menu');
-        menu.classList.toggle('hidden');
-    });
-
-    // Đóng menu khi click bên ngoài
-    document.addEventListener('click', function(event) {
-        const menu = document.getElementById('mobile-menu');
-        const button = document.getElementById('mobile-menu-button');
-        
-        if (!menu.contains(event.target) && event.target !== button) {
-            menu.classList.add('hidden');
-        }
-    });
+    
     </script>
 </body>
 </html>

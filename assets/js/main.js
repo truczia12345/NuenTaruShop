@@ -1,5 +1,4 @@
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
         // ==================== NOTIFICATION FIX ====================
         const notificationIcon = document.getElementById('notification-icon');
         const notificationDropdown = document.getElementById('notification-dropdown');
@@ -253,4 +252,3 @@
             menu.classList.add('hidden');
         }
     });
-    </script>

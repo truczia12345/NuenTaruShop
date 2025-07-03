@@ -6,6 +6,7 @@
   <title>Lịch sử hoạt động | Admin Panel</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/@fortawesome/fontawesome-free/js/all.js" defer></script>
+  <script src="/assets/js/modal.js" defer></script>
 </head>
 <body class="bg-gray-100 p-8 font-sans">
   <div class="p-6">
@@ -64,9 +65,9 @@
             <td class="p-3 text-sm">01/06/2025 09:23</td>
             <td class="p-3 text-sm text-gray-500">192.168.1.11</td>
             <td class="p-3 text-sm text-gray-500">Chrome - Windows</td>
-            <td class="p-3 text-center">
-              <button onclick="openModal()" class="text-blue-600 hover:text-blue-800" title="Xem chi tiết">
-                <i class="fas fa-eye"></i>
+            <td class="p-3 text-center text-white">
+              <button onclick="openModal('logModal')" class="bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded" title="Xem chi tiết">
+                  <i class="fas fa-eye"></i>
               </button>
             </td>
           </tr>
@@ -87,7 +88,7 @@
     </div>
 
     <!-- Modal -->
-    <div id="logModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div id="logModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50 modal">
       <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
         <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
           <i class="fas fa-info-circle text-blue-600"></i>
@@ -100,24 +101,16 @@
         <p><strong>Thiết bị:</strong> Chrome - Windows</p>
 
         <div class="text-right mt-6">
-          <button onclick="closeModal()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+          <button onclick="closeModal('logModal')" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
             Đóng
           </button>
         </div>
-        <button onclick="closeModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">
-          <i class="fas fa-times"></i>
+        <!-- Nút đóng -->
+        <button onclick="closeModal('logModal')" class="close-modal absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+          <i class="fas fa-times text-xl"></i>
         </button>
       </div>
     </div>
-
-    <script>
-      function openModal() {
-        document.getElementById("logModal").classList.remove("hidden");
-      }
-      function closeModal() {
-        document.getElementById("logModal").classList.add("hidden");
-      }
-    </script>
 
   </div>
 </body>
