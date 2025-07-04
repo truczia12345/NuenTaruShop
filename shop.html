@@ -204,7 +204,7 @@
                                 <input type="range" min="0" max="20000000" value="0">
                                 <input type="range" min="0" max="20000000" value="5000000">
                             </div>
-                            <button class="filter-btn">Áp dụng</button>
+                            <button class="shop-filter-btn">Áp dụng</button>
                         </div>
                     </div>
                     
@@ -325,10 +325,10 @@
                             </select>
                         </div>
                         <div class="view-options">
-                            <button class="view-btn active" data-view="grid">
+                            <button class="shop-view-btn active" data-view="grid">
                                 <i class="fas fa-th" aria-hidden="true"></i>
                             </button>
-                            <button class="view-btn" data-view="list">
+                            <button class="shop-view-btn" data-view="list">
                                 <i class="fas fa-list" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -678,16 +678,16 @@
                     </div>
                     
                     <!-- Pagination -->
-                    <div class="pagination">
-                        <button class="pagination-btn">
+                    <div class="shop-pagination">
+                        <button class="shop-pagination-btn">
                             <i class="fas fa-chevron-left" aria-hidden="true"></i>
                         </button>
-                        <button class="pagination-btn active">1</button>
-                        <button class="pagination-btn">2</button>
-                        <button class="pagination-btn">3</button>
-                        <button class="pagination-btn">4</button>
-                        <button class="pagination-btn">5</button>
-                        <button class="pagination-btn">
+                        <button class="shop-pagination-btn active">1</button>
+                        <button class="shop-pagination-btn">2</button>
+                        <button class="shop-pagination-btn">3</button>
+                        <button class="shop-pagination-btn">4</button>
+                        <button class="shop-pagination-btn">5</button>
+                        <button class="shop-pagination-btn">
                             <i class="fas fa-chevron-right" aria-hidden="true"></i>
                         </button>
                     </div>
@@ -815,7 +815,7 @@
         }
         
         // View Options
-        const viewBtns = document.querySelectorAll('.view-btn');
+        const viewBtns = document.querySelectorAll('.shop-view-btn');
         const shopGrid = document.querySelector('.shop-grid');
         
         viewBtns.forEach(btn => {

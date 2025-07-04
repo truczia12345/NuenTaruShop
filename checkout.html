@@ -6,361 +6,7 @@
     <title>Thanh Toán | E-Shop</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #c5c5c5;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
-        }
-        
-        /* Animation */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .animate-pulse-custom {
-            animation: pulse 1.5s infinite;
-        }
-        
-        /* Checkout Button */
-        .checkout-btn {
-            transition: all 0.3s;
-            box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
-        }
-        
-        .checkout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 10px rgba(239, 68, 68, 0.4);
-        }
-        
-        /* Form Styling */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: #4a5568;
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.375rem;
-            transition: border-color 0.3s;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: #ff424f;
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
-        }
-        
-        .form-select {
-            background-position: right 0.5rem center;
-            background-repeat: no-repeat;
-            background-size: 1.5em 1.5em;
-        }
-        
-        /* Payment Methods */
-        .payment-method {
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .payment-method:hover {
-            border-color: #ff424f;
-        }
-        
-        .payment-method.selected {
-            border-color: #ff424f;
-            background-color: #fff5f5;
-        }
-        
-        /* Progress Steps */
-        .progress-steps {
-            position: relative;
-            margin-bottom: 3rem;
-        }
-        
-        .progress-line {
-            position: absolute;
-            top: 16px;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background-color: #e5e7eb;
-            z-index: 0;
-        }
-        
-        .step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .step-number {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: #ff424f;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-        }
-        
-        .step.completed .step-number {
-            background-color: #ff424f;
-        }
-        
-        .step.active .step-number {
-            background-color: #ff424f;
-            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2);
-        }
-        
-        .step.inactive .step-number {
-            background-color: #9ca3af;
-        }
-        
-        .step-label {
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #4b5563;
-        }
-        
-        .step.active .step-label {
-            color: #1f2937;
-            font-weight: 600;
-        }
-        
-        /* Address Card */
-        .address-card {
-            border: 2px solid #e5e7eb;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            transition: all 0.3s;
-        }
-        
-        .address-card:hover {
-            border-color: #ff424f;
-        }
-        
-        .address-card.selected {
-            border-color: #ff424f;
-            background-color: #fff5f5;
-        }
-        
-        .address-card .edit-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            color: #3b82f6;
-        }
-        
-        .address-card .edit-btn:hover {
-            color: #2563eb;
-        }
-        
-        /* Applied Coupon */
-        .applied-coupon {
-            background-color: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-            margin-bottom: 0.75rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .coupon-type {
-            font-weight: 600;
-            color: #166534;
-        }
-        
-        .coupon-value {
-            color: #166534;
-            font-weight: 500;
-        }
-
-        /* Seller Group */
-        .seller-group {
-            border: 1px solid #e2e8f0;
-            border-radius: 0.75rem;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            background-color: #f9fafb;
-        }
-        
-        .seller-header {
-            display: flex;
-            align-items: center;
-            padding-bottom: 0.75rem;
-            margin-bottom: 0.75rem;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        
-        .seller-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background-color: #e5e7eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 10px;
-        }
-        
-        .seller-name {
-            font-weight: 600;
-            color: #4b5563;
-        }
-        
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        /* Order Confirmation */
-        .confirmation-container {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            padding: 3rem 1rem;
-        }
-        
-        .confirmation-icon {
-            font-size: 5rem;
-            color: #10b981;
-            margin-bottom: 1.5rem;
-        }
-        
-        .order-details-box {
-            background-color: #f9fafb;
-            border-radius: 0.75rem;
-            padding: 2rem;
-            margin: 2rem 0;
-            text-align: left;
-        }
-        
-        .order-info-row {
-            display: flex;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        
-        .order-info-label {
-            width: 40%;
-            font-weight: 500;
-            color: #4b5563;
-        }
-        
-        .order-info-value {
-            width: 60%;
-            font-weight: 600;
-        }
-        
-        /* Responsive */
-        @media (max-width: 1023px) {
-            .checkout-container {
-                flex-direction: column;
-            }
-            
-            .checkout-form {
-                width: 100%;
-                margin-right: 0;
-            }
-            
-            .order-summary {
-                width: 100%;
-                margin-top: 2rem;
-            }
-        }
-        
-        @media (max-width: 640px) {
-            .checkout-header {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            
-            .checkout-header h1 {
-                font-size: 1.5rem;
-            }
-            
-            .order-item {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .order-image {
-                width: 100%;
-                max-width: 100%;
-            }
-            
-            .order-details {
-                width: 100%;
-            }
-            
-            .order-info-row {
-                flex-direction: column;
-            }
-            
-            .order-info-label, .order-info-value {
-                width: 100%;
-            }
-            
-            .order-info-label {
-                margin-bottom: 0.25rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body class="bg-gray-50">
     <!-- Header -->
@@ -432,26 +78,26 @@
             </div>
         </div>
         
-        <!-- Progress Steps -->
-        <div class="progress-steps">
+        <!-- Progress checkoutsteps -->
+        <div class="checkout-progress-checkoutsteps">
             <div class="flex justify-between relative">
-                <div class="progress-line"></div>
+                <div class="checkout-progress-line"></div>
                 
-                <div class="step completed">
-                    <div class="step-number">
+                <div class="checkoutstep completed">
+                    <div class="checkoutstep-number">
                         <i class="fas fa-check text-xs"></i>
                     </div>
-                    <span class="step-label">Giỏ hàng</span>
+                    <span class="checkoutstep-label">Giỏ hàng</span>
                 </div>
                 
-                <div class="step active">
-                    <div class="step-number">2</div>
-                    <span class="step-label">Thanh toán</span>
+                <div class="checkoutstep active">
+                    <div class="checkoutstep-number">2</div>
+                    <span class="checkoutstep-label">Thanh toán</span>
                 </div>
                 
-                <div class="step inactive">
-                    <div class="step-number">3</div>
-                    <span class="step-label">Hoàn tất</span>
+                <div class="checkoutstep inactive">
+                    <div class="checkoutstep-number">3</div>
+                    <span class="checkoutstep-label">Hoàn tất</span>
                 </div>
             </div>
         </div>
@@ -468,7 +114,7 @@
                     </h2>
                     
                     <!-- Saved Address -->
-                    <div class="address-card selected">
+                    <div class="checkout-address-card selected">
                         <button class="edit-btn" id="change-address-btn">
                             <i class="fas fa-exchange-alt mr-1"></i> Thay đổi
                         </button>
@@ -597,24 +243,24 @@
                     <!-- Credit Card Form (Hidden by default) -->
                     <div id="credit-card-form" class="mt-6 p-4 bg-gray-50 rounded-lg hidden">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="form-group">
-                                <label class="form-label">Số thẻ <span class="text-red-500">*</span></label>
-                                <input type="text" class="form-input" placeholder="XXXX XXXX XXXX XXXX">
+                            <div class="checkout-form-group">
+                                <label class="checkout-form-label">Số thẻ <span class="text-red-500">*</span></label>
+                                <input type="text" class="checkout-form-input" placeholder="XXXX XXXX XXXX XXXX">
                             </div>
                             
-                            <div class="form-group">
-                                <label class="form-label">Tên chủ thẻ <span class="text-red-500">*</span></label>
-                                <input type="text" class="form-input" placeholder="NGUYEN VAN A">
+                            <div class="checkout-form-group">
+                                <label class="checkout-form-label">Tên chủ thẻ <span class="text-red-500">*</span></label>
+                                <input type="text" class="checkout-form-input" placeholder="NGUYEN VAN A">
                             </div>
                             
-                            <div class="form-group">
-                                <label class="form-label">Ngày hết hạn <span class="text-red-500">*</span></label>
-                                <input type="text" class="form-input" placeholder="MM/YY">
+                            <div class="checkout-form-group">
+                                <label class="checkout-form-label">Ngày hết hạn <span class="text-red-500">*</span></label>
+                                <input type="text" class="checkout-form-input" placeholder="MM/YY">
                             </div>
                             
-                            <div class="form-group">
-                                <label class="form-label">CVV <span class="text-red-500">*</span></label>
-                                <input type="text" class="form-input" placeholder="123">
+                            <div class="checkout-form-group">
+                                <label class="checkout-form-label">CVV <span class="text-red-500">*</span></label>
+                                <input type="text" class="checkout-form-input" placeholder="123">
                             </div>
                         </div>
                     </div>
@@ -629,12 +275,12 @@
                     <!-- Order Items grouped by seller -->
                     <div class="order-items max-h-96 overflow-y-auto pr-2 mb-6">
                         <!-- Seller Group 1: Apple Store -->
-                        <div class="seller-group">
-                            <div class="seller-header">
-                                <div class="seller-icon">
+                        <div class="checkout-seller-group">
+                            <div class="checkout-seller-header">
+                                <div class="checkout-seller-icon">
                                     <i class="fas fa-store text-gray-500"></i>
                                 </div>
-                                <div class="seller-name">Apple Store</div>
+                                <div class="checkout-seller-name">Apple Store</div>
                             </div>
                             
                             <div class="space-y-4">
@@ -677,12 +323,12 @@
                         </div>
                         
                         <!-- Seller Group 2: Sony Store -->
-                        <div class="seller-group">
-                            <div class="seller-header">
-                                <div class="seller-icon">
+                        <div class="checkout-seller-group">
+                            <div class="checkout-seller-header">
+                                <div class="checkout-seller-icon">
                                     <i class="fas fa-store text-gray-500"></i>
                                 </div>
-                                <div class="seller-name">Sony Store</div>
+                                <div class="checkout-seller-name">Sony Store</div>
                             </div>
                             
                             <div class="space-y-4">
@@ -976,13 +622,13 @@
         </div>
     </footer>
 
-    <!-- Coupon Modal -->
-    <div class="modal" id="coupon-modal">
-        <div class="modal-content">
+    <!-- Coupon checkoutmodal -->
+    <div class="checkoutmodal" id="coupon-checkoutmodal">
+        <div class="checkoutmodal-content">
             <div class="p-4 border-b">
                 <div class="flex justify-between items-center">
                     <h2 class="text-xl font-bold">Chọn mã giảm giá</h2>
-                    <button id="close-coupon-modal" class="text-gray-500 hover:text-gray-700">
+                    <button id="close-coupon-checkoutmodal" class="text-gray-500 hover:text-gray-700">
                         <i class="fas fa-times text-xl"></i>
                     </button>
                 </div>
@@ -1105,13 +751,13 @@
         </div>
     </div>
 
-    <!-- Address Modal -->
-    <div class="modal" id="address-modal">
-        <div class="modal-content">
+    <!-- Address checkoutmodal -->
+    <div class="checkoutmodal" id="address-checkoutmodal">
+        <div class="checkoutmodal-content">
             <div class="p-4 border-b">
                 <div class="flex justify-between items-center">
                     <h2 class="text-xl font-bold">Chọn địa chỉ giao hàng</h2>
-                    <button id="close-address-modal" class="text-gray-500 hover:text-gray-700">
+                    <button id="close-address-checkoutmodal" class="text-gray-500 hover:text-gray-700">
                         <i class="fas fa-times text-xl"></i>
                     </button>
                 </div>
@@ -1121,7 +767,7 @@
                 <!-- Address List -->
                 <div class="space-y-4">
                     <!-- Address 1 -->
-                    <div class="address-card">
+                    <div class="checkout-address-card">
                         <button class="edit-btn update-address-btn" data-id="1">
                             <i class="fas fa-edit mr-1"></i> Cập nhật
                         </button>
@@ -1144,7 +790,7 @@
                     </div>
                     
                     <!-- Address 2 -->
-                    <div class="address-card">
+                    <div class="checkout-address-card">
                         <button class="edit-btn update-address-btn" data-id="2">
                             <i class="fas fa-edit mr-1"></i> Cập nhật
                         </button>
@@ -1174,13 +820,13 @@
         </div>
     </div>
 
-    <!-- Edit Address Modal -->
-    <div class="modal" id="edit-address-modal">
-        <div class="modal-content">
+    <!-- Edit Address checkoutmodal -->
+    <div class="checkoutmodal" id="edit-address-checkoutmodal">
+        <div class="checkoutmodal-content">
             <div class="p-4 border-b">
                 <div class="flex justify-between items-center">
                     <h2 class="text-xl font-bold" id="edit-address-title">Cập nhật địa chỉ</h2>
-                    <button id="close-edit-address-modal" class="text-gray-500 hover:text-gray-700">
+                    <button id="close-edit-address-checkoutmodal" class="text-gray-500 hover:text-gray-700">
                         <i class="fas fa-times text-xl"></i>
                     </button>
                 </div>
@@ -1189,19 +835,19 @@
             <div class="p-6">
                 <form id="address-form">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="form-group">
-                            <label class="form-label">Họ và tên <span class="text-red-500">*</span></label>
-                            <input type="text" class="form-input" placeholder="Nhập họ và tên" value="Nguyễn Văn A" required>
+                        <div class="checkout-form-group">
+                            <label class="checkout-form-label">Họ và tên <span class="text-red-500">*</span></label>
+                            <input type="text" class="checkout-form-input" placeholder="Nhập họ và tên" value="Nguyễn Văn A" required>
                         </div>
                         
-                        <div class="form-group">
-                            <label class="form-label">Số điện thoại <span class="text-red-500">*</span></label>
-                            <input type="tel" class="form-input" placeholder="Nhập số điện thoại" value="0912345678" required>
+                        <div class="checkout-form-group">
+                            <label class="checkout-form-label">Số điện thoại <span class="text-red-500">*</span></label>
+                            <input type="tel" class="checkout-form-input" placeholder="Nhập số điện thoại" value="0912345678" required>
                         </div>
                         
-                        <div class="form-group">
-                            <label class="form-label">Tỉnh/Thành phố <span class="text-red-500">*</span></label>
-                            <select class="form-input form-select" required>
+                        <div class="checkout-form-group">
+                            <label class="checkout-form-label">Tỉnh/Thành phố <span class="text-red-500">*</span></label>
+                            <select class="checkout-form-input checkout-form-select" required>
                                 <option>Chọn tỉnh/thành phố</option>
                                 <option selected>Đà Nẵng</option>
                                 <option>Hà Nội</option>
@@ -1209,9 +855,9 @@
                             </select>
                         </div>
                         
-                        <div class="form-group">
-                            <label class="form-label">Quận/Huyện <span class="text-red-500">*</span></label>
-                            <select class="form-input form-select" required>
+                        <div class="checkout-form-group">
+                            <label class="checkout-form-label">Quận/Huyện <span class="text-red-500">*</span></label>
+                            <select class="checkout-form-input checkout-form-select" required>
                                 <option>Chọn quận/huyện</option>
                                 <option selected>Hải Châu</option>
                                 <option>Thanh Khê</option>
@@ -1219,9 +865,9 @@
                             </select>
                         </div>
                         
-                        <div class="form-group">
-                            <label class="form-label">Phường/Xã <span class="text-red-500">*</span></label>
-                            <select class="form-input form-select" required>
+                        <div class="checkout-form-group">
+                            <label class="checkout-form-label">Phường/Xã <span class="text-red-500">*</span></label>
+                            <select class="checkout-form-input checkout-form-select" required>
                                 <option>Chọn phường/xã</option>
                                 <option selected>Hòa Cường Bắc</option>
                                 <option>Hòa Cường Nam</option>
@@ -1229,13 +875,13 @@
                             </select>
                         </div>
                         
-                        <div class="form-group md:col-span-2">
-                            <label class="form-label">Địa chỉ chi tiết <span class="text-red-500">*</span></label>
-                            <input type="text" class="form-input" placeholder="Số nhà, tên đường..." value="123 Nguyễn Văn Linh" required>
+                        <div class="checkout-form-group md:col-span-2">
+                            <label class="checkout-form-label">Địa chỉ chi tiết <span class="text-red-500">*</span></label>
+                            <input type="text" class="checkout-form-input" placeholder="Số nhà, tên đường..." value="123 Nguyễn Văn Linh" required>
                         </div>
                         
-                        <div class="form-group md:col-span-2">
-                            <label class="form-label">Loại địa chỉ</label>
+                        <div class="checkout-form-group md:col-span-2">
+                            <label class="checkout-form-label">Loại địa chỉ</label>
                             <div class="flex space-x-4 mt-2">
                                 <label class="inline-flex items-center">
                                     <input type="radio" name="address-type" value="home" checked class="text-[#ff424f]">
@@ -1328,37 +974,37 @@
             document.querySelector('.checkout-container').style.display = 'none';
             document.getElementById('order-confirmation').style.display = 'block';
             
-            // Update progress steps
-            const steps = document.querySelectorAll('.step');
-            steps[1].classList.remove('active');
-            steps[1].classList.add('completed');
-            steps[2].classList.remove('inactive');
-            steps[2].classList.add('active');
+            // Update progress checkoutsteps
+            const checkoutsteps = document.querySelectorAll('.checkoutstep');
+            checkoutsteps[1].classList.remove('active');
+            checkoutsteps[1].classList.add('completed');
+            checkoutsteps[2].classList.remove('inactive');
+            checkoutsteps[2].classList.add('active');
             
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
         
-        // Coupon Modal
-        const couponModal = document.getElementById('coupon-modal');
+        // Coupon checkoutmodal
+        const couponcheckoutmodal = document.getElementById('coupon-checkoutmodal');
         const chooseCouponBtn = document.getElementById('choose-coupon');
-        const closeCouponModal = document.getElementById('close-coupon-modal');
+        const closeCouponcheckoutmodal = document.getElementById('close-coupon-checkoutmodal');
         const couponTabs = document.querySelectorAll('.coupon-tab');
         
-        // Open coupon modal
+        // Open coupon checkoutmodal
         chooseCouponBtn.addEventListener('click', () => {
-            couponModal.style.display = 'flex';
+            couponcheckoutmodal.style.display = 'flex';
         });
         
-        // Close coupon modal
-        closeCouponModal.addEventListener('click', () => {
-            couponModal.style.display = 'none';
+        // Close coupon checkoutmodal
+        closeCouponcheckoutmodal.addEventListener('click', () => {
+            couponcheckoutmodal.style.display = 'none';
         });
         
-        // Close modal when clicking outside
-        couponModal.addEventListener('click', (e) => {
-            if (e.target === couponModal) {
-                couponModal.style.display = 'none';
+        // Close checkoutmodal when clicking outside
+        couponcheckoutmodal.addEventListener('click', (e) => {
+            if (e.target === couponcheckoutmodal) {
+                couponcheckoutmodal.style.display = 'none';
             }
         });
         
@@ -1386,89 +1032,89 @@
             });
         });
         
-        // Apply coupon from modal
+        // Apply coupon from checkoutmodal
         document.querySelectorAll('.coupon-apply button').forEach(btn => {
             btn.addEventListener('click', function() {
                 const couponTitle = this.closest('.coupon-item').querySelector('h4').textContent;
                 alert(`Mã giảm giá "${couponTitle}" đã được áp dụng!`);
-                couponModal.style.display = 'none';
+                couponcheckoutmodal.style.display = 'none';
             });
         });
         
-        // Address Modals
-        const addressModal = document.getElementById('address-modal');
-        const editAddressModal = document.getElementById('edit-address-modal');
+        // Address checkoutmodals
+        const addresscheckoutmodal = document.getElementById('address-checkoutmodal');
+        const editAddresscheckoutmodal = document.getElementById('edit-address-checkoutmodal');
         const changeAddressBtn = document.getElementById('change-address-btn');
-        const closeAddressModal = document.getElementById('close-address-modal');
-        const closeEditAddressModal = document.getElementById('close-edit-address-modal');
+        const closeAddresscheckoutmodal = document.getElementById('close-address-checkoutmodal');
+        const closeEditAddresscheckoutmodal = document.getElementById('close-edit-address-checkoutmodal');
         const addAddressBtn = document.getElementById('add-address-btn');
         const addNewAddressBtn = document.getElementById('add-new-address-btn');
         const cancelEditBtn = document.getElementById('cancel-edit-btn');
         const updateAddressBtns = document.querySelectorAll('.update-address-btn');
         const editAddressTitle = document.getElementById('edit-address-title');
         
-        // Open address modal
+        // Open address checkoutmodal
         changeAddressBtn.addEventListener('click', () => {
-            addressModal.style.display = 'flex';
+            addresscheckoutmodal.style.display = 'flex';
         });
         
-        // Close address modal
-        closeAddressModal.addEventListener('click', () => {
-            addressModal.style.display = 'none';
+        // Close address checkoutmodal
+        closeAddresscheckoutmodal.addEventListener('click', () => {
+            addresscheckoutmodal.style.display = 'none';
         });
         
-        // Close modal when clicking outside
-        addressModal.addEventListener('click', (e) => {
-            if (e.target === addressModal) {
-                addressModal.style.display = 'none';
+        // Close checkoutmodal when clicking outside
+        addresscheckoutmodal.addEventListener('click', (e) => {
+            if (e.target === addresscheckoutmodal) {
+                addresscheckoutmodal.style.display = 'none';
             }
         });
         
-        // Open add new address modal
+        // Open add new address checkoutmodal
         addAddressBtn.addEventListener('click', () => {
             editAddressTitle.textContent = 'Thêm địa chỉ mới';
-            editAddressModal.style.display = 'flex';
+            editAddresscheckoutmodal.style.display = 'flex';
         });
         
-        // Open add new address modal from address list
+        // Open add new address checkoutmodal from address list
         addNewAddressBtn.addEventListener('click', () => {
-            addressModal.style.display = 'none';
+            addresscheckoutmodal.style.display = 'none';
             editAddressTitle.textContent = 'Thêm địa chỉ mới';
-            editAddressModal.style.display = 'flex';
+            editAddresscheckoutmodal.style.display = 'flex';
         });
         
-        // Open update address modal
+        // Open update address checkoutmodal
         updateAddressBtns.forEach(btn => {
             btn.addEventListener('click', function() {
                 const addressId = this.getAttribute('data-id');
                 editAddressTitle.textContent = 'Cập nhật địa chỉ';
-                editAddressModal.style.display = 'flex';
-                addressModal.style.display = 'none';
+                editAddresscheckoutmodal.style.display = 'flex';
+                addresscheckoutmodal.style.display = 'none';
             });
         });
         
-        // Close edit address modal
-        closeEditAddressModal.addEventListener('click', () => {
-            editAddressModal.style.display = 'none';
+        // Close edit address checkoutmodal
+        closeEditAddresscheckoutmodal.addEventListener('click', () => {
+            editAddresscheckoutmodal.style.display = 'none';
         });
         
-        // Close edit address modal when clicking outside
-        editAddressModal.addEventListener('click', (e) => {
-            if (e.target === editAddressModal) {
-                editAddressModal.style.display = 'none';
+        // Close edit address checkoutmodal when clicking outside
+        editAddresscheckoutmodal.addEventListener('click', (e) => {
+            if (e.target === editAddresscheckoutmodal) {
+                editAddresscheckoutmodal.style.display = 'none';
             }
         });
         
         // Cancel edit button
         cancelEditBtn.addEventListener('click', () => {
-            editAddressModal.style.display = 'none';
+            editAddresscheckoutmodal.style.display = 'none';
         });
         
         // Save address form
         document.getElementById('address-form').addEventListener('submit', function(e) {
             e.preventDefault();
             alert('Địa chỉ đã được lưu thành công!');
-            editAddressModal.style.display = 'none';
+            editAddresscheckoutmodal.style.display = 'none';
         });
     });
     </script>

@@ -24,7 +24,8 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link rel="stylesheet" href="/assets/css/style.css">
+
     <!-- Schema.org markup for Google -->
     <script type="application/ld+json">
     {
@@ -57,470 +58,10 @@
       }
     }
     </script>
-    
-    <style>
-        /* Header */
-        .pb-3 img {
-          width: 120px;
-          height: 120px;
-        }
-
-        /* Product Gallery */
-        .product-gallery {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .thumbnail-container {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-        }
-        .thumbnail {
-            width: 80px;
-            height: 80px;
-            border: 1px solid #e5e7eb;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .thumbnail:hover, .thumbnail.active {
-            border-color: #ff424f;
-        }
-        .main-image {
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .main-image img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-        
-        /* Product Info */
-        .product-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .product-rating {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .product-price {
-            font-size: 28px;
-            font-weight: bold;
-            color: #ef4444;
-            margin-bottom: 15px;
-        }
-        .original-price {
-            text-decoration: line-through;
-            color: #9ca3af;
-            font-size: 18px;
-            margin-left: 10px;
-        }
-        .discount-badge {
-            background-color: #ff424f;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 14px;
-            margin-left: 10px;
-        }
-        .promotion-list {
-            background-color: #f3f4f6;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        .promotion-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 10px;
-        }
-        .promotion-item:last-child {
-            margin-bottom: 0;
-        }
-        .promotion-icon {
-            color: #ff424f;
-            margin-right: 10px;
-            margin-top: 2px;
-        }
-        .color-option {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .color-option.active {
-            border-color: #ff424f;
-        }
-        .storage-option {
-            padding: 8px 15px;
-            border: 1px solid #e5e7eb;
-            border-radius: 20px;
-            cursor: pointer;
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
-        .storage-option.active {
-            border-color: #ff424f;
-            background-color: #fff5f5;
-            color: #ff424f;
-        }
-        
-        /* Tabs */
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
-        }
-        .tab-button {
-            padding: 10px 20px;
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-weight: 600;
-            color: #6b7280;
-            position: relative;
-        }
-        .tab-button.active {
-            color: #ff424f;
-        }
-        .tab-button.active:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: #ff424f;
-        }
-        
-        /* Related Products */
-        .related-product {
-            transition: all 0.3s ease;
-        }
-        .related-product:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Seller Information */
-        .seller-card {
-            background-color: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 24px;
-        }
-        .seller-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        .seller-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: #f3f4f6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-size: 24px;
-            color: #ff424f;
-        }
-        .seller-name {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-        .seller-rating {
-            display: flex;
-            align-items: center;
-        }
-        .seller-stars {
-            color: #fbbf24;
-            margin-right: 8px;
-        }
-        .seller-rating-text {
-            font-size: 14px;
-            color: #6b7280;
-        }
-        .seller-stats {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        .seller-stat {
-            flex: 1;
-            min-width: 120px;
-            text-align: center;
-            border-right: 1px solid #e5e7eb;
-            padding: 0 15px;
-        }
-        .seller-stat:last-child {
-            border-right: none;
-        }
-        .seller-stat-value {
-            font-size: 18px;
-            font-weight: bold;
-            color: #1f2937;
-            margin-bottom: 4px;
-        }
-        .seller-stat-label {
-            font-size: 14px;
-            color: #6b7280;
-        }
-        .seller-actions {
-            display: flex;
-            gap: 12px;
-        }
-        .seller-btn {
-            flex: 1;
-            padding: 10px 15px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-        .seller-chat {
-            background-color: #ff424f;
-            color: white;
-            border: none;
-        }
-        .seller-chat:hover {
-            background-color: #e53e3e;
-        }
-        .seller-shop {
-            background-color: #f3f4f6;
-            color: #374151;
-            border: 1px solid #e5e7eb;
-        }
-        .seller-shop:hover {
-            background-color: #e5e7eb;
-        }
-        
-        /* Reviews Section */
-        .reviews-container {
-            background-color: #ffffff;
-            border-radius: 8px;
-            padding: 24px;
-            margin-top: 24px;
-        }
-        .reviews-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-        .reviews-overview {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-right: 32px;
-            padding-right: 32px;
-            border-right: 1px solid #e5e7eb;
-        }
-        .reviews-score {
-            font-size: 48px;
-            font-weight: bold;
-            color: #1f2937;
-            line-height: 1;
-            margin-bottom: 8px;
-        }
-        .reviews-stars {
-            color: #fbbf24;
-            font-size: 20px;
-            margin-bottom: 8px;
-        }
-        .reviews-count {
-            font-size: 14px;
-            color: #6b7280;
-        }
-        .reviews-filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            flex: 1;
-        }
-        .review-filter {
-            padding: 6px 12px;
-            border-radius: 20px;
-            background-color: #f3f4f6;
-            color: #4b5563;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-        }
-        .review-filter.active {
-            background-color: #ff424f;
-            color: white;
-        }
-        .review-filter-star {
-            margin-right: 4px;
-            color: #fbbf24;
-        }
-        .review-item {
-            border-bottom: 1px solid #e5e7eb;
-            padding: 24px 0;
-        }
-        .review-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        .review-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #f3f4f6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            color: #ff424f;
-            font-weight: bold;
-        }
-        .review-user {
-            flex: 1;
-        }
-        .review-name {
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-        .review-date {
-            font-size: 12px;
-            color: #6b7280;
-        }
-        .review-stars {
-            color: #fbbf24;
-            margin-bottom: 8px;
-        }
-        .review-title {
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        .review-content {
-            color: #4b5563;
-            margin-bottom: 12px;
-        }
-        .review-images {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-        .review-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 4px;
-            object-fit: cover;
-            cursor: pointer;
-        }
-        .review-footer {
-            display: flex;
-            gap: 16px;
-        }
-        .review-action {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            color: #6b7280;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        .review-action:hover {
-            color: #ff424f;
-        }
-        
-        /* Responsive */
-        @media (max-width: 1023px) {
-            .product-grid {
-                grid-template-columns: 1fr;
-            }
-            .main-image {
-                height: 300px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .seller-stats {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .seller-stat {
-                border-right: none;
-                border-bottom: 1px solid #e5e7eb;
-                padding-bottom: 15px;
-                text-align: left;
-            }
-            .seller-stat:last-child {
-                border-bottom: none;
-                padding-bottom: 0;
-            }
-            .reviews-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .reviews-overview {
-                flex-direction: row;
-                align-items: center;
-                border-right: none;
-                border-bottom: 1px solid #e5e7eb;
-                padding-right: 0;
-                padding-bottom: 16px;
-                margin-bottom: 16px;
-                width: 100%;
-            }
-            .reviews-score {
-                margin-right: 16px;
-                margin-bottom: 0;
-            }
-            .reviews-stars {
-                margin-right: 16px;
-                margin-bottom: 0;
-            }
-            .seller-actions {
-                flex-direction: column;
-            }
-        }
-        
-        @media (max-width: 640px) {
-            .thumbnail {
-                width: 60px;
-                height: 60px;
-            }
-            .product-title {
-                font-size: 20px;
-            }
-            .product-price {
-                font-size: 24px;
-            }
-        }
-    </style>
 </head>
 <body class="bg-gray-50">
     <!-- SEO: Hidden H1 for page title -->
-    <h1>Điện thoại iPhone 13 Pro Max 128GB - Thông tin chi tiết và mua hàng.</h1>
+    <h1 class="sr-only">Điện thoại iPhone 13 Pro Max 128GB - Thông tin chi tiết và mua hàng.</h1>
     
     <!-- Header -->
     <header class="bg-[#ff424f] text-white shadow-md">
@@ -546,7 +87,7 @@
                 <!-- Logo with alt text -->
                 <div class="flex items-center">
                     <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
-                        <img src="../assets/img/logo/nuentaru1.png" alt="E-Shop - Trang mua sắm trực tuyến">
+                        <img src="../assets/img/logo/nuentaru1.png" width="120px" height="120px" alt="E-Shop - Trang mua sắm trực tuyến">
                     </a>
                 </div>
 
@@ -652,8 +193,8 @@
         <section class="bg-white rounded-xl shadow-md p-6">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <!-- Product Gallery -->
-                <div class="product-gallery">
-                    <div class="main-image">
+                <div class="prdetails-product-gallery">
+                    <div class="prdetails-main-image">
                         <img src="https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-4-750x500.jpg" 
                              alt="iPhone 13 Pro Max 128GB màu xanh lá" 
                              id="mainImage" loading="lazy">
@@ -689,9 +230,9 @@
                 
                 <!-- Product Info -->
                 <div>
-                    <h2 class="product-title">Điện thoại iPhone 13 Pro Max 128GB</h2>
+                    <h2 class="prdetails-product-title">Điện thoại iPhone 13 Pro Max 128GB</h2>
                     
-                    <div class="product-rating">
+                    <div class="prdetails-product-rating">
                         <div class="flex items-center text-yellow-400 mr-2">
                             <i class="fas fa-star" aria-hidden="true"></i>
                             <i class="fas fa-star" aria-hidden="true"></i>
@@ -704,34 +245,34 @@
                         <span class="text-green-600 text-sm">Đã bán 1.2k</span>
                     </div>
                     
-                    <div class="product-price">
+                    <div class="prdetails-product-price">
                         12.990.000đ
-                        <span class="original-price">25.990.000đ</span>
-                        <span class="discount-badge">-50%</span>
+                        <span class="prdetails-original-price">25.990.000đ</span>
+                        <span class="prdetails-discount-badge">-50%</span>
                     </div>
                     
-                    <div class="promotion-list">
+                    <div class="prdetails-promotion-list">
                         <h3 class="font-bold mb-3">Khuyến mãi</h3>
-                        <div class="promotion-item">
-                            <i class="fas fa-gift promotion-icon" aria-hidden="true"></i>
+                        <div class="prdetails-promotion-item">
+                            <i class="fas fa-gift prdetails-promotion-icon" aria-hidden="true"></i>
                             <div>
                                 <strong>Giảm thêm 500.000đ</strong> khi thanh toán qua VNPAY (áp dụng đến 31/12/2025)
                             </div>
                         </div>
-                        <div class="promotion-item">
-                            <i class="fas fa-truck promotion-icon" aria-hidden="true"></i>
+                        <div class="prdetails-promotion-item">
+                            <i class="fas fa-truck prdetails-promotion-icon" aria-hidden="true"></i>
                             <div>
                                 <strong>Miễn phí vận chuyển</strong> toàn quốc cho đơn hàng từ 500.000đ
                             </div>
                         </div>
-                        <div class="promotion-item">
-                            <i class="fas fa-sync-alt promotion-icon" aria-hidden="true"></i>
+                        <div class="prdetails-promotion-item">
+                            <i class="fas fa-sync-alt prdetails-promotion-icon" aria-hidden="true"></i>
                             <div>
                                 <strong>Đổi trả trong 7 ngày</strong> nếu sản phẩm lỗi
                             </div>
                         </div>
-                        <div class="promotion-item">
-                            <i class="fas fa-shield-alt promotion-icon" aria-hidden="true"></i>
+                        <div class="prdetails-promotion-item">
+                            <i class="fas fa-shield-alt prdetails-promotion-icon" aria-hidden="true"></i>
                             <div>
                                 <strong>Bảo hành 12 tháng</strong> tại trung tâm bảo hành chính hãng Apple
                             </div>
@@ -741,19 +282,19 @@
                     <div class="mb-6">
                         <h3 class="font-bold mb-3">Màu sắc</h3>
                         <div class="flex flex-wrap">
-                            <div class="color-option active" data-color="xanh-la" onclick="selectColor('xanh-la')">
+                            <div class="prdetails-color-option active" data-color="xanh-la" onclick="selectColor('xanh-la')">
                                 <div class="w-8 h-8 rounded-full bg-green-600"></div>
                             </div>
-                            <div class="color-option" data-color="xam" onclick="selectColor('xam')">
+                            <div class="prdetails-color-option" data-color="xam" onclick="selectColor('xam')">
                                 <div class="w-8 h-8 rounded-full bg-gray-400"></div>
                             </div>
-                            <div class="color-option" data-color="vang" onclick="selectColor('vang')">
+                            <div class="prdetails-color-option" data-color="vang" onclick="selectColor('vang')">
                                 <div class="w-8 h-8 rounded-full bg-yellow-400"></div>
                             </div>
-                            <div class="color-option" data-color="bac" onclick="selectColor('bac')">
+                            <div class="prdetails-color-option" data-color="bac" onclick="selectColor('bac')">
                                 <div class="w-8 h-8 rounded-full bg-gray-200"></div>
                             </div>
-                            <div class="color-option" data-color="xanh-duong" onclick="selectColor('xanh-duong')">
+                            <div class="prdetails-color-option" data-color="xanh-duong" onclick="selectColor('xanh-duong')">
                                 <div class="w-8 h-8 rounded-full bg-blue-500"></div>
                             </div>
                         </div>
@@ -762,16 +303,16 @@
                     <div class="mb-6">
                         <h3 class="font-bold mb-3">Dung lượng</h3>
                         <div class="flex flex-wrap">
-                            <div class="storage-option active" data-storage="128" onclick="selectStorage('128')">
+                            <div class="prdetails-storage-option active" data-storage="128" onclick="selectStorage('128')">
                                 128GB
                             </div>
-                            <div class="storage-option" data-storage="256" onclick="selectStorage('256')">
+                            <div class="prdetails-storage-option" data-storage="256" onclick="selectStorage('256')">
                                 256GB
                             </div>
-                            <div class="storage-option" data-storage="512" onclick="selectStorage('512')">
+                            <div class="prdetails-storage-option" data-storage="512" onclick="selectStorage('512')">
                                 512GB
                             </div>
-                            <div class="storage-option" data-storage="1t" onclick="selectStorage('1t')">
+                            <div class="prdetails-storage-option" data-storage="1t" onclick="selectStorage('1t')">
                                 1TB
                             </div>
                         </div>
@@ -874,16 +415,16 @@
         <section class="bg-white rounded-xl shadow-md p-6 mt-6">
             <div class="border-b border-gray-200">
                 <nav class="flex flex-wrap -mb-px">
-                    <button class="tab-button active" onclick="openTab('description')">
+                    <button class="prdetails-tab-button active" onclick="openTab('description')">
                         Mô tả sản phẩm
                     </button>
-                    <button class="tab-button" onclick="openTab('specs')">
+                    <button class="prdetails-tab-button" onclick="openTab('specs')">
                         Thông số kỹ thuật
                     </button>
-                    <button class="tab-button" onclick="openTab('reviews')">
+                    <button class="prdetails-tab-button" onclick="openTab('reviews')">
                         Đánh giá (128)
                     </button>
-                    <button class="tab-button" onclick="openTab('qna')">
+                    <button class="prdetails-tab-button" onclick="openTab('qna')">
                         Hỏi đáp (24)
                     </button>
                 </nav>
@@ -1510,7 +1051,7 @@
 
     // Chọn màu sắc
     function selectColor(color) {
-        const colorOptions = document.querySelectorAll('.color-option');
+        const colorOptions = document.querySelectorAll('.prdetails-color-option');
         colorOptions.forEach(option => {
             option.classList.remove('active');
             if (option.dataset.color === color) {
@@ -1542,7 +1083,7 @@
 
     // Chọn dung lượng
     function selectStorage(storage) {
-        const storageOptions = document.querySelectorAll('.storage-option');
+        const storageOptions = document.querySelectorAll('.prdetails-storage-option');
         storageOptions.forEach(option => {
             option.classList.remove('active');
             if (option.dataset.storage === storage) {
@@ -1571,10 +1112,10 @@
                 originalPrice = '38.990.000đ';
                 break;
         }
-        document.querySelector('.product-price').innerHTML = `
+        document.querySelector('.prdetails-product-price').innerHTML = `
             ${newPrice}
-            <span class="original-price">${originalPrice}</span>
-            <span class="discount-badge">-50%</span>
+            <span class="prdetails-original-price">${originalPrice}</span>
+            <span class="prdetails-discount-badge">-50%</span>
         `;
     }
 
@@ -1597,8 +1138,8 @@
 
     // Thêm vào giỏ hàng
     function addToCart() {
-        const color = document.querySelector('.color-option.active').dataset.color;
-        const storage = document.querySelector('.storage-option.active').dataset.storage;
+        const color = document.querySelector('.prdetails-color-option.active').dataset.color;
+        const storage = document.querySelector('.prdetails-storage-option.active').dataset.storage;
         const quantity = document.getElementById('quantity').value;
         
         // Hiển thị thông báo
@@ -1609,8 +1150,8 @@
 
     // Mua ngay
     function buyNow() {
-        const color = document.querySelector('.color-option.active').dataset.color;
-        const storage = document.querySelector('.storage-option.active').dataset.storage;
+        const color = document.querySelector('.prdetails-color-option.active').dataset.color;
+        const storage = document.querySelector('.prdetails-storage-option.active').dataset.storage;
         const quantity = document.getElementById('quantity').value;
         
         // Chuyển hướng đến trang thanh toán
@@ -1630,7 +1171,7 @@
         document.getElementById(tabId).classList.add('active');
         
         // Cập nhật active tab button
-        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabButtons = document.querySelectorAll('.prdetails-tab-button');
         tabButtons.forEach(button => {
             button.classList.remove('active');
             if (button.textContent.trim().toLowerCase().includes(tabId)) {

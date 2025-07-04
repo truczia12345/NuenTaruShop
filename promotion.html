@@ -10,397 +10,7 @@
     <!-- Kế thừa CSS từ index.html -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        /* Kế thừa các style từ index.html */
-        .pb-3 img {
-            width: 120px;
-            height: 120px;
-        }
-        
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-        
-        /* Style riêng cho trang khuyến mãi */
-        .promotion-hero {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ff424f 100%);
-            height: 300px;
-        }
-        
-        .promo-card {
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .promo-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-        
-        .promo-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #ff424f;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 14px;
-            z-index: 10;
-        }
-        
-        .promo-image {
-            height: 200px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .promo-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .promo-card:hover .promo-image img {
-            transform: scale(1.05);
-        }
-        
-        .promo-content {
-            padding: 20px;
-            background: white;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .promo-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #333;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        
-        .promo-desc {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 15px;
-            flex: 1;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        
-        .promo-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
-        }
-        
-        .promo-timer {
-            display: flex;
-            align-items: center;
-            background: #f8f9fa;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 13px;
-            color: #ff424f;
-            font-weight: 600;
-        }
-        
-        .promo-timer i {
-            margin-right: 5px;
-        }
-        
-        .promo-btn {
-            background: #ff424f;
-            color: white;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .promo-btn:hover {
-            background: #e53e3e;
-            transform: translateY(-2px);
-        }
-        
-        .section-title {
-            position: relative;
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            color: #333;
-        }
-        
-        .section-title:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 70px;
-            height: 4px;
-            background: #ff424f;
-            border-radius: 2px;
-        }
-        
-        .promo-tabs {
-            display: flex;
-            border-bottom: 1px solid #e2e8f0;
-            margin-bottom: 30px;
-        }
-        
-        .promo-tab {
-            padding: 12px 25px;
-            font-weight: 600;
-            cursor: pointer;
-            position: relative;
-            color: #718096;
-            transition: all 0.3s ease;
-        }
-        
-        .promo-tab.active {
-            color: #ff424f;
-        }
-        
-        .promo-tab.active:after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: #ff424f;
-            border-radius: 2px 2px 0 0;
-        }
-        
-        .promo-tab:hover:not(.active) {
-            color: #4a5568;
-        }
-        
-        .promo-category {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .category-card {
-            flex: 1;
-            min-width: 180px;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-            text-align: center;
-            padding: 20px 15px;
-        }
-        
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .category-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 24px;
-        }
-        
-        .category-name {
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: #333;
-        }
-        
-        .category-count {
-            font-size: 14px;
-            color: #718096;
-        }
-        
-        .big-promo-banner {
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-            height: 350px;
-            margin-bottom: 40px;
-        }
-        
-        .big-promo-content {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            color: white;
-            background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
-        }
-        
-        .big-promo-tag {
-            background: #ff424f;
-            color: white;
-            display: inline-block;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-        
-        .big-promo-title {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 15px;
-            max-width: 600px;
-        }
-        
-        .big-promo-desc {
-            font-size: 18px;
-            margin-bottom: 25px;
-            max-width: 600px;
-        }
-        
-        .big-promo-btn {
-            background: white;
-            color: #ff424f;
-            padding: 12px 30px;
-            border-radius: 30px;
-            font-weight: 700;
-            display: inline-block;
-            width: fit-content;
-            transition: all 0.3s ease;
-        }
-        
-        .big-promo-btn:hover {
-            background: #f8f9fa;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .timer-unit {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            padding: 8px;
-            border-radius: 8px;
-            min-width: 50px;
-            margin: 0 5px;
-        }
-        
-        .timer-number {
-            font-size: 24px;
-            font-weight: 700;
-        }
-        
-        .timer-label {
-            font-size: 12px;
-            text-transform: uppercase;
-        }
-        
-        @media (max-width: 1024px) {
-            .promo-tabs {
-                flex-wrap: wrap;
-            }
-            
-            .promo-tab {
-                padding: 10px 15px;
-            }
-            
-            .big-promo-banner {
-                height: 300px;
-            }
-            
-            .big-promo-title {
-                font-size: 28px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .promotion-hero {
-                height: 250px;
-            }
-            
-            .big-promo-banner {
-                height: 250px;
-            }
-            
-            .big-promo-title {
-                font-size: 24px;
-            }
-            
-            .big-promo-desc {
-                font-size: 16px;
-            }
-            
-            .promo-tabs {
-                justify-content: center;
-            }
-            
-            .section-title {
-                font-size: 22px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .big-promo-banner {
-                height: 200px;
-            }
-            
-            .big-promo-content {
-                padding: 20px;
-            }
-            
-            .big-promo-title {
-                font-size: 20px;
-            }
-            
-            .big-promo-desc {
-                font-size: 14px;
-                margin-bottom: 15px;
-            }
-            
-            .big-promo-btn {
-                padding: 10px 20px;
-                font-size: 14px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body class="bg-gray-50">
     <!-- SEO: Hidden H1 for page title -->
@@ -430,7 +40,7 @@
                 <!-- Logo with alt text -->
                 <div class="flex items-center">
                     <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
-                        <img src="assets/img/logo/nuentaru1.png" alt="E-Shop - Trang mua sắm trực tuyến">
+                        <img src="assets/img/logo/nuentaru1.png" width="120px" height="120px" alt="E-Shop - Trang mua sắm trực tuyến">
                     </a>
                 </div>
 
@@ -534,44 +144,44 @@
             
             <!-- Categories -->
             <div class="promo-category">
-                <div class="category-card">
-                    <div class="category-icon bg-red-100 text-red-500">
+                <div class="promo-category-card">
+                    <div class="promo-category-icon bg-red-100 text-red-500">
                         <i class="fas fa-bolt" aria-hidden="true"></i>
                     </div>
-                    <div class="category-name">Flash Sale</div>
-                    <div class="category-count">12 chương trình</div>
+                    <div class="promo-category-name">Flash Sale</div>
+                    <div class="promo-category-count">12 chương trình</div>
                 </div>
                 
-                <div class="category-card">
-                    <div class="category-icon bg-blue-100 text-blue-500">
+                <div class="promo-category-card">
+                    <div class="promo-category-icon bg-blue-100 text-blue-500">
                         <i class="fas fa-percent" aria-hidden="true"></i>
                     </div>
-                    <div class="category-name">Giảm giá</div>
-                    <div class="category-count">45 chương trình</div>
+                    <div class="promo-category-name">Giảm giá</div>
+                    <div class="promo-category-count">45 chương trình</div>
                 </div>
                 
-                <div class="category-card">
-                    <div class="category-icon bg-green-100 text-green-500">
+                <div class="promo-category-card">
+                    <div class="promo-category-icon bg-green-100 text-green-500">
                         <i class="fas fa-shipping-fast" aria-hidden="true"></i>
                     </div>
-                    <div class="category-name">Freeship</div>
-                    <div class="category-count">8 chương trình</div>
+                    <div class="promo-category-name">Freeship</div>
+                    <div class="promo-category-count">8 chương trình</div>
                 </div>
                 
-                <div class="category-card">
-                    <div class="category-icon bg-yellow-100 text-yellow-500">
+                <div class="promo-category-card">
+                    <div class="promo-category-icon bg-yellow-100 text-yellow-500">
                         <i class="fas fa-gift" aria-hidden="true"></i>
                     </div>
-                    <div class="category-name">Quà tặng</div>
-                    <div class="category-count">16 chương trình</div>
+                    <div class="promo-category-name">Quà tặng</div>
+                    <div class="promo-category-count">16 chương trình</div>
                 </div>
                 
-                <div class="category-card">
-                    <div class="category-icon bg-purple-100 text-purple-500">
+                <div class="promo-category-card">
+                    <div class="promo-category-icon bg-purple-100 text-purple-500">
                         <i class="fas fa-ticket-alt" aria-hidden="true"></i>
                     </div>
-                    <div class="category-name">Mã giảm giá</div>
-                    <div class="category-count">32 mã giảm giá</div>
+                    <div class="promo-category-name">Mã giảm giá</div>
+                    <div class="promo-category-count">32 mã giảm giá</div>
                 </div>
             </div>
             
@@ -587,21 +197,21 @@
                     
                     <div class="flex items-center mb-6">
                         <span class="mr-3 font-medium">Kết thúc sau:</span>
-                        <div class="timer-unit">
-                            <span class="timer-number" id="days">05</span>
-                            <span class="timer-label">Ngày</span>
+                        <div class="promo-timer-unit">
+                            <span class="promo-timer-number" id="days">05</span>
+                            <span class="promo-timer-label">Ngày</span>
                         </div>
-                        <div class="timer-unit">
-                            <span class="timer-number" id="hours">12</span>
-                            <span class="timer-label">Giờ</span>
+                        <div class="promo-timer-unit">
+                            <span class="promo-timer-number" id="hours">12</span>
+                            <span class="promo-timer-label">Giờ</span>
                         </div>
-                        <div class="timer-unit">
-                            <span class="timer-number" id="minutes">30</span>
-                            <span class="timer-label">Phút</span>
+                        <div class="promo-timer-unit">
+                            <span class="promo-timer-number" id="minutes">30</span>
+                            <span class="promo-timer-label">Phút</span>
                         </div>
-                        <div class="timer-unit">
-                            <span class="timer-number" id="seconds">45</span>
-                            <span class="timer-label">Giây</span>
+                        <div class="promo-timer-unit">
+                            <span class="promo-timer-number" id="seconds">45</span>
+                            <span class="promo-timer-label">Giây</span>
                         </div>
                     </div>
                     
@@ -613,7 +223,7 @@
             
             <!-- Flash Sale Section -->
             <div class="mb-12">
-                <h2 class="section-title">Flash Sale Đang Diễn Ra</h2>
+                <h2 class="promo-section-title">Flash Sale Đang Diễn Ra</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Flash Sale 1 -->
                     <div class="promo-card">
@@ -682,7 +292,7 @@
             
             <!-- Discount Section -->
             <div class="mb-12">
-                <h2 class="section-title">Khuyến Mãi Giảm Giá</h2>
+                <h2 class="promo-section-title">Khuyến Mãi Giảm Giá</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Discount 1 -->
                     <div class="promo-card">
@@ -751,7 +361,7 @@
             
             <!-- Free Ship Section -->
             <div class="mb-12">
-                <h2 class="section-title">Ưu Đãi Freeship</h2>
+                <h2 class="promo-section-title">Ưu Đãi Freeship</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Free Ship 1 -->
                     <div class="promo-card">
@@ -820,7 +430,7 @@
             
             <!-- Voucher Section -->
             <div class="mb-12">
-                <h2 class="section-title">Mã Giảm Giá Độc Quyền</h2>
+                <h2 class="promo-section-title">Mã Giảm Giá Độc Quyền</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Voucher 1 -->
                     <div class="promo-card">
@@ -992,7 +602,7 @@
         
         // Promo Tabs
         const promoItems = document.querySelectorAll('.promo-card');
-        const promoCategories = document.querySelectorAll('.promo-category .category-card');
+        const promoCategories = document.querySelectorAll('.promo-category .promo-category-card');
         const promoTabs = document.querySelectorAll('.promo-tab');
         
         promoTabs.forEach(tab => {
@@ -1101,13 +711,13 @@
         // Category hover effect
         promoCategories.forEach(category => {
             category.addEventListener('mouseenter', function() {
-                const icon = this.querySelector('.category-icon');
+                const icon = this.querySelector('.promo-category-icon');
                 icon.style.transform = 'scale(1.1)';
                 icon.style.transition = 'transform 0.3s ease';
             });
             
             category.addEventListener('mouseleave', function() {
-                const icon = this.querySelector('.category-icon');
+                const icon = this.querySelector('.promo-category-icon');
                 icon.style.transform = 'scale(1)';
             });
         });

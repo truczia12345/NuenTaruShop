@@ -6,213 +6,7 @@
     <title>Giỏ Hàng | E-Shop</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #c5c5c5;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
-        }
-        
-        /* Animation */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .animate-pulse-custom {
-            animation: pulse 1.5s infinite;
-        }
-        
-        /* Product Card */
-        .product-card {
-            transition: all 0.3s ease;
-        }
-        
-        .product-card:hover {
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            transform: translateY(-3px);
-        }
-        
-        /* Quantity Selector */
-        .quantity-selector button {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #e5e7eb;
-            background: white;
-            font-size: 18px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .quantity-selector button:hover {
-            background: #f3f4f6;
-        }
-        
-        .quantity-selector input {
-            width: 50px;
-            height: 36px;
-            text-align: center;
-            border-top: 1px solid #e5e7eb;
-            border-bottom: 1px solid #e5e7eb;
-            border-left: none;
-            border-right: none;
-            outline: none;
-        }
-        
-        /* Empty Cart */
-        .empty-cart {
-            height: 60vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        /* Checkout Button */
-        .checkout-btn {
-            transition: all 0.3s;
-            box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
-        }
-        
-        .checkout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 10px rgba(239, 68, 68, 0.4);
-        }
-        
-        /* Coupon Modal */
-        .coupon-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .coupon-content {
-            background: white;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        .coupon-tabs {
-            display: flex;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        
-        .coupon-tab {
-            flex: 1;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .coupon-tab.active {
-            border-bottom: 3px solid #ff424f;
-            color: #ff424f;
-            font-weight: bold;
-        }
-        
-        .coupon-item {
-            display: flex;
-            padding: 15px;
-            border-bottom: 1px solid #f3f4f6;
-        }
-        
-        .coupon-item:last-child {
-            border-bottom: none;
-        }
-        
-        .coupon-icon {
-            width: 60px;
-            height: 60px;
-            background: #fef2f2;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            color: #ff424f;
-            font-size: 24px;
-        }
-        
-        .coupon-details {
-            flex: 1;
-        }
-        
-        .coupon-apply {
-            display: flex;
-            align-items: center;
-        }
-        
-        /* Responsive */
-        @media (max-width: 1023px) {
-            .cart-container {
-                flex-direction: column;
-            }
-            
-            .cart-items {
-                width: 100%;
-                margin-right: 0;
-            }
-            
-            .cart-summary {
-                width: 100%;
-                margin-top: 2rem;
-            }
-        }
-        
-        @media (max-width: 640px) {
-            .cart-header {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            
-            .cart-header h1 {
-                font-size: 1.5rem;
-            }
-            
-            .cart-item {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .item-image {
-                width: 100%;
-                max-width: 100%;
-            }
-            
-            .item-details {
-                width: 100%;
-            }
-            
-            .item-actions {
-                padding-left: 0;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body class="bg-gray-50">
     <!-- Header -->
@@ -299,7 +93,7 @@
                 <!-- Cart Items List -->
                 <div class="cart-items-list bg-white rounded-xl shadow-md p-4 md:p-6">
                     <!-- Cart Item 1 -->
-                    <div class="cart-item product-card flex flex-col md:flex-row py-6 border-b border-gray-100">
+                    <div class="cart-item cart-product-card flex flex-col md:flex-row py-6 border-b border-gray-100">
                         <div class="item-image w-full md:w-1/4 mb-4 md:mb-0 flex justify-center">
                             <img src="https://cdn.tgdd.vn/Products/Images/42/230529/iphone13-pro-max-xanh-la-4-750x500.jpg" 
                                  alt="iPhone 13 Pro Max" 
@@ -343,7 +137,7 @@
                     </div>
                     
                     <!-- Cart Item 2 -->
-                    <div class="cart-item product-card flex flex-col md:flex-row py-6 border-b border-gray-100">
+                    <div class="cart-item cart-product-card flex flex-col md:flex-row py-6 border-b border-gray-100">
                         <div class="item-image w-full md:w-1/4 mb-4 md:mb-0 flex justify-center">
                             <img src="https://cdn.tgdd.vn/Products/Images/7077/289703/apple-airpods-pro-2-2023-magsafe-charge-1-1-650x650.jpg" 
                                  alt="AirPods Pro 2" 
@@ -386,7 +180,7 @@
                     </div>
                     
                     <!-- Cart Item 3 -->
-                    <div class="cart-item product-card flex flex-col md:flex-row py-6">
+                    <div class="cart-item cart-product-card flex flex-col md:flex-row py-6">
                         <div class="item-image w-full md:w-1/4 mb-4 md:mb-0 flex justify-center">
                             <img src="https://cdn.tgdd.vn/Products/Images/44/309413/asus-tuf-gaming-f15-fx506hf-hn017w-i5-11400h-8gb-512gb-600x600.jpg" 
                                  alt="Laptop Asus Gaming" 
@@ -520,20 +314,20 @@
     </main>
 
     <!-- Coupon Modal -->
-    <div class="coupon-modal" id="coupon-modal">
-        <div class="coupon-content">
+    <div class="cart-coupon-modal" id="cart-coupon-modal">
+        <div class="cart-coupon-content">
             <div class="p-4 border-b">
                 <div class="flex justify-between items-center">
                     <h2 class="text-xl font-bold">Chọn mã giảm giá</h2>
-                    <button id="close-coupon-modal" class="text-gray-500 hover:text-gray-700">
+                    <button id="close-cart-coupon-modal" class="text-gray-500 hover:text-gray-700">
                         <i class="fas fa-times text-xl"></i>
                     </button>
                 </div>
             </div>
             
-            <div class="coupon-tabs">
-                <div class="coupon-tab active" data-tab="shipping">Mã vận chuyển</div>
-                <div class="coupon-tab" data-tab="discount">Mã giảm giá</div>
+            <div class="cart-cart-coupon-tabs">
+                <div class="cart-coupon-tab active" data-tab="shipping">Mã vận chuyển</div>
+                <div class="cart-coupon-tab" data-tab="discount">Mã giảm giá</div>
             </div>
             
             <div class="p-4">
@@ -548,16 +342,16 @@
                 </div>
                 
                 <!-- Shipping Coupons -->
-                <div id="shipping-coupons" class="coupon-tab-content">
+                <div id="shipping-coupons" class="cart-coupon-tab-content">
                     <h3 class="font-bold text-lg mb-3">Mã vận chuyển</h3>
                     
                     <div class="coupon-list">
                         <!-- Coupon 1 -->
-                        <div class="coupon-item">
-                            <div class="coupon-icon">
+                        <div class="cart-coupon-item">
+                            <div class="cart-coupon-icon">
                                 <i class="fas fa-truck"></i>
                             </div>
-                            <div class="coupon-details">
+                            <div class="cart-coupon-details">
                                 <h4 class="font-bold mb-1">Miễn phí vận chuyển</h4>
                                 <div class="text-sm text-gray-600 mb-1">Giảm 100% phí vận chuyển</div>
                                 <div class="flex text-xs text-gray-500">
@@ -565,7 +359,7 @@
                                     <div><i class="fas fa-clock mr-1"></i> HSD: 30/06/2025</div>
                                 </div>
                             </div>
-                            <div class="coupon-apply">
+                            <div class="cart-coupon-apply">
                                 <button class="bg-[#ff424f] text-white px-4 py-1 rounded text-sm hover:bg-[#e53e3e]">
                                     Áp dụng
                                 </button>
@@ -573,11 +367,11 @@
                         </div>
                         
                         <!-- Coupon 2 -->
-                        <div class="coupon-item">
-                            <div class="coupon-icon">
+                        <div class="cart-coupon-item">
+                            <div class="cart-coupon-icon">
                                 <i class="fas fa-shipping-fast"></i>
                             </div>
-                            <div class="coupon-details">
+                            <div class="cart-coupon-details">
                                 <h4 class="font-bold mb-1">Giảm 50% phí vận chuyển</h4>
                                 <div class="text-sm text-gray-600 mb-1">Giảm 50% phí vận chuyển toàn quốc</div>
                                 <div class="flex text-xs text-gray-500">
@@ -585,7 +379,7 @@
                                     <div><i class="fas fa-clock mr-1"></i> HSD: 15/07/2025</div>
                                 </div>
                             </div>
-                            <div class="coupon-apply">
+                            <div class="cart-coupon-apply">
                                 <button class="bg-[#ff424f] text-white px-4 py-1 rounded text-sm hover:bg-[#e53e3e]">
                                     Áp dụng
                                 </button>
@@ -593,11 +387,11 @@
                         </div>
                         
                         <!-- Coupon 3 -->
-                        <div class="coupon-item">
-                            <div class="coupon-icon">
+                        <div class="cart-coupon-item">
+                            <div class="cart-coupon-icon">
                                 <i class="fas fa-box"></i>
                             </div>
-                            <div class="coupon-details">
+                            <div class="cart-coupon-details">
                                 <h4 class="font-bold mb-1">Freeship nội thành</h4>
                                 <div class="text-sm text-gray-600 mb-1">Miễn phí vận chuyển nội thành</div>
                                 <div class="flex text-xs text-gray-500">
@@ -605,7 +399,7 @@
                                     <div><i class="fas fa-clock mr-1"></i> HSD: 31/08/2025</div>
                                 </div>
                             </div>
-                            <div class="coupon-apply">
+                            <div class="cart-coupon-apply">
                                 <button class="bg-[#ff424f] text-white px-4 py-1 rounded text-sm hover:bg-[#e53e3e]">
                                     Áp dụng
                                 </button>
@@ -615,16 +409,16 @@
                 </div>
                 
                 <!-- Discount Coupons -->
-                <div id="discount-coupons" class="coupon-tab-content hidden">
+                <div id="discount-coupons" class="cart-coupon-tab-content hidden">
                     <h3 class="font-bold text-lg mb-3">Mã giảm giá</h3>
                     
                     <div class="coupon-list">
                         <!-- Coupon 1 -->
-                        <div class="coupon-item">
-                            <div class="coupon-icon">
+                        <div class="cart-coupon-item">
+                            <div class="cart-coupon-icon">
                                 <i class="fas fa-percent"></i>
                             </div>
-                            <div class="coupon-details">
+                            <div class="cart-coupon-details">
                                 <h4 class="font-bold mb-1">Giảm 15% tối đa 500K</h4>
                                 <div class="text-sm text-gray-600 mb-1">Giảm 15% cho đơn hàng từ 2 triệu</div>
                                 <div class="flex text-xs text-gray-500">
@@ -632,7 +426,7 @@
                                     <div><i class="fas fa-clock mr-1"></i> HSD: 25/06/2025</div>
                                 </div>
                             </div>
-                            <div class="coupon-apply">
+                            <div class="cart-coupon-apply">
                                 <button class="bg-[#ff424f] text-white px-4 py-1 rounded text-sm hover:bg-[#e53e3e]">
                                     Áp dụng
                                 </button>
@@ -640,11 +434,11 @@
                         </div>
                         
                         <!-- Coupon 2 -->
-                        <div class="coupon-item">
-                            <div class="coupon-icon">
+                        <div class="cart-coupon-item">
+                            <div class="cart-coupon-icon">
                                 <i class="fas fa-gift"></i>
                             </div>
-                            <div class="coupon-details">
+                            <div class="cart-coupon-details">
                                 <h4 class="font-bold mb-1">Giảm 10% cho điện thoại</h4>
                                 <div class="text-sm text-gray-600 mb-1">Giảm 10% cho tất cả điện thoại</div>
                                 <div class="flex text-xs text-gray-500">
@@ -652,7 +446,7 @@
                                     <div><i class="fas fa-clock mr-1"></i> HSD: 10/07/2025</div>
                                 </div>
                             </div>
-                            <div class="coupon-apply">
+                            <div class="cart-coupon-apply">
                                 <button class="bg-[#ff424f] text-white px-4 py-1 rounded text-sm hover:bg-[#e53e3e]">
                                     Áp dụng
                                 </button>
@@ -660,11 +454,11 @@
                         </div>
                         
                         <!-- Coupon 3 -->
-                        <div class="coupon-item">
-                            <div class="coupon-icon">
+                        <div class="cart-coupon-item">
+                            <div class="cart-coupon-icon">
                                 <i class="fas fa-tags"></i>
                             </div>
-                            <div class="coupon-details">
+                            <div class="cart-coupon-details">
                                 <h4 class="font-bold mb-1">Giảm 200K cho đơn 3 triệu</h4>
                                 <div class="text-sm text-gray-600 mb-1">Giảm ngay 200K cho đơn từ 3 triệu</div>
                                 <div class="flex text-xs text-gray-500">
@@ -672,7 +466,7 @@
                                     <div><i class="fas fa-clock mr-1"></i> HSD: 05/08/2025</div>
                                 </div>
                             </div>
-                            <div class="coupon-apply">
+                            <div class="cart-coupon-apply">
                                 <button class="bg-[#ff424f] text-white px-4 py-1 rounded text-sm hover:bg-[#e53e3e]">
                                     Áp dụng
                                 </button>
@@ -873,10 +667,10 @@
         });
         
         // Coupon Modal
-        const couponModal = document.getElementById('coupon-modal');
+        const couponModal = document.getElementById('cart-coupon-modal');
         const chooseCouponBtn = document.getElementById('choose-coupon');
-        const closeCouponModal = document.getElementById('close-coupon-modal');
-        const couponTabs = document.querySelectorAll('.coupon-tab');
+        const closeCouponModal = document.getElementById('close-cart-coupon-modal');
+        const couponTabs = document.querySelectorAll('.cart-coupon-tab');
         
         // Open coupon modal
         chooseCouponBtn.addEventListener('click', () => {
@@ -905,7 +699,7 @@
                 tab.classList.add('active');
                 
                 // Hide all tab content
-                document.querySelectorAll('.coupon-tab-content').forEach(content => {
+                document.querySelectorAll('.cart-coupon-tab-content').forEach(content => {
                     content.classList.add('hidden');
                 });
                 
@@ -916,9 +710,9 @@
         });
         
         // Apply coupon from modal
-        document.querySelectorAll('.coupon-apply button').forEach(btn => {
+        document.querySelectorAll('.cart-coupon-apply button').forEach(btn => {
             btn.addEventListener('click', function() {
-                const couponTitle = this.closest('.coupon-item').querySelector('h4').textContent;
+                const couponTitle = this.closest('.cart-coupon-item').querySelector('h4').textContent;
                 alert(`Mã giảm giá "${couponTitle}" đã được áp dụng!`);
                 couponModal.style.display = 'none';
             });

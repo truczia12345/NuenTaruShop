@@ -92,15 +92,15 @@
     <div class="header-spacer"></div>
 
     <!-- Search Hero -->
-    <section class="search-hero text-white">
+    <section class="se-search-hero text-white">
         <div class="container mx-auto px-4">
-            <div class="search-form">
+            <div class="se-search-form">
                 <form action="/search" method="GET" role="search">
-                    <div class="search-input-container">
-                        <input type="text" name="q" class="search-input" 
+                    <div class="se-search-input-container">
+                        <input type="text" name="q" class="se-search-input" 
                             placeholder="Tìm kiếm sản phẩm, thương hiệu, danh mục..." 
                             aria-label="Tìm kiếm sản phẩm" value="iPhone">
-                        <button type="submit" class="search-btn">
+                        <button type="submit" class="se-search-btn">
                             <i class="fas fa-search mr-2" aria-hidden="true"></i>Tìm kiếm
                         </button>
                     </div>
@@ -150,11 +150,11 @@
                     </select>
                 </div>
                 
-                <div class="view-toggle">
-                    <button class="view-btn-fill active" aria-label="Lưới">
+                <div class="se-view-toggle">
+                    <button class="se-view-btn-fill active" aria-label="Lưới">
                         <i class="fas fa-th"></i>
                     </button>
-                    <button class="view-btn-fill" aria-label="Danh sách">
+                    <button class="se-view-btn-fill" aria-label="Danh sách">
                         <i class="fas fa-list"></i>
                     </button>
                 </div>
@@ -627,8 +627,8 @@
                 </div>
                 
                 <!-- Pagination -->
-                <div class="pagination">
-                    <div class="pagination-container">
+                <div class="searchpagination">
+                    <div class="searchpagination-container">
                         <button class="page-btn disabled" aria-label="Trang trước">
                             <i class="fas fa-chevron-left"></i>
                         </button>
@@ -734,7 +734,7 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         // View toggle
-        const viewBtns = document.querySelectorAll('.view-btn-fill');
+        const viewBtns = document.querySelectorAll('.se-view-btn-fill');
         const productsContainer = document.querySelector('.products-container');
         
         viewBtns.forEach(btn => {
