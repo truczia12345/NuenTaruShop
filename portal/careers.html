@@ -8,7 +8,7 @@
     <meta name="keywords" content="tuyển dụng eshop, việc làm thương mại điện tử, cơ hội nghề nghiệp, việc làm it">
     <meta name="author" content="E-Shop">
     
-    <!-- Open Graph / Social Media Meta Tags -->
+    <!-- Open Graph / Social Media Meta tags -->
     <meta property="og:title" content="Tuyển Dụng - E-Shop | Cơ Hội Nghề Nghiệp Hấp Dẫn">
     <meta property="og:description" content="Tham gia đội ngũ E-Shop - Nền tảng thương mại điện tử hàng đầu Việt Nam">
     <meta property="og:image" content="https://www.your-eshop.com/image/logo/nuentaru1.png">
@@ -23,214 +23,7 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        /* Header */
-        .pb-3 img {
-          width: 120px;
-          height: 120px;
-        }
-
-        /* Reuse styles from index.html */
-        .fixed-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .header-spacer {
-            height: 130px;
-        }
-        
-        .career-hero {
-            background-image: url('/assets/img/bg/hero-bg.avif');
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: cover;
-        }
-        
-        .section-title {
-            position: relative;
-            padding-bottom: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 70px;
-            height: 4px;
-            background: #ff424f;
-            border-radius: 2px;
-        }
-        
-        .job-card {
-            transition: all 0.3s ease;
-            border: 1px solid #e2e8f0;
-        }
-        
-        .job-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            border-color: #ffd6d9;
-        }
-        
-        .benefit-card {
-            transition: all 0.3s ease;
-        }
-        
-        .benefit-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .process-step {
-            position: relative;
-            padding-left: 80px;
-            margin-bottom: 40px;
-        }
-        
-        .step-number {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: #ff424f;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: bold;
-        }
-        
-        .testimonial-card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-        }
-        
-        .testimonial-card:hover {
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .job-filter {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            padding: 25px;
-        }
-        
-        .job-list {
-            max-height: 600px;
-            overflow-y: auto;
-            /* Sửa lỗi lề */
-            margin: 0;
-            padding: 0;
-        }
-        
-        .job-item {
-            border-bottom: 1px solid #e2e8f0;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            /* Sửa lỗi lề */
-            margin: 0;
-        }
-        
-        .job-item:hover, .job-item.active {
-            background-color: #fff5f5;
-        }
-        
-        .job-detail {
-            position: sticky;
-            top: 150px;
-        }
-        
-        .job-highlight {
-            background: #fff5f5;
-            border-left: 4px solid #ff424f;
-        }
-        
-        .tag {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        
-        .apply-form {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            padding: 30px;
-        }
-        
-        /* Animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.8s ease forwards;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 1023px) {
-            .job-layout {
-                flex-direction: column;
-            }
-            
-            .job-list {
-                max-height: none;
-                overflow-y: visible;
-            }
-            
-            .job-detail {
-                position: static;
-                margin-top: 30px;
-            }
-            
-            .process-steps {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .benefit-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .testimonial-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .process-step {
-                padding-left: 60px;
-            }
-            
-            .step-number {
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
-            }
-        }
-
-        /* Sửa lỗi logo */
-        .logo-container img {
-            max-width: 100%;
-            height: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body class="bg-gray-50">
     <!-- SEO: Hidden H1 for page title -->
@@ -262,10 +55,10 @@
             <!-- Main Header: Logo + Search -->
             <div class="flex items-center justify-between pb-3">
                 <!-- Logo with alt text -->
-                <div class="flex items-center logo-container">
+                <div class="flex items-center cr-logo-container">
                     <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
                         <!-- Sửa lỗi logo -->
-                        <img src="/assets/img/logo/nuentaru1.png" alt="E-Shop - Trang mua sắm trực tuyến">
+                        <img src="/assets/img/logo/nuentaru1.png" width="120px" height="120px" alt="E-Shop - Trang mua sắm trực tuyến">
                     </a>
                 </div>
 
@@ -305,14 +98,14 @@
     <!-- Main Content -->
     <main>
         <!-- Hero Section -->
-        <section class="career-hero py-20 flex items-center">
+        <section class="cr-career-hero py-20 flex items-center">
             <div class="container mx-auto px-4 text-center">
                 <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 fade-in">Khởi Nghiệp Sự Nghiệp Cùng E-Shop</h1>
                 <p class="text-xl text-white mb-8 max-w-3xl mx-auto fade-in">
                     Tham gia đội ngũ tiên phong trong cuộc cách mạng thương mại điện tử tại Việt Nam
                 </p>
                 <div class="fade-in">
-                    <a href="#job-list" class="bg-white text-red-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition inline-block mr-3">
+                    <a href="#cr-job-list" class="bg-white text-red-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition inline-block mr-3">
                         Xem Vị Trí Tuyển Dụng
                     </a>
                     <a href="#why-join" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-red-600 transition inline-block">
@@ -333,7 +126,7 @@
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="benefit-card fade-in">
+                    <div class="cr-benefit-card fade-in">
                         <div class="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
                             <i class="fas fa-rocket text-red-600 text-2xl" aria-hidden="true"></i>
                         </div>
@@ -343,7 +136,7 @@
                         </p>
                     </div>
                     
-                    <div class="benefit-card fade-in">
+                    <div class="cr-benefit-card fade-in">
                         <div class="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
                             <i class="fas fa-chart-line text-red-600 text-2xl" aria-hidden="true"></i>
                         </div>
@@ -353,7 +146,7 @@
                         </p>
                     </div>
                     
-                    <div class="benefit-card fade-in">
+                    <div class="cr-benefit-card fade-in">
                         <div class="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
                             <i class="fas fa-users text-red-600 text-2xl" aria-hidden="true"></i>
                         </div>
@@ -367,7 +160,7 @@
         </section>
 
         <!-- Job Openings -->
-        <section id="job-list" class="py-16 bg-gray-50">
+        <section id="cr-job-list" class="py-16 bg-gray-50">
             <div class="container mx-auto px-4">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl font-bold mb-4">Vị Trí Tuyển Dụng</h2>
@@ -379,7 +172,7 @@
                 <div class="job-layout flex gap-8">
                     <!-- Job Filter and List -->
                     <div class="w-full md:w-1/3">
-                        <div class="job-filter mb-6">
+                        <div class="cr-job-filter mb-6">
                             <h3 class="font-bold text-lg mb-4">Lọc Vị Trí</h3>
                             <div class="space-y-4">
                                 <div>
@@ -422,15 +215,15 @@
                             </div>
                         </div>
                         
-                        <div class="job-list bg-white rounded-lg shadow">
-                            <div class="job-item p-3 active" data-job="backend-dev">
+                        <div class="cr-job-list bg-white rounded-lg shadow">
+                            <div class="cr-job-item p-3 active" data-job="backend-dev">
                                 <div class="flex justify-between items-start">
                                     <div>
                                         <h3 class="font-bold text-lg">Backend Developer (Java/Spring)</h3>
                                         <div class="flex flex-wrap gap-2 mt-2">
-                                            <span class="tag bg-red-100 text-red-800">Công nghệ</span>
-                                            <span class="tag bg-blue-100 text-blue-800">Hà Nội</span>
-                                            <span class="tag bg-green-100 text-green-800">Toàn thời gian</span>
+                                            <span class="cr-tag bg-red-100 text-red-800">Công nghệ</span>
+                                            <span class="cr-tag bg-blue-100 text-blue-800">Hà Nội</span>
+                                            <span class="cr-tag bg-green-100 text-green-800">Toàn thời gian</span>
                                         </div>
                                     </div>
                                     <span class="text-red-600 font-medium">$1500 - $2500</span>
@@ -440,14 +233,14 @@
                                 </div>
                             </div>
                             
-                            <div class="job-item p-3" data-job="data-analyst">
+                            <div class="cr-job-item p-3" data-job="data-analyst">
                                 <div class="flex justify-between items-start">
                                     <div>
                                         <h3 class="font-bold text-lg">Data Analyst</h3>
                                         <div class="flex flex-wrap gap-2 mt-2">
-                                            <span class="tag bg-red-100 text-red-800">Công nghệ</span>
-                                            <span class="tag bg-blue-100 text-blue-800">TP. Hồ Chí Minh</span>
-                                            <span class="tag bg-green-100 text-green-800">Toàn thời gian</span>
+                                            <span class="cr-tag bg-red-100 text-red-800">Công nghệ</span>
+                                            <span class="cr-tag bg-blue-100 text-blue-800">TP. Hồ Chí Minh</span>
+                                            <span class="cr-tag bg-green-100 text-green-800">Toàn thời gian</span>
                                         </div>
                                     </div>
                                     <span class="text-red-600 font-medium">$1200 - $2000</span>
@@ -457,14 +250,14 @@
                                 </div>
                             </div>
                             
-                            <div class="job-item p-3" data-job="marketing-manager">
+                            <div class="cr-job-item p-3" data-job="marketing-manager">
                                 <div class="flex justify-between items-start">
                                     <div>
                                         <h3 class="font-bold text-lg">Marketing Manager</h3>
                                         <div class="flex flex-wrap gap-2 mt-2">
-                                            <span class="tag bg-purple-100 text-purple-800">Marketing</span>
-                                            <span class="tag bg-blue-100 text-blue-800">Đà Nẵng</span>
-                                            <span class="tag bg-green-100 text-green-800">Toàn thời gian</span>
+                                            <span class="cr-tag bg-purple-100 text-purple-800">Marketing</span>
+                                            <span class="cr-tag bg-blue-100 text-blue-800">Đà Nẵng</span>
+                                            <span class="cr-tag bg-green-100 text-green-800">Toàn thời gian</span>
                                         </div>
                                     </div>
                                     <span class="text-red-600 font-medium">$1800 - $3000</span>
@@ -474,14 +267,14 @@
                                 </div>
                             </div>
                             
-                            <div class="job-item p-3" data-job="ux-designer">
+                            <div class="cr-job-item p-3" data-job="ux-designer">
                                 <div class="flex justify-between items-start">
                                     <div>
                                         <h3 class="font-bold text-lg">UX/UI Designer</h3>
                                         <div class="flex flex-wrap gap-2 mt-2">
-                                            <span class="tag bg-red-100 text-red-800">Công nghệ</span>
-                                            <span class="tag bg-blue-100 text-blue-800">Làm việc từ xa</span>
-                                            <span class="tag bg-green-100 text-green-800">Toàn thời gian</span>
+                                            <span class="cr-tag bg-red-100 text-red-800">Công nghệ</span>
+                                            <span class="cr-tag bg-blue-100 text-blue-800">Làm việc từ xa</span>
+                                            <span class="cr-tag bg-green-100 text-green-800">Toàn thời gian</span>
                                         </div>
                                     </div>
                                     <span class="text-red-600 font-medium">$1300 - $2200</span>
@@ -491,14 +284,14 @@
                                 </div>
                             </div>
                             
-                            <div class="job-item p-3" data-job="sale-executive">
+                            <div class="cr-job-item p-3" data-job="sale-executive">
                                 <div class="flex justify-between items-start">
                                     <div>
                                         <h3 class="font-bold text-lg">Sales Executive</h3>
                                         <div class="flex flex-wrap gap-2 mt-2">
-                                            <span class="tag bg-yellow-100 text-yellow-800">Kinh doanh</span>
-                                            <span class="tag bg-blue-100 text-blue-800">Hà Nội</span>
-                                            <span class="tag bg-green-100 text-green-800">Toàn thời gian</span>
+                                            <span class="cr-tag bg-yellow-100 text-yellow-800">Kinh doanh</span>
+                                            <span class="cr-tag bg-blue-100 text-blue-800">Hà Nội</span>
+                                            <span class="cr-tag bg-green-100 text-green-800">Toàn thời gian</span>
                                         </div>
                                     </div>
                                     <span class="text-red-600 font-medium">$800 - $1500</span>
@@ -508,14 +301,14 @@
                                 </div>
                             </div>
                             
-                            <div class="job-item p-3" data-job="customer-support">
+                            <div class="cr-job-item p-3" data-job="customer-support">
                                 <div class="flex justify-between items-start">
                                     <div>
                                         <h3 class="font-bold text-lg">Customer Support Specialist</h3>
                                         <div class="flex flex-wrap gap-2 mt-2">
-                                            <span class="tag bg-indigo-100 text-indigo-800">Chăm sóc KH</span>
-                                            <span class="tag bg-blue-100 text-blue-800">TP. Hồ Chí Minh</span>
-                                            <span class="tag bg-green-100 text-green-800">Toàn thời gian</span>
+                                            <span class="cr-tag bg-indigo-100 text-indigo-800">Chăm sóc KH</span>
+                                            <span class="cr-tag bg-blue-100 text-blue-800">TP. Hồ Chí Minh</span>
+                                            <span class="cr-tag bg-green-100 text-green-800">Toàn thời gian</span>
                                         </div>
                                     </div>
                                     <span class="text-red-600 font-medium">$700 - $1200</span>
@@ -528,17 +321,17 @@
                     </div>
                     
                     <!-- Job Details -->
-                    <div class="w-full md:w-2/3 job-detail">
+                    <div class="w-full md:w-2/3 cr-job-detail">
                         <div class="bg-white rounded-lg shadow p-8">
                             <!-- Default Job Detail -->
-                            <div id="backend-dev" class="job-detail-content">
+                            <div id="backend-dev" class="cr-job-detail-content">
                                 <div class="flex justify-between items-start mb-6">
                                     <div>
                                         <h2 class="text-2xl font-bold">Backend Developer (Java/Spring)</h2>
                                         <div class="flex flex-wrap gap-2 mt-2">
-                                            <span class="tag bg-red-100 text-red-800">Công nghệ</span>
-                                            <span class="tag bg-blue-100 text-blue-800">Hà Nội</span>
-                                            <span class="tag bg-green-100 text-green-800">Toàn thời gian</span>
+                                            <span class="cr-tag bg-red-100 text-red-800">Công nghệ</span>
+                                            <span class="cr-tag bg-blue-100 text-blue-800">Hà Nội</span>
+                                            <span class="cr-tag bg-green-100 text-green-800">Toàn thời gian</span>
                                         </div>
                                     </div>
                                     <button class="bg-red-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-red-700 transition">
@@ -546,7 +339,7 @@
                                     </button>
                                 </div>
                                 
-                                <div class="job-highlight p-4 mb-6">
+                                <div class="cr-job-highlight p-4 mb-6">
                                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                         <div class="text-center">
                                             <div class="text-red-600 font-bold text-xl">$1500 - $2500</div>
@@ -618,7 +411,7 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-10 process-steps">
                     <div class="process-step fade-in">
-                        <div class="step-number">1</div>
+                        <div class="crstep-number">1</div>
                         <h3 class="text-xl font-bold mb-3">Nộp Hồ Sơ</h3>
                         <p class="text-gray-700">
                             Ứng viên nộp hồ sơ trực tuyến qua hệ thống của chúng tôi. Hồ sơ bao gồm CV và thư giới thiệu (nếu có).
@@ -626,7 +419,7 @@
                     </div>
                     
                     <div class="process-step fade-in">
-                        <div class="step-number">2</div>
+                        <div class="crstep-number">2</div>
                         <h3 class="text-xl font-bold mb-3">Đánh Giá Hồ Sơ</h3>
                         <p class="text-gray-700">
                             Bộ phận nhân sự và quản lý liên quan sẽ đánh giá hồ sơ của bạn trong vòng 3-5 ngày làm việc.
@@ -634,7 +427,7 @@
                     </div>
                     
                     <div class="process-step fade-in">
-                        <div class="step-number">3</div>
+                        <div class="crstep-number">3</div>
                         <h3 class="text-xl font-bold mb-3">Phỏng Vấn Vòng 1</h3>
                         <p class="text-gray-700">
                             Phỏng vấn trực tiếp hoặc trực tuyến với bộ phận nhân sự để đánh giá sự phù hợp với văn hóa công ty.
@@ -642,7 +435,7 @@
                     </div>
                     
                     <div class="process-step fade-in">
-                        <div class="step-number">4</div>
+                        <div class="crstep-number">4</div>
                         <h3 class="text-xl font-bold mb-3">Phỏng Vấn Chuyên Môn</h3>
                         <p class="text-gray-700">
                             Phỏng vấn với quản lý trực tiếp và các thành viên trong team để đánh giá năng lực chuyên môn.
@@ -650,7 +443,7 @@
                     </div>
                     
                     <div class="process-step fade-in">
-                        <div class="step-number">5</div>
+                        <div class="crstep-number">5</div>
                         <h3 class="text-xl font-bold mb-3">Bài Kiểm Tra</h3>
                         <p class="text-gray-700">
                             Đối với một số vị trí, ứng viên có thể được yêu cầu hoàn thành bài kiểm tra kỹ năng hoặc case study.
@@ -658,7 +451,7 @@
                     </div>
                     
                     <div class="process-step fade-in">
-                        <div class="step-number">6</div>
+                        <div class="crstep-number">6</div>
                         <h3 class="text-xl font-bold mb-3">Thư Mời & Đàm Phán</h3>
                         <p class="text-gray-700">
                             Ứng viên thành công sẽ nhận được thư mời làm việc và đàm phán về các điều khoản hợp đồng.
@@ -679,7 +472,7 @@
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 testimonial-grid">
-                    <div class="testimonial-card p-6 fade-in">
+                    <div class="cr-testimonial-card p-6 fade-in">
                         <div class="flex items-start mb-4">
                             <div class="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16"></div>
                             <div class="ml-4">
@@ -701,7 +494,7 @@
                         </p>
                     </div>
                     
-                    <div class="testimonial-card p-6 fade-in">
+                    <div class="cr-testimonial-card p-6 fade-in">
                         <div class="flex items-start mb-4">
                             <div class="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16"></div>
                             <div class="ml-4">
@@ -737,7 +530,7 @@
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 benefit-grid">
-                    <div class="benefit-card p-6 bg-gray-50 rounded-lg text-center fade-in">
+                    <div class="cr-benefit-card p-6 bg-gray-50 rounded-lg text-center fade-in">
                         <div class="bg-red-100 w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
                             <i class="fas fa-money-bill-wave text-red-600 text-xl" aria-hidden="true"></i>
                         </div>
@@ -747,7 +540,7 @@
                         </p>
                     </div>
                     
-                    <div class="benefit-card p-6 bg-gray-50 rounded-lg text-center fade-in">
+                    <div class="cr-benefit-card p-6 bg-gray-50 rounded-lg text-center fade-in">
                         <div class="bg-red-100 w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
                             <i class="fas fa-heartbeat text-red-600 text-xl" aria-hidden="true"></i>
                         </div>
@@ -757,7 +550,7 @@
                         </p>
                     </div>
                     
-                    <div class="benefit-card p-6 bg-gray-50 rounded-lg text-center fade-in">
+                    <div class="cr-benefit-card p-6 bg-gray-50 rounded-lg text-center fade-in">
                         <div class="bg-red-100 w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
                             <i class="fas fa-graduation-cap text-red-600 text-xl" aria-hidden="true"></i>
                         </div>
@@ -767,7 +560,7 @@
                         </p>
                     </div>
                     
-                    <div class="benefit-card p-6 bg-gray-50 rounded-lg text-center fade-in">
+                    <div class="cr-benefit-card p-6 bg-gray-50 rounded-lg text-center fade-in">
                         <div class="bg-red-100 w-14 h-14 rounded-full flex items-center justify-center mb-4 mx-auto">
                             <i class="fas fa-umbrella-beach text-red-600 text-xl" aria-hidden="true"></i>
                         </div>
@@ -783,7 +576,7 @@
         <!-- Application Form -->
         <section id="apply" class="py-16 bg-gray-50">
             <div class="container mx-auto px-4">
-                <div class="max-w-3xl mx-auto apply-form fade-in">
+                <div class="max-w-3xl mx-auto cr-apply-form fade-in">
                     <h2 class="text-3xl font-bold mb-2">Ứng Tuyển Ngay</h2>
                     <p class="text-gray-600 mb-8">Điền thông tin để ứng tuyển vào vị trí mong muốn tại E-Shop</p>
                     
@@ -941,8 +734,8 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Job list interaction
-        const jobItems = document.querySelectorAll('.job-item');
-        const jobDetailContents = document.querySelector('.job-detail-content');
+        const jobItems = document.querySelectorAll('.cr-job-item');
+        const jobDetailContents = document.querySelector('.cr-job-detail-content');
         
         jobItems.forEach(item => {
             item.addEventListener('click', function() {
@@ -969,7 +762,7 @@
                         </button>
                     </div>
                     
-                    <div class="job-highlight p-4 mb-6">
+                    <div class="cr-job-highlight p-4 mb-6">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="text-center">
                                 <div class="text-red-600 font-bold text-xl">${this.querySelector('.text-red-600').textContent}</div>
@@ -1025,7 +818,7 @@
         });
         
         // Apply now button in job detail
-        document.querySelector('.job-detail').addEventListener('click', function(e) {
+        document.querySelector('.cr-job-detail').addEventListener('click', function(e) {
             if (e.target.classList.contains('bg-red-600')) {
                 document.querySelector('#apply-position').value = 'backend-dev'; // In real app, set to current job
                 document.querySelector('#apply').scrollIntoView({behavior: 'smooth'});

@@ -10,173 +10,7 @@
     <!-- Kế thừa CSS từ index.html -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        /* Kế thừa các style từ index.html */
-        .pb-3 img {
-            width: 120px;
-            height: 120px;
-        }
-        
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-        
-        /* Style riêng cho trang hỗ trợ */
-        .support-hero {
-            background: linear-gradient(90deg, #ff424f 0%, #ff6b6b 100%);
-            height: 280px;
-        }
-        
-        .faq-item {
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-        
-        .faq-question {
-            background-color: #f8f9fa;
-            padding: 1.25rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-        
-        .faq-question:hover {
-            background-color: #e9ecef;
-        }
-        
-        .faq-answer {
-            background-color: white;
-            padding: 1.25rem;
-            border-top: 1px solid #e9ecef;
-            display: none;
-        }
-        
-        .faq-question.active {
-            background-color: #ff424f;
-            color: white;
-        }
-        
-        .faq-question.active i {
-            transform: rotate(180deg);
-        }
-        
-        .contact-card {
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .contact-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-        
-        .support-section {
-            margin-top: -80px;
-        }
-        
-        .contact-form {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .form-input {
-            border: 1px solid #e2e8f0;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        
-        .form-input:focus {
-            border-color: #ff424f;
-            box-shadow: 0 0 0 3px rgba(255, 66, 79, 0.2);
-        }
-        
-        .support-tag {
-            background-color: #ffedf0;
-            color: #ff424f;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .support-tag:hover {
-            background-color: #ffdce0;
-            transform: translateY(-2px);
-        }
-        
-        .support-tag.active {
-            background-color: #ff424f;
-            color: white;
-        }
-        
-        .search-container {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-        
-        .search-input {
-            width: 100%;
-            padding: 0.9rem 1.2rem 0.9rem 3.5rem;
-            border-radius: 50px;
-            border: 1px solid #e2e8f0;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-        
-        .search-input:focus {
-            outline: none;
-            border-color: #ff424f;
-            box-shadow: 0 0 0 3px rgba(255, 66, 79, 0.2), 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-        
-        .search-icon {
-            position: absolute;
-            left: 1.5rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #a0aec0;
-            font-size: 1.2rem;
-        }
-        
-        .no-results {
-            text-align: center;
-            padding: 2rem;
-            color: #718096;
-            display: none;
-        }
-        
-        @media (max-width: 768px) {
-            .support-hero {
-                height: 220px;
-            }
-            
-            .support-section {
-                margin-top: -60px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body class="bg-gray-50">
     <!-- SEO: Hidden H1 for page title -->
@@ -206,7 +40,7 @@
                 <!-- Logo with alt text -->
                 <div class="flex items-center">
                     <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
-                        <img src="/assets/img/logo/nuentaru1.png" alt="E-Shop - Trang mua sắm trực tuyến">
+                        <img src="/assets/img/logo/nuentaru1.png" width="120px" height="120px" alt="E-Shop - Trang mua sắm trực tuyến">
                     </a>
                 </div>
 
@@ -300,22 +134,22 @@
         <section class="support-section container mx-auto px-4 py-8 relative z-10">
             <div class="bg-white rounded-xl shadow-md p-6 mb-8">
                 <!-- Thanh tìm kiếm từ khóa hỗ trợ -->
-                <div class="search-container">
+                <div class="sp-search-container">
                     <div class="relative">
-                        <i class="fas fa-search search-icon" aria-hidden="true"></i>
-                        <input type="text" id="support-search" class="search-input" 
+                        <i class="fas fa-search sp-search-icon" aria-hidden="true"></i>
+                        <input type="text" id="support-search" class="sp-search-input" 
                                placeholder="Tìm kiếm từ khóa hỗ trợ..." 
                                aria-label="Tìm kiếm từ khóa hỗ trợ">
                     </div>
                 </div>
                 
                 <div class="flex flex-wrap mb-6">
-                    <span class="support-tag" data-tag="vận chuyển">#VậnChuyển</span>
-                    <span class="support-tag" data-tag="thanh toán">#ThanhToán</span>
-                    <span class="support-tag" data-tag="đổi trả">#ĐổiTrả</span>
-                    <span class="support-tag" data-tag="tài khoản">#TàiKhoản</span>
-                    <span class="support-tag" data-tag="khuyến mãi">#KhuyếnMãi</span>
-                    <span class="support-tag" data-tag="sản phẩm">#SảnPhẩm</span>
+                    <span class="sp-support-tag" data-tag="vận chuyển">#VậnChuyển</span>
+                    <span class="sp-support-tag" data-tag="thanh toán">#ThanhToán</span>
+                    <span class="sp-support-tag" data-tag="đổi trả">#ĐổiTrả</span>
+                    <span class="sp-support-tag" data-tag="tài khoản">#TàiKhoản</span>
+                    <span class="sp-support-tag" data-tag="khuyến mãi">#KhuyếnMãi</span>
+                    <span class="sp-support-tag" data-tag="sản phẩm">#SảnPhẩm</span>
                 </div>
                 
                 <div class="mb-8">
@@ -323,12 +157,12 @@
                     
                     <div id="faq-container" class="faq-container">
                         <!-- FAQ Item 1 -->
-                        <div class="faq-item" data-tags="vận chuyển, đơn hàng">
-                            <div class="faq-question">
+                        <div class="sp-faq-item" data-tags="vận chuyển, đơn hàng">
+                            <div class="sp-faq-question">
                                 <span>Làm cách nào để theo dõi đơn hàng của tôi?</span>
                                 <i class="fas fa-chevron-down transition-transform"></i>
                             </div>
-                            <div class="faq-answer">
+                            <div class="sp-faq-answer">
                                 <p>Bạn có thể theo dõi đơn hàng của mình bằng cách:</p>
                                 <ol class="list-decimal pl-5 mt-2 space-y-1">
                                     <li>Đăng nhập vào tài khoản E-Shop của bạn</li>
@@ -341,12 +175,12 @@
                         </div>
                         
                         <!-- FAQ Item 2 -->
-                        <div class="faq-item" data-tags="vận chuyển, thời gian">
-                            <div class="faq-question">
+                        <div class="sp-faq-item" data-tags="vận chuyển, thời gian">
+                            <div class="sp-faq-question">
                                 <span>Thời gian giao hàng dự kiến là bao lâu?</span>
                                 <i class="fas fa-chevron-down transition-transform"></i>
                             </div>
-                            <div class="faq-answer">
+                            <div class="sp-faq-answer">
                                 <p>Thời gian giao hàng phụ thuộc vào khu vực và phương thức vận chuyển:</p>
                                 <ul class="list-disc pl-5 mt-2 space-y-1">
                                     <li>Khu vực thành phố: 1-2 ngày làm việc</li>
@@ -358,12 +192,12 @@
                         </div>
                         
                         <!-- FAQ Item 3 -->
-                        <div class="faq-item" data-tags="đổi trả, chính sách">
-                            <div class="faq-question">
+                        <div class="sp-faq-item" data-tags="đổi trả, chính sách">
+                            <div class="sp-faq-question">
                                 <span>Chính sách đổi trả hàng như thế nào?</span>
                                 <i class="fas fa-chevron-down transition-transform"></i>
                             </div>
-                            <div class="faq-answer">
+                            <div class="sp-faq-answer">
                                 <p>Chúng tôi chấp nhận đổi trả trong vòng 30 ngày kể từ ngày nhận hàng với các điều kiện sau:</p>
                                 <ul class="list-disc pl-5 mt-2 space-y-1">
                                     <li>Sản phẩm còn nguyên tem, nhãn mác và bao bì gốc</li>
@@ -375,12 +209,12 @@
                         </div>
                         
                         <!-- FAQ Item 4 -->
-                        <div class="faq-item" data-tags="thanh toán, phương thức">
-                            <div class="faq-question">
+                        <div class="sp-faq-item" data-tags="thanh toán, phương thức">
+                            <div class="sp-faq-question">
                                 <span>Những phương thức thanh toán nào được chấp nhận?</span>
                                 <i class="fas fa-chevron-down transition-transform"></i>
                             </div>
-                            <div class="faq-answer">
+                            <div class="sp-faq-answer">
                                 <p>Chúng tôi chấp nhận nhiều phương thức thanh toán:</p>
                                 <div class="grid grid-cols-2 gap-4 mt-3">
                                     <div class="flex items-center">
@@ -404,12 +238,12 @@
                         </div>
                         
                         <!-- FAQ Item 5 -->
-                        <div class="faq-item" data-tags="đơn hàng, hủy đơn">
-                            <div class="faq-question">
+                        <div class="sp-faq-item" data-tags="đơn hàng, hủy đơn">
+                            <div class="sp-faq-question">
                                 <span>Làm cách nào để hủy đơn hàng đã đặt?</span>
                                 <i class="fas fa-chevron-down transition-transform"></i>
                             </div>
-                            <div class="faq-answer">
+                            <div class="sp-faq-answer">
                                 <p>Bạn có thể hủy đơn hàng trước khi đơn hàng được giao cho đơn vị vận chuyển:</p>
                                 <ol class="list-decimal pl-5 mt-2 space-y-1">
                                     <li>Đăng nhập vào tài khoản E-Shop của bạn</li>
@@ -422,12 +256,12 @@
                         </div>
                         
                         <!-- FAQ Item 6 -->
-                        <div class="faq-item" data-tags="tài khoản, đăng nhập">
-                            <div class="faq-question">
+                        <div class="sp-faq-item" data-tags="tài khoản, đăng nhập">
+                            <div class="sp-faq-question">
                                 <span>Tôi quên mật khẩu đăng nhập, làm thế nào để lấy lại?</span>
                                 <i class="fas fa-chevron-down transition-transform"></i>
                             </div>
-                            <div class="faq-answer">
+                            <div class="sp-faq-answer">
                                 <p>Bạn có thể lấy lại mật khẩu bằng cách:</p>
                                 <ol class="list-decimal pl-5 mt-2 space-y-1">
                                     <li>Truy cập trang đăng nhập</li>
@@ -440,12 +274,12 @@
                         </div>
                         
                         <!-- FAQ Item 7 -->
-                        <div class="faq-item" data-tags="khuyến mãi, voucher">
-                            <div class="faq-question">
+                        <div class="sp-faq-item" data-tags="khuyến mãi, voucher">
+                            <div class="sp-faq-question">
                                 <span>Cách sử dụng voucher giảm giá như thế nào?</span>
                                 <i class="fas fa-chevron-down transition-transform"></i>
                             </div>
-                            <div class="faq-answer">
+                            <div class="sp-faq-answer">
                                 <p>Để sử dụng voucher giảm giá:</p>
                                 <ol class="list-decimal pl-5 mt-2 space-y-1">
                                     <li>Thêm sản phẩm vào giỏ hàng</li>
@@ -458,7 +292,7 @@
                         </div>
                     </div>
                     
-                    <div id="no-results" class="no-results">
+                    <div id="sp-no-results" class="sp-no-results">
                         <i class="fas fa-search fa-3x mb-4 text-gray-300" aria-hidden="true"></i>
                         <h3 class="text-xl font-medium mb-2">Không tìm thấy kết quả</h3>
                         <p>Không có câu hỏi nào phù hợp với từ khóa tìm kiếm của bạn.</p>
@@ -468,27 +302,27 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Contact Form -->
-                    <div class="contact-form p-6">
+                    <div class="sp-contact-form p-6">
                         <h3 class="text-2xl font-bold mb-6">Liên hệ hỗ trợ</h3>
                         <form id="support-form">
                             <div class="mb-4">
                                 <label class="block text-gray-700 mb-2" for="name">Họ và tên</label>
-                                <input type="text" id="name" class="form-input w-full" placeholder="Nhập họ tên của bạn" required>
+                                <input type="text" id="name" class="sp-form-input w-full" placeholder="Nhập họ tên của bạn" required>
                             </div>
                             
                             <div class="mb-4">
                                 <label class="block text-gray-700 mb-2" for="email">Email</label>
-                                <input type="email" id="email" class="form-input w-full" placeholder="Nhập email của bạn" required>
+                                <input type="email" id="email" class="sp-form-input w-full" placeholder="Nhập email của bạn" required>
                             </div>
                             
                             <div class="mb-4">
                                 <label class="block text-gray-700 mb-2" for="phone">Số điện thoại</label>
-                                <input type="tel" id="phone" class="form-input w-full" placeholder="Nhập số điện thoại">
+                                <input type="tel" id="phone" class="sp-form-input w-full" placeholder="Nhập số điện thoại">
                             </div>
                             
                             <div class="mb-4">
                                 <label class="block text-gray-700 mb-2" for="subject">Chủ đề</label>
-                                <select id="subject" class="form-input w-full" required>
+                                <select id="subject" class="sp-form-input w-full" required>
                                     <option value="">Chọn chủ đề hỗ trợ</option>
                                     <option value="shipping">Vận chuyển</option>
                                     <option value="payment">Thanh toán</option>
@@ -501,7 +335,7 @@
                             
                             <div class="mb-6">
                                 <label class="block text-gray-700 mb-2" for="message">Nội dung</label>
-                                <textarea id="message" rows="5" class="form-input w-full" placeholder="Mô tả chi tiết vấn đề của bạn" required></textarea>
+                                <textarea id="message" rows="5" class="sp-form-input w-full" placeholder="Mô tả chi tiết vấn đề của bạn" required></textarea>
                             </div>
                             
                             <button type="submit" class="bg-[#ff424f] text-white py-3 px-8 rounded-full font-bold hover:bg-red-600 transition w-full">
@@ -516,7 +350,7 @@
                         
                         <div class="space-y-6">
                             <!-- Hotline Card -->
-                            <div class="contact-card bg-white">
+                            <div class="sp-contact-card bg-white">
                                 <div class="p-6">
                                     <div class="flex items-start">
                                         <div class="bg-red-100 p-3 rounded-full mr-4">
@@ -536,7 +370,7 @@
                             </div>
                             
                             <!-- Email Card -->
-                            <div class="contact-card bg-white">
+                            <div class="sp-contact-card bg-white">
                                 <div class="p-6">
                                     <div class="flex items-start">
                                         <div class="bg-blue-100 p-3 rounded-full mr-4">
@@ -556,7 +390,7 @@
                             </div>
                             
                             <!-- Chat Card -->
-                            <div class="contact-card bg-white">
+                            <div class="sp-contact-card bg-white">
                                 <div class="p-6">
                                     <div class="flex items-start">
                                         <div class="bg-green-100 p-3 rounded-full mr-4">
@@ -722,7 +556,7 @@
         });
         
         // FAQ Accordion
-        const faqQuestions = document.querySelectorAll('.faq-question');
+        const faqQuestions = document.querySelectorAll('.sp-faq-question');
         
         faqQuestions.forEach(question => {
             question.addEventListener('click', function() {
@@ -782,9 +616,9 @@
         
         // Hỗ trợ tìm kiếm từ khóa
         const searchInput = document.getElementById('support-search');
-        const faqItems = document.querySelectorAll('.faq-item');
-        const supportTags = document.querySelectorAll('.support-tag');
-        const noResults = document.getElementById('no-results');
+        const faqItems = document.querySelectorAll('.sp-faq-item');
+        const supportTags = document.querySelectorAll('.sp-support-tag');
+        const noResults = document.getElementById('sp-no-results');
         
         // Tìm kiếm khi nhập từ khóa
         if (searchInput) {
@@ -794,8 +628,8 @@
                 let hasResults = false;
                 
                 faqItems.forEach(item => {
-                    const question = item.querySelector('.faq-question span').textContent.toLowerCase();
-                    const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                    const question = item.querySelector('.sp-faq-question span').textContent.toLowerCase();
+                    const answer = item.querySelector('.sp-faq-answer').textContent.toLowerCase();
                     
                     if (searchTerm === '' || question.includes(searchTerm) || answer.includes(searchTerm)) {
                         item.style.display = 'block';

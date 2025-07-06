@@ -23,228 +23,7 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        /* Header */
-        .pb-3 img {
-          width: 120px;
-          height: 120px;
-        }
-
-        /* Reuse styles from index.html */
-        .fixed-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .header-spacer {
-            height: 130px;
-        }
-        
-        /* Hero Section */
-        .faq-hero {
-            background: linear-gradient(135deg, #ff424f 0%, #ff6b6b 100%);
-            padding: 100px 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .faq-hero::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
-            background-size: cover;
-            opacity: 0.3;
-        }
-        
-        /* Search Box */
-        .search-container {
-            max-width: 700px;
-            margin: 0 auto;
-            position: relative;
-        }
-        
-        .search-container input {
-            padding: 15px 20px;
-            border-radius: 50px;
-            width: 100%;
-            font-size: 16px;
-            border: 2px solid #ff424f;
-            box-shadow: 0 5px 15px rgba(255, 66, 79, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .search-container input:focus {
-            outline: none;
-            box-shadow: 0 8px 25px rgba(255, 66, 79, 0.3);
-        }
-        
-        .search-container button {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #ff424f;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .search-container button:hover {
-            background: #e53e3e;
-            transform: translateY(-50%) scale(1.05);
-        }
-        
-        /* Category Tabs */
-        .category-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 40px;
-        }
-        
-        .category-tab {
-            background: white;
-            border: 2px solid #e5e7eb;
-            border-radius: 50px;
-            padding: 10px 20px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .category-tab:hover, .category-tab.active {
-            background: #ff424f;
-            color: white;
-            border-color: #ff424f;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 66, 79, 0.2);
-        }
-        
-        /* FAQ Item */
-        .faq-item {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            margin-bottom: 15px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .faq-item:hover {
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .faq-question {
-            width: 100%;
-            text-align: left;
-            padding: 20px 25px;
-            background: white;
-            border: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-        
-        .faq-question:hover {
-            background: #fff5f5;
-        }
-        
-        .faq-question i {
-            transition: transform 0.3s ease;
-        }
-        
-        .faq-answer {
-            padding: 0 25px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.4s ease;
-            background: #f9fafb;
-            border-top: 1px solid #f3f4f6;
-        }
-        
-        .faq-answer p {
-            padding: 20px 0;
-            color: #4b5563;
-            line-height: 1.7;
-        }
-        
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-            padding: 0 25px;
-        }
-        
-        .faq-item.active .faq-question i {
-            transform: rotate(180deg);
-        }
-        
-        /* Contact Banner */
-        .contact-banner {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            border-radius: 15px;
-            padding: 30px;
-            color: white;
-        }
-        
-        /* Animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.6s ease forwards;
-        }
-        
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .faq-hero {
-                padding: 80px 0;
-            }
-            
-            .category-tabs {
-                justify-content: flex-start;
-                overflow-x: auto;
-                padding-bottom: 10px;
-                margin-left: -15px;
-                margin-right: -15px;
-                padding-left: 15px;
-                padding-right: 15px;
-            }
-            
-            .category-tab {
-                flex-shrink: 0;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body class="bg-gray-50">
     <!-- SEO: Hidden H1 for page title -->
@@ -278,7 +57,7 @@
                 <!-- Logo with alt text -->
                 <div class="flex items-center logo-container">
                     <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
-                        <img src="/assets/img/logo/nuentaru1.png" alt="E-Shop - Trang mua sắm trực tuyến">
+                        <img src="/assets/img/logo/nuentaru1.png" width="120px" height="120px" alt="E-Shop - Trang mua sắm trực tuyến">
                     </a>
                 </div>
 
@@ -323,7 +102,7 @@
                 <h1 class="text-4xl md:text-5xl font-bold mb-4 fade-in">Hỏi & Đáp</h1>
                 <p class="text-xl mb-8 max-w-3xl mx-auto fade-in delay-1">Tìm câu trả lời cho các câu hỏi thường gặp</p>
                 
-                <div class="search-container fade-in delay-2">
+                <div class="fq-search-container fade-in delay-2">
                     <input type="text" id="faq-search" placeholder="Tìm kiếm câu hỏi...">
                     <button id="search-btn" aria-label="Tìm kiếm">
                         <i class="fas fa-search" aria-hidden="true"></i>
@@ -336,23 +115,23 @@
         <section class="py-16">
             <div class="container mx-auto px-4">
                 <!-- Category Tabs -->
-                <div class="category-tabs">
-                    <button class="category-tab active" data-category="all">
+                <div class="fq-category-tabs">
+                    <button class="fq-category-tab active" data-category="all">
                         <i class="fas fa-list"></i> Tất cả
                     </button>
-                    <button class="category-tab" data-category="ordering">
+                    <button class="fq-category-tab" data-category="ordering">
                         <i class="fas fa-shopping-cart"></i> Đặt hàng
                     </button>
-                    <button class="category-tab" data-category="payment">
+                    <button class="fq-category-tab" data-category="payment">
                         <i class="fas fa-credit-card"></i> Thanh toán
                     </button>
-                    <button class="category-tab" data-category="shipping">
+                    <button class="fq-category-tab" data-category="shipping">
                         <i class="fas fa-truck"></i> Vận chuyển
                     </button>
-                    <button class="category-tab" data-category="returns">
+                    <button class="fq-category-tab" data-category="returns">
                         <i class="fas fa-undo"></i> Đổi trả
                     </button>
-                    <button class="category-tab" data-category="account">
+                    <button class="fq-category-tab" data-category="account">
                         <i class="fas fa-user"></i> Tài khoản
                     </button>
                 </div>
@@ -516,7 +295,7 @@
                     </div>
                     
                     <!-- Contact Banner -->
-                    <div class="contact-banner mt-16 fade-in delay-4">
+                    <div class="fq-contact-banner mt-16 fade-in delay-4">
                         <div class="flex flex-col md:flex-row items-center justify-between">
                             <div class="text-center md:text-left mb-6 md:mb-0">
                                 <h3 class="text-2xl font-bold mb-2">Vẫn còn thắc mắc?</h3>
@@ -689,7 +468,7 @@
         });
         
         // Category filtering
-        const categoryTabs = document.querySelectorAll('.category-tab');
+        const categoryTabs = document.querySelectorAll('.fq-category-tab');
         
         categoryTabs.forEach(tab => {
             tab.addEventListener('click', function() {

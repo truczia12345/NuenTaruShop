@@ -23,260 +23,7 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        /* Header */
-        .pb-3 img {
-          width: 120px;
-          height: 40px;
-        }
-
-        /* Reuse styles from index.html */
-        .fixed-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .header-spacer {
-            height: 130px;
-        }
-        
-        /* Terms Section */
-        .terms-hero {
-            background: linear-gradient(135deg, #ff424f 0%, #ff6b6b 100%);
-            padding: 100px 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .terms-hero::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
-            background-size: cover;
-            opacity: 0.3;
-        }
-        
-        /* Table of Contents */
-        .toc-container {
-            position: sticky;
-            top: 140px;
-            align-self: start;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-            padding: 25px;
-            height: fit-content;
-            max-height: calc(100vh - 180px);
-            overflow-y: auto;
-        }
-        
-        .toc-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #ffe5e5;
-            color: #ff424f;
-        }
-        
-        .toc-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .toc-item {
-            margin-bottom: 12px;
-        }
-        
-        .toc-link {
-            display: block;
-            padding: 8px 12px;
-            border-radius: 8px;
-            color: #4b5563;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-            padding-left: 28px;
-        }
-        
-        .toc-link:hover {
-            background-color: #fff5f5;
-            color: #ff424f;
-        }
-        
-        .toc-link.active {
-            background-color: #fff0f0;
-            color: #ff424f;
-            font-weight: 500;
-        }
-        
-        .toc-link::before {
-            content: "•";
-            position: absolute;
-            left: 12px;
-            color: #ffa5a5;
-        }
-        
-        .toc-link:hover::before, .toc-link.active::before {
-            color: #ff424f;
-        }
-        
-        /* Content */
-        .terms-content {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-            padding: 40px;
-        }
-        
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #ffe5e5;
-            color: #ff424f;
-        }
-        
-        .sub-section-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-top: 25px;
-            margin-bottom: 15px;
-            color: #ff424f;
-        }
-        
-        .highlight-box {
-            background-color: #fff5f5;
-            border-left: 4px solid #ff424f;
-            padding: 20px;
-            border-radius: 0 8px 8px 0;
-            margin: 20px 0;
-        }
-        
-        .update-date {
-            background-color: #fff8e6;
-            border: 1px solid #ffd166;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .update-date i {
-            color: #ff9e1b;
-            font-size: 24px;
-            margin-right: 15px;
-        }
-        
-        /* Animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.6s ease forwards;
-        }
-        
-        /* Responsive */
-        @media (max-width: 1023px) {
-            .terms-layout {
-                flex-direction: column;
-            }
-            
-            .toc-container {
-                position: relative;
-                top: 0;
-                margin-bottom: 30px;
-                width: 100%;
-                max-height: none;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .terms-hero {
-                padding: 80px 0;
-            }
-            
-            .terms-content {
-                padding: 25px;
-            }
-            
-            .terms-hero h1 {
-                font-size: 2rem;
-            }
-        }
-        
-        /* Content Styling */
-        .terms-content p {
-            margin-bottom: 15px;
-            line-height: 1.7;
-            color: #4b5563;
-        }
-        
-        .terms-content ul, .terms-content ol {
-            margin-bottom: 20px;
-            padding-left: 25px;
-        }
-        
-        .terms-content ul li, .terms-content ol li {
-            margin-bottom: 10px;
-            line-height: 1.6;
-        }
-        
-        .terms-content ul li {
-            list-style-type: disc;
-        }
-        
-        .terms-content ol li {
-            list-style-type: decimal;
-        }
-        
-        .terms-content strong {
-            color: #1f2937;
-        }
-        
-        .terms-content a {
-            color: #ff424f;
-            text-decoration: underline;
-            font-weight: 500;
-        }
-        
-        .terms-content a:hover {
-            color: #e53e3e;
-        }
-        
-        .terms-layout {
-            display: flex;
-            gap: 30px;
-        }
-        
-        .toc-column {
-            width: 25%;
-        }
-        
-        .content-column {
-            width: 75%;
-        }
-        
-        @media (max-width: 1023px) {
-            .toc-column, .content-column {
-                width: 100%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body class="bg-gray-50">
     <!-- SEO: Hidden H1 for page title -->
@@ -307,7 +54,7 @@
                 <!-- Logo with alt text -->
                 <div class="flex items-center">
                     <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
-                        <img src="/assets/img/logo/nuentaru1.png" alt="E-Shop - Trang mua sắm trực tuyến" class="h-10">
+                        <img src="/assets/img/logo/nuentaru1.png" width="120px" height="120px" alt="E-Shop - Trang mua sắm trực tuyến">
                     </a>
                 </div>
 
@@ -381,7 +128,7 @@
                     <!-- Terms Content -->
                     <div class="content-column fade-in delay-1">
                         <div class="terms-content">
-                            <div class="update-date fade-in delay-2">
+                            <div class="pptu-update-date fade-in delay-2">
                                 <i class="fas fa-info-circle"></i>
                                 <div>
                                     <strong>Lần cập nhật cuối:</strong> 27/06/2025<br>
@@ -389,21 +136,21 @@
                                 </div>
                             </div>
                             
-                            <div class="highlight-box fade-in delay-3">
+                            <div class="pptu-highlight-box fade-in delay-3">
                                 <p class="text-lg font-bold mb-2">Tóm tắt quan trọng:</p>
                                 <p>Bằng việc sử dụng dịch vụ của E-Shop, bạn đồng ý tuân thủ các điều khoản và điều kiện được nêu trong tài liệu này. Chúng tôi khuyến nghị bạn đọc kỹ toàn bộ điều khoản để hiểu rõ quyền lợi và trách nhiệm của mình.</p>
                             </div>
                             
                             <!-- Section 1 -->
                             <section id="section1">
-                                <h2 class="section-title">1. Giới thiệu</h2>
+                                <h2 class="tu-section-title">1. Giới thiệu</h2>
                                 <p>Chào mừng bạn đến với E-Shop ("chúng tôi", "của chúng tôi" hoặc "E-Shop"). Các điều khoản sử dụng này ("Điều khoản") quản lý việc bạn sử dụng trang web E-Shop và các dịch vụ liên quan ("Dịch vụ").</p>
                                 <p>Bằng cách truy cập hoặc sử dụng Dịch vụ của chúng tôi, bạn đồng ý bị ràng buộc bởi các Điều khoản này. Nếu bạn không đồng ý với bất kỳ phần nào của các Điều khoản này, vui lòng không sử dụng Dịch vụ của chúng tôi.</p>
                             </section>
                             
                             <!-- Section 2 -->
                             <section id="section2" class="mt-12">
-                                <h2 class="section-title">2. Chấp nhận điều khoản</h2>
+                                <h2 class="tu-section-title">2. Chấp nhận điều khoản</h2>
                                 <p>Bằng cách sử dụng Dịch vụ của chúng tôi, bạn xác nhận rằng:</p>
                                 <ul>
                                     <li>Bạn đã đọc, hiểu và đồng ý bị ràng buộc bởi các Điều khoản này;</li>
@@ -414,14 +161,14 @@
                             
                             <!-- Section 3 -->
                             <section id="section3" class="mt-12">
-                                <h2 class="section-title">3. Thay đổi điều khoản</h2>
+                                <h2 class="tu-section-title">3. Thay đổi điều khoản</h2>
                                 <p>Chúng tôi có quyền sửa đổi các Điều khoản này vào bất kỳ lúc nào bằng cách đăng bản cập nhật trên trang web của chúng tôi. Những thay đổi sẽ có hiệu lực ngay sau khi chúng được đăng.</p>
                                 <p>Việc bạn tiếp tục sử dụng Dịch vụ sau khi các thay đổi được đăng đồng nghĩa với việc bạn chấp nhận các thay đổi đó. Bạn nên kiểm tra trang này thường xuyên để cập nhật bất kỳ thay đổi nào.</p>
                             </section>
                             
                             <!-- Section 4 -->
                             <section id="section4" class="mt-12">
-                                <h2 class="section-title">4. Tài khoản người dùng</h2>
+                                <h2 class="tu-section-title">4. Tài khoản người dùng</h2>
                                 <h3 class="sub-section-title">4.1. Tạo tài khoản</h3>
                                 <p>Để sử dụng một số tính năng của Dịch vụ, bạn có thể cần tạo tài khoản người dùng. Bạn đồng ý cung cấp thông tin chính xác, đầy đủ và cập nhật trong quá trình đăng ký.</p>
                                 
@@ -434,7 +181,7 @@
                             
                             <!-- Section 5 -->
                             <section id="section5" class="mt-12">
-                                <h2 class="section-title">5. Quyền và nghĩa vụ</h2>
+                                <h2 class="tu-section-title">5. Quyền và nghĩa vụ</h2>
                                 <h3 class="sub-section-title">5.1. Quyền của bạn</h3>
                                 <p>Khi sử dụng Dịch vụ của chúng tôi, bạn có quyền:</p>
                                 <ul>
@@ -455,7 +202,7 @@
                             
                             <!-- Section 6 -->
                             <section id="section6" class="mt-12">
-                                <h2 class="section-title">6. Sở hữu trí tuệ</h2>
+                                <h2 class="tu-section-title">6. Sở hữu trí tuệ</h2>
                                 <p>Tất cả nội dung trên Dịch vụ, bao gồm nhưng không giới hạn ở văn bản, đồ họa, logo, hình ảnh, video, âm thanh, phần mềm và mã nguồn ("Nội dung"), là tài sản của E-Shop hoặc được cấp phép cho chúng tôi và được bảo vệ bởi luật bản quyền và các luật sở hữu trí tuệ khác.</p>
                                 <p>Bạn không được sao chép, phân phối, sửa đổi, tạo ra các tác phẩm phái sinh, hiển thị công khai, thực hiện công khai, tái bản, tải xuống, lưu trữ hoặc truyền tải bất kỳ Nội dung nào của Dịch vụ, ngoại trừ:</p>
                                 <ul>
@@ -467,7 +214,7 @@
                             
                             <!-- Section 7 -->
                             <section id="section7" class="mt-12">
-                                <h2 class="section-title">7. Giới hạn trách nhiệm</h2>
+                                <h2 class="tu-section-title">7. Giới hạn trách nhiệm</h2>
                                 <p>TRONG PHẠM VI TỐI ĐA CHO PHÉP CỦA PHÁP LUẬT, E-SHOP HOẶC CÁC ĐỐI TÁC CỦA CHÚNG TÔI SẼ KHÔNG CHỊU TRÁCH NHIỆM PHÁP LÝ ĐỐI VỚI BẤT KỲ THIỆT HẠI TRỰC TIẾP, GIÁN TIẾP, NGẪU NHIÊN, ĐẶC BIỆT, PHẠT HOẶC HẬU QUẢ NÀO PHÁT SINH TỪ HOẶC LIÊN QUAN ĐẾN VIỆC SỬ DỤNG HOẶC KHÔNG THỂ SỬ DỤN DỊCH VỤ CỦA CHÚNG TÔI.</p>
                                 <p>CHÚNG TÔI KHÔNG ĐẢM BẢO RẰNG DỊCH VỤ SẼ HOẠT ĐỘNG KHÔNG GIÁN ĐOẠN, KỊP THỜI, AN TOÀN HOẶC KHÔNG CÓ LỖI.</p>
                                 <p>TRONG MỌI TRƯỜNG HỢP, TRÁCH NHIỆM TỔNG HỢP CỦA E-SHOP ĐỐI VỚI BẠN VÌ TẤT CẢ CÁC KHIẾU NẠI SẼ KHÔNG VƯỢT QUÁ SỐ TIỀN BẠN ĐÃ THANH TOÁN CHO CHÚNG TÔI TRONG SÁU (6) THÁNG TRƯỚC KHI XẢY RA SỰ KIỆN GÂY RA KHIẾU NẠI.</p>
@@ -475,7 +222,7 @@
                             
                             <!-- Section 8 -->
                             <section id="section8" class="mt-12">
-                                <h2 class="section-title">8. Bồi thường</h2>
+                                <h2 class="tu-section-title">8. Bồi thường</h2>
                                 <p>Bạn đồng ý bồi thường, bảo vệ và giữ cho E-Shop, các công ty liên kết, giám đốc, nhân viên, đại lý và đối tác kinh doanh vô hại trước mọi khiếu nại, trách nhiệm pháp lý, thiệt hại, khoản phạt, tiền phạt, chi phí và chi phí (bao gồm cả phí luật sư hợp lý) phát sinh từ hoặc liên quan đến:</p>
                                 <ul>
                                     <li>Việc bạn sử dụng Dịch vụ;</li>
@@ -486,14 +233,14 @@
                             
                             <!-- Section 9 -->
                             <section id="section9" class="mt-12">
-                                <h2 class="section-title">9. Luật áp dụng</h2>
+                                <h2 class="tu-section-title">9. Luật áp dụng</h2>
                                 <p>Các Điều khoản này sẽ được điều chỉnh và giải thích theo luật pháp Việt Nam, mà không xem xét đến các quy định xung đột pháp luật.</p>
                                 <p>Bất kỳ tranh chấp nào phát sinh từ hoặc liên quan đến các Điều khoản này hoặc việc sử dụng Dịch vụ của bạn sẽ được giải quyết độc quyền tại các tòa án có thẩm quyền tại Việt Nam.</p>
                             </section>
                             
                             <!-- Section 10 -->
                             <section id="section10" class="mt-12">
-                                <h2 class="section-title">10. Liên hệ</h2>
+                                <h2 class="tu-section-title">10. Liên hệ</h2>
                                 <p>Nếu bạn có bất kỳ câu hỏi nào về các Điều khoản này, vui lòng liên hệ với chúng tôi:</p>
                                 <p><strong>Công ty TNHH E-Shop</strong><br>
                                 Địa chỉ: 123 Đường ABC, Quận XYZ, TP. Đà Nẵng<br>

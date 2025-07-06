@@ -23,158 +23,7 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        /* Header */
-        .pb-3 img {
-          width: 120px;
-          height: 120px;
-        }
-
-        /* Reuse styles from index.html */
-        .fixed-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .header-spacer {
-            height: 130px;
-        }
-        
-        .contact-hero {
-            background-image: url('/assets/img/bg/hero-contact-bg.avif');
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: cover;
-        }
-        
-        .contact-card {
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .contact-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .contact-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        
-        .contact-form {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-            padding: 30px;
-        }
-        
-        .contact-map {
-            height: 400px;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.8s ease forwards;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .contact-cards {
-                grid-template-columns: 1fr;
-            }
-            
-            .contact-layout {
-                flex-direction: column;
-            }
-        }
-        
-        .contact-info-item {
-            transition: all 0.3s ease;
-        }
-        
-        .contact-info-item:hover {
-            background-color: #fff5f5;
-            transform: scale(1.02);
-        }
-        
-        .logo-container img {
-            max-width: 100%;
-            height: auto;
-        }
-        
-        .section-title {
-            position: relative;
-            padding-bottom: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 70px;
-            height: 4px;
-            background: #ff424f;
-            border-radius: 2px;
-        }
-
-        /* Thêm các style cho validation phone */
-        .phone-validation {
-            display: flex;
-            align-items: center;
-            margin-top: 4px;
-        }
-        
-        .validation-icon {
-            margin-right: 6px;
-            display: none;
-        }
-        
-        .validation-text {
-            font-size: 0.875rem;
-        }
-        
-        .valid-icon {
-            color: #16a34a;
-        }
-        
-        .invalid-icon {
-            color: #ef4444;
-        }
-        
-        .error-message {
-            display: block;
-            margin-top: 4px;
-            color: #ef4444;
-            font-size: 0.875rem;
-        }
-        
-        .input-error {
-            border-color: #ef4444;
-            background-color: #fef2f2;
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body class="bg-gray-50">
     <!-- SEO: Hidden H1 for page title -->
@@ -206,9 +55,9 @@
             <!-- Main Header: Logo + Search -->
             <div class="flex items-center justify-between pb-3">
                 <!-- Logo with alt text -->
-                <div class="flex items-center logo-container">
+                <div class="flex items-center ct-logo-container">
                     <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
-                        <img src="/assets/img/logo/nuentaru1.png" alt="E-Shop - Trang mua sắm trực tuyến">
+                        <img src="/assets/img/logo/nuentaru1.png" width="120px" height="120px" alt="E-Shop - Trang mua sắm trực tuyến">
                     </a>
                 </div>
 
@@ -248,14 +97,14 @@
     <!-- Main Content -->
     <main>
         <!-- Hero Section -->
-        <section class="contact-hero py-20 flex items-center">
+        <section class="ct-contact-hero py-20 flex items-center">
             <div class="container mx-auto px-4 text-center">
                 <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 fade-in">Chúng Tôi Luôn Sẵn Sàng Lắng Nghe Bạn</h1>
                 <p class="text-xl text-white mb-8 max-w-3xl mx-auto fade-in">
                     Liên hệ với E-Shop qua nhiều kênh khác nhau để được hỗ trợ, giải đáp thắc mắc hoặc góp ý
                 </p>
                 <div class="fade-in">
-                    <a href="#contact-form" class="bg-white text-red-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition inline-block">
+                    <a href="#ct-contact-form" class="bg-white text-red-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition inline-block">
                         Gửi Tin Nhắn Ngay
                     </a>
                 </div>
@@ -272,9 +121,9 @@
                     </p>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 contact-cards">
-                    <div class="contact-card bg-gray-50 rounded-lg p-8 text-center fade-in">
-                        <div class="contact-icon bg-red-100 text-red-600 mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 ct-contact-cards">
+                    <div class="ct-contact-card bg-gray-50 rounded-lg p-8 text-center fade-in">
+                        <div class="ct-contact-icon bg-red-100 text-red-600 mx-auto">
                             <i class="fas fa-phone-alt" aria-hidden="true"></i>
                         </div>
                         <h3 class="text-xl font-bold mb-3">Điện Thoại</h3>
@@ -285,8 +134,8 @@
                         <p class="text-gray-500 mt-2">Thứ 2 - Thứ 7: 8:00 - 21:00</p>
                     </div>
                     
-                    <div class="contact-card bg-gray-50 rounded-lg p-8 text-center fade-in">
-                        <div class="contact-icon bg-blue-100 text-blue-600 mx-auto">
+                    <div class="ct-contact-card bg-gray-50 rounded-lg p-8 text-center fade-in">
+                        <div class="ct-contact-icon bg-blue-100 text-blue-600 mx-auto">
                             <i class="fas fa-envelope" aria-hidden="true"></i>
                         </div>
                         <h3 class="text-xl font-bold mb-3">Email</h3>
@@ -297,8 +146,8 @@
                         <p class="text-gray-500 mt-2">Phản hồi trong vòng 24 giờ</p>
                     </div>
                     
-                    <div class="contact-card bg-gray-50 rounded-lg p-8 text-center fade-in">
-                        <div class="contact-icon bg-green-100 text-green-600 mx-auto">
+                    <div class="ct-contact-card bg-gray-50 rounded-lg p-8 text-center fade-in">
+                        <div class="ct-contact-icon bg-green-100 text-green-600 mx-auto">
                             <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
                         </div>
                         <h3 class="text-xl font-bold mb-3">Trực Tiếp</h3>
@@ -317,10 +166,10 @@
             <div class="container mx-auto px-4">
                 <div class="flex flex-wrap gap-10 contact-layout">
                     <!-- Contact Form -->
-                    <div class="w-full md:w-1/2 contact-form fade-in">
-                        <h2 class="text-3xl font-bold mb-6 section-title">Gửi Tin Nhắn Cho Chúng Tôi</h2>
+                    <div class="w-full md:w-1/2 ct-contact-form fade-in">
+                        <h2 class="text-3xl font-bold mb-6 ct-section-title">Gửi Tin Nhắn Cho Chúng Tôi</h2>
                         
-                        <form id="contact-form">
+                        <form id="ct-contact-form">
                             <div class="mb-6">
                                 <label for="contact-name" class="block text-sm font-medium text-gray-700 mb-1">Họ và tên *</label>
                                 <input type="text" id="contact-name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
@@ -337,11 +186,11 @@
                                     <input type="tel" id="contact-phone" 
                                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
                                         placeholder="Nhập số điện thoại">
-                                    <span id="contact-phone-error" class="error-message"></span>
-                                    <div class="phone-validation">
-                                        <i id="contact-phone-valid-icon" class="fas fa-check-circle validation-icon valid-icon"></i>
-                                        <i id="contact-phone-invalid-icon" class="fas fa-exclamation-circle validation-icon invalid-icon"></i>
-                                        <span id="contact-phone-validation-text" class="validation-text"></span>
+                                    <span id="contact-phone-error" class="ct-error-message"></span>
+                                    <div class="ct-phone-validation">
+                                        <i id="contact-phone-valid-icon" class="fas fa-check-circle ct-validation-icon valid-icon"></i>
+                                        <i id="contact-phone-invalid-icon" class="fas fa-exclamation-circle ct-validation-icon invalid-icon"></i>
+                                        <span id="contact-ct-phone-ct-validation-text" class="ct-validation-text"></span>
                                     </div>
                                 </div>
                             </div>
@@ -372,7 +221,7 @@
                     
                     <!-- Contact Info -->
                     <div class="w-full md:w-2/5 fade-in">
-                        <h2 class="text-3xl font-bold mb-6 section-title">Thông Tin Liên Hệ</h2>
+                        <h2 class="text-3xl font-bold mb-6 ct-section-title">Thông Tin Liên Hệ</h2>
                         
                         <div class="bg-white rounded-lg shadow-md p-6 mb-8">
                             <h3 class="text-xl font-bold mb-4">Trụ Sở Chính</h3>
@@ -464,7 +313,7 @@
                     </p>
                 </div>
                 
-                <div class="contact-map fade-in">
+                <div class="ct-contact-map fade-in">
                     <iframe 
                         src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d239.63258456334574!2d108.15580138902838!3d16.05919129102883!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1750962081487!5m2!1svi!2s";
                         width="100%" 
@@ -702,7 +551,7 @@
             });
             
             // Form submission
-            const contactForm = document.getElementById('contact-form');
+            const contactForm = document.getElementById('ct-contact-form');
             if (contactForm) {
                 contactForm.addEventListener('submit', function(e) {
                     const phone = contactPhoneInput.value.trim();
@@ -765,7 +614,7 @@
             const contactPhoneError = document.getElementById('contact-phone-error');
             const contactValidIcon = document.getElementById('contact-phone-valid-icon');
             const contactInvalidIcon = document.getElementById('contact-phone-invalid-icon');
-            const contactValidationText = document.getElementById('contact-phone-validation-text');
+            const contactValidationText = document.getElementById('contact-ct-phone-ct-validation-text');
 
             // Cập nhật giao diện dựa trên trạng thái số điện thoại
             function updatePhoneValidation() {
@@ -775,7 +624,7 @@
                 contactValidIcon.style.display = 'none';
                 contactInvalidIcon.style.display = 'none';
                 contactValidationText.textContent = '';
-                contactPhoneInput.classList.remove('input-error');
+                contactPhoneInput.classList.remove('ct-input-error');
                 contactPhoneError.textContent = '';
                 
                 if (phone === '') {
@@ -790,7 +639,7 @@
                     contactInvalidIcon.style.display = 'inline-block';
                     contactValidationText.textContent = 'Số điện thoại không hợp lệ';
                     contactValidationText.style.color = '#ef4444';
-                    // contactPhoneInput.classList.add('input-error');
+                    // contactPhoneInput.classList.add('ct-input-error');
                     // contactPhoneError.textContent = 'Số điện thoại phải có 10 chữ số, bắt đầu bằng 03, 05, 07, 08 hoặc 09';
                 }
             }

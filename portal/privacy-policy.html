@@ -23,296 +23,7 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        /* Header */
-        .pb-3 img {
-          width: 120px;
-          height: 120px;
-        }
-
-        /* Reuse styles */
-        .fixed-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .header-spacer {
-            height: 130px;
-        }
-        
-        /* Privacy Section */
-        .privacy-hero {
-            background: linear-gradient(135deg, #ff424f 0%, #ff6b6b 100%);
-            padding: 100px 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .privacy-hero::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
-            background-size: cover;
-            opacity: 0.3;
-        }
-        
-        /* Table of Contents */
-        .toc-container {
-            position: sticky;
-            top: 140px;
-            align-self: start;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-            padding: 25px;
-            height: fit-content;
-            max-height: calc(100vh - 180px);
-            overflow-y: auto;
-        }
-        
-        .toc-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #ffe5e5;
-            color: #ff424f;
-        }
-        
-        .toc-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .toc-item {
-            margin-bottom: 12px;
-        }
-        
-        .toc-link {
-            display: block;
-            padding: 8px 12px;
-            border-radius: 8px;
-            color: #4b5563;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-            padding-left: 28px;
-        }
-        
-        .toc-link:hover {
-            background-color: #fff5f5;
-            color: #ff424f;
-        }
-        
-        .toc-link.active {
-            background-color: #fff0f0;
-            color: #ff424f;
-            font-weight: 500;
-        }
-        
-        .toc-link::before {
-            content: "•";
-            position: absolute;
-            left: 12px;
-            color: #ffa5a5;
-        }
-        
-        .toc-link:hover::before, .toc-link.active::before {
-            color: #ff424f;
-        }
-        
-        /* Content */
-        .privacy-content {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-            padding: 40px;
-        }
-        
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #ffe5e5;
-            color: #ff424f;
-        }
-        
-        .sub-section-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-top: 25px;
-            margin-bottom: 15px;
-            color: #ff424f;
-        }
-        
-        .highlight-box {
-            background-color: #fff5f5;
-            border-left: 4px solid #ff424f;
-            padding: 20px;
-            border-radius: 0 8px 8px 0;
-            margin: 20px 0;
-        }
-        
-        .update-date {
-            background-color: #fff8e6;
-            border: 1px solid #ffd166;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .update-date i {
-            color: #ff9e1b;
-            font-size: 24px;
-            margin-right: 15px;
-        }
-        
-        .data-types {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .data-type-card {
-            border: 1px solid #ffe5e5;
-            border-radius: 8px;
-            padding: 20px;
-            background-color: #fffafa;
-            transition: transform 0.3s ease;
-        }
-        
-        .data-type-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-        
-        .data-type-card h3 {
-            display: flex;
-            align-items: center;
-            color: #ff424f;
-            margin-bottom: 10px;
-        }
-        
-        .data-type-card h3 i {
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-        
-        /* Animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.6s ease forwards;
-        }
-        
-        /* Responsive */
-        @media (max-width: 1023px) {
-            .privacy-layout {
-                flex-direction: column;
-            }
-            
-            .toc-container {
-                position: relative;
-                top: 0;
-                margin-bottom: 30px;
-                width: 100%;
-                max-height: none;
-            }
-            
-            .data-types {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .privacy-hero {
-                padding: 80px 0;
-            }
-            
-            .privacy-content {
-                padding: 25px;
-            }
-            
-            .privacy-hero h1 {
-                font-size: 2rem;
-            }
-        }
-        
-        /* Content Styling */
-        .privacy-content p {
-            margin-bottom: 15px;
-            line-height: 1.7;
-            color: #4b5563;
-        }
-        
-        .privacy-content ul, .privacy-content ol {
-            margin-bottom: 20px;
-            padding-left: 25px;
-        }
-        
-        .privacy-content ul li, .privacy-content ol li {
-            margin-bottom: 10px;
-            line-height: 1.6;
-        }
-        
-        .privacy-content ul li {
-            list-style-type: disc;
-        }
-        
-        .privacy-content ol li {
-            list-style-type: decimal;
-        }
-        
-        .privacy-content strong {
-            color: #1f2937;
-        }
-        
-        .privacy-content a {
-            color: #ff424f;
-            text-decoration: underline;
-            font-weight: 500;
-        }
-        
-        .privacy-content a:hover {
-            color: #e53e3e;
-        }
-        
-        .privacy-layout {
-            display: flex;
-            gap: 30px;
-        }
-        
-        .toc-column {
-            width: 25%;
-        }
-        
-        .content-column {
-            width: 75%;
-        }
-        
-        @media (max-width: 1023px) {
-            .toc-column, .content-column {
-                width: 100%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body class="bg-gray-50">
     <!-- SEO: Hidden H1 for page title -->
@@ -343,7 +54,7 @@
                 <!-- Logo with alt text -->
                 <div class="flex items-center">
                     <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
-                        <img src="/assets/img/logo/nuentaru1.png" alt="E-Shop - Trang mua sắm trực tuyến" class="h-10">
+                        <img src="/assets/img/logo/nuentaru1.png" width="120px" height="120px" alt="E-Shop - Trang mua sắm trực tuyến">
                     </a>
                 </div>
 
@@ -417,7 +128,7 @@
                     <!-- Privacy Content -->
                     <div class="content-column fade-in delay-1">
                         <div class="privacy-content">
-                            <div class="update-date fade-in delay-2">
+                            <div class="pptu-update-date fade-in delay-2">
                                 <i class="fas fa-info-circle"></i>
                                 <div>
                                     <strong>Lần cập nhật cuối:</strong> 27/06/2025<br>
@@ -425,24 +136,24 @@
                                 </div>
                             </div>
                             
-                            <div class="highlight-box fade-in delay-3">
+                            <div class="pptu-highlight-box fade-in delay-3">
                                 <p class="text-lg font-bold mb-2">Cam kết bảo mật:</p>
                                 <p>Tại E-Shop, chúng tôi cam kết bảo vệ thông tin cá nhân của bạn. Chính sách này giải thích cách chúng tôi thu thập, sử dụng và bảo vệ dữ liệu của bạn khi bạn sử dụng dịch vụ của chúng tôi.</p>
                             </div>
                             
                             <!-- Section 1 -->
                             <section id="section1">
-                                <h2 class="section-title">1. Giới thiệu</h2>
+                                <h2 class="pp-section-title">1. Giới thiệu</h2>
                                 <p>Chào mừng bạn đến với Chính sách Bảo mật của E-Shop. Chúng tôi hiểu rằng thông tin cá nhân của bạn là quan trọng và cam kết bảo vệ quyền riêng tư của bạn.</p>
                                 <p>Chính sách này áp dụng cho tất cả thông tin chúng tôi thu thập khi bạn truy cập trang web, sử dụng ứng dụng hoặc dịch vụ của chúng tôi. Bằng việc sử dụng dịch vụ của chúng tôi, bạn đồng ý với việc thu thập và sử dụng thông tin theo chính sách này.</p>
                             </section>
                             
                             <!-- Section 2 -->
                             <section id="section2" class="mt-12">
-                                <h2 class="section-title">2. Thông tin chúng tôi thu thập</h2>
+                                <h2 class="pp-section-title">2. Thông tin chúng tôi thu thập</h2>
                                 <p>Chúng tôi thu thập các loại thông tin sau để cung cấp và cải thiện dịch vụ của mình:</p>
                                 
-                                <div class="data-types">
+                                <div class="pp-data-types">
                                     <div class="data-type-card fade-in">
                                         <h3><i class="fas fa-user"></i> Thông tin cá nhân</h3>
                                         <p>Họ tên, địa chỉ email, số điện thoại, địa chỉ giao hàng, ngày sinh và thông tin thanh toán khi bạn đăng ký tài khoản hoặc mua hàng.</p>
@@ -467,7 +178,7 @@
                             
                             <!-- Section 3 -->
                             <section id="section3" class="mt-12">
-                                <h2 class="section-title">3. Cách chúng tôi sử dụng thông tin</h2>
+                                <h2 class="pp-section-title">3. Cách chúng tôi sử dụng thông tin</h2>
                                 <p>Chúng tôi sử dụng thông tin thu thập được cho các mục đích sau:</p>
                                 <ul>
                                     <li>Cung cấp, vận hành và duy trì dịch vụ của chúng tôi</li>
@@ -482,7 +193,7 @@
                             
                             <!-- Section 4 -->
                             <section id="section4" class="mt-12">
-                                <h2 class="section-title">4. Chia sẻ thông tin</h2>
+                                <h2 class="pp-section-title">4. Chia sẻ thông tin</h2>
                                 <p>Chúng tôi có thể chia sẻ thông tin cá nhân của bạn trong các trường hợp sau:</p>
                                 
                                 <h3 class="sub-section-title">4.1. Với nhà cung cấp dịch vụ</h3>
@@ -497,10 +208,10 @@
                             
                             <!-- Section 5 -->
                             <section id="section5" class="mt-12">
-                                <h2 class="section-title">5. Bảo mật thông tin</h2>
+                                <h2 class="pp-section-title">5. Bảo mật thông tin</h2>
                                 <p>An ninh dữ liệu của bạn rất quan trọng với chúng tôi. Chúng tôi sử dụng các biện pháp bảo mật thương mại hợp lý để bảo vệ thông tin cá nhân của bạn.</p>
                                 
-                                <div class="highlight-box">
+                                <div class="pptu-highlight-box">
                                     <p class="font-bold mb-2">Các biện pháp bảo mật của chúng tôi bao gồm:</p>
                                     <ul>
                                         <li>Mã hóa dữ liệu nhạy cảm trong quá trình truyền tải và lưu trữ</li>
@@ -516,7 +227,7 @@
                             
                             <!-- Section 6 -->
                             <section id="section6" class="mt-12">
-                                <h2 class="section-title">6. Quyền của bạn</h2>
+                                <h2 class="pp-section-title">6. Quyền của bạn</h2>
                                 <p>Bạn có quyền truy cập, sửa đổi hoặc xóa thông tin cá nhân của mình bất cứ lúc nào:</p>
                                 
                                 <div class="bg-gray-50 p-5 rounded-lg mt-4">
@@ -536,7 +247,7 @@
                             
                             <!-- Section 7 -->
                             <section id="section7" class="mt-12">
-                                <h2 class="section-title">7. Cookie & Công nghệ theo dõi</h2>
+                                <h2 class="pp-section-title">7. Cookie & Công nghệ theo dõi</h2>
                                 <p>Chúng tôi sử dụng cookie và các công nghệ theo dõi tương tự để theo dõi hoạt động trên dịch vụ của chúng tôi và lưu trữ một số thông tin nhất định.</p>
                                 
                                 <p>Cookie là các tệp dữ liệu nhỏ có thể bao gồm một mã định danh duy nhất ẩn danh. Cookie được gửi đến trình duyệt của bạn từ một trang web và được lưu trữ trên thiết bị của bạn.</p>
@@ -556,7 +267,7 @@
                             
                             <!-- Section 8 -->
                             <section id="section8" class="mt-12">
-                                <h2 class="section-title">8. Trẻ em</h2>
+                                <h2 class="pp-section-title">8. Trẻ em</h2>
                                 <p>Dịch vụ của chúng tôi không dành cho người dưới 13 tuổi. Chúng tôi không cố ý thu thập thông tin nhận dạng cá nhân từ trẻ em dưới 13 tuổi.</p>
                                 
                                 <p>Nếu bạn là cha mẹ hoặc người giám hộ và bạn biết rằng con bạn đã cung cấp cho chúng tôi dữ liệu cá nhân, vui lòng liên hệ với chúng tôi. Nếu chúng tôi biết rằng chúng tôi đã thu thập dữ liệu cá nhân từ trẻ em mà không có sự xác minh của cha mẹ, chúng tôi sẽ thực hiện các bước để xóa thông tin đó khỏi máy chủ của chúng tôi.</p>
@@ -564,7 +275,7 @@
                             
                             <!-- Section 9 -->
                             <section id="section9" class="mt-12">
-                                <h2 class="section-title">9. Thay đổi chính sách</h2>
+                                <h2 class="pp-section-title">9. Thay đổi chính sách</h2>
                                 <p>Chúng tôi có thể cập nhật Chính sách Bảo mật của mình theo thời gian. Chúng tôi sẽ thông báo cho bạn về bất kỳ thay đổi nào bằng cách đăng Chính sách Bảo mật mới trên trang này.</p>
                                 
                                 <p>Chúng tôi sẽ cho bạn biết qua email và/hoặc thông báo nổi bật trên Dịch vụ của chúng tôi trước khi thay đổi có hiệu lực và cập nhật ngày "Lần cập nhật cuối" ở đầu Chính sách Bảo mật này.</p>
@@ -574,7 +285,7 @@
                             
                             <!-- Section 10 -->
                             <section id="section10" class="mt-12">
-                                <h2 class="section-title">10. Liên hệ</h2>
+                                <h2 class="pp-section-title">10. Liên hệ</h2>
                                 <p>Nếu bạn có bất kỳ câu hỏi nào về Chính sách Bảo mật này, vui lòng liên hệ với chúng tôi:</p>
                                 <p><strong>Bộ phận Bảo vệ Dữ liệu - E-Shop</strong><br>
                                 Địa chỉ: 123 Đường ABC, Quận XYZ, TP. Đà Nẵng<br>
