@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo cáo & Thống kê - Premium Marketplace</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff424f',
+                        secondary: '#c43a43',
+                        dark: '#1a202c',
+                        light: '#f8f9fa',
+                        premium: '#ff424f',
+                        premiumLight: '#fff5f5',
+                        premiumDark: '#d1323d',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                        info: '#3b82f6',
+                        reports: '#8b5cf6'
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(0, 0, 0, 0.08)',
+                        'input': '0 0 0 3px rgba(255, 66, 79, 0.25)',
+                        'reports': '0 5px 15px rgba(139, 92, 246, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .report-card {
+            transition: all 0.3s ease;
+            border-left: 3px solid #8b5cf6;
+        }
+        .report-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .tab-button {
+            padding: 12px 24px;
+            border-radius: 8px 8px 0 0;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tab-button.active {
+            background-color: white;
+            color: #ff424f;
+            border-bottom: 3px solid #ff424f;
+        }
+        .report-item {
+            transition: all 0.2s ease;
+        }
+        .report-item:hover {
+            background-color: #f8fafc;
+        }
+        .trend-up {
+            color: #10b981;
+        }
+        .trend-down {
+            color: #ef4444;
+        }
+        .progress-bar {
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .report-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            background-color: #f3f4f6;
+        }
+        .action-btn {
+            transition: all 0.2s ease;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .chart-container {
+            position: relative;
+            height: 250px;
+        }
+        .report-type-card {
+            transition: all 0.3s ease;
+        }
+        .report-type-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .modal-overlay {
+            background-color: rgba(0,0,0,0.6);
+            z-index: 10000;
+        }
+        .modal-content {
+            animation: modalAppear 0.3s ease-out;
+        }
+        @keyframes modalAppear {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .kpi-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .kpi-excellent {
+            background-color: #10b98120;
+            color: #10b981;
+        }
+        .kpi-good {
+            background-color: #3b82f620;
+            color: #3b82f6;
+        }
+        .kpi-average {
+            background-color: #f59e0b20;
+            color: #f59e0b;
+        }
+        .kpi-poor {
+            background-color: #ef444420;
+            color: #ef4444;
+        }
+        .report-header {
+            background: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 100%);
+            color: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Page Header -->
+        <div class="report-header p-6 mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                <div class="mb-4 md:mb-0">
+                    <h1 class="text-2xl md:text-3xl font-bold text-white">Báo cáo & Thống kê</h1>
+                    <p class="text-purple-200 mt-2">Phân tích hiệu suất bán hàng và tối ưu hóa hoạt động kinh doanh</p>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                    <div class="relative">
+                        <input type="text" placeholder="Tìm kiếm báo cáo..." class="w-full md:w-64 px-4 py-2.5 bg-white bg-opacity-20 text-white placeholder-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-white">
+                        <i class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-200"></i>
+                    </div>
+                    <button class="bg-white text-purple-700 px-5 py-2.5 rounded-lg hover:bg-opacity-90 flex items-center transition">
+                        <i class="fas fa-download mr-2"></i> Xuất báo cáo
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="report-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Doanh thu tháng</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">₫185,240,000</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
+                        <i class="fas fa-chart-line text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>So với tháng trước</span>
+                        <span class="trend-up font-medium">↑ 32.7%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="report-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Đơn hàng thành công</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">1,248</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>Tỷ lệ hoàn thành</span>
+                        <span class="font-medium">96.5%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="report-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Khách hàng mới</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">342</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                        <i class="fas fa-user-plus text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>Tăng trưởng</span>
+                        <span class="trend-up font-medium">↑ 18.4%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="report-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Đánh giá trung bình</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">4.8★</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600">
+                        <i class="fas fa-star text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>So với tháng trước</span>
+                        <span class="trend-up font-medium">↑ 0.3★</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report Performance Charts -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-card p-5">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-slate-800">Doanh thu theo thời gian</h2>
+                    <div class="flex gap-2">
+                        <button class="text-xs px-3 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Ngày</button>
+                        <button class="text-xs px-3 py-1 rounded-lg bg-primary text-white hover:bg-primaryDark">Tuần</button>
+                        <button class="text-xs px-3 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Tháng</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-card p-5">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-slate-800">Tỷ lệ chuyển đổi</h2>
+                    <button class="text-slate-500 hover:text-slate-700">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                </div>
+                <div class="flex justify-center mb-8">
+                    <div class="relative w-48 h-48">
+                        <canvas id="conversionChart"></canvas>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <div class="text-2xl font-bold text-slate-800">6.8%</div>
+                            <div class="text-slate-600 text-sm">Tỷ lệ chuyển đổi</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 bg-purple-500 rounded-full mr-2"></div>
+                            <span class="text-slate-700 text-sm">Lượt xem sản phẩm</span>
+                        </div>
+                        <span class="text-slate-700 font-medium">18,245</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                            <span class="text-slate-700 text-sm">Thêm vào giỏ hàng</span>
+                        </div>
+                        <span class="text-slate-700 font-medium">1,842</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                            <span class="text-slate-700 text-sm">Đơn hàng thành công</span>
+                        </div>
+                        <span class="text-slate-700 font-medium">1,248</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs & Detailed Reports -->
+        <div class="bg-white rounded-xl shadow-card overflow-hidden mb-6">
+            <div class="p-5 border-b flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="flex gap-1 overflow-x-auto w-full md:w-auto">
+                    <div class="tab-button active" data-tab="sales">Báo cáo bán hàng</div>
+                    <div class="tab-button" data-tab="products">Sản phẩm</div>
+                    <div class="tab-button" data-tab="customers">Khách hàng</div>
+                    <div class="tab-button" data-tab="marketing">Marketing</div>
+                    <div class="tab-button" data-tab="finance">Tài chính</div>
+                </div>
+                
+                <div class="flex flex-wrap gap-2 w-full md:w-auto">
+                    <div class="relative">
+                        <select class="px-4 py-2.5 border border-slate-300 rounded-lg text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <option>Tháng 6/2024</option>
+                            <option>Tháng 5/2024</option>
+                            <option>Tháng 4/2024</option>
+                            <option>Tháng 3/2024</option>
+                            <option>Tháng 2/2024</option>
+                        </select>
+                    </div>
+                    <button class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg flex items-center">
+                        <i class="fas fa-filter mr-2"></i> Bộ lọc nâng cao
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Sales Report -->
+            <div class="p-5">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-lg font-semibold text-slate-800">Báo cáo bán hàng chi tiết</h3>
+                    <button class="text-primary hover:text-primaryDark flex items-center">
+                        <i class="fas fa-file-export mr-2"></i> Xuất Excel
+                    </button>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-slate-100">
+                                <th class="py-3 px-4 text-left">Ngày</th>
+                                <th class="py-3 px-4 text-center">Đơn hàng</th>
+                                <th class="py-3 px-4 text-center">Sản phẩm bán</th>
+                                <th class="py-3 px-4 text-center">Doanh thu (₫)</th>
+                                <th class="py-3 px-4 text-center">Lợi nhuận (₫)</th>
+                                <th class="py-3 px-4 text-center">Tỷ suất LN</th>
+                                <th class="py-3 px-4 text-center">Đánh giá</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="report-item border-b">
+                                <td class="py-3 px-4 font-medium">15/06/2024</td>
+                                <td class="py-3 px-4 text-center">48</td>
+                                <td class="py-3 px-4 text-center">62</td>
+                                <td class="py-3 px-4 text-center font-medium">12,450,000</td>
+                                <td class="py-3 px-4 text-center font-medium text-green-600">10,240,000</td>
+                                <td class="py-3 px-4 text-center">
+                                    <span class="kpi-badge kpi-excellent">82.3%</span>
+                                </td>
+                                <td class="py-3 px-4 text-center">
+                                    <div class="flex justify-center items-center">
+                                        <span class="text-yellow-400 mr-1">★</span>4.9
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="report-item border-b">
+                                <td class="py-3 px-4 font-medium">14/06/2024</td>
+                                <td class="py-3 px-4 text-center">42</td>
+                                <td class="py-3 px-4 text-center">57</td>
+                                <td class="py-3 px-4 text-center font-medium">10,780,000</td>
+                                <td class="py-3 px-4 text-center font-medium text-green-600">8,920,000</td>
+                                <td class="py-3 px-4 text-center">
+                                    <span class="kpi-badge kpi-excellent">82.7%</span>
+                                </td>
+                                <td class="py-3 px-4 text-center">
+                                    <div class="flex justify-center items-center">
+                                        <span class="text-yellow-400 mr-1">★</span>4.8
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="report-item border-b">
+                                <td class="py-3 px-4 font-medium">13/06/2024</td>
+                                <td class="py-3 px-4 text-center">36</td>
+                                <td class="py-3 px-4 text-center">49</td>
+                                <td class="py-3 px-4 text-center font-medium">9,120,000</td>
+                                <td class="py-3 px-4 text-center font-medium text-green-600">7,450,000</td>
+                                <td class="py-3 px-4 text-center">
+                                    <span class="kpi-badge kpi-good">81.7%</span>
+                                </td>
+                                <td class="py-3 px-4 text-center">
+                                    <div class="flex justify-center items-center">
+                                        <span class="text-yellow-400 mr-1">★</span>4.7
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="report-item border-b">
+                                <td class="py-3 px-4 font-medium">12/06/2024</td>
+                                <td class="py-3 px-4 text-center">29</td>
+                                <td class="py-3 px-4 text-center">38</td>
+                                <td class="py-3 px-4 text-center font-medium">7,450,000</td>
+                                <td class="py-3 px-4 text-center font-medium text-green-600">6,120,000</td>
+                                <td class="py-3 px-4 text-center">
+                                    <span class="kpi-badge kpi-good">82.1%</span>
+                                </td>
+                                <td class="py-3 px-4 text-center">
+                                    <div class="flex justify-center items-center">
+                                        <span class="text-yellow-400 mr-1">★</span>4.8
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="report-item border-b">
+                                <td class="py-3 px-4 font-medium">11/06/2024</td>
+                                <td class="py-3 px-4 text-center">38</td>
+                                <td class="py-3 px-4 text-center">51</td>
+                                <td class="py-3 px-4 text-center font-medium">9,780,000</td>
+                                <td class="py-3 px-4 text-center font-medium text-green-600">8,050,000</td>
+                                <td class="py-3 px-4 text-center">
+                                    <span class="kpi-badge kpi-excellent">82.3%</span>
+                                </td>
+                                <td class="py-3 px-4 text-center">
+                                    <div class="flex justify-center items-center">
+                                        <span class="text-yellow-400 mr-1">★</span>4.9
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Summary Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-8">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="text-blue-700 text-sm font-medium mb-1">Tổng doanh thu</div>
+                        <div class="text-xl font-bold text-blue-800">₫185,240,000</div>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <div class="text-green-700 text-sm font-medium mb-1">Tổng lợi nhuận</div>
+                        <div class="text-xl font-bold text-green-800">₫152,380,000</div>
+                    </div>
+                    <div class="bg-purple-50 p-4 rounded-lg">
+                        <div class="text-purple-700 text-sm font-medium mb-1">Đơn hàng TB/ngày</div>
+                        <div class="text-xl font-bold text-purple-800">38.6</div>
+                    </div>
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                        <div class="text-yellow-700 text-sm font-medium mb-1">Đánh giá trung bình</div>
+                        <div class="text-xl font-bold text-yellow-800">4.82★</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report Types -->
+        <div class="mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-slate-800">Các loại báo cáo khác</h2>
+                <a href="#" class="text-primary hover:text-primaryDark flex items-center">
+                    Xem tất cả <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="report-type-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-5">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mb-4">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-800 mb-2">Báo cáo sản phẩm</h3>
+                        <p class="text-slate-600 text-sm mb-4">Phân tích hiệu suất từng sản phẩm, tồn kho và xu hướng bán hàng</p>
+                        <button class="w-full bg-blue-50 text-blue-600 py-2.5 rounded-lg hover:bg-blue-100">
+                            Xem báo cáo
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="report-type-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-5">
+                        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mb-4">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-800 mb-2">Báo cáo khách hàng</h3>
+                        <p class="text-slate-600 text-sm mb-4">Phân tích hành vi, giá trị vòng đời và phân khúc khách hàng</p>
+                        <button class="w-full bg-purple-50 text-purple-600 py-2.5 rounded-lg hover:bg-purple-100">
+                            Xem báo cáo
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="report-type-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-5">
+                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 mb-4">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-800 mb-2">Báo cáo marketing</h3>
+                        <p class="text-slate-600 text-sm mb-4">Đo lường hiệu quả chiến dịch, ROI và tỷ lệ chuyển đổi</p>
+                        <button class="w-full bg-green-50 text-green-600 py-2.5 rounded-lg hover:bg-green-100">
+                            Xem báo cáo
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="report-type-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-5">
+                        <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 mb-4">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-800 mb-2">Báo cáo tài chính</h3>
+                        <p class="text-slate-600 text-sm mb-4">Tổng quan dòng tiền, chi phí và báo cáo lợi nhuận</p>
+                        <button class="w-full bg-yellow-50 text-yellow-600 py-2.5 rounded-lg hover:bg-yellow-100">
+                            Xem báo cáo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- KPI Dashboard -->
+        <div class="bg-white rounded-xl shadow-card p-5 mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-slate-800">Chỉ số KPI cửa hàng</h2>
+                <div class="flex gap-2">
+                    <button class="text-xs px-3 py-1 rounded-lg bg-slate-100 text-slate-700">Quý 1</button>
+                    <button class="text-xs px-3 py-1 rounded-lg bg-primary text-white">Quý 2</button>
+                    <button class="text-xs px-3 py-1 rounded-lg bg-slate-100 text-slate-700">Quý 3</button>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-slate-800 mb-2">85%</div>
+                    <div class="text-slate-600">Tỷ lệ hoàn thành đơn</div>
+                    <div class="progress-bar bg-slate-200 mt-3">
+                        <div class="h-full bg-green-500" style="width: 85%"></div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-slate-800 mb-2">4.8★</div>
+                    <div class="text-slate-600">Đánh giá khách hàng</div>
+                    <div class="progress-bar bg-slate-200 mt-3">
+                        <div class="h-full bg-yellow-500" style="width: 96%"></div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-slate-800 mb-2">6.8%</div>
+                    <div class="text-slate-600">Tỷ lệ chuyển đổi</div>
+                    <div class="progress-bar bg-slate-200 mt-3">
+                        <div class="h-full bg-purple-500" style="width: 68%"></div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-slate-800 mb-2">92%</div>
+                    <div class="text-slate-600">Khách hàng quay lại</div>
+                    <div class="progress-bar bg-slate-200 mt-3">
+                        <div class="h-full bg-blue-500" style="width: 92%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize revenue chart
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            const revenueChart = new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
+                    datasets: [
+                        {
+                            label: 'Doanh thu (₫)',
+                            data: [3450000, 4120000, 3780000, 4560000, 5210000, 4870000, 5620000, 6120000, 5780000, 6450000, 7120000, 6780000, 7450000, 8120000, 12450000],
+                            borderColor: '#8b5cf6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            borderWidth: 3,
+                            pointBackgroundColor: '#fff',
+                            pointBorderColor: '#8b5cf6',
+                            pointBorderWidth: 2,
+                            pointRadius: 4,
+                            tension: 0.3,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: '#1e293b',
+                            padding: 12,
+                            bodyFont: {
+                                size: 13
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Doanh thu: ₫' + context.parsed.y.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return '₫' + (value/1000000).toLocaleString() + 'tr';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Initialize conversion chart
+            const conversionCtx = document.getElementById('conversionChart').getContext('2d');
+            const conversionChart = new Chart(conversionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Lượt xem', 'Thêm giỏ hàng', 'Mua hàng'],
+                    datasets: [{
+                        data: [18245, 1842, 1248],
+                        backgroundColor: [
+                            'rgba(139, 92, 246, 0.7)',
+                            'rgba(59, 130, 246, 0.7)',
+                            'rgba(16, 185, 129, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgb(139, 92, 246)',
+                            'rgb(59, 130, 246)',
+                            'rgb(16, 185, 129)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            
+            // Tab Switching
+            const tabs = document.querySelectorAll('.tab-button');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Report item hover effect
+            document.querySelectorAll('.report-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f8fafc';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+            
+            // Report card hover effect
+            document.querySelectorAll('.report-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.08)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Report type card hover effect
+            document.querySelectorAll('.report-type-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

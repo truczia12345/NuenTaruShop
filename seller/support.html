@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỗ trợ - Premium Marketplace</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff424f',
+                        secondary: '#c43a43',
+                        dark: '#1a202c',
+                        light: '#f8f9fa',
+                        premium: '#ff424f',
+                        premiumLight: '#fff5f5',
+                        premiumDark: '#d1323d',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                        info: '#3b82f6',
+                        support: '#3b82f6'
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(0, 0, 0, 0.08)',
+                        'input': '0 0 0 3px rgba(255, 66, 79, 0.25)',
+                        'support': '0 5px 15px rgba(59, 130, 246, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .support-card {
+            transition: all 0.3s ease;
+            border-left: 3px solid #3b82f6;
+        }
+        .support-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .ticket-item {
+            transition: all 0.2s ease;
+        }
+        .ticket-item:hover {
+            background-color: #f8fafc;
+        }
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-open {
+            background-color: #3b82f620;
+            color: #3b82f6;
+        }
+        .status-pending {
+            background-color: #f59e0b20;
+            color: #f59e0b;
+        }
+        .status-resolved {
+            background-color: #10b98120;
+            color: #10b981;
+        }
+        .status-closed {
+            background-color: #94a3b820;
+            color: #64748b;
+        }
+        .action-btn {
+            transition: all 0.2s ease;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .faq-item {
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .faq-question {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .faq-question:hover {
+            color: #3b82f6;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+        .faq-item.active .faq-question .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+        .support-header {
+            background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
+            color: white;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .chat-bubble {
+            border-radius: 18px;
+            position: relative;
+            max-width: 80%;
+        }
+        .user-message {
+            background-color: #3b82f6;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+        .support-message {
+            background-color: #e2e8f0;
+            color: #1e293b;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+        .chat-input {
+            border-radius: 24px;
+            padding: 12px 20px;
+            background-color: #f1f5f9;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Page Header -->
+        <div class="support-header p-8 mb-8 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">Trung tâm Hỗ trợ</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto text-lg">Chúng tôi luôn sẵn sàng hỗ trợ bạn 24/7 với mọi vấn đề về cửa hàng, sản phẩm và tài khoản</p>
+        </div>
+
+        <!-- Support Options -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="support-card bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
+                <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mb-4">
+                    <i class="fas fa-comments text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-slate-800 mb-2">Trò chuyện trực tiếp</h3>
+                <p class="text-slate-600 mb-4">Kết nối ngay với nhân viên hỗ trợ của chúng tôi</p>
+                <button class="bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700 w-full">
+                    Bắt đầu trò chuyện
+                </button>
+            </div>
+            
+            <div class="support-card bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
+                <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center text-green-600 mb-4">
+                    <i class="fas fa-ticket-alt text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-slate-800 mb-2">Gửi yêu cầu hỗ trợ</h3>
+                <p class="text-slate-600 mb-4">Tạo ticket hỗ trợ và chúng tôi sẽ liên hệ lại với bạn</p>
+                <button class="bg-green-600 text-white px-5 py-2.5 rounded-lg hover:bg-green-700 w-full" id="createTicketBtn">
+                    Tạo yêu cầu mới
+                </button>
+            </div>
+            
+            <div class="support-card bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
+                <div class="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mb-4">
+                    <i class="fas fa-phone-alt text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-slate-800 mb-2">Hỗ trợ qua điện thoại</h3>
+                <p class="text-slate-600 mb-1">1900 1234 (Nhánh số 2)</p>
+                <p class="text-slate-600 mb-4">Thứ 2 - Thứ 6: 8:00 - 22:00</p>
+                <button class="bg-purple-600 text-white px-5 py-2.5 rounded-lg hover:bg-purple-700 w-full">
+                    Gọi ngay
+                </button>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="bg-white rounded-xl shadow-card p-6 mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-semibold text-slate-800">Câu hỏi thường gặp (FAQ)</h2>
+                <div class="relative w-full md:w-64">
+                    <input type="text" placeholder="Tìm kiếm câu hỏi..." class="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-slate-700">
+                    <i class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                </div>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="faq-item">
+                    <div class="faq-question flex justify-between items-center p-4">
+                        <h3 class="font-medium text-lg">Làm thế nào để thêm sản phẩm mới vào cửa hàng?</h3>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer px-4 pb-4">
+                        <p class="text-slate-600 mb-3">Để thêm sản phẩm mới, bạn thực hiện theo các bước sau:</p>
+                        <ol class="list-decimal pl-5 space-y-2 text-slate-600">
+                            <li>Truy cập vào mục <span class="font-medium">"Sản phẩm"</span> trên thanh điều hướng</li>
+                            <li>Chọn <span class="font-medium">"Thêm sản phẩm"</span></li>
+                            <li>Điền đầy đủ thông tin sản phẩm bao gồm tên, mô tả, hình ảnh, giá cả</li>
+                            <li>Chọn danh mục phù hợp cho sản phẩm</li>
+                            <li>Thiết lập kho hàng và các tùy chọn vận chuyển</li>
+                            <li>Nhấn <span class="font-medium">"Lưu và đăng bán"</span> để hoàn tất</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question flex justify-between items-center p-4">
+                        <h3 class="font-medium text-lg">Thời gian xử lý rút tiền là bao lâu?</h3>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer px-4 pb-4">
+                        <p class="text-slate-600">Thời gian xử lý rút tiền phụ thuộc vào phương thức bạn chọn:</p>
+                        <ul class="list-disc pl-5 mt-3 space-y-2 text-slate-600">
+                            <li><span class="font-medium">Ngân hàng nội địa:</span> 1-3 ngày làm việc</li>
+                            <li><span class="font-medium">Ví điện tử (Momo, ZaloPay):</span> Trong vòng 24 giờ</li>
+                            <li><span class="font-medium">PayPal:</span> 3-5 ngày làm việc</li>
+                        </ul>
+                        <p class="mt-3 text-slate-600">Lưu ý: Các ngày nghỉ lễ và cuối tuần có thể làm chậm quá trình xử lý.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question flex justify-between items-center p-4">
+                        <h3 class="font-medium text-lg">Làm cách nào để xử lý đơn hàng bị khiếu nại?</h3>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer px-4 pb-4">
+                        <p class="text-slate-600">Khi nhận được khiếu nại từ khách hàng, bạn nên:</p>
+                        <ol class="list-decimal pl-5 space-y-2 text-slate-600">
+                            <li>Liên hệ ngay với khách hàng trong vòng 24 giờ</li>
+                            <li>Lắng nghe và xác minh thông tin khiếu nại</li>
+                            <li>Đề xuất giải pháp (đổi trả, hoàn tiền, bồi thường) dựa trên chính sách cửa hàng</li>
+                            <li>Nếu cần hỗ trợ, hãy tạo ticket hỗ trợ từ đội ngũ của chúng tôi</li>
+                            <li>Giải quyết triệt để khiếu nại trong vòng 3-5 ngày làm việc</li>
+                        </ol>
+                        <p class="mt-3 text-slate-600">Xem thêm <a href="#" class="text-blue-500 hover:underline">Hướng dẫn giải quyết khiếu nại</a> chi tiết.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question flex justify-between items-center p-4">
+                        <h3 class="font-medium text-lg">Làm thế nào để tối ưu hóa cửa hàng bán hàng?</h3>
+                        <i class="fas fa-chevron-down text-blue-500 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer px-4 pb-4">
+                        <p class="text-slate-600">Để tối ưu hóa cửa hàng của bạn, hãy áp dụng các mẹo sau:</p>
+                        <ul class="list-disc pl-5 mt-3 space-y-2 text-slate-600">
+                            <li>Sử dụng hình ảnh sản phẩm chất lượng cao, đa góc nhìn</li>
+                            <li>Viết mô tả sản phẩm chi tiết, rõ ràng với từ khóa SEO</li>
+                            <li>Cập nhật thông tin kho hàng thường xuyên</li>
+                            <li>Chạy các chương trình khuyến mãi định kỳ</li>
+                            <li>Phản hồi nhanh chóng các câu hỏi của khách hàng</li>
+                            <li>Thu thập và hiển thị đánh giá tích cực từ khách hàng</li>
+                            <li>Sử dụng các công cụ phân tích để hiểu hành vi khách hàng</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-6">
+                    <a href="#" class="text-blue-500 hover:text-blue-700 font-medium inline-flex items-center">
+                        Xem tất cả câu hỏi thường gặp <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Tickets -->
+        <div class="bg-white rounded-xl shadow-card overflow-hidden mb-8">
+            <div class="p-5 border-b flex justify-between items-center">
+                <h2 class="text-xl font-semibold text-slate-800">Yêu cầu hỗ trợ gần đây</h2>
+                <button class="bg-blue-600 text-white px-4 py-2.5 rounded-lg hover:bg-blue-700 flex items-center" id="createTicketBtn2">
+                    <i class="fas fa-plus mr-2"></i> Tạo yêu cầu mới
+                </button>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-slate-100">
+                            <th class="py-4 px-6 text-left">Mã yêu cầu</th>
+                            <th class="py-4 px-6 text-left">Chủ đề</th>
+                            <th class="py-4 px-6 text-center">Ngày tạo</th>
+                            <th class="py-4 px-6 text-center">Trạng thái</th>
+                            <th class="py-4 px-6 text-center">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="ticket-item border-b">
+                            <td class="py-4 px-6 font-medium">#TK-20240615-001</td>
+                            <td class="py-4 px-6">
+                                <div class="font-medium">Vấn đề với rút tiền</div>
+                                <div class="text-slate-600 text-sm">Rút tiền không thành công</div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="text-slate-700">15/06/2024</div>
+                                <div class="text-slate-600 text-sm">10:25 AM</div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="status-badge status-open">Đang xử lý</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn bg-slate-50 text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr class="ticket-item border-b">
+                            <td class="py-4 px-6 font-medium">#TK-20240610-045</td>
+                            <td class="py-4 px-6">
+                                <div class="font-medium">Cập nhật thông tin cửa hàng</div>
+                                <div class="text-slate-600 text-sm">Không thể thay đổi banner</div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="text-slate-700">10/06/2024</div>
+                                <div class="text-slate-600 text-sm">02:15 PM</div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="status-badge status-resolved">Đã giải quyết</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn bg-slate-50 text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr class="ticket-item border-b">
+                            <td class="py-4 px-6 font-medium">#TK-20240605-128</td>
+                            <td class="py-4 px-6">
+                                <div class="font-medium">Lỗi hiển thị sản phẩm</div>
+                                <div class="text-slate-600 text-sm">Sản phẩm không hiển thị trên trang chủ</div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="text-slate-700">05/06/2024</div>
+                                <div class="text-slate-600 text-sm">09:30 AM</div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="status-badge status-closed">Đã đóng</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn bg-slate-50 text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="p-4 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-slate-600 text-sm">
+                    Hiển thị 3/12 yêu cầu
+                </div>
+                <div class="flex gap-2">
+                    <button class="bg-white border border-slate-300 text-slate-600 px-3 py-1.5 rounded-lg hover:bg-slate-100">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="bg-primary text-white px-4 py-1.5 rounded-lg">1</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-4 py-1.5 rounded-lg hover:bg-slate-100">2</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-4 py-1.5 rounded-lg hover:bg-slate-100">3</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-4 py-1.5 rounded-lg hover:bg-slate-100">4</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-3 py-1.5 rounded-lg hover:bg-slate-100">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Resources -->
+        <div class="mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-slate-800">Tài nguyên hỗ trợ</h2>
+                <a href="#" class="text-primary hover:text-primaryDark flex items-center">
+                    Xem tất cả <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-200">
+                    <div class="p-5">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mb-4">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-800 mb-2">Hướng dẫn sử dụng</h3>
+                        <p class="text-slate-600 text-sm mb-4">Tài liệu hướng dẫn chi tiết cách sử dụng hệ thống</p>
+                        <button class="w-full bg-blue-50 text-blue-600 py-2.5 rounded-lg hover:bg-blue-100">
+                            Xem tài liệu
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-200">
+                    <div class="p-5">
+                        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mb-4">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-800 mb-2">Video hướng dẫn</h3>
+                        <p class="text-slate-600 text-sm mb-4">Các video hướng dẫn trực quan, dễ hiểu</p>
+                        <button class="w-full bg-purple-50 text-purple-600 py-2.5 rounded-lg hover:bg-purple-100">
+                            Xem video
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-200">
+                    <div class="p-5">
+                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 mb-4">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-800 mb-2">Cộng đồng người bán</h3>
+                        <p class="text-slate-600 text-sm mb-4">Thảo luận và học hỏi từ cộng đồng người bán</p>
+                        <button class="w-full bg-green-50 text-green-600 py-2.5 rounded-lg hover:bg-green-100">
+                            Tham gia ngay
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-200">
+                    <div class="p-5">
+                        <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 mb-4">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-800 mb-2">Lịch đào tạo</h3>
+                        <p class="text-slate-600 text-sm mb-4">Các khóa đào tạo nâng cao kỹ năng bán hàng</p>
+                        <button class="w-full bg-yellow-50 text-yellow-600 py-2.5 rounded-lg hover:bg-yellow-100">
+                            Xem lịch
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Chat Modal -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden" id="chatModal">
+        <div class="modal-content bg-white rounded-xl w-full max-w-2xl flex flex-col h-[80vh]">
+            <div class="p-4 border-b flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold">Hỗ trợ trực tuyến</h3>
+                        <p class="text-slate-600 text-sm">Chuyên viên: Nguyễn Thị Bình</p>
+                    </div>
+                </div>
+                <button onclick="closeChatModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto p-4 bg-slate-50">
+                <div class="flex flex-col space-y-4">
+                    <!-- Support Messages -->
+                    <div class="flex">
+                        <div class="chat-bubble support-message p-4">
+                            <p>Xin chào Anh/Chị! Tôi có thể giúp gì cho Anh/Chị hôm nay?</p>
+                            <div class="text-slate-500 text-xs mt-2">10:05 AM</div>
+                        </div>
+                    </div>
+                    
+                    <!-- User Messages -->
+                    <div class="flex justify-end">
+                        <div class="chat-bubble user-message p-4">
+                            <p>Chào bạn, tôi không thể rút tiền từ tài khoản về ngân hàng, hệ thống báo lỗi.</p>
+                            <div class="text-blue-100 text-xs mt-2">10:07 AM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex">
+                        <div class="chat-bubble support-message p-4">
+                            <p>Vâng, tôi có thể giúp Anh/Chị kiểm tra vấn đề này. Anh/Chị có thể cho tôi biết mã lỗi được hiển thị không ạ?</p>
+                            <div class="text-slate-500 text-xs mt-2">10:08 AM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end">
+                        <div class="chat-bubble user-message p-4">
+                            <p>Mã lỗi là: TX-ERROR-2024. Tôi đã thử nhiều lần nhưng vẫn không được.</p>
+                            <div class="text-blue-100 text-xs mt-2">10:10 AM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex">
+                        <div class="chat-bubble support-message p-4">
+                            <p>Cảm ơn Anh/Chị. Tôi đã kiểm tra và thấy rằng đây là lỗi do thông tin ngân hàng chưa chính xác. Anh/Chị có thể cập nhật lại thông tin ngân hàng trong phần Cài đặt > Thanh toán không ạ?</p>
+                            <div class="text-slate-500 text-xs mt-2">10:12 AM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-4 border-t">
+                <div class="flex items-center">
+                    <div class="flex-1 mr-3">
+                        <input type="text" placeholder="Nhập tin nhắn..." class="chat-input w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <button class="bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Ticket Modal -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden" id="ticketModal">
+        <div class="modal-content bg-white rounded-xl w-full max-w-2xl">
+            <div class="p-5 border-b flex justify-between items-center">
+                <h3 class="text-xl font-semibold">Tạo yêu cầu hỗ trợ mới</h3>
+                <button onclick="closeTicketModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-5 max-h-[80vh] overflow-y-auto">
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Chủ đề yêu cầu</label>
+                    <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Ví dụ: Vấn đề rút tiền">
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Loại yêu cầu</label>
+                    <select class="w-full px-4 py-2 border border-slate-300 rounded-lg">
+                        <option>Chọn loại yêu cầu</option>
+                        <option>Vấn đề tài khoản</option>
+                        <option>Vấn đề thanh toán</option>
+                        <option>Vấn đề sản phẩm</option>
+                        <option>Vấn đề vận chuyển</option>
+                        <option>Khác</option>
+                    </select>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Mô tả chi tiết</label>
+                    <textarea class="w-full px-4 py-2 border border-slate-300 rounded-lg" rows="5" placeholder="Mô tả chi tiết vấn đề bạn gặp phải..."></textarea>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Tệp đính kèm (nếu có)</label>
+                    <div class="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center">
+                        <i class="fas fa-cloud-upload-alt text-3xl text-slate-400 mb-3"></i>
+                        <p class="text-slate-600">Kéo thả tệp vào đây hoặc <span class="text-blue-500 cursor-pointer">chọn tệp</span></p>
+                        <p class="text-slate-500 text-sm mt-2">Hỗ trợ: JPG, PNG, PDF, DOC (tối đa 10MB)</p>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end gap-3">
+                    <button class="bg-slate-100 px-6 py-2.5 rounded-lg text-slate-700 hover:bg-slate-200" onclick="closeTicketModal()">
+                        Hủy bỏ
+                    </button>
+                    <button class="bg-primary text-white px-6 py-2.5 rounded-lg hover:bg-primaryDark">
+                        Gửi yêu cầu
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize FAQ functionality
+            document.querySelectorAll('.faq-item').forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', function() {
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Initialize ticket functionality
+            const createTicketBtns = document.querySelectorAll('#createTicketBtn, #createTicketBtn2');
+            createTicketBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.getElementById('ticketModal').classList.remove('hidden');
+                });
+            });
+            
+            // Ticket item hover effect
+            document.querySelectorAll('.ticket-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f8fafc';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+            
+            // Support card hover effect
+            document.querySelectorAll('.support-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.08)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Action button hover effect
+            document.querySelectorAll('.action-btn').forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Chat button functionality
+            document.querySelector('.support-card:first-child button').addEventListener('click', function() {
+                document.getElementById('chatModal').classList.remove('hidden');
+            });
+            
+            // Close chat modal
+            window.closeChatModal = function() {
+                document.getElementById('chatModal').classList.add('hidden');
+            }
+            
+            // Close ticket modal
+            window.closeTicketModal = function() {
+                document.getElementById('ticketModal').classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

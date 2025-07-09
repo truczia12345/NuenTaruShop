@@ -1,203 +1,780 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Shipping Settings</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cài đặt Vận chuyển - Premium Marketplace</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff424f',
+                        secondary: '#c43a43',
+                        dark: '#1a202c',
+                        light: '#f8f9fa',
+                        premium: '#ff424f',
+                        premiumLight: '#fff5f5',
+                        premiumDark: '#d1323d',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                        info: '#3b82f6',
+                        shipping: '#8b5cf6'
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(0, 0, 0, 0.08)',
+                        'input': '0 0 0 3px rgba(255, 66, 79, 0.25)'
+                    }
+                }
+            }
+        }
+    </script>
+    
     <style>
-        :root {
-            --primary-color: #ee4d2d;
-            --secondary-color: #f53d2d;
+        .settings-card {
+            transition: all 0.3s ease;
+            border-left: 3px solid #8b5cf6;
         }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f8f9fa;
-            padding: 1.5rem;
+        .settings-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
-
-        .page-header {
-            margin-bottom: 2rem;
-        }
-
-        .nav-tabs .nav-link {
-            color: #666;
-            border: none;
-            padding: 0.75rem 1.5rem;
+        .tab-button {
+            padding: 12px 24px;
+            border-radius: 8px 8px 0 0;
             font-weight: 500;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
-
-        .nav-tabs .nav-link.active {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
+        .tab-button.active {
+            background-color: white;
+            color: #ff424f;
+            border-bottom: 3px solid #ff424f;
         }
-
-        .settings-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 1.5rem;
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
         }
-
-        .settings-section {
-            margin-bottom: 2rem;
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
         }
-
-        .settings-section:last-child {
-            margin-bottom: 0;
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
         }
-
-        .settings-title {
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
-            color: #333;
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
         }
-
-        .carrier-card {
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
+        input:checked + .toggle-slider {
+            background-color: #ff424f;
         }
-
-        .carrier-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1rem;
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
         }
-
-        .carrier-logo {
-            width: 80px;
-            height: 40px;
-            object-fit: contain;
+        .zone-item {
+            transition: all 0.2s ease;
         }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+        .zone-item:hover {
+            background-color: #f8fafc;
         }
-
-        .btn-primary:hover {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
+        .integration-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
         }
-
-        .form-check-input:checked {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+        .integration-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-color: #ff424f;
         }
-
-        .pickup-address-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-top: 1rem;
+        .integration-card.connected {
+            border-color: #10b981;
+            background-color: #f0fdf4;
         }
-
-        .pickup-address-card h5 {
-            margin-bottom: 1rem;
+        .modal-overlay {
+            background-color: rgba(0,0,0,0.6);
+            z-index: 10000;
+        }
+        .modal-content {
+            animation: modalAppear 0.3s ease-out;
+        }
+        @keyframes modalAppear {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body>
-    <h4 class="mb-4">Shipping Settings</h4>
+<body class="font-sans bg-gray-50">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-slate-800">Cài đặt Vận chuyển</h1>
+                <p class="text-slate-600 mt-2">Quản lý phương thức vận chuyển, khu vực giao hàng và cài đặt liên quan</p>
+            </div>
+            <div class="mt-4 md:mt-0">
+                <button class="bg-primary text-white px-5 py-2.5 rounded-lg hover:bg-primaryDark flex items-center transition">
+                    <i class="fas fa-save mr-2"></i> Lưu cài đặt
+                </button>
+            </div>
+        </div>
 
-    <ul class="nav nav-tabs mb-3" id="settingsTabs" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">Cài đặt chung</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="shipping-tab" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab" aria-controls="shipping" aria-selected="false">Cài đặt vận chuyển</button>
-        </li>
-    </ul>
+        <!-- Tabs -->
+        <div class="flex border-b mb-6 overflow-x-auto">
+            <div class="tab-button active" data-tab="methods">Phương thức vận chuyển</div>
+            <div class="tab-button" data-tab="zones">Khu vực giao hàng</div>
+            <div class="tab-button" data-tab="carriers">Tích hợp đơn vị vận chuyển</div>
+            <div class="tab-button" data-tab="packaging">Đóng gói & Xử lý</div>
+            <div class="tab-button" data-tab="free-shipping">Miễn phí vận chuyển</div>
+        </div>
 
-    <div class="tab-content" id="settingsTabsContent">
-        <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
-            <div class="settings-card">
-                <div class="settings-section">
-                    <div class="settings-title">Shipping Carriers</div>
+        <!-- Shipping Methods Tab -->
+        <div class="tab-content" id="methodsTab">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="settings-card bg-white p-5 rounded-lg shadow-sm">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-lg text-slate-800">Vận chuyển tiêu chuẩn</h3>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
                     
-                    <!-- DHL -->
-                    <div class="carrier-card">
-                        <div class="carrier-header">
-                            <div class="d-flex align-items-center gap-3">
-                                <img src="https://www.dhl.com/content/dam/dhl/global/core/images/logos/dhl-logo.svg" alt="DHL" class="carrier-logo" />
-                                <div>
-                                    <h6 class="mb-1">DHL Express</h6>
-                                    <small class="text-muted">International shipping</small>
-                                </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Chi phí vận chuyển</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="15.000">
+                                <p class="text-slate-500 text-xs mt-1">Phí cố định</p>
                             </div>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" checked />
-                            </div>
-                        </div>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label">Account Number</label>
-                                <input type="text" class="form-control" value="DHL123456789" />
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">API Key</label>
-                                <input type="password" class="form-control" value="••••••••••••" />
+                            <div>
+                                <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="5.000">
+                                <p class="text-slate-500 text-xs mt-1">Phí bổ sung mỗi sản phẩm</p>
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Thời gian giao hàng dự kiến</label>
+                        <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="3-5 ngày làm việc">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Mô tả</label>
+                        <textarea class="w-full px-4 py-2 border border-slate-300 rounded-lg" rows="2">Giao hàng tiêu chuẩn trong giờ hành chính</textarea>
+                    </div>
+                </div>
+                
+                <div class="settings-card bg-white p-5 rounded-lg shadow-sm">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-lg text-slate-800">Vận chuyển nhanh</h3>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Chi phí vận chuyển</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="25.000">
+                                <p class="text-slate-500 text-xs mt-1">Phí cố định</p>
+                            </div>
+                            <div>
+                                <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="8.000">
+                                <p class="text-slate-500 text-xs mt-1">Phí bổ sung mỗi sản phẩm</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Thời gian giao hàng dự kiến</label>
+                        <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="1-2 ngày làm việc">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Mô tả</label>
+                        <textarea class="w-full px-4 py-2 border border-slate-300 rounded-lg" rows="2">Giao hàng nhanh hỗ trợ cả ngoài giờ hành chính</textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-6 text-center">
+                <button class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-5 py-2.5 rounded-lg flex items-center justify-center mx-auto">
+                    <i class="fas fa-plus mr-2"></i> Thêm phương thức vận chuyển
+                </button>
+            </div>
+        </div>
 
-                    <!-- FedEx -->
-                    <div class="carrier-card">
-                        <div class="carrier-header">
-                            <div class="d-flex align-items-center gap-3">
-                                <img src="https://www.fedex.com/content/dam/fedex-com/logos/FedEx-Logo.svg" alt="FedEx" class="carrier-logo" />
-                                <div>
-                                    <h6 class="mb-1">FedEx</h6>
-                                    <small class="text-muted">Domestic & International shipping</small>
-                                </div>
-                            </div>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" />
-                            </div>
-                        </div>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label">Account Number</label>
-                                <input type="text" class="form-control" placeholder="Enter account number" />
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">API Key</label>
-                                <input type="password" class="form-control" placeholder="Enter API key" />
-                            </div>
-                        </div>
+        <!-- Shipping Zones Tab (Hidden by default) -->
+        <div class="tab-content hidden" id="zonesTab">
+            <div class="bg-white rounded-xl shadow-card overflow-hidden mb-6">
+                <div class="p-5 border-b flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h2 class="text-xl font-semibold text-slate-800">Khu vực giao hàng</h2>
+                        <p class="text-slate-600 mt-2">Quản lý các khu vực bạn cung cấp dịch vụ giao hàng</p>
+                    </div>
+                    <button class="bg-primary text-white px-5 py-2.5 rounded-lg hover:bg-primaryDark flex items-center transition" id="addZoneBtn">
+                        <i class="fas fa-plus mr-2"></i> Thêm khu vực
+                    </button>
+                </div>
+                
+                <div class="p-5">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="bg-slate-100">
+                                    <th class="py-4 px-6 text-left">Khu vực</th>
+                                    <th class="py-4 px-6 text-left">Tỉnh/Thành phố</th>
+                                    <th class="py-4 px-6 text-center">Phương thức vận chuyển</th>
+                                    <th class="py-4 px-6 text-center">Trạng thái</th>
+                                    <th class="py-4 px-6 text-center">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="zone-item border-b">
+                                    <td class="py-4 px-6 font-medium">Miền Bắc</td>
+                                    <td class="py-4 px-6">Hà Nội, Hải Phòng, Quảng Ninh, ...</td>
+                                    <td class="py-4 px-6 text-center">2</td>
+                                    <td class="py-4 px-6 text-center">
+                                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Đang hoạt động</span>
+                                    </td>
+                                    <td class="py-4 px-6 text-center">
+                                        <div class="flex justify-center gap-2">
+                                            <button class="action-btn bg-blue-50 text-blue-600 px-3 py-1 rounded-lg hover:bg-blue-100">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn bg-red-50 text-red-600 px-3 py-1 rounded-lg hover:bg-red-100">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr class="zone-item border-b">
+                                    <td class="py-4 px-6 font-medium">Miền Trung</td>
+                                    <td class="py-4 px-6">Đà Nẵng, Huế, Quảng Nam, ...</td>
+                                    <td class="py-4 px-6 text-center">2</td>
+                                    <td class="py-4 px-6 text-center">
+                                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Đang hoạt động</span>
+                                    </td>
+                                    <td class="py-4 px-6 text-center">
+                                        <div class="flex justify-center gap-2">
+                                            <button class="action-btn bg-blue-50 text-blue-600 px-3 py-1 rounded-lg hover:bg-blue-100">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn bg-red-50 text-red-600 px-3 py-1 rounded-lg hover:bg-red-100">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr class="zone-item border-b">
+                                    <td class="py-4 px-6 font-medium">Miền Nam</td>
+                                    <td class="py-4 px-6">TP. Hồ Chí Minh, Cần Thơ, Đồng Nai, ...</td>
+                                    <td class="py-4 px-6 text-center">2</td>
+                                    <td class="py-4 px-6 text-center">
+                                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Đang hoạt động</span>
+                                    </td>
+                                    <td class="py-4 px-6 text-center">
+                                        <div class="flex justify-center gap-2">
+                                            <button class="action-btn bg-blue-50 text-blue-600 px-3 py-1 rounded-lg hover:bg-blue-100">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn bg-red-50 text-red-600 px-3 py-1 rounded-lg hover:bg-red-100">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr class="zone-item border-b">
+                                    <td class="py-4 px-6 font-medium">Vùng sâu vùng xa</td>
+                                    <td class="py-4 px-6">Tây Nguyên, Tây Bắc, ...</td>
+                                    <td class="py-4 px-6 text-center">1</td>
+                                    <td class="py-4 px-6 text-center">
+                                        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-sm">Hạn chế</span>
+                                    </td>
+                                    <td class="py-4 px-6 text-center">
+                                        <div class="flex justify-center gap-2">
+                                            <button class="action-btn bg-blue-50 text-blue-600 px-3 py-1 rounded-lg hover:bg-blue-100">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn bg-red-50 text-red-600 px-3 py-1 rounded-lg hover:bg-red-100">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
-            <div class="pickup-address-card">
-                <h5>Pickup Address</h5>
-                <p><strong>Nguyễn Tam Truc</strong> | 84964758700</p>
-                <p>108/3/26, Mẹ Suốt<br />Phường Hòa Khánh Nam<br />Quận Liên Chiểu<br />Đà Nẵng</p>
-                <a href="#" class="btn btn-outline-primary btn-sm mt-2">Edit Address</a>
+        <!-- Carrier Integration Tab (Hidden by default) -->
+        <div class="tab-content hidden" id="carriersTab">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <!-- Giao Hàng Nhanh -->
+                <div class="integration-card connected bg-white p-5 rounded-lg">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-800">Giao Hàng Nhanh (GHN)</h3>
+                            <div class="text-green-600 font-medium mt-1">Đã kết nối</div>
+                        </div>
+                        <img src="https://via.placeholder.com/60x30" alt="GHN" class="h-8">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm text-slate-600 mb-2">
+                            <span>Mã hợp đồng:</span>
+                            <span class="font-medium">GHN-2023-SHOP123</span>
+                        </div>
+                        <div class="flex justify-between text-sm text-slate-600">
+                            <span>Ngày hết hạn:</span>
+                            <span class="font-medium">31/12/2024</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2">
+                        <button class="flex-1 bg-blue-50 text-blue-600 py-2 rounded-lg hover:bg-blue-100 text-center">
+                            <i class="fas fa-cog mr-1"></i> Cài đặt
+                        </button>
+                        <button class="bg-red-50 text-red-600 py-2 px-4 rounded-lg hover:bg-red-100">
+                            <i class="fas fa-plug"></i> Ngắt kết nối
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Giao Hàng Tiết Kiệm -->
+                <div class="integration-card bg-white p-5 rounded-lg">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-800">Giao Hàng Tiết Kiệm (GHTK)</h3>
+                            <div class="text-slate-600 font-medium mt-1">Chưa kết nối</div>
+                        </div>
+                        <img src="https://via.placeholder.com/60x30" alt="GHTK" class="h-8">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <ul class="text-slate-600 text-sm space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Hỗ trợ COD toàn quốc</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Giá cước cạnh tranh</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Theo dõi đơn hàng trực tuyến</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <button class="w-full bg-primary text-white py-2.5 rounded-lg hover:bg-primaryDark">
+                        <i class="fas fa-plug mr-2"></i> Kết nối
+                    </button>
+                </div>
+                
+                <!-- Viettel Post -->
+                <div class="integration-card bg-white p-5 rounded-lg">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-800">Viettel Post</h3>
+                            <div class="text-slate-600 font-medium mt-1">Chưa kết nối</div>
+                        </div>
+                        <img src="https://via.placeholder.com/60x30" alt="Viettel Post" class="h-8">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <ul class="text-slate-600 text-sm space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Phủ sóng toàn quốc</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Giao hàng nhanh chóng</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Hệ thống bưu cục rộng khắp</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <button class="w-full bg-primary text-white py-2.5 rounded-lg hover:bg-primaryDark">
+                        <i class="fas fa-plug mr-2"></i> Kết nối
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Packaging Tab (Hidden by default) -->
+        <div class="tab-content hidden" id="packagingTab">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="settings-card bg-white p-5 rounded-lg shadow-sm">
+                    <h3 class="font-bold text-lg text-slate-800 mb-4">Cài đặt đóng gói</h3>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Kích thước gói hàng mặc định</label>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div>
+                                <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Dài (cm)">
+                            </div>
+                            <div>
+                                <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Rộng (cm)">
+                            </div>
+                            <div>
+                                <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Cao (cm)">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Trọng lượng gói hàng mặc định</label>
+                        <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Gram">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Loại bao bì đóng gói</label>
+                        <select class="w-full px-4 py-2 border border-slate-300 rounded-lg">
+                            <option>Túi ni lông</option>
+                            <option>Hộp carton</option>
+                            <option>Túi giấy</option>
+                            <option>Hộp nhựa</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="settings-card bg-white p-5 rounded-lg shadow-sm">
+                    <h3 class="font-bold text-lg text-slate-800 mb-4">Phí xử lý & Bảo hiểm</h3>
+                    
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-sm font-medium text-slate-700">Phí xử lý đơn hàng</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="5.000">
+                        <p class="text-slate-500 text-xs mt-1">Phí cố định cho mỗi đơn hàng</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-sm font-medium text-slate-700">Bảo hiểm hàng hóa</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="text-slate-600 text-sm">Tự động tính 1% giá trị đơn hàng</div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Ghi chú đóng gói</label>
+                        <textarea class="w-full px-4 py-2 border border-slate-300 rounded-lg" rows="2" placeholder="Ghi chú cho nhân viên đóng gói..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Free Shipping Tab (Hidden by default) -->
+        <div class="tab-content hidden" id="freeShippingTab">
+            <div class="settings-card bg-white p-5 rounded-lg shadow-sm mb-8">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h3 class="font-bold text-lg text-slate-800">Miễn phí vận chuyển</h3>
+                        <p class="text-slate-600 text-sm mt-1">Cài đặt điều kiện miễn phí vận chuyển cho khách hàng</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Ngưỡng miễn phí vận chuyển</label>
+                        <div class="relative">
+                            <input type="text" class="w-full pl-8 pr-4 py-2 border border-slate-300 rounded-lg" value="500.000">
+                            <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500">₫</span>
+                        </div>
+                        <p class="text-slate-500 text-xs mt-1">Áp dụng khi tổng giá trị đơn hàng đạt mức này</p>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Áp dụng cho phương thức</label>
+                        <select class="w-full px-4 py-2 border border-slate-300 rounded-lg">
+                            <option>Tất cả phương thức</option>
+                            <option>Chỉ vận chuyển tiêu chuẩn</option>
+                            <option>Chỉ vận chuyển nhanh</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Khu vực áp dụng</label>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center">
+                            Miền Bắc
+                            <button class="ml-2 text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center">
+                            Miền Trung
+                            <button class="ml-2 text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center">
+                            Miền Nam
+                            <button class="ml-2 text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </span>
+                        <button class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-sm">
+                            <i class="fas fa-plus mr-1"></i> Thêm khu vực
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Thông báo cho khách hàng</label>
+                    <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="Miễn phí vận chuyển cho đơn hàng từ 500.000₫">
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Add Zone Modal -->
+    <div class="fixed inset-0 modal-overlay flex items-center justify-center p-4 hidden" id="addZoneModal">
+        <div class="modal-content bg-white rounded-xl w-full max-w-2xl">
+            <div class="p-5 border-b flex justify-between items-center">
+                <h3 class="text-xl font-semibold">Thêm khu vực giao hàng</h3>
+                <button onclick="closeAddZoneModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-5 max-h-[70vh] overflow-y-auto">
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Tên khu vực</label>
+                    <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Ví dụ: Miền Bắc, Nội thành Hà Nội...">
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Chọn tỉnh/thành phố</label>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-h-60 overflow-y-auto p-3 border border-slate-200 rounded-lg">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="h-4 w-4 text-primary rounded">
+                            <span class="ml-2">Hà Nội</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="h-4 w-4 text-primary rounded">
+                            <span class="ml-2">Hải Phòng</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="h-4 w-4 text-primary rounded">
+                            <span class="ml-2">Đà Nẵng</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="h-4 w-4 text-primary rounded">
+                            <span class="ml-2">TP. Hồ Chí Minh</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="h-4 w-4 text-primary rounded">
+                            <span class="ml-2">Cần Thơ</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="h-4 w-4 text-primary rounded">
+                            <span class="ml-2">Hải Dương</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="h-4 w-4 text-primary rounded">
+                            <span class="ml-2">Quảng Ninh</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="h-4 w-4 text-primary rounded">
+                            <span class="ml-2">Bắc Ninh</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="h-4 w-4 text-primary rounded">
+                            <span class="ml-2">Huế</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Phương thức vận chuyển</label>
+                    <div class="space-y-3">
+                        <label class="flex items-center justify-between p-3 border border-slate-200 rounded-lg">
+                            <div>
+                                <div class="font-medium">Vận chuyển tiêu chuẩn</div>
+                                <div class="text-slate-600 text-sm">3-5 ngày • 15.000₫</div>
+                            </div>
+                            <input type="checkbox" class="h-4 w-4 text-primary rounded">
+                        </label>
+                        
+                        <label class="flex items-center justify-between p-3 border border-slate-200 rounded-lg">
+                            <div>
+                                <div class="font-medium">Vận chuyển nhanh</div>
+                                <div class="text-slate-600 text-sm">1-2 ngày • 25.000₫</div>
+                            </div>
+                            <input type="checkbox" class="h-4 w-4 text-primary rounded">
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end gap-3">
+                    <button class="bg-slate-100 px-6 py-2.5 rounded-lg text-slate-700 hover:bg-slate-200" onclick="closeAddZoneModal()">
+                        Hủy bỏ
+                    </button>
+                    <button class="bg-primary text-white px-6 py-2.5 rounded-lg hover:bg-primaryDark">
+                        <i class="fas fa-save mr-2"></i> Lưu khu vực
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab Switching
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab-button');
+            const tabContents = {
+                'methods': document.getElementById('methodsTab'),
+                'zones': document.getElementById('zonesTab'),
+                'carriers': document.getElementById('carriersTab'),
+                'packaging': document.getElementById('packagingTab'),
+                'free-shipping': document.getElementById('freeShippingTab')
+            };
+            
+            // Function to switch tabs
+            function switchTab(tabName) {
+                // Hide all tab contents
+                Object.values(tabContents).forEach(content => {
+                    content.classList.add('hidden');
+                });
+                
+                // Show selected tab content
+                if (tabContents[tabName]) {
+                    tabContents[tabName].classList.remove('hidden');
+                }
+                
+                // Update active tab
+                tabs.forEach(tab => {
+                    tab.classList.remove('active');
+                    if (tab.getAttribute('data-tab') === tabName) {
+                        tab.classList.add('active');
+                    }
+                });
+            }
+            
+            // Add click event to tabs
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    switchTab(tabName);
+                });
+            });
+            
+            // Show add zone modal
+            document.getElementById('addZoneBtn')?.addEventListener('click', function() {
+                document.getElementById('addZoneModal').classList.remove('hidden');
+            });
+            
+            // Close add zone modal
+            window.closeAddZoneModal = function() {
+                document.getElementById('addZoneModal').classList.add('hidden');
+            }
+            
+            // Settings card hover effect
+            document.querySelectorAll('.settings-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.08)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Integration card hover effect
+            document.querySelectorAll('.integration-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.08)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Zone item hover effect
+            document.querySelectorAll('.zone-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f8fafc';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+            
+            // Action buttons hover effect
+            document.querySelectorAll('.action-btn').forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+        });
+    </script>
 </body>
 </html>

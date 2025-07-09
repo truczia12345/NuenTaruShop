@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Tài chính - Premium Marketplace</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff424f',
+                        secondary: '#c43a43',
+                        dark: '#1a202c',
+                        light: '#f8f9fa',
+                        premium: '#ff424f',
+                        premiumLight: '#fff5f5',
+                        premiumDark: '#d1323d',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                        info: '#3b82f6',
+                        finance: '#10b981'
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(0, 0, 0, 0.08)',
+                        'input': '0 0 0 3px rgba(255, 66, 79, 0.25)',
+                        'finance': '0 5px 15px rgba(16, 185, 129, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .finance-card {
+            transition: all 0.3s ease;
+            border-left: 3px solid #10b981;
+        }
+        .finance-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .tab-button {
+            padding: 12px 24px;
+            border-radius: 8px 8px 0 0;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tab-button.active {
+            background-color: white;
+            color: #ff424f;
+            border-bottom: 3px solid #ff424f;
+        }
+        .transaction-item {
+            transition: all 0.2s ease;
+        }
+        .transaction-item:hover {
+            background-color: #f8fafc;
+        }
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-completed {
+            background-color: #10b98120;
+            color: #10b981;
+        }
+        .status-pending {
+            background-color: #f59e0b20;
+            color: #f59e0b;
+        }
+        .status-failed {
+            background-color: #ef444420;
+            color: #ef4444;
+        }
+        .progress-bar {
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .finance-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            background-color: #f3f4f6;
+        }
+        .action-btn {
+            transition: all 0.2s ease;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .chart-container {
+            position: relative;
+            height: 250px;
+        }
+        .method-card {
+            transition: all 0.3s ease;
+        }
+        .method-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .modal-overlay {
+            background-color: rgba(0,0,0,0.6);
+            z-index: 10000;
+        }
+        .modal-content {
+            animation: modalAppear 0.3s ease-out;
+        }
+        @keyframes modalAppear {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 20px;
+        }
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10b981;
+        }
+        .timeline-item::after {
+            content: "";
+            position: absolute;
+            left: 5px;
+            top: 20px;
+            width: 2px;
+            height: calc(100% - 10px);
+            background: #e2e8f0;
+        }
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        .goal-meter {
+            position: relative;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            background: #e2e8f0;
+        }
+        .goal-meter .progress {
+            position: absolute;
+            height: 100%;
+            border-radius: 4px;
+        }
+        .balance-card {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            color: white;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-slate-800">Quản lý Tài chính</h1>
+                <p class="text-slate-600 mt-2">Theo dõi và quản lý tài chính cửa hàng của bạn</p>
+            </div>
+            <div class="mt-4 md:mt-0">
+                <button class="bg-primary text-white px-5 py-2.5 rounded-lg hover:bg-primaryDark flex items-center transition" id="withdrawBtn">
+                    <i class="fas fa-wallet mr-2"></i> Rút tiền
+                </button>
+            </div>
+        </div>
+
+        <!-- Balance Overview -->
+        <div class="balance-card p-6 mb-8">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-6 md:mb-0">
+                    <h2 class="text-lg text-white opacity-90 mb-2">Số dư khả dụng</h2>
+                    <div class="flex items-end">
+                        <span class="text-3xl md:text-4xl font-bold text-white">₫48,560,000</span>
+                        <span class="ml-3 text-green-300 text-sm">+₫12,450,000 (34.5%)</span>
+                    </div>
+                    <p class="text-green-200 text-sm mt-2">So với tháng trước</p>
+                </div>
+                <div class="flex items-center">
+                    <div class="text-center mr-6">
+                        <div class="text-white opacity-90 text-sm mb-1">Đang chờ xử lý</div>
+                        <div class="text-xl font-bold text-white">₫15,230,000</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-white opacity-90 text-sm mb-1">Đã rút</div>
+                        <div class="text-xl font-bold text-white">₫120,450,000</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financial Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="finance-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Doanh thu tháng này</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">₫85,240,000</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                        <i class="fas fa-chart-line text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>So với tháng trước</span>
+                        <span class="text-green-600 font-medium">↑ 28.5%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="finance-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Chi phí hoạt động</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">₫12,450,000</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                        <i class="fas fa-money-bill-wave text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>So với tháng trước</span>
+                        <span class="text-green-600 font-medium">↓ 5.2%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="finance-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Lợi nhuận</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">₫72,790,000</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
+                        <i class="fas fa-coins text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>Tỷ suất lợi nhuận</span>
+                        <span class="font-medium">85.4%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="finance-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Thuế VAT</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">₫8,524,000</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600">
+                        <i class="fas fa-file-invoice text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>Đã thanh toán</span>
+                        <span class="text-green-600 font-medium">₫7,200,000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financial Performance Charts -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-card p-5">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-slate-800">Biểu đồ Doanh thu & Chi phí</h2>
+                    <div class="flex gap-2">
+                        <button class="text-xs px-3 py-1 rounded-lg bg-slate-100 text-slate-700">Tuần</button>
+                        <button class="text-xs px-3 py-1 rounded-lg bg-primary text-white">Tháng</button>
+                        <button class="text-xs px-3 py-1 rounded-lg bg-slate-100 text-slate-700">Quý</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="financeChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-card p-5">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-slate-800">Phân bổ Doanh thu</h2>
+                    <button class="text-slate-500 hover:text-slate-700">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Sản phẩm điện tử</span>
+                            <span class="font-medium">₫35.200.000</span>
+                        </div>
+                        <div class="progress-bar bg-slate-200">
+                            <div class="h-full bg-purple-500" style="width: 42%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Thời trang</span>
+                            <span class="font-medium">₫22.500.000</span>
+                        </div>
+                        <div class="progress-bar bg-slate-200">
+                            <div class="h-full bg-blue-500" style="width: 27%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Đồ gia dụng</span>
+                            <span class="font-medium">₫8.750.000</span>
+                        </div>
+                        <div class="progress-bar bg-slate-200">
+                            <div class="h-full bg-green-500" style="width: 10%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Mỹ phẩm</span>
+                            <span class="font-medium">₫7.500.000</span>
+                        </div>
+                        <div class="progress-bar bg-slate-200">
+                            <div class="h-full bg-yellow-500" style="width: 9%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Khác</span>
+                            <span class="font-medium">₫8.500.000</span>
+                        </div>
+                        <div class="progress-bar bg-slate-200">
+                            <div class="h-full bg-red-500" style="width: 10%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs & Transactions -->
+        <div class="bg-white rounded-xl shadow-card overflow-hidden mb-6">
+            <div class="p-5 border-b flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="flex gap-1 overflow-x-auto w-full md:w-auto">
+                    <div class="tab-button active" data-tab="all">Tất cả</div>
+                    <div class="tab-button" data-tab="income">Thu nhập</div>
+                    <div class="tab-button" data-tab="withdraw">Rút tiền</div>
+                    <div class="tab-button" data-tab="pending">Chờ xử lý</div>
+                    <div class="tab-button" data-tab="taxes">Thuế & Phí</div>
+                </div>
+                
+                <div class="flex flex-wrap gap-2 w-full md:w-auto">
+                    <div class="relative w-full md:w-64">
+                        <input type="text" placeholder="Tìm kiếm giao dịch..." class="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <i class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                    </div>
+                    <button class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg flex items-center">
+                        <i class="fas fa-calendar mr-2"></i> Lọc thời gian
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Transaction List -->
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-slate-100">
+                            <th class="py-4 px-6 text-left">Mã giao dịch</th>
+                            <th class="py-4 px-6 text-left">Mô tả</th>
+                            <th class="py-4 px-6 text-center">Số tiền</th>
+                            <th class="py-4 px-6 text-center">Ngày</th>
+                            <th class="py-4 px-6 text-center">Trạng thái</th>
+                            <th class="py-4 px-6 text-center">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="transaction-item border-b">
+                            <td class="py-4 px-6">
+                                <div class="font-medium">TX-20240615-001</div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="font-medium">Thanh toán đơn hàng #DH2456</div>
+                                <div class="text-slate-600 text-sm">Khách hàng: Nguyễn Văn A</div>
+                            </td>
+                            <td class="py-4 px-6 text-center font-medium text-green-600">+₫2,450,000</td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="text-slate-700">15/06/2024</div>
+                                <div class="text-slate-600 text-sm">10:25 AM</div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="status-badge status-completed">Hoàn thành</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-receipt"></i>
+                                    </button>
+                                    <button class="action-btn bg-slate-50 text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr class="transaction-item border-b">
+                            <td class="py-4 px-6">
+                                <div class="font-medium">TX-20240612-045</div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="font-medium">Rút tiền về tài khoản ngân hàng</div>
+                                <div class="text-slate-600 text-sm">VCB •••• 6789</div>
+                            </td>
+                            <td class="py-4 px-6 text-center font-medium text-red-600">-₫10,000,000</td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="text-slate-700">12/06/2024</div>
+                                <div class="text-slate-600 text-sm">02:15 PM</div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="status-badge status-completed">Hoàn thành</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-receipt"></i>
+                                    </button>
+                                    <button class="action-btn bg-slate-50 text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr class="transaction-item border-b">
+                            <td class="py-4 px-6">
+                                <div class="font-medium">TX-20240610-128</div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="font-medium">Phí dịch vụ Premium</div>
+                                <div class="text-slate-600 text-sm">Gói Pro Seller tháng 6</div>
+                            </td>
+                            <td class="py-4 px-6 text-center font-medium text-red-600">-₫1,200,000</td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="text-slate-700">10/06/2024</div>
+                                <div class="text-slate-600 text-sm">09:30 AM</div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="status-badge status-completed">Hoàn thành</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-receipt"></i>
+                                    </button>
+                                    <button class="action-btn bg-slate-50 text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr class="transaction-item border-b">
+                            <td class="py-4 px-6">
+                                <div class="font-medium">TX-20240605-087</div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="font-medium">Yêu cầu rút tiền</div>
+                                <div class="text-slate-600 text-sm">Đang chờ xử lý</div>
+                            </td>
+                            <td class="py-4 px-6 text-center font-medium text-red-600">-₫15,000,000</td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="text-slate-700">05/06/2024</div>
+                                <div class="text-slate-600 text-sm">04:20 PM</div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="status-badge status-pending">Chờ xử lý</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                    <button class="action-btn bg-slate-50 text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="p-4 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-slate-600 text-sm">
+                    Hiển thị 4/128 giao dịch
+                </div>
+                <div class="flex gap-2">
+                    <button class="bg-white border border-slate-300 text-slate-600 px-3 py-1.5 rounded-lg hover:bg-slate-100">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="bg-primary text-white px-4 py-1.5 rounded-lg">1</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-4 py-1.5 rounded-lg hover:bg-slate-100">2</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-4 py-1.5 rounded-lg hover:bg-slate-100">3</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-4 py-1.5 rounded-lg hover:bg-slate-100">4</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-3 py-1.5 rounded-lg hover:bg-slate-100">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Methods -->
+        <div class="mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-slate-800">Phương thức thanh toán</h2>
+                <button class="text-primary hover:text-primaryDark flex items-center" id="addPaymentBtn">
+                    <i class="fas fa-plus mr-2"></i> Thêm phương thức
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="method-card bg-white rounded-xl shadow-sm p-5 border border-green-500">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <div class="font-bold text-lg mb-1">Vietcombank</div>
+                            <div class="text-slate-600 text-sm">•••• 6789</div>
+                        </div>
+                        <div class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">
+                            Mặc định
+                        </div>
+                    </div>
+                    <div class="text-slate-600 text-sm mb-4">
+                        Nguyễn Văn B<br>
+                        Chi nhánh Hà Nội
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2 rounded-lg">
+                            Chỉnh sửa
+                        </button>
+                        <button class="flex-1 bg-red-50 hover:bg-red-100 text-red-600 py-2 rounded-lg">
+                            Xóa
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="method-card bg-white rounded-xl shadow-sm p-5">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <div class="font-bold text-lg mb-1">Momo</div>
+                            <div class="text-slate-600 text-sm">•••• 1234</div>
+                        </div>
+                    </div>
+                    <div class="text-slate-600 text-sm mb-4">
+                        Nguyễn Văn B<br>
+                        0983••••56
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2 rounded-lg">
+                            Chỉnh sửa
+                        </button>
+                        <button class="flex-1 bg-red-50 hover:bg-red-100 text-red-600 py-2 rounded-lg">
+                            Xóa
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="method-card bg-white rounded-xl shadow-sm p-5">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <div class="font-bold text-lg mb-1">PayPal</div>
+                            <div class="text-slate-600 text-sm">b•••@gmail.com</div>
+                        </div>
+                    </div>
+                    <div class="text-slate-600 text-sm mb-4">
+                        Nguyễn Văn B<br>
+                        Tài khoản quốc tế
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2 rounded-lg">
+                            Chỉnh sửa
+                        </button>
+                        <button class="flex-1 bg-red-50 hover:bg-red-100 text-red-600 py-2 rounded-lg">
+                            Xóa
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div class="fixed inset-0 modal-overlay flex items-center justify-center p-4 hidden" id="withdrawModal">
+        <div class="modal-content bg-white rounded-xl w-full max-w-md">
+            <div class="p-5 border-b flex justify-between items-center">
+                <h3 class="text-xl font-semibold">Rút tiền</h3>
+                <button onclick="closeWithdrawModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-5">
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Số tiền rút (₫)</label>
+                    <input type="number" class="w-full px-4 py-3 border border-slate-300 rounded-lg text-lg" placeholder="Nhập số tiền">
+                    <div class="text-slate-500 text-sm mt-2">Số dư khả dụng: ₫48,560,000</div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Phương thức nhận tiền</label>
+                    <select class="w-full px-4 py-2 border border-slate-300 rounded-lg">
+                        <option>Vietcombank •••• 6789 (Mặc định)</option>
+                        <option>Momo •••• 1234</option>
+                        <option>PayPal ••••@gmail.com</option>
+                    </select>
+                </div>
+                
+                <div class="mb-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <i class="fas fa-exclamation-circle text-yellow-500 mt-1 mr-2"></i>
+                        <div class="text-yellow-700 text-sm">
+                            <div class="font-medium">Lưu ý quan trọng</div>
+                            <ul class="list-disc pl-5 mt-2 space-y-1">
+                                <li>Phí rút tiền: 1.5% (tối thiểu ₫5,000)</li>
+                                <li>Thời gian xử lý: 1-3 ngày làm việc</li>
+                                <li>Số tiền rút tối thiểu: ₫50,000</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between items-center mb-6">
+                    <div class="text-slate-700">Tổng cộng:</div>
+                    <div class="text-xl font-bold">₫0</div>
+                </div>
+                
+                <button class="w-full bg-primary text-white py-3 rounded-lg hover:bg-primaryDark font-medium">
+                    Xác nhận rút tiền
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Payment Method Modal -->
+    <div class="fixed inset-0 modal-overlay flex items-center justify-center p-4 hidden" id="addPaymentModal">
+        <div class="modal-content bg-white rounded-xl w-full max-w-md">
+            <div class="p-5 border-b flex justify-between items-center">
+                <h3 class="text-xl font-semibold">Thêm phương thức thanh toán</h3>
+                <button onclick="closeAddPaymentModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-5">
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Loại phương thức</label>
+                    <select class="w-full px-4 py-2 border border-slate-300 rounded-lg">
+                        <option>Chọn phương thức</option>
+                        <option>Ngân hàng nội địa</option>
+                        <option>Ví điện tử MoMo</option>
+                        <option>PayPal</option>
+                        <option>Thẻ tín dụng quốc tế</option>
+                    </select>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Tên chủ tài khoản</label>
+                    <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Nhập tên đầy đủ">
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Số tài khoản/Thẻ</label>
+                    <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Nhập số tài khoản">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Ngân hàng</label>
+                        <select class="w-full px-4 py-2 border border-slate-300 rounded-lg">
+                            <option>Vietcombank</option>
+                            <option>BIDV</option>
+                            <option>VietinBank</option>
+                            <option>Techcombank</option>
+                            <option>MB Bank</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Chi nhánh</label>
+                        <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Chi nhánh">
+                    </div>
+                </div>
+                
+                <div class="flex items-center mb-6">
+                    <input type="checkbox" id="defaultMethod" class="mr-2">
+                    <label for="defaultMethod" class="text-slate-700 text-sm">Đặt làm phương thức mặc định</label>
+                </div>
+                
+                <button class="w-full bg-primary text-white py-3 rounded-lg hover:bg-primaryDark font-medium">
+                    Thêm phương thức
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize finance chart
+            const ctx = document.getElementById('financeChart').getContext('2d');
+            const financeChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['1-7/6', '8-14/6', '15-21/6', '22-28/6', '29/6-5/7'],
+                    datasets: [
+                        {
+                            label: 'Doanh thu',
+                            data: [12500000, 18700000, 22450000, 19800000, 21500000],
+                            backgroundColor: '#10b981',
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Chi phí',
+                            data: [3200000, 4500000, 5100000, 4200000, 3800000],
+                            backgroundColor: '#ef4444',
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            backgroundColor: '#1e293b',
+                            padding: 12,
+                            bodyFont: {
+                                size: 13
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += '₫' + context.parsed.y.toLocaleString();
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return '₫' + (value/1000000).toLocaleString() + 'tr';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Tab Switching
+            const tabs = document.querySelectorAll('.tab-button');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Transaction item hover effect
+            document.querySelectorAll('.transaction-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f8fafc';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+            
+            // Finance card hover effect
+            document.querySelectorAll('.finance-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.08)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Method card hover effect
+            document.querySelectorAll('.method-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Action button hover effect
+            document.querySelectorAll('.action-btn').forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Show withdraw modal
+            document.getElementById('withdrawBtn').addEventListener('click', function() {
+                document.getElementById('withdrawModal').classList.remove('hidden');
+            });
+            
+            // Close withdraw modal
+            window.closeWithdrawModal = function() {
+                document.getElementById('withdrawModal').classList.add('hidden');
+            }
+            
+            // Show add payment modal
+            document.getElementById('addPaymentBtn').addEventListener('click', function() {
+                document.getElementById('addPaymentModal').classList.remove('hidden');
+            });
+            
+            // Close add payment modal
+            window.closeAddPaymentModal = function() {
+                document.getElementById('addPaymentModal').classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

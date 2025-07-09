@@ -1,102 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings</title>
+    <title>Cài đặt - Premium Marketplace</title>
     
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff424f',
+                        secondary: '#c43a43',
+                        dark: '#1a202c',
+                        light: '#f8f9fa',
+                        premium: '#ff424f',
+                        premiumLight: '#fff5f5',
+                        premiumDark: '#d1323d',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                        info: '#3b82f6',
+                        settings: '#8b5cf6'
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(0, 0, 0, 0.08)',
+                        'input': '0 0 0 3px rgba(255, 66, 79, 0.25)',
+                        'settings': '0 5px 15px rgba(139, 92, 246, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
     
     <style>
-        :root {
-        --primary-color: #6cb4ee;
-        --secondary-color: #3a8fd3;
-        --sidebar-width: 250px;
-
-      }
-      body {
-        font-family: "Segoe UI", sans-serif;
-        background-color: #f8f9fa;
-        margin: 0;
-        padding: 0;
-      }
-
-        .page-header {
-            margin-bottom: 2rem;
-        }
-
         .settings-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 1.5rem;
-        }
-
-        .nav-pills .nav-link {
-            color: #333;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .nav-pills .nav-link.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .nav-pills .nav-link:not(.active):hover {
-            background-color: #f8f9fa;
-        }
-
-        .settings-content {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .upload-zone {
-            border: 2px dashed #dee2e6;
-            border-radius: 8px;
-            padding: 2rem;
-            text-align: center;
-            cursor: pointer;
             transition: all 0.3s ease;
         }
-
-        .upload-zone:hover {
-            border-color: var(--primary-color);
-            background-color: #fff5f4;
+        .settings-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
-
-        .profile-image {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
+        .tab-button {
+            padding: 12px 24px;
+            border-radius: 8px 8px 0 0;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
-
+        .tab-button.active {
+            background-color: white;
+            color: #ff424f;
+            border-bottom: 3px solid #ff424f;
+        }
         .switch {
             position: relative;
             display: inline-block;
-            width: 60px;
-            height: 34px;
+            width: 50px;
+            height: 24px;
         }
-
         .switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
-
         .slider {
             position: absolute;
             cursor: pointer;
@@ -106,237 +81,502 @@
             bottom: 0;
             background-color: #ccc;
             transition: .4s;
-            border-radius: 34px;
+            border-radius: 24px;
         }
-
         .slider:before {
             position: absolute;
             content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
             background-color: white;
             transition: .4s;
             border-radius: 50%;
         }
-
         input:checked + .slider {
-            background-color: var(--primary-color);
+            background-color: #10b981;
         }
-
         input:checked + .slider:before {
             transform: translateX(26px);
         }
+        .action-btn {
+            transition: all 0.2s ease;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .settings-section {
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .settings-section:last-child {
+            border-bottom: none;
+        }
+        .avatar-upload {
+            position: relative;
+            display: inline-block;
+        }
+        .avatar-upload .edit-icon {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        .security-level {
+            position: relative;
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            background: #e2e8f0;
+            margin-top: 8px;
+        }
+        .security-level .progress {
+            height: 100%;
+            border-radius: 3px;
+        }
+        .security-weak { background-color: #ef4444; width: 30%; }
+        .security-medium { background-color: #f59e0b; width: 60%; }
+        .security-strong { background-color: #10b981; width: 90%; }
     </style>
 </head>
-<body>
-    <!-- Page Header -->
-    <div class="page-header">
-        <h4 class="mb-0">Settings</h4>
-    </div>
-
-    <div class="row">
-        <!-- Settings Navigation -->
-        <div class="col-md-3">
-            <div class="settings-card">
-                <div class="nav flex-column nav-pills" role="tablist">
-                    <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#profile">
-                        <i class="fas fa-user me-2"></i>Shop Profile
-                    </button>
-                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#notifications">
-                        <i class="fas fa-bell me-2"></i>Notifications
-                    </button>
-                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#payment">
-                        <i class="fas fa-credit-card me-2"></i>Payment Methods
-                    </button>
-                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#security">
-                        <i class="fas fa-shield-alt me-2"></i>Security
-                    </button>
-                </div>
+<body class="font-sans bg-gray-50">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-slate-800">Cài đặt Tài khoản</h1>
+                <p class="text-slate-600 mt-2">Quản lý cài đặt tài khoản và cửa hàng của bạn</p>
+            </div>
+            <div class="mt-4 md:mt-0">
+                <button class="bg-primary text-white px-5 py-2.5 rounded-lg hover:bg-primaryDark flex items-center transition">
+                    <i class="fas fa-save mr-2"></i> Lưu thay đổi
+                </button>
             </div>
         </div>
 
-        <!-- Settings Content -->
-        <div class="col-md-9">
-            <div class="tab-content">
-                <!-- Profile Settings -->
-                <div class="tab-pane fade show active" id="profile">
-                    <div class="settings-content">
-                        <h5 class="mb-4">Shop Profile</h5>
-                        <form>
-                            <div class="mb-4 text-center">
-                                <img src="https://via.placeholder.com/100" alt="Profile" class="profile-image mb-3">
-                                <div class="upload-zone">
-                                    <i class="fas fa-cloud-upload-alt fs-3 mb-2"></i>
-                                    <p class="mb-0">Drop your image here or click to upload</p>
-                                    <small class="text-muted">Maximum file size: 2MB</small>
+        <!-- Settings Tabs -->
+        <div class="bg-white rounded-xl shadow-card overflow-hidden mb-6">
+            <div class="p-5 border-b flex flex-wrap gap-1">
+                <div class="tab-button active" data-tab="account">Tài khoản</div>
+                <div class="tab-button" data-tab="store">Cửa hàng</div>
+                <div class="tab-button" data-tab="security">Bảo mật</div>
+                <div class="tab-button" data-tab="notifications">Thông báo</div>
+                <div class="tab-button" data-tab="payment">Thanh toán</div>
+                <div class="tab-button" data-tab="shipping">Vận chuyển</div>
+                <div class="tab-button" data-tab="preferences">Tùy chọn</div>
+            </div>
+            
+            <!-- Account Settings -->
+            <div class="p-5" id="accountSettings">
+                <div class="settings-section">
+                    <h2 class="text-xl font-semibold text-slate-800 mb-4">Thông tin cá nhân</h2>
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <div class="md:w-1/3">
+                            <div class="text-slate-700 font-medium mb-3">Ảnh đại diện</div>
+                            <div class="avatar-upload">
+                                <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=120&h=120" 
+                                     alt="Avatar" 
+                                     class="w-32 h-32 rounded-full object-cover border-2 border-white shadow">
+                                <div class="edit-icon">
+                                    <i class="fas fa-pencil-alt text-slate-600 text-sm"></i>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">Shop Name</label>
-                                    <input type="text" class="form-control" value="My Awesome Shop">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" class="form-control" value="shop@example.com">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">Phone</label>
-                                    <input type="tel" class="form-control" value="+1234567890">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Location</label>
-                                    <input type="text" class="form-control" value="New York, USA">
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Shop Description</label>
-                                <textarea class="form-control" rows="4">Welcome to My Awesome Shop! We offer the best products at great prices.</textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Notification Settings -->
-                <div class="tab-pane fade" id="notifications">
-                    <div class="settings-content">
-                        <h5 class="mb-4">Notification Preferences</h5>
-                        <div class="mb-4">
-                            <h6>Email Notifications</h6>
-                            <div class="mb-3 d-flex justify-content-between align-items-center">
-                                <div>
-                                    <p class="mb-0">New Order</p>
-                                    <small class="text-muted">Receive email when a new order is placed</small>
-                                </div>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            <div class="mb-3 d-flex justify-content-between align-items-center">
-                                <div>
-                                    <p class="mb-0">Order Updates</p>
-                                    <small class="text-muted">Receive updates about order status changes</small>
-                                </div>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            <div class="mb-3 d-flex justify-content-between align-items-center">
-                                <div>
-                                    <p class="mb-0">Customer Messages</p>
-                                    <small class="text-muted">Receive email when customers send messages</small>
-                                </div>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
                             </div>
                         </div>
-                        <div class="mb-4">
-                            <h6>Push Notifications</h6>
-                            <div class="mb-3 d-flex justify-content-between align-items-center">
+                        
+                        <div class="md:w-2/3">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <p class="mb-0">Desktop Notifications</p>
-                                    <small class="text-muted">Show desktop notifications</small>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Họ và tên</label>
+                                    <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="Nguyễn Văn A">
                                 </div>
-                                <label class="switch">
-                                    <input type="checkbox">
-                                    <span class="slider"></span>
-                                </label>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Email</label>
+                                    <input type="email" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="nguyenvana@example.com">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Số điện thoại</label>
+                                    <input type="tel" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="0912345678">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Ngày sinh</label>
+                                    <input type="date" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="1990-01-15">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Giới tính</label>
+                                    <select class="w-full px-4 py-2 border border-slate-300 rounded-lg">
+                                        <option>Nam</option>
+                                        <option>Nữ</option>
+                                        <option>Khác</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Ngôn ngữ</label>
+                                    <select class="w-full px-4 py-2 border border-slate-300 rounded-lg">
+                                        <option>Tiếng Việt</option>
+                                        <option>English</option>
+                                        <option>中文</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Save Preferences</button>
                     </div>
                 </div>
-
-                <!-- Payment Settings -->
-                <div class="tab-pane fade" id="payment">
-                    <div class="settings-content">
-                        <h5 class="mb-4">Payment Methods</h5>
-                        <div class="mb-4">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h6 class="mb-0">Connected Bank Accounts</h6>
-                                <button class="btn btn-outline-primary btn-sm">
-                                    <i class="fas fa-plus me-2"></i>Add New
+                
+                <div class="settings-section">
+                    <h2 class="text-xl font-semibold text-slate-800 mb-4">Địa chỉ</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="text-slate-700 font-medium mb-3">Địa chỉ chính</h3>
+                            <div class="bg-slate-50 p-4 rounded-lg">
+                                <div class="font-medium mb-2">Nguyễn Văn A</div>
+                                <div class="text-slate-600 text-sm mb-1">Số 123, đường ABC, phường XYZ</div>
+                                <div class="text-slate-600 text-sm mb-1">Quận Thanh Xuân, Hà Nội</div>
+                                <div class="text-slate-600 text-sm">0912345678</div>
+                                <button class="mt-3 text-primary text-sm font-medium flex items-center">
+                                    <i class="fas fa-edit mr-1"></i> Chỉnh sửa
                                 </button>
                             </div>
-                            <div class="card mb-3">
-                                <div class="card-body d-flex justify-content-between align-items-center">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fas fa-university fs-4 me-3"></i>
-                                        <div>
-                                            <h6 class="mb-0">Bank of America</h6>
-                                            <small class="text-muted">****4589</small>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <span class="badge bg-success">Primary</span>
-                                    </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-slate-700 font-medium mb-3">Thêm địa chỉ mới</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Tên địa chỉ</label>
+                                    <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Ví dụ: Nhà riêng, Công ty">
                                 </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Địa chỉ cụ thể</label>
+                                    <textarea class="w-full px-4 py-2 border border-slate-300 rounded-lg" rows="2" placeholder="Số nhà, đường, phường/xã..."></textarea>
+                                </div>
+                                <button class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg">
+                                    Thêm địa chỉ
+                                </button>
                             </div>
                         </div>
-                        <div class="mb-4">
-                            <h6>Payout Schedule</h6>
-                            <select class="form-select mb-3">
-                                <option>Weekly</option>
-                                <option>Bi-weekly</option>
-                                <option>Monthly</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>
                 </div>
-
-                <!-- Security Settings -->
-                <div class="tab-pane fade" id="security">
-                    <div class="settings-content">
-                        <h5 class="mb-4">Security Settings</h5>
-                        <div class="mb-4">
-                            <h6>Change Password</h6>
-                            <form>
-                                <div class="mb-3">
-                                    <label class="form-label">Current Password</label>
-                                    <input type="password" class="form-control">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">New Password</label>
-                                    <input type="password" class="form-control">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Confirm New Password</label>
-                                    <input type="password" class="form-control">
-                                </div>
-                            </form>
+                
+                <div class="settings-section">
+                    <h2 class="text-xl font-semibold text-slate-800 mb-4">Liên kết mạng xã hội</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center mr-4">
+                                <i class="fab fa-facebook-f text-white"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium">Facebook</div>
+                                <div class="text-slate-600 text-sm">Chưa kết nối</div>
+                            </div>
+                            <button class="bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg text-sm">Kết nối</button>
                         </div>
-                        <div class="mb-4">
-                            <h6>Two-Factor Authentication</h6>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <p class="mb-0">Enable 2FA for added security</p>
-                                    <small class="text-muted">Protect your account with an extra layer of security</small>
+                        
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center mr-4">
+                                <i class="fab fa-google text-white"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium">Google</div>
+                                <div class="text-slate-600 text-sm">nguyenvana@example.com</div>
+                            </div>
+                            <button class="bg-slate-100 text-slate-700 px-3 py-1.5 rounded-lg text-sm">Hủy liên kết</button>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center mr-4">
+                                <i class="fab fa-instagram text-white"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium">Instagram</div>
+                                <div class="text-slate-600 text-sm">Chưa kết nối</div>
+                            </div>
+                            <button class="bg-purple-100 text-purple-700 px-3 py-1.5 rounded-lg text-sm">Kết nối</button>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center mr-4">
+                                <i class="fab fa-twitter text-white"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium">Twitter</div>
+                                <div class="text-slate-600 text-sm">Chưa kết nối</div>
+                            </div>
+                            <button class="bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg text-sm">Kết nối</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Store Settings -->
+            <div class="p-5 hidden" id="storeSettings">
+                <div class="settings-section">
+                    <h2 class="text-xl font-semibold text-slate-800 mb-4">Thông tin cửa hàng</h2>
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <div class="md:w-1/3">
+                            <div class="text-slate-700 font-medium mb-3">Logo cửa hàng</div>
+                            <div class="avatar-upload">
+                                <img src="https://via.placeholder.com/150" 
+                                     alt="Store Logo" 
+                                     class="w-32 h-32 rounded-lg object-cover border-2 border-white shadow">
+                                <div class="edit-icon">
+                                    <i class="fas fa-pencil-alt text-slate-600 text-sm"></i>
                                 </div>
-                                <label class="switch">
-                                    <input type="checkbox">
-                                    <span class="slider"></span>
-                                </label>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <div class="text-slate-700 font-medium mb-3">Banner cửa hàng</div>
+                                <div class="relative">
+                                    <img src="https://via.placeholder.com/600x200" 
+                                         alt="Store Banner" 
+                                         class="w-full h-40 rounded-lg object-cover">
+                                    <div class="edit-icon" style="bottom: 10px; right: 10px;">
+                                        <i class="fas fa-pencil-alt text-slate-600 text-sm"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Update Security Settings</button>
+                        
+                        <div class="md:w-2/3">
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Tên cửa hàng</label>
+                                    <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="TechStore Premium">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Tên ngắn cửa hàng</label>
+                                    <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="techstore">
+                                    <p class="text-slate-500 text-xs mt-1">Địa chỉ cửa hàng: marketplace.com/shop/techstore</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Mô tả cửa hàng</label>
+                                    <textarea class="w-full px-4 py-2 border border-slate-300 rounded-lg" rows="3">Chuyên cung cấp các sản phẩm công nghệ cao cấp, chính hãng với giá tốt nhất thị trường. Cam kết chất lượng và dịch vụ hậu mãi chu đáo.</textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Danh mục chính</label>
+                                    <select class="w-full px-4 py-2 border border-slate-300 rounded-lg">
+                                        <option>Điện tử & Công nghệ</option>
+                                        <option>Thời trang</option>
+                                        <option>Nhà cửa & Đời sống</option>
+                                        <option>Mẹ & Bé</option>
+                                        <option>Sức khỏe & Sắc đẹp</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Thời gian hoạt động</label>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="text-slate-600 text-sm mb-1 block">Từ</label>
+                                            <input type="time" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="08:00">
+                                        </div>
+                                        <div>
+                                            <label class="text-slate-600 text-sm mb-1 block">Đến</label>
+                                            <input type="time" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="22:00">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h2 class="text-xl font-semibold text-slate-800 mb-4">Chính sách cửa hàng</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Chính sách đổi trả</label>
+                            <textarea class="w-full px-4 py-2 border border-slate-300 rounded-lg" rows="4">- Đổi trả trong vòng 7 ngày nếu sản phẩm lỗi
+- Hoàn tiền 100% nếu không hài lòng
+- Miễn phí đổi trả tại cửa hàng</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Chính sách vận chuyển</label>
+                            <textarea class="w-full px-4 py-2 border border-slate-300 rounded-lg" rows="4">- Miễn phí vận chuyển cho đơn hàng trên 500.000đ
+- Giao hàng toàn quốc trong 1-3 ngày
+- Hỗ trợ đổi trả nếu sản phẩm bị hư hỏng trong vận chuyển</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Security Settings -->
+            <div class="p-5 hidden" id="securitySettings">
+                <div class="settings-section">
+                    <h2 class="text-xl font-semibold text-slate-800 mb-4">Bảo mật tài khoản</h2>
+                    <div class="bg-slate-50 p-5 rounded-lg mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="font-medium text-slate-800">Mức độ bảo mật</div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Mạnh</span>
+                        </div>
+                        <div class="security-level">
+                            <div class="progress security-strong"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="font-medium text-slate-800">Đổi mật khẩu</div>
+                                <div class="text-slate-600 text-sm mt-1">Cập nhật mật khẩu mới cho tài khoản của bạn</div>
+                            </div>
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primaryDark">
+                                Đổi mật khẩu
+                            </button>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="font-medium text-slate-800">Xác thực hai bước (2FA)</div>
+                                <div class="text-slate-600 text-sm mt-1">Thêm lớp bảo mật bổ sung cho tài khoản của bạn</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="font-medium text-slate-800">Thiết bị đã đăng nhập</div>
+                                <div class="text-slate-600 text-sm mt-1">Quản lý các thiết bị đã đăng nhập vào tài khoản</div>
+                            </div>
+                            <button class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg">
+                                Xem danh sách
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h2 class="text-xl font-semibold text-slate-800 mb-4">Cảnh báo bảo mật</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <label class="switch mr-4">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <div>
+                                <div class="font-medium text-slate-800">Thông báo đăng nhập mới</div>
+                                <div class="text-slate-600 text-sm">Gửi thông báo khi có thiết bị mới đăng nhập</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <label class="switch mr-4">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <div>
+                                <div class="font-medium text-slate-800">Cảnh báo hoạt động bất thường</div>
+                                <div class="text-slate-600 text-sm">Thông báo khi phát hiện hoạt động đáng ngờ</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <label class="switch mr-4">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                            <div>
+                                <div class="font-medium text-slate-800">Yêu cầu xác thực cho thay đổi quan trọng</div>
+                                <div class="text-slate-600 text-sm">Yêu cầu xác nhận qua email cho các thay đổi quan trọng</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Danger Zone -->
+        <div class="bg-white rounded-xl shadow-card p-5 border border-red-200">
+            <h2 class="text-xl font-semibold text-red-700 mb-4">Khu vực nguy hiểm</h2>
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="font-medium text-slate-800">Tạm ngưng cửa hàng</div>
+                        <div class="text-slate-600 text-sm">Tạm thời ẩn cửa hàng và sản phẩm khỏi hệ thống</div>
+                    </div>
+                    <button class="bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-4 py-2 rounded-lg">
+                        Tạm ngưng
+                    </button>
+                </div>
+                
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="font-medium text-slate-800">Xóa tài khoản</div>
+                        <div class="text-slate-600 text-sm">Xóa vĩnh viễn tài khoản và tất cả dữ liệu liên quan</div>
+                    </div>
+                    <button class="bg-red-100 hover:bg-red-200 text-red-800 px-4 py-2 rounded-lg">
+                        Xóa tài khoản
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab Switching
+            const tabs = document.querySelectorAll('.tab-button');
+            const settingsSections = {
+                'account': document.getElementById('accountSettings'),
+                'store': document.getElementById('storeSettings'),
+                'security': document.getElementById('securitySettings')
+            };
+            
+            // Function to show a specific tab
+            function showTab(tabId) {
+                // Hide all sections
+                Object.values(settingsSections).forEach(section => {
+                    section.classList.add('hidden');
+                });
+                
+                // Show the selected section
+                if (settingsSections[tabId]) {
+                    settingsSections[tabId].classList.remove('hidden');
+                }
+                
+                // Update active tab
+                tabs.forEach(tab => {
+                    tab.classList.remove('active');
+                    if (tab.dataset.tab === tabId) {
+                        tab.classList.add('active');
+                    }
+                });
+            }
+            
+            // Add click event to tabs
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    showTab(this.dataset.tab);
+                });
+            });
+            
+            // Initialize with account tab
+            showTab('account');
+            
+            // Toggle switch effect
+            document.querySelectorAll('.switch input').forEach(switchInput => {
+                switchInput.addEventListener('change', function() {
+                    const slider = this.nextElementSibling;
+                    if (this.checked) {
+                        slider.style.backgroundColor = '#10b981';
+                    } else {
+                        slider.style.backgroundColor = '#ccc';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

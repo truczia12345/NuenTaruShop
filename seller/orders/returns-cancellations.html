@@ -1,254 +1,713 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Returns & Cancellations</title>
+    <title>Quản lý Trả hàng & Hủy đơn - Premium Marketplace</title>
     
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff424f',
+                        secondary: '#c43a43',
+                        dark: '#1a202c',
+                        light: '#f8f9fa',
+                        premium: '#ff424f',
+                        premiumLight: '#fff5f5',
+                        premiumDark: '#d1323d',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                        info: '#3b82f6',
+                        returned: '#8b5cf6',
+                        cancelled: '#ef4444',
+                        processing: '#3b82f6',
+                        completed: '#10b981',
+                        rejected: '#9ca3af'
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(0, 0, 0, 0.08)',
+                        'input': '0 0 0 3px rgba(255, 66, 79, 0.25)'
+                    }
+                }
+            }
+        }
+    </script>
     
     <style>
-        :root {
-            --primary-color: #ee4d2d;
-            --secondary-color: #f53d2d;
+        .stats-card {
+            transition: all 0.3s ease;
         }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f8f9fa;
-            padding: 1.5rem;
+        .stats-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-
-        .page-header {
-            margin-bottom: 2rem;
+        .request-item {
+            transition: all 0.2s ease;
         }
-
-        .stats-cards {
-            margin-bottom: 2rem;
+        .request-item:hover {
+            background-color: #f8fafc;
         }
-
-        .stat-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .filter-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 1.5rem;
-        }
-
-        .returns-table {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
         .status-badge {
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.875rem;
-        }
-
-        .status-pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .status-approved {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-rejected {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .nav-tabs .nav-link {
-            color: #666;
-            border: none;
-            padding: 1rem 1.5rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: 500;
         }
-
-        .nav-tabs .nav-link.active {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
+        .status-processing { background-color: #dbeafe; color: #1d4ed8; }
+        .status-returned { background-color: #ede9fe; color: #6d28d9; }
+        .status-completed { background-color: #dcfce7; color: #047857; }
+        .status-cancelled { background-color: #fee2e2; color: #b91c1c; }
+        .status-rejected { background-color: #f3f4f6; color: #4b5563; }
+        .action-btn {
+            transition: all 0.2s ease;
         }
-
-        .stat-value {
-            font-size: 1.5rem;
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .filter-btn {
+            transition: all 0.2s ease;
+        }
+        .filter-btn.active {
+            background-color: #ff424f;
+            color: white;
+        }
+        .tab-button {
+            padding: 10px 20px;
+            border-radius: 8px 8px 0 0;
             font-weight: 500;
-            margin: 0.5rem 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
-
-        .stat-label {
-            color: #666;
-            font-size: 0.9rem;
+        .tab-button.active {
+            background-color: white;
+            color: #ff424f;
+            border-bottom: 3px solid #ff424f;
+        }
+        .reason-box {
+            border-left: 3px solid #ff424f;
         }
     </style>
 </head>
-<body>
-    <!-- Page Header -->
-    <div class="page-header">
-        <h4 class="mb-0">Returns & Cancellations</h4>
-    </div>
+<body class="font-sans bg-gray-50">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-slate-800">Quản lý Trả hàng & Hủy đơn</h1>
+                <p class="text-slate-600 mt-2">Xử lý các yêu cầu trả hàng và hủy đơn của khách hàng</p>
+            </div>
+            <div class="mt-4 md:mt-0">
+                <button class="bg-primary text-white px-5 py-2.5 rounded-lg hover:bg-primaryDark flex items-center transition">
+                    <i class="fas fa-history mr-2"></i> Lịch sử xử lý
+                </button>
+            </div>
+        </div>
 
-    <!-- Statistics Cards -->
-    <div class="stats-cards row g-3 mb-4">
-        <div class="col-md-3">
-            <div class="stat-card">
-                <div class="stat-value">25</div>
-                <div class="stat-label">Pending Returns</div>
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div class="stats-card bg-white rounded-xl shadow-card p-4 text-center">
+                <div class="text-2xl font-bold text-slate-800">18</div>
+                <div class="text-slate-600 text-sm mt-1">Yêu cầu mới</div>
+                <div class="mt-2 h-1 w-full bg-slate-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-processing" style="width: 100%"></div>
+                </div>
+            </div>
+            
+            <div class="stats-card bg-white rounded-xl shadow-card p-4 text-center">
+                <div class="text-2xl font-bold text-slate-800">24</div>
+                <div class="text-slate-600 text-sm mt-1">Đang xử lý</div>
+                <div class="mt-2 h-1 w-full bg-slate-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-returned" style="width: 85%"></div>
+                </div>
+            </div>
+            
+            <div class="stats-card bg-white rounded-xl shadow-card p-4 text-center">
+                <div class="text-2xl font-bold text-slate-800">42</div>
+                <div class="text-slate-600 text-sm mt-1">Đã hoàn thành</div>
+                <div class="mt-2 h-1 w-full bg-slate-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-completed" style="width: 90%"></div>
+                </div>
+            </div>
+            
+            <div class="stats-card bg-white rounded-xl shadow-card p-4 text-center">
+                <div class="text-2xl font-bold text-slate-800">7</div>
+                <div class="text-slate-600 text-sm mt-1">Đã từ chối</div>
+                <div class="mt-2 h-1 w-full bg-slate-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-rejected" style="width: 15%"></div>
+                </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="stat-card">
-                <div class="stat-value">12</div>
-                <div class="stat-label">Pending Cancellations</div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="stat-card">
-                <div class="stat-value">$1,250</div>
-                <div class="stat-label">Total Refund Amount</div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="stat-card">
-                <div class="stat-value">3.2%</div>
-                <div class="stat-label">Return Rate</div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Tabs -->
-    <ul class="nav nav-tabs mb-4">
-        <li class="nav-item">
-            <a class="nav-link active" href="#returns">Returns</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#cancellations">Cancellations</a>
-        </li>
-    </ul>
+        <!-- Tabs -->
+        <div class="flex border-b mb-6">
+            <div class="tab-button active">Tất cả yêu cầu</div>
+            <div class="tab-button">Yêu cầu trả hàng</div>
+            <div class="tab-button">Yêu cầu hủy đơn</div>
+            <div class="tab-button">Cần xử lý ngay</div>
+        </div>
 
-    <!-- Filters -->
-    <div class="filter-card">
-        <div class="row g-3">
-            <div class="col-md-3">
-                <select class="form-select">
-                    <option>All Status</option>
-                    <option>Pending</option>
-                    <option>Approved</option>
-                    <option>Rejected</option>
-                </select>
+        <!-- Filter Section -->
+        <div class="bg-white rounded-xl shadow-card overflow-hidden mb-6">
+            <div class="p-5 border-b">
+                <div class="flex flex-wrap gap-2">
+                    <button class="filter-btn px-4 py-2 rounded-lg border border-slate-300 active" data-status="all">
+                        Tất cả
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="processing">
+                        <i class="fas fa-sync-alt mr-2 text-processing"></i> Đang xử lý
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="completed">
+                        <i class="fas fa-check-circle mr-2 text-completed"></i> Đã hoàn thành
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="rejected">
+                        <i class="fas fa-times-circle mr-2 text-rejected"></i> Đã từ chối
+                    </button>
+                </div>
             </div>
-            <div class="col-md-3">
-                <input type="date" class="form-control" placeholder="Date From">
+            
+            <div class="p-5">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Mã yêu cầu</label>
+                        <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Nhập mã yêu cầu">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Tên khách hàng</label>
+                        <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Nhập tên KH">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Ngày tạo yêu cầu</label>
+                        <div class="flex items-center gap-2">
+                            <input type="date" class="w-full px-4 py-2 border border-slate-300 rounded-lg">
+                            <span class="text-slate-400">đến</span>
+                            <input type="date" class="w-full px-4 py-2 border border-slate-300 rounded-lg">
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-end">
+                        <button class="bg-primary text-white px-6 py-2.5 rounded-lg hover:bg-primaryDark w-full">
+                            <i class="fas fa-search mr-2"></i> Tìm kiếm
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-3">
-                <input type="date" class="form-control" placeholder="Date To">
+        </div>
+
+        <!-- Requests List -->
+        <div class="bg-white rounded-xl shadow-card overflow-hidden mb-6">
+            <div class="p-5 border-b flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <span class="text-slate-600">Hiển thị <span class="font-medium">5</span> trong tổng số <span class="font-medium">18</span> yêu cầu mới</span>
+                </div>
+                <div class="flex gap-2">
+                    <button class="bg-slate-100 px-4 py-2 rounded-lg text-slate-700 hover:bg-slate-200">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button class="bg-slate-100 px-4 py-2 rounded-lg text-slate-700 hover:bg-slate-200">
+                        <i class="fas fa-columns"></i>
+                    </button>
+                </div>
             </div>
-            <div class="col-md-3">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search returns...">
-                    <button class="btn btn-outline-secondary">
-                        <i class="fas fa-search"></i>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-slate-100">
+                            <th class="py-4 px-6 text-left w-16">
+                                <input type="checkbox" class="h-4 w-4 text-primary rounded">
+                            </th>
+                            <th class="py-4 px-6 text-left">Yêu cầu</th>
+                            <th class="py-4 px-6 text-left">Khách hàng</th>
+                            <th class="py-4 px-6 text-center">Loại yêu cầu</th>
+                            <th class="py-4 px-6 text-center">Ngày tạo</th>
+                            <th class="py-4 px-6 text-center">Trạng thái</th>
+                            <th class="py-4 px-6 text-center">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-slate-700">
+                        <!-- Request 1: Return -->
+                        <tr class="request-item border-b">
+                            <td class="py-4 px-6">
+                                <div class="flex items-center">
+                                    <input type="checkbox" class="h-4 w-4 text-primary rounded" checked>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div>
+                                    <div class="font-medium">#YC-2023-00124</div>
+                                    <div class="text-slate-500 text-sm mt-1">Đơn hàng: #DH-2023-00124</div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div>
+                                    <div class="font-medium">Nguyễn Văn A</div>
+                                    <div class="text-slate-500 text-sm mt-1">0987.654.321</div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">Trả hàng</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                27/05/2023
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex justify-center">
+                                    <span class="status-badge status-processing">Đang xử lý</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-blue-50 text-blue-600 px-3 py-1 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn bg-green-50 text-green-600 px-3 py-1 rounded-lg hover:bg-green-100">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Request 2: Cancellation -->
+                        <tr class="request-item border-b">
+                            <td class="py-4 px-6">
+                                <div class="flex items-center">
+                                    <input type="checkbox" class="h-4 w-4 text-primary rounded" checked>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div>
+                                    <div class="font-medium">#YC-2023-00123</div>
+                                    <div class="text-slate-500 text-sm mt-1">Đơn hàng: #DH-2023-00123</div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div>
+                                    <div class="font-medium">Trần Thị B</div>
+                                    <div class="text-slate-500 text-sm mt-1">0912.345.678</div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-sm">Hủy đơn</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                26/05/2023
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex justify-center">
+                                    <span class="status-badge status-processing">Đang xử lý</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-blue-50 text-blue-600 px-3 py-1 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn bg-green-50 text-green-600 px-3 py-1 rounded-lg hover:bg-green-100">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Request 3: Return Completed -->
+                        <tr class="request-item border-b">
+                            <td class="py-4 px-6">
+                                <div class="flex items-center">
+                                    <input type="checkbox" class="h-4 w-4 text-primary rounded">
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div>
+                                    <div class="font-medium">#YC-2023-00122</div>
+                                    <div class="text-slate-500 text-sm mt-1">Đơn hàng: #DH-2023-00122</div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div>
+                                    <div class="font-medium">Lê Văn C</div>
+                                    <div class="text-slate-500 text-sm mt-1">0901.234.567</div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">Trả hàng</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                25/05/2023
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex justify-center">
+                                    <span class="status-badge status-completed">Đã hoàn thành</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-blue-50 text-blue-600 px-3 py-1 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn bg-gray-50 text-gray-600 px-3 py-1 rounded-lg hover:bg-gray-100">
+                                        <i class="fas fa-redo"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Request 4: Cancellation Rejected -->
+                        <tr class="request-item border-b">
+                            <td class="py-4 px-6">
+                                <div class="flex items-center">
+                                    <input type="checkbox" class="h-4 w-4 text-primary rounded">
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div>
+                                    <div class="font-medium">#YC-2023-00121</div>
+                                    <div class="text-slate-500 text-sm mt-1">Đơn hàng: #DH-2023-00121</div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div>
+                                    <div class="font-medium">Phạm Thị D</div>
+                                    <div class="text-slate-500 text-sm mt-1">0988.777.666</div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-sm">Hủy đơn</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                24/05/2023
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex justify-center">
+                                    <span class="status-badge status-rejected">Đã từ chối</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-blue-50 text-blue-600 px-3 py-1 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn bg-yellow-50 text-yellow-600 px-3 py-1 rounded-lg hover:bg-yellow-100">
+                                        <i class="fas fa-comment"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Table Footer -->
+            <div class="p-5 border-t flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-slate-600">
+                    Đã chọn <span class="font-medium">2</span> yêu cầu
+                </div>
+                
+                <div class="flex gap-3">
+                    <button class="bg-slate-100 px-4 py-2 rounded-lg text-slate-700 hover:bg-slate-200">
+                        <i class="fas fa-times-circle mr-2"></i> Từ chối
+                    </button>
+                    <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">
+                        <i class="fas fa-check-circle mr-2"></i> Chấp nhận
                     </button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Returns Table -->
-    <div class="returns-table">
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Return ID</th>
-                        <th>Order ID</th>
-                        <th>Customer</th>
-                        <th>Reason</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>#RET-001</td>
-                        <td>#ORD-001</td>
-                        <td>John Doe</td>
-                        <td>Wrong Size</td>
-                        <td>$99.99</td>
-                        <td><span class="status-badge status-pending">Pending</span></td>
-                        <td>
-                            <div class="btn-group">
-                                <button class="btn btn-sm btn-outline-primary">View</button>
-                                <button class="btn btn-sm btn-outline-success">Approve</button>
-                                <button class="btn btn-sm btn-outline-danger">Reject</button>
+        <!-- Request Detail Modal -->
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden" id="requestModal">
+            <div class="bg-white rounded-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+                <div class="p-5 border-b flex justify-between items-center">
+                    <h3 class="text-xl font-semibold">Chi tiết yêu cầu <span id="requestId" class="text-primary">#YC-2023-00124</span></h3>
+                    <button onclick="closeRequestModal()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <div class="p-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-semibold text-slate-800 mb-3">Thông tin yêu cầu</h4>
+                            <div class="bg-slate-50 p-4 rounded-lg">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <div class="text-slate-600 text-sm">Loại yêu cầu</div>
+                                        <div class="font-medium">Trả hàng</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-slate-600 text-sm">Ngày tạo</div>
+                                        <div class="font-medium">27/05/2023 14:28</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-slate-600 text-sm">Trạng thái</div>
+                                        <div>
+                                            <span class="status-badge status-processing">Đang xử lý</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="text-slate-600 text-sm">Mã đơn hàng</div>
+                                        <div class="font-medium">#DH-2023-00124</div>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <div class="text-slate-600 text-sm">Lý do</div>
+                                        <div class="reason-box bg-red-50 p-3 rounded-lg mt-1">
+                                            Sản phẩm không giống mô tả, màu sắc khác với hình ảnh trên website
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#RET-002</td>
-                        <td>#ORD-002</td>
-                        <td>Jane Smith</td>
-                        <td>Defective Item</td>
-                        <td>$149.99</td>
-                        <td><span class="status-badge status-approved">Approved</span></td>
-                        <td>
-                            <div class="btn-group">
-                                <button class="btn btn-sm btn-outline-primary">View</button>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-slate-800 mb-3">Thông tin khách hàng</h4>
+                            <div class="bg-slate-50 p-4 rounded-lg">
+                                <div class="flex items-center gap-4 mb-4">
+                                    <img src="https://via.placeholder.com/60" alt="Customer" class="w-12 h-12 rounded-full object-cover">
+                                    <div>
+                                        <div class="font-bold">Nguyễn Văn A</div>
+                                        <div class="text-slate-600 text-sm">0987.654.321</div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 gap-2">
+                                    <div>
+                                        <div class="text-slate-600 text-sm">Địa chỉ</div>
+                                        <div class="font-medium">Số 123, đường ABC, quận XYZ, Hà Nội</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-slate-600 text-sm">Email</div>
+                                        <div class="font-medium">nguyenvana@example.com</div>
+                                    </div>
+                                </div>
                             </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-slate-800 mb-3">Sản phẩm yêu cầu trả</h4>
+                        <div class="bg-white border border-slate-200 rounded-lg overflow-hidden">
+                            <table class="w-full">
+                                <thead class="bg-slate-100">
+                                    <tr>
+                                        <th class="py-3 px-4 text-left">Sản phẩm</th>
+                                        <th class="py-3 px-4 text-center">Số lượng</th>
+                                        <th class="py-3 px-4 text-center">Giá</th>
+                                        <th class="py-3 px-4 text-center">Tình trạng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b">
+                                        <td class="py-3 px-4">
+                                            <div class="flex items-center gap-3">
+                                                <img src="https://via.placeholder.com/60" alt="Product" class="w-12 h-12 rounded object-cover">
+                                                <div>
+                                                    <div class="font-medium">Điện thoại Smartphone X</div>
+                                                    <div class="text-slate-600 text-sm">Màu: Đen, Bộ nhớ: 128GB</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="py-3 px-4 text-center">1</td>
+                                        <td class="py-3 px-4 text-center font-medium">8.490.000₫</td>
+                                        <td class="py-3 px-4 text-center">
+                                            <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-sm">Đã sử dụng</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-slate-800 mb-3">Hình ảnh đính kèm</h4>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="bg-gray-200 border-2 border-dashed rounded-xl w-32 h-32 flex items-center justify-center">
+                                <i class="fas fa-image text-gray-400 text-3xl"></i>
+                            </div>
+                            <div class="bg-gray-200 border-2 border-dashed rounded-xl w-32 h-32 flex items-center justify-center">
+                                <i class="fas fa-image text-gray-400 text-3xl"></i>
+                            </div>
+                            <div class="bg-gray-200 border-2 border-dashed rounded-xl w-32 h-32 flex items-center justify-center">
+                                <i class="fas fa-image text-gray-400 text-3xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold text-slate-800 mb-3">Xử lý yêu cầu</h4>
+                        <div class="bg-slate-50 p-4 rounded-lg">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Quyết định</label>
+                                <div class="flex gap-4">
+                                    <label class="flex items-center">
+                                        <input type="radio" name="decision" class="h-4 w-4 text-primary" checked>
+                                        <span class="ml-2">Chấp nhận yêu cầu</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="radio" name="decision" class="h-4 w-4 text-primary">
+                                        <span class="ml-2">Từ chối yêu cầu</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Lý do (nếu từ chối)</label>
+                                <select class="w-full px-4 py-2 border border-slate-300 rounded-lg">
+                                    <option>Chọn lý do từ chối</option>
+                                    <option>Sản phẩm đã qua sử dụng</option>
+                                    <option>Không đủ điều kiện trả hàng</option>
+                                    <option>Quá thời hạn trả hàng</option>
+                                    <option>Khác</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Ghi chú</label>
+                                <textarea class="w-full px-4 py-2 border border-slate-300 rounded-lg" rows="3" placeholder="Nhập ghi chú cho khách hàng..."></textarea>
+                            </div>
+                            
+                            <div class="flex justify-end gap-3">
+                                <button class="bg-slate-100 px-6 py-2.5 rounded-lg text-slate-700 hover:bg-slate-200">
+                                    Hủy bỏ
+                                </button>
+                                <button class="bg-primary text-white px-6 py-2.5 rounded-lg hover:bg-primaryDark">
+                                    <i class="fas fa-check mr-2"></i> Xác nhận xử lý
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Pagination -->
-        <nav class="mt-4">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">Previous</a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                </li>
-            </ul>
-        </nav>
+        <div class="flex justify-between items-center flex-wrap gap-4">
+            <div class="text-slate-600">
+                Hiển thị <span class="font-medium">1-4</span> của <span class="font-medium">18</span> yêu cầu
+            </div>
+            
+            <div class="flex gap-2">
+                <button class="pagination-btn bg-slate-100 w-10 h-10 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <button class="pagination-btn bg-primary text-white w-10 h-10 rounded-lg font-medium">1</button>
+                <button class="pagination-btn bg-slate-100 w-10 h-10 rounded-lg font-medium">2</button>
+                <button class="pagination-btn bg-slate-100 w-10 h-10 rounded-lg font-medium">3</button>
+                
+                <span class="p-2 text-slate-400">...</span>
+                
+                <button class="pagination-btn bg-slate-100 w-10 h-10 rounded-lg font-medium">5</button>
+                
+                <button class="pagination-btn bg-slate-100 w-10 h-10 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
     <script>
-        // Tab switching functionality
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Filter buttons functionality
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const status = this.getAttribute('data-status');
+                    console.log(`Filtering by status: ${status}`);
+                });
+            });
+            
+            // Tabs functionality
+            const tabs = document.querySelectorAll('.tab-button');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    console.log(`Tab selected: ${this.textContent.trim()}`);
+                });
+            });
+            
+            // Request item hover effect
+            const requestItems = document.querySelectorAll('.request-item');
+            requestItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f8fafc';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+            
+            // Action buttons hover effect
+            const actionButtons = document.querySelectorAll('.action-btn');
+            actionButtons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // View details button
+            const viewButtons = document.querySelectorAll('.action-btn.bg-blue-50');
+            viewButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const requestId = this.closest('tr').querySelector('.font-medium').textContent;
+                    document.getElementById('requestId').textContent = requestId;
+                    document.getElementById('requestModal').classList.remove('hidden');
+                });
+            });
+            
+            // Stats card hover effect
+            const statsCards = document.querySelectorAll('.stats-card');
+            statsCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
             });
         });
+        
+        // Close request modal
+        function closeRequestModal() {
+            document.getElementById('requestModal').classList.add('hidden');
+        }
+        
+        // Approve request
+        function approveRequest() {
+            alert('Yêu cầu đã được chấp nhận!');
+            closeRequestModal();
+        }
+        
+        // Reject request
+        function rejectRequest() {
+            alert('Yêu cầu đã bị từ chối!');
+            closeRequestModal();
+        }
     </script>
 </body>
 </html>

@@ -1,319 +1,536 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flash Sale</title>
+    <title>Flash Sale - Premium Marketplace</title>
     
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Countdown Timer -->
+    <script src="https://cdn.jsdelivr.net/npm/countdown@2.6.0/countdown.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff424f',
+                        secondary: '#c43a43',
+                        dark: '#1a202c',
+                        light: '#f8f9fa',
+                        premium: '#ff424f',
+                        premiumLight: '#fff5f5',
+                        premiumDark: '#d1323d',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                        info: '#3b82f6',
+                        flash: '#f97316'
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(0, 0, 0, 0.08)',
+                        'input': '0 0 0 3px rgba(255, 66, 79, 0.25)',
+                        'flash': '0 5px 15px rgba(249, 115, 22, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
     
     <style>
-        :root {
-            --primary-color: #ee4d2d;
-            --secondary-color: #f53d2d;
+        .flash-card {
+            transition: all 0.3s ease;
+            border-left: 3px solid #f97316;
         }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f8f9fa;
-            padding: 1.5rem;
+        .flash-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
-
-        .page-header {
-            margin-bottom: 2rem;
+        .tab-button {
+            padding: 12px 24px;
+            border-radius: 8px 8px 0 0;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
-
-        .flash-sale-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 1rem;
-            position: relative;
-            overflow: hidden;
+        .tab-button.active {
+            background-color: white;
+            color: #ff424f;
+            border-bottom: 3px solid #ff424f;
         }
-
-        .flash-sale-banner {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
+        .event-item {
+            transition: all 0.2s ease;
         }
-
-        .countdown {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            display: inline-block;
+        .event-item:hover {
+            background-color: #f8fafc;
         }
-
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-active {
+            background-color: #10b98120;
+            color: #10b981;
+        }
+        .status-upcoming {
+            background-color: #3b82f620;
+            color: #3b82f6;
+        }
+        .status-completed {
+            background-color: #94a3b820;
+            color: #64748b;
+        }
         .countdown-item {
-            display: inline-block;
-            margin: 0 0.5rem;
+            min-width: 50px;
+            padding: 8px 5px;
+            background: linear-gradient(135deg, #ff424f 0%, #f97316 100%);
+            color: white;
+            border-radius: 8px;
             text-align: center;
         }
-
-        .countdown-number {
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: white;
-            color: var(--primary-color);
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            display: inline-block;
-            min-width: 40px;
+        .countdown-label {
+            font-size: 10px;
+            opacity: 0.8;
+            margin-top: 2px;
         }
-
-        .product-card {
-            background: white;
-            border-radius: 8px;
+        .progress-bar {
+            height: 6px;
+            border-radius: 3px;
             overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
         }
-
+        .product-card {
+            transition: all 0.3s ease;
+        }
         .product-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-
-        .product-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .product-info {
-            padding: 1rem;
-        }
-
         .discount-badge {
             position: absolute;
             top: 10px;
             right: 10px;
-            background: var(--primary-color);
+            background: linear-gradient(135deg, #ff424f 0%, #f97316 100%);
             color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
+            padding: 4px 10px;
+            border-radius: 20px;
             font-weight: bold;
+            font-size: 12px;
         }
-
-        .original-price {
-            text-decoration: line-through;
-            color: #6c757d;
-            font-size: 0.9rem;
+        .modal-overlay {
+            background-color: rgba(0,0,0,0.6);
+            z-index: 10000;
         }
-
-        .sale-price {
-            color: var(--primary-color);
-            font-size: 1.2rem;
-            font-weight: bold;
+        .modal-content {
+            animation: modalAppear 0.3s ease-out;
         }
-
-        .progress {
-            height: 8px;
-            margin-top: 0.5rem;
+        @keyframes modalAppear {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        .filter-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 1.5rem;
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 20px;
         }
-
-        .btn-create {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #f97316;
         }
-
-        .btn-create:hover {
-            background-color: var(--secondary-color);
-            color: white;
+        .timeline-item::after {
+            content: "";
+            position: absolute;
+            left: 7px;
+            top: 25px;
+            width: 2px;
+            height: calc(100% - 10px);
+            background: #e2e8f0;
         }
-
-        .status-badge {
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.875rem;
-        }
-
-        .status-active {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-upcoming {
-            background: #cce5ff;
-            color: #004085;
-        }
-
-        .status-ended {
-            background: #f8d7da;
-            color: #721c24;
+        .timeline-item:last-child::after {
+            display: none;
         }
     </style>
 </head>
-<body>
-    <!-- Page Header -->
-    <div class="page-header d-flex justify-content-between align-items-center">
-        <h4 class="mb-0">Flash Sale</h4>
-        <button class="btn btn-create" data-bs-toggle="modal" data-bs-target="#createFlashSaleModal">
-            <i class="fas fa-plus me-2"></i>Create Flash Sale
-        </button>
-    </div>
+<body class="font-sans bg-gray-50">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-slate-800">Quản lý Flash Sale</h1>
+                <p class="text-slate-600 mt-2">Tạo và quản lý các chương trình Flash Sale giới hạn thời gian</p>
+            </div>
+            <div class="mt-4 md:mt-0">
+                <button class="bg-primary text-white px-5 py-2.5 rounded-lg hover:bg-primaryDark flex items-center transition" id="createFlashSaleBtn">
+                    <i class="fas fa-bolt mr-2"></i> Tạo Flash Sale mới
+                </button>
+            </div>
+        </div>
 
-    <!-- Active Flash Sale -->
-    <div class="flash-sale-banner">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <h3 class="mb-3">🔥 Flash Sale Now Live!</h3>
-                <p class="mb-3">Up to 70% OFF on selected items</p>
-                <div class="countdown">
-                    <div class="countdown-item">
-                        <div class="countdown-number">05</div>
-                        <small>Hours</small>
+        <!-- Flash Sale Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="flash-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Sự kiện Flash Sale</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">12</h2>
                     </div>
-                    <div class="countdown-item">
-                        <div class="countdown-number">45</div>
-                        <small>Minutes</small>
+                    <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-600">
+                        <i class="fas fa-bolt text-xl"></i>
                     </div>
-                    <div class="countdown-item">
-                        <div class="countdown-number">30</div>
-                        <small>Seconds</small>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>Đang hoạt động</span>
+                        <span class="font-medium">3</span>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 text-end">
-                <h4 class="text-white mb-2">Total Sales: $1,250</h4>
-                <p class="mb-0">25 items sold in last hour</p>
+            
+            <div class="flash-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Doanh thu Flash Sale</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">₫86.450.000</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                        <i class="fas fa-wallet text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>Trung bình/sự kiện</span>
+                        <span class="font-medium">₫7.204.000</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flash-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Sản phẩm đã bán</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">1,248</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                        <i class="fas fa-box text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>Tỷ lệ chuyển đổi</span>
+                        <span class="font-medium">22.7%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flash-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Lượt xem trung bình</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">5,420</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
+                        <i class="fas fa-eye text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>Lượt chia sẻ</span>
+                        <span class="font-medium">842</span>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Filters -->
-    <div class="filter-card">
-        <div class="row g-3">
-            <div class="col-md-3">
-                <select class="form-select">
-                    <option>All Status</option>
-                    <option>Active</option>
-                    <option>Upcoming</option>
-                    <option>Ended</option>
-                </select>
+        <!-- Current Flash Sale Banner -->
+        <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl p-5 mb-8 text-white">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex-1">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-bolt text-xl mr-2"></i>
+                        <h2 class="text-xl font-bold">FLASH SALE ĐANG DIỄN RA</h2>
+                    </div>
+                    <p class="mb-4">Giảm sốc đến 70% - Chỉ trong 3 giờ - Hàng ngàn sản phẩm công nghệ</p>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="countdown-item">
+                            <div class="text-lg font-bold" id="hours">02</div>
+                            <div class="countdown-label">GIỜ</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="text-lg font-bold" id="minutes">45</div>
+                            <div class="countdown-label">PHÚT</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="text-lg font-bold" id="seconds">30</div>
+                            <div class="countdown-label">GIÂY</div>
+                        </div>
+                    </div>
+                    <button class="bg-white text-orange-600 font-bold px-5 py-2.5 rounded-lg hover:bg-orange-50">
+                        <i class="fas fa-external-link-alt mr-2"></i> Xem Flash Sale
+                    </button>
+                </div>
+                <div class="flex justify-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3137/3137039.png" alt="Flash Sale" class="w-32 h-32 object-contain">
+                </div>
             </div>
-            <div class="col-md-3">
-                <select class="form-select">
-                    <option>All Categories</option>
-                    <option>Electronics</option>
-                    <option>Fashion</option>
-                    <option>Home & Living</option>
-                </select>
+        </div>
+
+        <!-- Tabs & Events -->
+        <div class="bg-white rounded-xl shadow-card overflow-hidden mb-6">
+            <div class="p-5 border-b flex gap-1 overflow-x-auto">
+                <div class="tab-button active" data-tab="all">Tất cả sự kiện</div>
+                <div class="tab-button" data-tab="active">Đang hoạt động</div>
+                <div class="tab-button" data-tab="upcoming">Sắp diễn ra</div>
+                <div class="tab-button" data-tab="completed">Đã kết thúc</div>
             </div>
-            <div class="col-md-3">
-                <input type="date" class="form-control">
+            
+            <!-- Events List -->
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-slate-100">
+                            <th class="py-4 px-6 text-left">Tên sự kiện</th>
+                            <th class="py-4 px-6 text-left">Thời gian</th>
+                            <th class="py-4 px-6 text-center">Sản phẩm</th>
+                            <th class="py-4 px-6 text-center">Giảm giá</th>
+                            <th class="py-4 px-6 text-center">Đã bán</th>
+                            <th class="py-4 px-6 text-center">Trạng thái</th>
+                            <th class="py-4 px-6 text-center">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="event-item border-b">
+                            <td class="py-4 px-6">
+                                <div class="font-medium">Siêu Sale Giữa Năm</div>
+                                <div class="text-slate-600 text-sm">ID: FS-2024-024</div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="text-slate-700">Hôm nay, 14:00 - 17:00</div>
+                                <div class="text-slate-600 text-sm">Còn lại: <span class="text-orange-600 font-medium">2:45:30</span></div>
+                            </td>
+                            <td class="py-4 px-6 text-center font-medium">24</td>
+                            <td class="py-4 px-6 text-center font-medium text-orange-600">30-70%</td>
+                            <td class="py-4 px-6">
+                                <div class="flex items-center justify-between text-sm mb-1">
+                                    <span>142/500</span>
+                                    <span>28.4%</span>
+                                </div>
+                                <div class="progress-bar bg-slate-200">
+                                    <div class="h-full bg-orange-500" style="width: 28.4%"></div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="status-badge status-active">Đang hoạt động</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex justify-center gap-2">
+                                    <button class="bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-chart-line"></i>
+                                    </button>
+                                    <button class="bg-green-50 text-green-600 p-2 rounded-lg hover:bg-green-100">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <button class="bg-slate-50 text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr class="event-item border-b">
+                            <td class="py-4 px-6">
+                                <div class="font-medium">Ngày Vàng Tháng 6</div>
+                                <div class="text-slate-600 text-sm">ID: FS-2024-025</div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="text-slate-700">15/06/2024, 20:00 - 22:00</div>
+                                <div class="text-slate-600 text-sm">Bắt đầu sau: <span class="text-blue-600 font-medium">3 ngày</span></div>
+                            </td>
+                            <td class="py-4 px-6 text-center font-medium">18</td>
+                            <td class="py-4 px-6 text-center font-medium text-orange-600">40-60%</td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="text-slate-600 text-sm">Chưa bắt đầu</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="status-badge status-upcoming">Sắp diễn ra</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex justify-center gap-2">
+                                    <button class="bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="bg-green-50 text-green-600 p-2 rounded-lg hover:bg-green-100">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <button class="bg-slate-50 text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr class="event-item border-b">
+                            <td class="py-4 px-6">
+                                <div class="font-medium">Thứ 6 Điên Đảo</div>
+                                <div class="text-slate-600 text-sm">ID: FS-2024-023</div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="text-slate-700">07/06/2024, 12:00 - 14:00</div>
+                                <div class="text-slate-600 text-sm">Đã kết thúc</div>
+                            </td>
+                            <td class="py-4 px-6 text-center font-medium">15</td>
+                            <td class="py-4 px-6 text-center font-medium text-orange-600">50-80%</td>
+                            <td class="py-4 px-6">
+                                <div class="flex items-center justify-between text-sm mb-1">
+                                    <span>98/120</span>
+                                    <span>81.7%</span>
+                                </div>
+                                <div class="progress-bar bg-slate-200">
+                                    <div class="h-full bg-green-500" style="width: 81.7%"></div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="status-badge status-completed">Đã kết thúc</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex justify-center gap-2">
+                                    <button class="bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-chart-line"></i>
+                                    </button>
+                                    <button class="bg-green-50 text-green-600 p-2 rounded-lg hover:bg-green-100">
+                                        <i class="fas fa-redo"></i>
+                                    </button>
+                                    <button class="bg-slate-50 text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="col-md-3">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search products...">
-                    <button class="btn btn-outline-secondary">
-                        <i class="fas fa-search"></i>
+            
+            <!-- Pagination -->
+            <div class="p-4 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-slate-600 text-sm">
+                    Hiển thị 3/12 sự kiện
+                </div>
+                <div class="flex gap-2">
+                    <button class="bg-white border border-slate-300 text-slate-600 px-3 py-1.5 rounded-lg hover:bg-slate-100">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="bg-primary text-white px-4 py-1.5 rounded-lg">1</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-4 py-1.5 rounded-lg hover:bg-slate-100">2</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-4 py-1.5 rounded-lg hover:bg-slate-100">3</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-4 py-1.5 rounded-lg hover:bg-slate-100">4</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-3 py-1.5 rounded-lg hover:bg-slate-100">
+                        <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Flash Sale Products -->
-    <div class="row g-4">
-        <!-- Product Card -->
-        <div class="col-md-3">
-            <div class="product-card">
-                <div class="position-relative">
-                    <img src="https://via.placeholder.com/200" alt="Product" class="product-image">
-                    <span class="discount-badge">-50%</span>
-                </div>
-                <div class="product-info">
-                    <h6 class="mb-1">Wireless Headphones</h6>
-                    <div class="mb-2">
-                        <span class="original-price">$199.99</span>
-                        <span class="sale-price ms-2">$99.99</span>
-                    </div>
-                    <small class="text-muted d-block">Sold: 45/100</small>
-                    <div class="progress">
-                        <div class="progress-bar bg-success" style="width: 45%"></div>
-                    </div>
-                </div>
+        <!-- Featured Products -->
+        <div class="mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-slate-800">Sản phẩm Flash Sale nổi bật</h2>
+                <a href="#" class="text-primary hover:text-primaryDark flex items-center">
+                    Xem tất cả <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                </a>
             </div>
-        </div>
-
-        <!-- Product Card -->
-        <div class="col-md-3">
-            <div class="product-card">
-                <div class="position-relative">
-                    <img src="https://via.placeholder.com/200" alt="Product" class="product-image">
-                    <span class="discount-badge">-30%</span>
-                </div>
-                <div class="product-info">
-                    <h6 class="mb-1">Smart Watch</h6>
-                    <div class="mb-2">
-                        <span class="original-price">$299.99</span>
-                        <span class="sale-price ms-2">$209.99</span>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden">
+                    <div class="relative">
+                        <img src="https://via.placeholder.com/300x300" alt="Product" class="w-full h-48 object-cover">
+                        <div class="discount-badge">-50%</div>
                     </div>
-                    <small class="text-muted d-block">Sold: 28/50</small>
-                    <div class="progress">
-                        <div class="progress-bar bg-success" style="width: 56%"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product Card -->
-        <div class="col-md-3">
-            <div class="product-card">
-                <div class="position-relative">
-                    <img src="https://via.placeholder.com/200" alt="Product" class="product-image">
-                    <span class="discount-badge">-70%</span>
-                </div>
-                <div class="product-info">
-                    <h6 class="mb-1">Bluetooth Speaker</h6>
-                    <div class="mb-2">
-                        <span class="original-price">$149.99</span>
-                        <span class="sale-price ms-2">$44.99</span>
-                    </div>
-                    <small class="text-muted d-block">Sold: 75/80</small>
-                    <div class="progress">
-                        <div class="progress-bar bg-success" style="width: 94%"></div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-slate-800 mb-1">Tai nghe Bluetooth TWS Pro</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="text-orange-600 font-bold">₫350.000</div>
+                            <div class="text-slate-500 text-sm line-through ml-2">₫700.000</div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-sm text-slate-600">Đã bán: 42/50</div>
+                            <button class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm hover:bg-orange-200">
+                                Thêm vào
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Product Card -->
-        <div class="col-md-3">
-            <div class="product-card">
-                <div class="position-relative">
-                    <img src="https://via.placeholder.com/200" alt="Product" class="product-image">
-                    <span class="discount-badge">-40%</span>
-                </div>
-                <div class="product-info">
-                    <h6 class="mb-1">Power Bank</h6>
-                    <div class="mb-2">
-                        <span class="original-price">$79.99</span>
-                        <span class="sale-price ms-2">$47.99</span>
+                
+                <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden">
+                    <div class="relative">
+                        <img src="https://via.placeholder.com/300x300" alt="Product" class="w-full h-48 object-cover">
+                        <div class="discount-badge">-70%</div>
                     </div>
-                    <small class="text-muted d-block">Sold: 32/60</small>
-                    <div class="progress">
-                        <div class="progress-bar bg-success" style="width: 53%"></div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-slate-800 mb-1">Pin sạc dự phòng 20.000mAh</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="text-orange-600 font-bold">₫199.000</div>
+                            <div class="text-slate-500 text-sm line-through ml-2">₫650.000</div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-sm text-slate-600">Đã bán: 28/30</div>
+                            <button class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm hover:bg-orange-200">
+                                Thêm vào
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden">
+                    <div class="relative">
+                        <img src="https://via.placeholder.com/300x300" alt="Product" class="w-full h-48 object-cover">
+                        <div class="discount-badge">-60%</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-slate-800 mb-1">Loa Bluetooth Mini XS</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="text-orange-600 font-bold">₫320.000</div>
+                            <div class="text-slate-500 text-sm line-through ml-2">₫800.000</div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-sm text-slate-600">Đã bán: 35/40</div>
+                            <button class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm hover:bg-orange-200">
+                                Thêm vào
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden">
+                    <div class="relative">
+                        <img src="https://via.placeholder.com/300x300" alt="Product" class="w-full h-48 object-cover">
+                        <div class="discount-badge">-40%</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-slate-800 mb-1">Smartwatch GT3 Pro</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="text-orange-600 font-bold">₫1.200.000</div>
+                            <div class="text-slate-500 text-sm line-through ml-2">₫2.000.000</div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-sm text-slate-600">Đã bán: 18/25</div>
+                            <button class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm hover:bg-orange-200">
+                                Thêm vào
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -321,74 +538,255 @@
     </div>
 
     <!-- Create Flash Sale Modal -->
-    <div class="modal fade" id="createFlashSaleModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Create Flash Sale</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <div class="fixed inset-0 modal-overlay flex items-center justify-center p-4 hidden" id="createFlashSaleModal">
+        <div class="modal-content bg-white rounded-xl w-full max-w-4xl">
+            <div class="p-5 border-b flex justify-between items-center">
+                <h3 class="text-xl font-semibold">Tạo Flash Sale Mới</h3>
+                <button onclick="closeCreateFlashSaleModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-5 max-h-[80vh] overflow-y-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Left Column: Form -->
+                    <div class="lg:col-span-2">
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Tên sự kiện Flash Sale</label>
+                            <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Ví dụ: Siêu Sale Giữa Năm">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Thời gian diễn ra</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-slate-600 text-sm mb-1 block">Ngày bắt đầu</label>
+                                    <input type="date" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="2024-06-15">
+                                </div>
+                                <div>
+                                    <label class="text-slate-600 text-sm mb-1 block">Giờ bắt đầu</label>
+                                    <input type="time" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="20:00">
+                                </div>
+                                <div>
+                                    <label class="text-slate-600 text-sm mb-1 block">Ngày kết thúc</label>
+                                    <input type="date" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="2024-06-15">
+                                </div>
+                                <div>
+                                    <label class="text-slate-600 text-sm mb-1 block">Giờ kết thúc</label>
+                                    <input type="time" class="w-full px-4 py-2 border border-slate-300 rounded-lg" value="22:00">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Hình ảnh sự kiện</label>
+                            <div class="border-2 border-dashed border-slate-300 rounded-lg p-8 text-center cursor-pointer hover:bg-slate-50">
+                                <i class="fas fa-cloud-upload-alt text-3xl text-slate-400 mb-3"></i>
+                                <div class="text-slate-600">Kéo thả hình ảnh vào đây hoặc nhấn để tải lên</div>
+                                <div class="text-slate-500 text-sm mt-2">Kích thước đề xuất: 1200x400px</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Mô tả sự kiện</label>
+                            <textarea class="w-full px-4 py-2 border border-slate-300 rounded-lg" rows="3" placeholder="Mô tả ngắn gọn về sự kiện Flash Sale..."></textarea>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Thêm sản phẩm</label>
+                            <div class="border border-slate-300 rounded-lg">
+                                <div class="p-4 border-b flex justify-between items-center">
+                                    <div class="text-slate-600">Đã chọn: <span class="font-medium">0</span> sản phẩm</div>
+                                    <button class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg">
+                                        <i class="fas fa-plus mr-2"></i> Chọn sản phẩm
+                                    </button>
+                                </div>
+                                <div class="p-8 text-center text-slate-500">
+                                    <i class="fas fa-box-open text-3xl mb-3"></i>
+                                    <div>Chưa có sản phẩm nào được chọn</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column: Preview -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-slate-800 mb-4">Xem trước Flash Sale</h3>
+                        
+                        <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl p-5 mb-6 text-white">
+                            <div class="text-center mb-4">
+                                <div class="font-bold text-xl mb-2">Siêu Sale Giữa Năm</div>
+                                <div class="text-sm opacity-90">Giảm sốc đến 70% - Chỉ trong 2 giờ</div>
+                            </div>
+                            <div class="flex justify-center gap-2 mb-4">
+                                <div class="countdown-item">
+                                    <div class="text-lg font-bold">02</div>
+                                    <div class="countdown-label">GIỜ</div>
+                                </div>
+                                <div class="countdown-item">
+                                    <div class="text-lg font-bold">00</div>
+                                    <div class="countdown-label">PHÚT</div>
+                                </div>
+                                <div class="countdown-item">
+                                    <div class="text-lg font-bold">00</div>
+                                    <div class="countdown-label">GIÂY</div>
+                                </div>
+                            </div>
+                            <div class="text-center text-sm">Bắt đầu: 15/06/2024 20:00</div>
+                        </div>
+                        
+                        <div class="bg-white border rounded-lg p-5">
+                            <h3 class="text-lg font-semibold text-slate-800 mb-4">Cài đặt nâng cao</h3>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Giới hạn sản phẩm/khách</label>
+                                <input type="number" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Ví dụ: 2">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Thứ tự hiển thị</label>
+                                <input type="number" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Ví dụ: 1">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="h-4 w-4 text-primary rounded" checked>
+                                    <span class="ml-2 text-slate-700">Hiển thị trên gian hàng</span>
+                                </label>
+                            </div>
+                            
+                            <div>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="h-4 w-4 text-primary rounded">
+                                    <span class="ml-2 text-slate-700">Gửi thông báo cho khách hàng</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white border rounded-lg p-5 mt-6">
+                            <h3 class="text-lg font-semibold text-slate-800 mb-4">Lịch sử sự kiện</h3>
+                            
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="font-medium">Thứ 6 Điên Đảo</div>
+                                    <div class="text-slate-600 text-sm">07/06/2024 • 12:00-14:00</div>
+                                    <div class="text-green-600 text-sm mt-1">98 sản phẩm đã bán</div>
+                                </div>
+                                
+                                <div class="timeline-item">
+                                    <div class="font-medium">Sale Cuối Tháng 5</div>
+                                    <div class="text-slate-600 text-sm">30/05/2024 • 19:00-21:00</div>
+                                    <div class="text-green-600 text-sm mt-1">124 sản phẩm đã bán</div>
+                                </div>
+                                
+                                <div class="timeline-item">
+                                    <div class="font-medium">Ngày Mua Sắm Online</div>
+                                    <div class="text-slate-600 text-sm">15/05/2024 • 10:00-12:00</div>
+                                    <div class="text-green-600 text-sm mt-1">87 sản phẩm đã bán</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label class="form-label">Flash Sale Title</label>
-                            <input type="text" class="form-control" required>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label">Start Date & Time</label>
-                                <input type="datetime-local" class="form-control" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">End Date & Time</label>
-                                <input type="datetime-local" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Select Products</label>
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                <input type="checkbox" class="form-check-input">
-                                            </th>
-                                            <th>Product</th>
-                                            <th>Regular Price</th>
-                                            <th>Discount</th>
-                                            <th>Stock Limit</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" class="form-check-input">
-                                            </td>
-                                            <td>Wireless Headphones</td>
-                                            <td>$199.99</td>
-                                            <td>
-                                                <input type="number" class="form-control form-control-sm" placeholder="%">
-                                            </td>
-                                            <td>
-                                                <input type="number" class="form-control form-control-sm">
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Create Flash Sale</button>
+                
+                <div class="flex justify-end gap-3 mt-6">
+                    <button class="bg-slate-100 px-6 py-2.5 rounded-lg text-slate-700 hover:bg-slate-200" onclick="closeCreateFlashSaleModal()">
+                        Hủy bỏ
+                    </button>
+                    <button class="bg-primary text-white px-6 py-2.5 rounded-lg hover:bg-primaryDark">
+                        <i class="fas fa-bolt mr-2"></i> Tạo Flash Sale
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize countdown timer
+            function updateCountdown() {
+                const now = new Date();
+                const endTime = new Date();
+                endTime.setHours(now.getHours() + 2, 45, 30);
+                
+                const diff = endTime - now;
+                
+                if (diff <= 0) {
+                    document.getElementById('hours').textContent = '00';
+                    document.getElementById('minutes').textContent = '00';
+                    document.getElementById('seconds').textContent = '00';
+                    return;
+                }
+                
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            }
+            
+            // Update countdown every second
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+            
+            // Tab Switching
+            const tabs = document.querySelectorAll('.tab-button');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Event item hover effect
+            document.querySelectorAll('.event-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f8fafc';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+            
+            // Flash card hover effect
+            document.querySelectorAll('.flash-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.08)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Product card hover effect
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Show create flash sale modal
+            document.getElementById('createFlashSaleBtn').addEventListener('click', function() {
+                document.getElementById('createFlashSaleModal').classList.remove('hidden');
+            });
+            
+            // Close create flash sale modal
+            window.closeCreateFlashSaleModal = function() {
+                document.getElementById('createFlashSaleModal').classList.add('hidden');
+            }
+        });
+    </script>
 </body>
 </html>

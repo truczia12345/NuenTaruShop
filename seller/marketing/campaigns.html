@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Chiến dịch - Premium Marketplace</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff424f',
+                        secondary: '#c43a43',
+                        dark: '#1a202c',
+                        light: '#f8f9fa',
+                        premium: '#ff424f',
+                        premiumLight: '#fff5f5',
+                        premiumDark: '#d1323d',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                        info: '#3b82f6',
+                        campaign: '#8b5cf6'
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(0, 0, 0, 0.08)',
+                        'input': '0 0 0 3px rgba(255, 66, 79, 0.25)',
+                        'campaign': '0 5px 15px rgba(139, 92, 246, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .campaign-card {
+            transition: all 0.3s ease;
+            border-left: 3px solid #8b5cf6;
+        }
+        .campaign-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .tab-button {
+            padding: 12px 24px;
+            border-radius: 8px 8px 0 0;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tab-button.active {
+            background-color: white;
+            color: #ff424f;
+            border-bottom: 3px solid #ff424f;
+        }
+        .campaign-item {
+            transition: all 0.2s ease;
+        }
+        .campaign-item:hover {
+            background-color: #f8fafc;
+        }
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-active {
+            background-color: #10b98120;
+            color: #10b981;
+        }
+        .status-upcoming {
+            background-color: #3b82f620;
+            color: #3b82f6;
+        }
+        .status-completed {
+            background-color: #94a3b820;
+            color: #64748b;
+        }
+        .progress-bar {
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .campaign-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            background-color: #f3f4f6;
+        }
+        .action-btn {
+            transition: all 0.2s ease;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .chart-container {
+            position: relative;
+            height: 250px;
+        }
+        .template-card {
+            transition: all 0.3s ease;
+        }
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .modal-overlay {
+            background-color: rgba(0,0,0,0.6);
+            z-index: 10000;
+        }
+        .modal-content {
+            animation: modalAppear 0.3s ease-out;
+        }
+        @keyframes modalAppear {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 20px;
+        }
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #8b5cf6;
+        }
+        .timeline-item::after {
+            content: "";
+            position: absolute;
+            left: 5px;
+            top: 20px;
+            width: 2px;
+            height: calc(100% - 10px);
+            background: #e2e8f0;
+        }
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        .goal-meter {
+            position: relative;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            background: #e2e8f0;
+        }
+        .goal-meter .progress {
+            position: absolute;
+            height: 100%;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-slate-800">Quản lý Chiến dịch</h1>
+                <p class="text-slate-600 mt-2">Tạo và quản lý các chiến dịch tiếp thị để tăng doanh số bán hàng</p>
+            </div>
+            <div class="mt-4 md:mt-0">
+                <button class="bg-primary text-white px-5 py-2.5 rounded-lg hover:bg-primaryDark flex items-center transition" id="createCampaignBtn">
+                    <i class="fas fa-plus mr-2"></i> Tạo chiến dịch mới
+                </button>
+            </div>
+        </div>
+
+        <!-- Campaign Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="campaign-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Tổng chiến dịch</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">15</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
+                        <i class="fas fa-bullhorn text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>Đang hoạt động</span>
+                        <span class="font-medium">5</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="campaign-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Chi phí chiến dịch</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">₫82.450.000</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                        <i class="fas fa-wallet text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>Ngân sách còn lại</span>
+                        <span class="font-medium">₫17.550.000</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="campaign-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Doanh thu tạo ra</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">₫385.200.000</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                        <i class="fas fa-chart-line text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>Tỷ lệ ROI</span>
+                        <span class="text-green-600 font-medium">367%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="campaign-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Tương tác trung bình</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">4.8%</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600">
+                        <i class="fas fa-users text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>So với tháng trước</span>
+                        <span class="text-green-600 font-medium">↑ 1.7%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Campaign Performance Charts -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-card p-5">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-slate-800">Hiệu suất Chiến dịch</h2>
+                    <div class="flex gap-2">
+                        <button class="text-xs px-3 py-1 rounded-lg bg-slate-100 text-slate-700">Tuần</button>
+                        <button class="text-xs px-3 py-1 rounded-lg bg-primary text-white">Tháng</button>
+                        <button class="text-xs px-3 py-1 rounded-lg bg-slate-100 text-slate-700">Quý</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="campaignChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-card p-5">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-slate-800">Phân bổ Ngân sách</h2>
+                    <button class="text-slate-500 hover:text-slate-700">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Quảng cáo Facebook</span>
+                            <span class="font-medium">₫35.200.000</span>
+                        </div>
+                        <div class="progress-bar bg-slate-200">
+                            <div class="h-full bg-purple-500" style="width: 42%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Google Ads</span>
+                            <span class="font-medium">₫22.500.000</span>
+                        </div>
+                        <div class="progress-bar bg-slate-200">
+                            <div class="h-full bg-blue-500" style="width: 27%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Email Marketing</span>
+                            <span class="font-medium">₫8.750.000</span>
+                        </div>
+                        <div class="progress-bar bg-slate-200">
+                            <div class="h-full bg-green-500" style="width: 10%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Influencer</span>
+                            <span class="font-medium">₫7.500.000</span>
+                        </div>
+                        <div class="progress-bar bg-slate-200">
+                            <div class="h-full bg-yellow-500" style="width: 9%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Khác</span>
+                            <span class="font-medium">₫8.500.000</span>
+                        </div>
+                        <div class="progress-bar bg-slate-200">
+                            <div class="h-full bg-red-500" style="width: 10%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs & Campaigns -->
+        <div class="bg-white rounded-xl shadow-card overflow-hidden mb-6">
+            <div class="p-5 border-b flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="flex gap-1 overflow-x-auto w-full md:w-auto">
+                    <div class="tab-button active" data-tab="all">Tất cả</div>
+                    <div class="tab-button" data-tab="active">Đang hoạt động</div>
+                    <div class="tab-button" data-tab="upcoming">Sắp diễn ra</div>
+                    <div class="tab-button" data-tab="completed">Đã kết thúc</div>
+                    <div class="tab-button" data-tab="draft">Bản nháp</div>
+                </div>
+                
+                <div class="flex flex-wrap gap-2 w-full md:w-auto">
+                    <div class="relative w-full md:w-64">
+                        <input type="text" placeholder="Tìm kiếm chiến dịch..." class="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <i class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                    </div>
+                    <button class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg flex items-center">
+                        <i class="fas fa-filter mr-2"></i> Bộ lọc
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Campaign List -->
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-slate-100">
+                            <th class="py-4 px-6 text-left">Tên chiến dịch</th>
+                            <th class="py-4 px-6 text-left">Loại</th>
+                            <th class="py-4 px-6 text-center">Ngân sách</th>
+                            <th class="py-4 px-6 text-center">Thời gian</th>
+                            <th class="py-4 px-6 text-center">Tiến độ</th>
+                            <th class="py-4 px-6 text-center">Trạng thái</th>
+                            <th class="py-4 px-6 text-center">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="campaign-item border-b">
+                            <td class="py-4 px-6">
+                                <div class="font-medium">Siêu Sale Giữa Năm</div>
+                                <div class="text-slate-600 text-sm">ID: CD-2024-024</div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="campaign-tag">
+                                    <i class="fas fa-percentage mr-1 text-purple-500"></i> Khuyến mãi
+                                </span>
+                            </td>
+                            <td class="py-4 px-6 text-center font-medium">₫25.000.000</td>
+                            <td class="py-4 px-6">
+                                <div class="text-slate-700">01/06 - 15/06/2024</div>
+                                <div class="text-slate-600 text-sm">Còn lại: <span class="text-purple-600 font-medium">5 ngày</span></div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex items-center justify-between text-sm mb-1">
+                                    <span>68%</span>
+                                    <span>Đạt 142% KPI</span>
+                                </div>
+                                <div class="progress-bar bg-slate-200">
+                                    <div class="h-full bg-purple-500" style="width: 68%"></div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="status-badge status-active">Đang hoạt động</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-chart-line"></i>
+                                    </button>
+                                    <button class="action-btn bg-green-50 text-green-600 p-2 rounded-lg hover:bg-green-100">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <button class="action-btn bg-slate-50 text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr class="campaign-item border-b">
+                            <td class="py-4 px-6">
+                                <div class="font-medium">Chiến dịch Google Ads Q3</div>
+                                <div class="text-slate-600 text-sm">ID: CD-2024-025</div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="campaign-tag">
+                                    <i class="fas fa-ad mr-1 text-blue-500"></i> Quảng cáo
+                                </span>
+                            </td>
+                            <td class="py-4 px-6 text-center font-medium">₫15.000.000</td>
+                            <td class="py-4 px-6">
+                                <div class="text-slate-700">15/06 - 30/09/2024</div>
+                                <div class="text-slate-600 text-sm">Đã chạy: <span class="text-blue-600 font-medium">12 ngày</span></div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex items-center justify-between text-sm mb-1">
+                                    <span>22%</span>
+                                    <span>Đạt 85% KPI</span>
+                                </div>
+                                <div class="progress-bar bg-slate-200">
+                                    <div class="h-full bg-blue-500" style="width: 22%"></div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="status-badge status-active">Đang hoạt động</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn bg-green-50 text-green-600 p-2 rounded-lg hover:bg-green-100">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <button class="action-btn bg-slate-50 text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr class="campaign-item border-b">
+                            <td class="py-4 px-6">
+                                <div class="font-medium">Email Marketing Tháng 5</div>
+                                <div class="text-slate-600 text-sm">ID: CD-2024-023</div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="campaign-tag">
+                                    <i class="fas fa-envelope mr-1 text-green-500"></i> Email
+                                </span>
+                            </td>
+                            <td class="py-4 px-6 text-center font-medium">₫8.500.000</td>
+                            <td class="py-4 px-6">
+                                <div class="text-slate-700">01/05 - 31/05/2024</div>
+                                <div class="text-slate-600 text-sm">Đã kết thúc</div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex items-center justify-between text-sm mb-1">
+                                    <span>100%</span>
+                                    <span>Đạt 142% KPI</span>
+                                </div>
+                                <div class="progress-bar bg-slate-200">
+                                    <div class="h-full bg-green-500" style="width: 100%"></div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="status-badge status-completed">Đã kết thúc</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-chart-line"></i>
+                                    </button>
+                                    <button class="action-btn bg-green-50 text-green-600 p-2 rounded-lg hover:bg-green-100">
+                                        <i class="fas fa-redo"></i>
+                                    </button>
+                                    <button class="action-btn bg-slate-50 text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="p-4 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-slate-600 text-sm">
+                    Hiển thị 3/15 chiến dịch
+                </div>
+                <div class="flex gap-2">
+                    <button class="bg-white border border-slate-300 text-slate-600 px-3 py-1.5 rounded-lg hover:bg-slate-100">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="bg-primary text-white px-4 py-1.5 rounded-lg">1</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-4 py-1.5 rounded-lg hover:bg-slate-100">2</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-4 py-1.5 rounded-lg hover:bg-slate-100">3</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-4 py-1.5 rounded-lg hover:bg-slate-100">4</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-3 py-1.5 rounded-lg hover:bg-slate-100">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Campaign Templates -->
+        <div class="mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-slate-800">Mẫu chiến dịch</h2>
+                <a href="#" class="text-primary hover:text-primaryDark flex items-center">
+                    Xem tất cả <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="template-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-5 border-b">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mb-4">
+                            <i class="fas fa-ad"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-800 mb-2">Chiến dịch Quảng cáo</h3>
+                        <p class="text-slate-600 text-sm">Tạo chiến dịch quảng cáo trên các nền tảng như Facebook, Google</p>
+                    </div>
+                    <div class="p-5">
+                        <button class="w-full bg-blue-50 text-blue-600 py-2.5 rounded-lg hover:bg-blue-100">
+                            Sử dụng mẫu
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="template-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-5 border-b">
+                        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mb-4">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-800 mb-2">Chiến dịch Giảm giá</h3>
+                        <p class="text-slate-600 text-sm">Tạo chiến dịch khuyến mãi giảm giá sản phẩm</p>
+                    </div>
+                    <div class="p-5">
+                        <button class="w-full bg-purple-50 text-purple-600 py-2.5 rounded-lg hover:bg-purple-100">
+                            Sử dụng mẫu
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="template-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-5 border-b">
+                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 mb-4">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-800 mb-2">Email Marketing</h3>
+                        <p class="text-slate-600 text-sm">Tạo chiến dịch tiếp thị qua email</p>
+                    </div>
+                    <div class="p-5">
+                        <button class="w-full bg-green-50 text-green-600 py-2.5 rounded-lg hover:bg-green-100">
+                            Sử dụng mẫu
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="template-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-5 border-b">
+                        <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 mb-4">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-800 mb-2">Influencer Marketing</h3>
+                        <p class="text-slate-600 text-sm">Hợp tác với người ảnh hưởng để quảng bá sản phẩm</p>
+                    </div>
+                    <div class="p-5">
+                        <button class="w-full bg-yellow-50 text-yellow-600 py-2.5 rounded-lg hover:bg-yellow-100">
+                            Sử dụng mẫu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Campaign Modal -->
+    <div class="fixed inset-0 modal-overlay flex items-center justify-center p-4 hidden" id="createCampaignModal">
+        <div class="modal-content bg-white rounded-xl w-full max-w-4xl">
+            <div class="p-5 border-b flex justify-between items-center">
+                <h3 class="text-xl font-semibold">Tạo Chiến Dịch Mới</h3>
+                <button onclick="closeCreateCampaignModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-5 max-h-[80vh] overflow-y-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Left Column: Form -->
+                    <div class="lg:col-span-2">
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Tên chiến dịch</label>
+                            <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Ví dụ: Chiến dịch Mùa hè 2024">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Loại chiến dịch</label>
+                            <select class="w-full px-4 py-2 border border-slate-300 rounded-lg">
+                                <option>Quảng cáo Facebook</option>
+                                <option>Google Ads</option>
+                                <option>Email Marketing</option>
+                                <option>Influencer Marketing</option>
+                                <option>Khuyến mãi giảm giá</option>
+                                <option>Chiến dịch Flash Sale</option>
+                                <option>Khác</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Mục tiêu chiến dịch</label>
+                            <select class="w-full px-4 py-2 border border-slate-300 rounded-lg">
+                                <option>Tăng doanh số bán hàng</option>
+                                <option>Tăng nhận diện thương hiệu</option>
+                                <option>Thu hút khách hàng mới</option>
+                                <option>Giữ chân khách hàng cũ</option>
+                                <option>Giới thiệu sản phẩm mới</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Ngân sách (₫)</label>
+                            <input type="number" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Ví dụ: 20000000">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Thời gian diễn ra</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-slate-600 text-sm mb-1 block">Ngày bắt đầu</label>
+                                    <input type="date" class="w-full px-4 py-2 border border-slate-300 rounded-lg">
+                                </div>
+                                <div>
+                                    <label class="text-slate-600 text-sm mb-1 block">Ngày kết thúc</label>
+                                    <input type="date" class="w-full px-4 py-2 border border-slate-300 rounded-lg">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Chỉ số KPI</label>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span>Doanh số mục tiêu (₫)</span>
+                                        <input type="number" class="w-32 px-3 py-1 border border-slate-300 rounded text-sm" placeholder="50,000,000">
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span>Số đơn hàng mục tiêu</span>
+                                        <input type="number" class="w-32 px-3 py-1 border border-slate-300 rounded text-sm" placeholder="500">
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span>Tỷ lệ chuyển đổi (%)</span>
+                                        <input type="number" class="w-32 px-3 py-1 border border-slate-300 rounded text-sm" placeholder="6.5">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column: Preview -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-slate-800 mb-4">Tóm tắt chiến dịch</h3>
+                        
+                        <div class="bg-white border rounded-xl p-5 mb-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <div class="font-bold text-lg">Chiến dịch Mùa hè 2024</div>
+                                <span class="status-badge status-upcoming">Sắp diễn ra</span>
+                            </div>
+                            
+                            <div class="space-y-3 text-sm text-slate-600">
+                                <div class="flex justify-between">
+                                    <span>Loại chiến dịch:</span>
+                                    <span class="font-medium">Quảng cáo Facebook</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Ngân sách:</span>
+                                    <span class="font-medium text-purple-600">₫20.000.000</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Thời gian:</span>
+                                    <span class="font-medium">01/07 - 31/08/2024</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Mục tiêu:</span>
+                                    <span class="font-medium">Tăng doanh số bán hàng</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Doanh số mục tiêu</span>
+                                    <span class="font-medium">₫50.000.000</span>
+                                </div>
+                                <div class="goal-meter">
+                                    <div class="progress bg-purple-500" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Số đơn hàng mục tiêu</span>
+                                    <span class="font-medium">500</span>
+                                </div>
+                                <div class="goal-meter">
+                                    <div class="progress bg-blue-500" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white border rounded-xl p-5">
+                            <h3 class="text-lg font-semibold text-slate-800 mb-4">Dự báo hiệu quả</h3>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span>Doanh số ước tính</span>
+                                        <span class="font-medium">₫42.500.000</span>
+                                    </div>
+                                    <div class="progress-bar bg-slate-200">
+                                        <div class="h-full bg-green-500" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span>Lợi nhuận ước tính</span>
+                                        <span class="font-medium">₫12.750.000</span>
+                                    </div>
+                                    <div class="progress-bar bg-slate-200">
+                                        <div class="h-full bg-blue-500" style="width: 64%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span>ROI dự kiến</span>
+                                        <span class="font-medium">213%</span>
+                                    </div>
+                                    <div class="progress-bar bg-slate-200">
+                                        <div class="h-full bg-purple-500" style="width: 71%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end gap-3 mt-6">
+                    <button class="bg-slate-100 px-6 py-2.5 rounded-lg text-slate-700 hover:bg-slate-200" onclick="closeCreateCampaignModal()">
+                        Hủy bỏ
+                    </button>
+                    <button class="bg-primary text-white px-6 py-2.5 rounded-lg hover:bg-primaryDark">
+                        <i class="fas fa-check mr-2"></i> Tạo chiến dịch
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize campaign chart
+            const ctx = document.getElementById('campaignChart').getContext('2d');
+            const campaignChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Tuần 1', 'Tuần 2', 'Tuần 3', 'Tuần 4'],
+                    datasets: [
+                        {
+                            label: 'Doanh thu (triệu)',
+                            data: [45.2, 52.8, 63.4, 78.5],
+                            backgroundColor: '#ff424f',
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Chi phí (triệu)',
+                            data: [8.2, 12.5, 15.3, 18.7],
+                            backgroundColor: '#8b5cf6',
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            backgroundColor: '#1e293b',
+                            padding: 12,
+                            bodyFont: {
+                                size: 13
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += '₫' + context.parsed.y.toLocaleString() + '00.000';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return '₫' + value + '00.000';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Tab Switching
+            const tabs = document.querySelectorAll('.tab-button');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Campaign item hover effect
+            document.querySelectorAll('.campaign-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f8fafc';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+            
+            // Campaign card hover effect
+            document.querySelectorAll('.campaign-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.08)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Template card hover effect
+            document.querySelectorAll('.template-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Action button hover effect
+            document.querySelectorAll('.action-btn').forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Show create campaign modal
+            document.getElementById('createCampaignBtn').addEventListener('click', function() {
+                document.getElementById('createCampaignModal').classList.remove('hidden');
+            });
+            
+            // Close create campaign modal
+            window.closeCreateCampaignModal = function() {
+                document.getElementById('createCampaignModal').classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

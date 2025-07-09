@@ -1,362 +1,744 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Management</title>
+    <title>Quản lý Khách hàng - Premium Marketplace</title>
     
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff424f',
+                        secondary: '#c43a43',
+                        dark: '#1a202c',
+                        light: '#f8f9fa',
+                        premium: '#ff424f',
+                        premiumLight: '#fff5f5',
+                        premiumDark: '#d1323d',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                        info: '#3b82f6',
+                        customer: '#0ea5e9'
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(0, 0, 0, 0.08)',
+                        'input': '0 0 0 3px rgba(255, 66, 79, 0.25)'
+                    }
+                }
+            }
+        }
+    </script>
     
     <style>
-        :root {
-        --primary-color: #6cb4ee;
-        --secondary-color: #3a8fd3;
-        --sidebar-width: 250px;
-
-      }
-      body {
-        font-family: "Segoe UI", sans-serif;
-        background-color: #f8f9fa;
-        margin: 0;
-        padding: 0;
-      }
-
-        .page-header {
-            margin-bottom: 2rem;
+        .customer-card {
+            transition: all 0.3s ease;
+            border-left: 3px solid #0ea5e9;
         }
-
-        .filter-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 1.5rem;
+        .customer-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
-
-        .customers-table {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        .tab-button {
+            padding: 12px 24px;
+            border-radius: 8px 8px 0 0;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
-
-        .customer-avatar {
-            width: 40px;
-            height: 40px;
+        .tab-button.active {
+            background-color: white;
+            color: #ff424f;
+            border-bottom: 3px solid #ff424f;
+        }
+        .customer-item {
+            transition: all 0.2s ease;
+        }
+        .customer-item:hover {
+            background-color: #f8fafc;
+        }
+        .loyalty-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .status-badge {
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.875rem;
-        }
-
-        .status-active {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-inactive {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .btn-export {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-        }
-
-        .btn-export:hover {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-
-        .customer-stats {
-            background: white;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .stats-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--primary-color);
-            color: white;
-            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 1rem;
+            font-size: 12px;
+            color: white;
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+        .status-active {
+            background-color: #10b981;
+        }
+        .status-inactive {
+            background-color: #ef4444;
+        }
+        .customer-chart {
+            height: 250px;
+        }
+        .filter-btn {
+            transition: all 0.2s ease;
+        }
+        .filter-btn.active {
+            background-color: #0ea5e9;
+            color: white;
+        }
+        .action-btn {
+            transition: all 0.2s ease;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .segment-tag {
+            transition: all 0.2s ease;
+        }
+        .segment-tag:hover {
+            transform: scale(1.05);
         }
     </style>
 </head>
-<body>
-    <!-- Page Header -->
-    <div class="page-header d-flex justify-content-between align-items-center">
-        <h4 class="mb-0">Customer Management</h4>
-        <div class="d-flex gap-2">
-            <button class="btn btn-export">
-                <i class="fas fa-file-export me-2"></i>Export Customers
-            </button>
-            <button class="btn btn-outline-primary">
-                <i class="fas fa-filter me-2"></i>Filter
-            </button>
+<body class="font-sans bg-gray-50">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-slate-800">Quản lý Khách hàng</h1>
+                <p class="text-slate-600 mt-2">Quản lý và phân tích thông tin khách hàng của bạn</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex gap-3">
+                <div class="relative">
+                    <input type="text" placeholder="Tìm kiếm khách hàng..." class="w-full md:w-64 px-4 py-2.5 border border-slate-300 rounded-lg text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                    <i class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                </div>
+                <button class="bg-primary text-white px-5 py-2.5 rounded-lg hover:bg-primaryDark flex items-center transition">
+                    <i class="fas fa-plus mr-2"></i> Thêm khách hàng
+                </button>
+            </div>
         </div>
-    </div>
 
-    <!-- Customer Stats -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="customer-stats d-flex align-items-center">
-                <div class="stats-icon">
-                    <i class="fas fa-users"></i>
+        <!-- Customer Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="customer-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Tổng số khách hàng</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">1,842</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                        <i class="fas fa-users text-xl"></i>
+                    </div>
                 </div>
-                <div>
-                    <h6 class="mb-0">Total Customers</h6>
-                    <h4 class="mb-0">1,240</h4>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>Khách hàng mới (30 ngày)</span>
+                        <span class="font-medium">142</span>
+                    </div>
+                    <div class="progress-bar bg-slate-200 rounded-full">
+                        <div class="h-2 bg-blue-500 rounded-full" style="width: 22%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="customer-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Khách hàng thân thiết</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">324</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600">
+                        <i class="fas fa-crown text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>Đạt ngưỡng thân thiết</span>
+                        <span class="font-medium">18%</span>
+                    </div>
+                    <div class="progress-bar bg-slate-200 rounded-full">
+                        <div class="h-2 bg-yellow-500 rounded-full" style="width: 18%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="customer-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Tỷ lệ quay lại</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">42.5%</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                        <i class="fas fa-repeat text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm text-slate-600 mb-1">
+                        <span>Mục tiêu</span>
+                        <span class="font-medium">50%</span>
+                    </div>
+                    <div class="progress-bar bg-slate-200 rounded-full">
+                        <div class="h-2 bg-green-500 rounded-full" style="width: 85%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="customer-card bg-white p-5 rounded-lg shadow-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-slate-500 text-sm font-medium">Đánh giá trung bình</h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">4.7<span class="text-lg">/5</span></h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
+                        <i class="fas fa-star text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-center text-yellow-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="customer-stats d-flex align-items-center">
-                <div class="stats-icon">
-                    <i class="fas fa-user-plus"></i>
-                </div>
-                <div>
-                    <h6 class="mb-0">New This Month</h6>
-                    <h4 class="mb-0">85</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="customer-stats d-flex align-items-center">
-                <div class="stats-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-                <div>
-                    <h6 class="mb-0">Active Buyers</h6>
-                    <h4 class="mb-0">756</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="customer-stats d-flex align-items-center">
-                <div class="stats-icon">
-                    <i class="fas fa-dollar-sign"></i>
-                </div>
-                <div>
-                    <h6 class="mb-0">Avg. Order Value</h6>
-                    <h4 class="mb-0">$98.50</h4>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Filters -->
-    <div class="filter-card">
-        <div class="row g-3">
-            <div class="col-md-3">
-                <select class="form-select">
-                    <option>All Status</option>
-                    <option>Active</option>
-                    <option>Inactive</option>
-                </select>
+        <!-- Tabs & Filters -->
+        <div class="bg-white rounded-xl shadow-card overflow-hidden mb-6">
+            <div class="p-5 border-b flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="flex gap-1">
+                    <div class="tab-button active" data-tab="all">Tất cả khách hàng</div>
+                    <div class="tab-button" data-tab="loyal">Khách hàng thân thiết</div>
+                    <div class="tab-button" data-tab="new">Khách hàng mới</div>
+                    <div class="tab-button" data-tab="inactive">Không hoạt động</div>
+                </div>
+                
+                <div class="flex flex-wrap gap-2">
+                    <div class="relative">
+                        <select class="bg-white border border-slate-300 rounded-lg px-4 py-2.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <option>Sắp xếp theo: Mới nhất</option>
+                            <option>Sắp xếp theo: Tên A-Z</option>
+                            <option>Sắp xếp theo: Tổng chi tiêu</option>
+                            <option>Sắp xếp theo: Số đơn hàng</option>
+                        </select>
+                    </div>
+                    <button class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg flex items-center">
+                        <i class="fas fa-filter mr-2"></i> Bộ lọc
+                    </button>
+                </div>
             </div>
-            <div class="col-md-3">
-                <select class="form-select">
-                    <option>All Time</option>
-                    <option>Last 7 Days</option>
-                    <option>Last 30 Days</option>
-                    <option>Last 3 Months</option>
-                </select>
+            
+            <!-- Customer Segmentation -->
+            <div class="p-4 border-b bg-blue-50">
+                <h3 class="text-slate-700 font-medium mb-3">Phân khúc khách hàng:</h3>
+                <div class="flex flex-wrap gap-2">
+                    <div class="segment-tag bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-blue-100">
+                        Khách hàng VIP
+                    </div>
+                    <div class="segment-tag bg-white border border-green-200 text-green-700 px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-green-100">
+                        Khách hàng thường xuyên
+                    </div>
+                    <div class="segment-tag bg-white border border-yellow-200 text-yellow-700 px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-yellow-100">
+                        Khách hàng tiềm năng
+                    </div>
+                    <div class="segment-tag bg-white border border-purple-200 text-purple-700 px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-purple-100">
+                        Khách hàng mới
+                    </div>
+                    <div class="segment-tag bg-white border border-red-200 text-red-700 px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-red-100">
+                        Khách hàng không hoạt động
+                    </div>
+                </div>
             </div>
-            <div class="col-md-6">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search customers...">
-                    <button class="btn btn-outline-secondary">
-                        <i class="fas fa-search"></i>
+            
+            <!-- Customer List -->
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-slate-100">
+                            <th class="py-4 px-6 text-left">Khách hàng</th>
+                            <th class="py-4 px-6 text-left">Địa chỉ</th>
+                            <th class="py-4 px-6 text-center">Số đơn hàng</th>
+                            <th class="py-4 px-6 text-center">Tổng chi tiêu</th>
+                            <th class="py-4 px-6 text-center">Lần cuối mua</th>
+                            <th class="py-4 px-6 text-center">Trạng thái</th>
+                            <th class="py-4 px-6 text-center">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="customer-item border-b">
+                            <td class="py-4 px-6">
+                                <div class="flex items-center">
+                                    <div class="relative">
+                                        <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=40&h=40" alt="Customer" class="w-10 h-10 rounded-full object-cover">
+                                        <div class="loyalty-badge">
+                                            <i class="fas fa-crown"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="font-medium">Nguyễn Thị Hương</div>
+                                        <div class="text-slate-600 text-sm">huong.nguyen@example.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="text-slate-700">Hà Nội</div>
+                                <div class="text-slate-600 text-sm">Quận Cầu Giấy</div>
+                            </td>
+                            <td class="py-4 px-6 text-center font-medium">24</td>
+                            <td class="py-4 px-6 text-center text-green-600 font-medium">₫18.650.000</td>
+                            <td class="py-4 px-6 text-center">2 ngày trước</td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="status-dot status-active"></span>
+                                <span class="text-green-700">Hoạt động</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn bg-green-50 text-green-600 p-2 rounded-lg hover:bg-green-100">
+                                        <i class="fas fa-comment-dots"></i>
+                                    </button>
+                                    <button class="action-btn bg-slate-50 text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr class="customer-item border-b">
+                            <td class="py-4 px-6">
+                                <div class="flex items-center">
+                                    <img src="https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=40&h=40" alt="Customer" class="w-10 h-10 rounded-full object-cover">
+                                    <div class="ml-4">
+                                        <div class="font-medium">Trần Văn Minh</div>
+                                        <div class="text-slate-600 text-sm">minh.tran@example.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="text-slate-700">TP. Hồ Chí Minh</div>
+                                <div class="text-slate-600 text-sm">Quận 1</div>
+                            </td>
+                            <td class="py-4 px-6 text-center font-medium">12</td>
+                            <td class="py-4 px-6 text-center text-green-600 font-medium">₫9.240.000</td>
+                            <td class="py-4 px-6 text-center">1 tuần trước</td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="status-dot status-active"></span>
+                                <span class="text-green-700">Hoạt động</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn bg-green-50 text-green-600 p-2 rounded-lg hover:bg-green-100">
+                                        <i class="fas fa-comment-dots"></i>
+                                    </button>
+                                    <button class="action-btn bg-slate-50 text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr class="customer-item border-b">
+                            <td class="py-4 px-6">
+                                <div class="flex items-center">
+                                    <div class="relative">
+                                        <img src="https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=40&h=40" alt="Customer" class="w-10 h-10 rounded-full object-cover">
+                                        <div class="loyalty-badge">
+                                            <i class="fas fa-crown"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="font-medium">Lê Quang Anh</div>
+                                        <div class="text-slate-600 text-sm">quanganh.le@example.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="text-slate-700">Đà Nẵng</div>
+                                <div class="text-slate-600 text-sm">Quận Hải Châu</div>
+                            </td>
+                            <td class="py-4 px-6 text-center font-medium">32</td>
+                            <td class="py-4 px-6 text-center text-green-600 font-medium">₫27.890.000</td>
+                            <td class="py-4 px-6 text-center">5 ngày trước</td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="status-dot status-active"></span>
+                                <span class="text-green-700">Hoạt động</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn bg-green-50 text-green-600 p-2 rounded-lg hover:bg-green-100">
+                                        <i class="fas fa-comment-dots"></i>
+                                    </button>
+                                    <button class="action-btn bg-slate-50 text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr class="customer-item border-b">
+                            <td class="py-4 px-6">
+                                <div class="flex items-center">
+                                    <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=40&h=40" alt="Customer" class="w-10 h-10 rounded-full object-cover">
+                                    <div class="ml-4">
+                                        <div class="font-medium">Phạm Thị Lan</div>
+                                        <div class="text-slate-600 text-sm">lan.pham@example.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="text-slate-700">Hải Phòng</div>
+                                <div class="text-slate-600 text-sm">Quận Ngô Quyền</div>
+                            </td>
+                            <td class="py-4 px-6 text-center font-medium">8</td>
+                            <td class="py-4 px-6 text-center text-green-600 font-medium">₫6.120.000</td>
+                            <td class="py-4 px-6 text-center">3 tuần trước</td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="status-dot status-active"></span>
+                                <span class="text-green-700">Hoạt động</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn bg-green-50 text-green-600 p-2 rounded-lg hover:bg-green-100">
+                                        <i class="fas fa-comment-dots"></i>
+                                    </button>
+                                    <button class="action-btn bg-slate-50 text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr class="customer-item">
+                            <td class="py-4 px-6">
+                                <div class="flex items-center">
+                                    <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=40&h=40" alt="Customer" class="w-10 h-10 rounded-full object-cover">
+                                    <div class="ml-4">
+                                        <div class="font-medium">Vũ Đức Hùng</div>
+                                        <div class="text-slate-600 text-sm">hung.vu@example.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="text-slate-700">Cần Thơ</div>
+                                <div class="text-slate-600 text-sm">Quận Ninh Kiều</div>
+                            </td>
+                            <td class="py-4 px-6 text-center font-medium">3</td>
+                            <td class="py-4 px-6 text-center text-green-600 font-medium">₫2.450.000</td>
+                            <td class="py-4 px-6 text-center">2 tháng trước</td>
+                            <td class="py-4 px-6 text-center">
+                                <span class="status-dot status-inactive"></span>
+                                <span class="text-red-700">Không hoạt động</span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                <div class="flex justify-center gap-2">
+                                    <button class="action-btn bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn bg-green-50 text-green-600 p-2 rounded-lg hover:bg-green-100">
+                                        <i class="fas fa-comment-dots"></i>
+                                    </button>
+                                    <button class="action-btn bg-slate-50 text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="p-4 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-slate-600 text-sm">
+                    Hiển thị 1-10 của 1,842 khách hàng
+                </div>
+                <div class="flex gap-2">
+                    <button class="bg-white border border-slate-300 text-slate-600 px-3 py-1.5 rounded-lg hover:bg-slate-100">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="bg-primary text-white px-4 py-1.5 rounded-lg">1</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-4 py-1.5 rounded-lg hover:bg-slate-100">2</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-4 py-1.5 rounded-lg hover:bg-slate-100">3</button>
+                    <span class="px-2 py-1.5">...</span>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-4 py-1.5 rounded-lg hover:bg-slate-100">24</button>
+                    <button class="bg-white border border-slate-300 text-slate-600 px-3 py-1.5 rounded-lg hover:bg-slate-100">
+                        <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Customers Table -->
-    <div class="customers-table">
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Customer</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Orders</th>
-                        <th>Total Spent</th>
-                        <th>Last Order</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <img src="https://via.placeholder.com/40" alt="Customer" class="customer-avatar me-2">
-                                <div>
-                                    <div class="fw-bold">John Doe</div>
-                                    <small class="text-muted">Member since Jan 2024</small>
-                                </div>
-                            </div>
-                        </td>
-                        <td>john@example.com</td>
-                        <td>+1234567890</td>
-                        <td>15</td>
-                        <td>$1,250.00</td>
-                        <td>2024-01-15</td>
-                        <td><span class="status-badge status-active">Active</span></td>
-                        <td>
-                            <div class="btn-group">
-                                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewCustomerModal">View</button>
-                                <button class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <img src="https://via.placeholder.com/40" alt="Customer" class="customer-avatar me-2">
-                                <div>
-                                    <div class="fw-bold">Jane Smith</div>
-                                    <small class="text-muted">Member since Dec 2023</small>
-                                </div>
-                            </div>
-                        </td>
-                        <td>jane@example.com</td>
-                        <td>+1234567891</td>
-                        <td>8</td>
-                        <td>$850.00</td>
-                        <td>2024-01-10</td>
-                        <td><span class="status-badge status-active">Active</span></td>
-                        <td>
-                            <div class="btn-group">
-                                <button class="btn btn-sm btn-outline-primary">View</button>
-                                <button class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <img src="https://via.placeholder.com/40" alt="Customer" class="customer-avatar me-2">
-                                <div>
-                                    <div class="fw-bold">Mike Johnson</div>
-                                    <small class="text-muted">Member since Nov 2023</small>
-                                </div>
-                            </div>
-                        </td>
-                        <td>mike@example.com</td>
-                        <td>+1234567892</td>
-                        <td>3</td>
-                        <td>$350.00</td>
-                        <td>2023-12-20</td>
-                        <td><span class="status-badge status-inactive">Inactive</span></td>
-                        <td>
-                            <div class="btn-group">
-                                <button class="btn btn-sm btn-outline-primary">View</button>
-                                <button class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Pagination -->
-        <nav class="mt-4">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">Previous</a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-
-    <!-- View Customer Modal -->
-    <div class="modal fade" id="viewCustomerModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Customer Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <!-- Customer Insights -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-card p-5">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-slate-800">Phân tích nhân khẩu học</h2>
+                    <button class="text-slate-500 hover:text-slate-700">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h6>Personal Information</h6>
-                            <p class="mb-1"><strong>Name:</strong> John Doe</p>
-                            <p class="mb-1"><strong>Email:</strong> john@example.com</p>
-                            <p class="mb-1"><strong>Phone:</strong> +1234567890</p>
-                            <p class="mb-1"><strong>Member Since:</strong> Jan 2024</p>
-                        </div>
-                        <div class="col-md-6">
-                            <h6>Order Statistics</h6>
-                            <p class="mb-1"><strong>Total Orders:</strong> 15</p>
-                            <p class="mb-1"><strong>Total Spent:</strong> $1,250.00</p>
-                            <p class="mb-1"><strong>Average Order Value:</strong> $83.33</p>
-                            <p class="mb-1"><strong>Last Order:</strong> 2024-01-15</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <h3 class="text-slate-700 font-medium mb-3 text-center">Giới tính</h3>
+                        <div class="flex flex-col gap-3">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Nam</span>
+                                    <span>42%</span>
+                                </div>
+                                <div class="progress-bar bg-slate-200">
+                                    <div class="h-2 bg-blue-500" style="width: 42%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Nữ</span>
+                                    <span>58%</span>
+                                </div>
+                                <div class="progress-bar bg-slate-200">
+                                    <div class="h-2 bg-pink-500" style="width: 58%"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <hr>
-                    <h6>Recent Orders</h6>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Order ID</th>
-                                    <th>Date</th>
-                                    <th>Amount</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#ORD-001</td>
-                                    <td>2024-01-15</td>
-                                    <td>$99.99</td>
-                                    <td><span class="status-badge status-active">Delivered</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    
+                    <div>
+                        <h3 class="text-slate-700 font-medium mb-3 text-center">Độ tuổi</h3>
+                        <div class="flex flex-col gap-3">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>18-25</span>
+                                    <span>28%</span>
+                                </div>
+                                <div class="progress-bar bg-slate-200">
+                                    <div class="h-2 bg-green-500" style="width: 28%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>26-35</span>
+                                    <span>45%</span>
+                                </div>
+                                <div class="progress-bar bg-slate-200">
+                                    <div class="h-2 bg-green-500" style="width: 45%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>36-45</span>
+                                    <span>18%</span>
+                                </div>
+                                <div class="progress-bar bg-slate-200">
+                                    <div class="h-2 bg-green-500" style="width: 18%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>46+</span>
+                                    <span>9%</span>
+                                </div>
+                                <div class="progress-bar bg-slate-200">
+                                    <div class="h-2 bg-green-500" style="width: 9%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-slate-700 font-medium mb-3 text-center">Khu vực</h3>
+                        <div class="flex flex-col gap-3">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Miền Bắc</span>
+                                    <span>35%</span>
+                                </div>
+                                <div class="progress-bar bg-slate-200">
+                                    <div class="h-2 bg-purple-500" style="width: 35%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Miền Trung</span>
+                                    <span>18%</span>
+                                </div>
+                                <div class="progress-bar bg-slate-200">
+                                    <div class="h-2 bg-purple-500" style="width: 18%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Miền Nam</span>
+                                    <span>47%</span>
+                                </div>
+                                <div class="progress-bar bg-slate-200">
+                                    <div class="h-2 bg-purple-500" style="width: 47%"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Edit Customer</button>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-card p-5">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-slate-800">Hoạt động gần đây</h2>
+                    <button class="text-slate-500 hover:text-slate-700">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                </div>
+                <div class="space-y-4 max-h-[340px] overflow-y-auto">
+                    <div class="flex gap-3">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 flex-shrink-0">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div>
+                            <div class="font-medium">Nguyễn Thị Hương</div>
+                            <div class="text-slate-600 text-sm">Đã đặt hàng mới #ORD-2024-00124</div>
+                            <div class="text-slate-500 text-xs mt-1">2 giờ trước</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3">
+                        <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 flex-shrink-0">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div>
+                            <div class="font-medium">Trần Văn Minh</div>
+                            <div class="text-slate-600 text-sm">Đã đánh giá 5 sao cho sản phẩm</div>
+                            <div class="text-slate-500 text-xs mt-1">5 giờ trước</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3">
+                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0">
+                            <i class="fas fa-comment-dots"></i>
+                        </div>
+                        <div>
+                            <div class="font-medium">Lê Quang Anh</div>
+                            <div class="text-slate-600 text-sm">Đã gửi câu hỏi về sản phẩm mới</div>
+                            <div class="text-slate-500 text-xs mt-1">1 ngày trước</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 flex-shrink-0">
+                            <i class="fas fa-redo"></i>
+                        </div>
+                        <div>
+                            <div class="font-medium">Phạm Thị Lan</div>
+                            <div class="text-slate-600 text-sm">Đã mua lại sản phẩm điện thoại X10</div>
+                            <div class="text-slate-500 text-xs mt-1">2 ngày trước</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3">
+                        <div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 flex-shrink-0">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <div>
+                            <div class="font-medium">Vũ Đức Hùng</div>
+                            <div class="text-slate-600 text-sm">Đã sử dụng voucher giảm giá 20%</div>
+                            <div class="text-slate-500 text-xs mt-1">3 ngày trước</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab Switching
+            const tabs = document.querySelectorAll('.tab-button');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Customer item hover effect
+            document.querySelectorAll('.customer-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f8fafc';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+            
+            // Analytics card hover effect
+            document.querySelectorAll('.customer-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.08)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Segment tag hover effect
+            document.querySelectorAll('.segment-tag').forEach(tag => {
+                tag.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.05)';
+                });
+                
+                tag.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                });
+            });
+            
+            // Action button hover effect
+            document.querySelectorAll('.action-btn').forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+        });
+    </script>
 </body>
 </html>
