@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thêm Sản phẩm Mới - Seller Dashboard</title>
+    <title>Thêm Sản phẩm Mới - Premium Marketplace</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script>
@@ -12,9 +12,17 @@
                 extend: {
                     colors: {
                         primary: '#ff424f',
+                        primaryDark: '#ff424f',
                         secondary: '#c43a43',
                         dark: '#1a202c',
-                        light: '#f8f9fa'
+                        light: '#f8f9fa',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444'
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(0, 0, 0, 0.08)',
+                        'input': '0 0 0 3px rgba(59, 130, 246, 0.25)'
                     }
                 }
             }
@@ -42,9 +50,10 @@
         }
         .image-preview {
             transition: all 0.3s ease;
+            position: relative;
         }
         .image-preview:hover {
-            transform: scale(1.05);
+            transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
         .remove-image-btn {
@@ -52,25 +61,25 @@
         }
         .remove-image-btn:hover {
             transform: scale(1.1);
-            background-color: #ff424f;
+            background-color: #ef4444;
             color: white;
         }
-        .tab-content {
+        .step-content {
             display: none;
-            animation: fadeIn 0.3s ease;
+            animation: fadeIn 0.5s ease;
         }
-        .tab-content.active {
+        .step-content.active {
             display: block;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .attribute-item {
             transition: all 0.2s ease;
         }
         .attribute-item:hover {
-            background-color: #fdf3f4;
+            background-color: #f1f5f9;
         }
         .variation-item {
             transition: all 0.2s ease;
@@ -78,414 +87,613 @@
         .variation-item:hover {
             background-color: #f8fafc;
         }
+        .color-option {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .color-option.selected::after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .variant-image-preview {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            position: relative;
+            border: 1px solid #e2e8f0;
+        }
+        .variant-image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 8px;
+        }
+        .variant-image-preview:hover .variant-image-overlay {
+            opacity: 1;
+        }
+        .editor-toolbar {
+            border: 1px solid #cbd5e1;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            padding: 8px;
+            background-color: #f8fafc;
+        }
+        .editor-content {
+            border: 1px solid #cbd5e1;
+            border-radius: 0 0 6px 6px;
+            min-height: 300px;
+            padding: 16px;
+        }
+        .attribute-tag {
+            display: inline-flex;
+            align-items: center;
+            background-color: #e0f2fe;
+            color: #c40606;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .attribute-tag button {
+            margin-left: 6px;
+            color: #c40606;
+            opacity: 0.7;
+        }
+        .attribute-tag button:hover {
+            opacity: 1;
+        }
+        .variation-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: #dbeafe;
+            color: #ff0000;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+            border-color: #ff424f;
+        }
+        .required-field::after {
+            content: "*";
+            color: #ef4444;
+            margin-left: 4px;
+        }
+        .category-attributes {
+            display: none;
+        }
+        .category-attributes.active {
+            display: block;
+        }
     </style>
 </head>
-<body class="bg-gray-50">
-    <div class="container mx-auto px-4 py-8">
+<body class="bg-slate-50">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
         <!-- Page Header -->
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
             <div>
-                <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Thêm Sản phẩm Mới</h1>
-                <p class="text-gray-600 mt-2">Tạo sản phẩm mới cho cửa hàng của bạn</p>
+                <h1 class="text-2xl md:text-3xl font-bold text-slate-800">Thêm Sản phẩm Mới</h1>
+                <p class="text-slate-600 mt-2">Tạo sản phẩm mới cho cửa hàng của bạn trên Premium Marketplace</p>
             </div>
             <div class="mt-4 md:mt-0 flex gap-3">
-                <button class="bg-white border border-gray-300 px-5 py-2.5 rounded-lg hover:bg-gray-50 flex items-center">
-                    <i class="fas fa-save text-gray-600 mr-2"></i> Lưu nháp
-                </button>
-                <button class="bg-primary text-white px-6 py-2.5 rounded-lg hover:bg-secondary transition flex items-center">
-                    <i class="fas fa-rocket mr-2"></i> Đăng bán ngay
+                <button class="bg-white border border-slate-300 px-5 py-2.5 rounded-lg hover:bg-slate-50 flex items-center transition">
+                    <i class="fas fa-save text-slate-600 mr-2"></i> Lưu nháp
                 </button>
             </div>
         </div>
 
         <!-- Progress Steps -->
-        <div class="bg-white rounded-xl shadow p-6 mb-8">
-            <div class="flex justify-between">
-                <div class="step flex flex-col items-center">
-                    <div class="step-indicator w-10 h-10 rounded-full border-2 flex items-center justify-center mb-2 active">
-                        1
+        <div class="bg-white rounded-xl shadow-card p-6 mb-8">
+            <div class="flex flex-wrap justify-between gap-y-4">
+                <div class="step flex flex-col items-center min-w-[120px]">
+                    <div class="step-indicator w-10 h-10 rounded-full border-2 flex items-center justify-center mb-2 active" data-step="1">
+                        <i class="fas fa-info-circle"></i>
                     </div>
-                    <span class="text-sm font-medium">Thông tin cơ bản</span>
+                    <span class="text-sm font-medium text-center">Thông tin cơ bản</span>
                 </div>
-                <div class="step flex flex-col items-center">
-                    <div class="step-indicator w-10 h-10 rounded-full border-2 flex items-center justify-center mb-2">
-                        2
+                <div class="step flex flex-col items-center min-w-[120px]">
+                    <div class="step-indicator w-10 h-10 rounded-full border-2 flex items-center justify-center mb-2" data-step="2">
+                        <i class="fas fa-list"></i>
                     </div>
-                    <span class="text-sm font-medium">Hình ảnh</span>
+                    <span class="text-sm font-medium text-center">Thông tin chi tiết</span>
                 </div>
-                <div class="step flex flex-col items-center">
-                    <div class="step-indicator w-10 h-10 rounded-full border-2 flex items-center justify-center mb-2">
-                        3
+                <div class="step flex flex-col items-center min-w-[120px]">
+                    <div class="step-indicator w-10 h-10 rounded-full border-2 flex items-center justify-center mb-2" data-step="3">
+                        <i class="fas fa-images"></i>
                     </div>
-                    <span class="text-sm font-medium">Giá & Tồn kho</span>
+                    <span class="text-sm font-medium text-center">Hình ảnh</span>
                 </div>
-                <div class="step flex flex-col items-center">
-                    <div class="step-indicator w-10 h-10 rounded-full border-2 flex items-center justify-center mb-2">
-                        4
+                <div class="step flex flex-col items-center min-w-[120px]">
+                    <div class="step-indicator w-10 h-10 rounded-full border-2 flex items-center justify-center mb-2" data-step="4">
+                        <i class="fas fa-layer-group"></i>
                     </div>
-                    <span class="text-sm font-medium">Vận chuyển</span>
+                    <span class="text-sm font-medium text-center">Thuộc tính & Biến thể</span>
                 </div>
-                <div class="step flex flex-col items-center">
-                    <div class="step-indicator w-10 h-10 rounded-full border-2 flex items-center justify-center mb-2">
-                        5
+                <div class="step flex flex-col items-center min-w-[120px]">
+                    <div class="step-indicator w-10 h-10 rounded-full border-2 flex items-center justify-center mb-2" data-step="5">
+                        <i class="fas fa-tag"></i>
                     </div>
-                    <span class="text-sm font-medium">Thuộc tính</span>
+                    <span class="text-sm font-medium text-center">Giá & Tồn kho</span>
+                </div>
+                <div class="step flex flex-col items-center min-w-[120px]">
+                    <div class="step-indicator w-10 h-10 rounded-full border-2 flex items-center justify-center mb-2" data-step="6">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <span class="text-sm font-medium text-center">Vận chuyển & SEO</span>
                 </div>
             </div>
         </div>
 
-        <!-- Main Form -->
-        <div class="bg-white rounded-xl shadow overflow-hidden mb-8">
-            <!-- Tab Navigation -->
-            <div class="border-b">
-                <div class="flex overflow-x-auto">
-                    <button class="tab-btn px-6 py-4 font-medium border-b-2 border-transparent text-gray-500 hover:text-primary" data-tab="basic-info">Thông tin cơ bản</button>
-                    <button class="tab-btn px-6 py-4 font-medium border-b-2 border-transparent text-gray-500 hover:text-primary" data-tab="images">Hình ảnh</button>
-                    <button class="tab-btn px-6 py-4 font-medium border-b-2 border-transparent text-gray-500 hover:text-primary" data-tab="price-inventory">Giá & Tồn kho</button>
-                    <button class="tab-btn px-6 py-4 font-medium border-b-2 border-transparent text-gray-500 hover:text-primary" data-tab="shipping">Vận chuyển</button>
-                    <button class="tab-btn px-6 py-4 font-medium border-b-2 border-transparent text-gray-500 hover:text-primary" data-tab="attributes">Thuộc tính</button>
-                    <button class="tab-btn px-6 py-4 font-medium border-b-2 border-transparent text-gray-500 hover:text-primary" data-tab="seo">SEO</button>
+        <!-- Step Content -->
+        <div class="step-content active" id="step-1">
+            <div class="bg-white rounded-xl shadow-card overflow-hidden mb-8">
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold text-slate-800 mb-6 pb-2 border-b">Thông tin cơ bản</h2>
+                    
+                    <div class="grid grid-cols-1 gap-8">
+                        <div>
+                            <label class="block text-base font-medium text-slate-800 mb-2 required-field">Tên sản phẩm</label>
+                            <input type="text" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="Nhập tên sản phẩm đầy đủ và mô tả">
+                            <p class="text-slate-500 text-sm mt-2">Tên sản phẩm nên bao gồm thương hiệu, model và các thông số chính</p>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-base font-medium text-slate-800 mb-2 required-field">Danh mục</label>
+                            <div class="space-y-4">
+                                <select id="main-category" class="w-full px-4 py-3 border border-slate-300 rounded-lg" onchange="updateCategoryAttributes()">
+                                    <option value="">Chọn danh mục chính</option>
+                                    <option value="electronics">Điện tử</option>
+                                    <option value="fashion">Thời trang</option>
+                                    <option value="home">Gia dụng</option>
+                                    <option value="beauty">Làm đẹp</option>
+                                    <option value="sports">Thể thao</option>
+                                </select>
+                                <select id="sub-category" class="w-full px-4 py-3 border border-slate-300 rounded-lg" onchange="updateCategoryAttributes()">
+                                    <option value="">Chọn danh mục phụ</option>
+                                    <option value="phones" data-category="electronics">Điện thoại & Phụ kiện</option>
+                                    <option value="laptops" data-category="electronics">Laptop & Máy tính</option>
+                                    <option value="tvs" data-category="electronics">TV & Thiết bị giải trí</option>
+                                    <option value="men" data-category="fashion">Thời trang nam</option>
+                                    <option value="women" data-category="fashion">Thời trang nữ</option>
+                                </select>
+                                <select id="child-category" class="w-full px-4 py-3 border border-slate-300 rounded-lg" onchange="updateCategoryAttributes()">
+                                    <option value="">Chọn danh mục con</option>
+                                    <option value="smartphones" data-category="phones">Điện thoại thông minh</option>
+                                    <option value="headphones" data-category="phones">Tai nghe</option>
+                                    <option value="chargers" data-category="phones">Sạc & Cáp</option>
+                                    <option value="shirts" data-category="men">Áo sơ mi</option>
+                                    <option value="pants" data-category="men">Quần dài</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-base font-medium text-slate-800 mb-2 required-field">Mô tả ngắn</label>
+                            <textarea class="w-full px-4 py-3 border border-slate-300 rounded-lg h-32" placeholder="Mô tả ngắn gọn về sản phẩm (hiển thị trên danh sách sản phẩm)"></textarea>
+                            <p class="text-slate-500 text-sm mt-2">Tối đa 200 ký tự</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-base font-medium text-slate-800 mb-2 required-field">Mô tả chi tiết</label>
+                            <div class="border border-slate-300 rounded-lg overflow-hidden">
+                                <div class="editor-toolbar">
+                                    <div class="flex flex-wrap gap-2">
+                                        <button class="w-8 h-8 flex items-center justify-center hover:bg-slate-200 rounded">
+                                            <i class="fas fa-bold"></i>
+                                        </button>
+                                        <button class="w-8 h-8 flex items-center justify-center hover:bg-slate-200 rounded">
+                                            <i class="fas fa-italic"></i>
+                                        </button>
+                                        <button class="w-8 h-8 flex items-center justify-center hover:bg-slate-200 rounded">
+                                            <i class="fas fa-underline"></i>
+                                        </button>
+                                        <div class="border-l mx-2 h-6 my-auto"></div>
+                                        <button class="w-8 h-8 flex items-center justify-center hover:bg-slate-200 rounded">
+                                            <i class="fas fa-list-ul"></i>
+                                        </button>
+                                        <button class="w-8 h-8 flex items-center justify-center hover:bg-slate-200 rounded">
+                                            <i class="fas fa-list-ol"></i>
+                                        </button>
+                                        <div class="border-l mx-2 h-6 my-auto"></div>
+                                        <button class="w-8 h-8 flex items-center justify-center hover:bg-slate-200 rounded">
+                                            <i class="fas fa-link"></i>
+                                        </button>
+                                        <button class="w-8 h-8 flex items-center justify-center hover:bg-slate-200 rounded">
+                                            <i class="fas fa-image"></i>
+                                        </button>
+                                        <button class="w-8 h-8 flex items-center justify-center hover:bg-slate-200 rounded">
+                                            <i class="fas fa-table"></i>
+                                        </button>
+                                        <button class="w-8 h-8 flex items-center justify-center hover:bg-slate-200 rounded">
+                                            <i class="fas fa-video"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="editor-content" contenteditable="true">
+                                    <p>Mô tả chi tiết về sản phẩm...</p>
+                                    <p><br></p>
+                                    <p><strong>Đặc điểm nổi bật:</strong></p>
+                                    <ul>
+                                        <li>Thiết kế sang trọng, hiện đại</li>
+                                        <li>Hiệu năng mạnh mẽ</li>
+                                        <li>Camera chuyên nghiệp</li>
+                                        <li>Pin trâu, sử dụng lâu dài</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <!-- Tab Content -->
-            <div class="p-6">
-                <!-- Basic Info Tab -->
-                <div id="basic-info" class="tab-content active">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Tên sản phẩm <span class="text-red-500">*</span></label>
-                            <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Nhập tên sản phẩm">
-                        </div>
-                        
-                        <div class="col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Danh mục <span class="text-red-500">*</span></label>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-                                    <option>Chọn danh mục chính</option>
-                                    <option>Điện tử</option>
-                                    <option>Thời trang</option>
-                                    <option>Gia dụng</option>
-                                </select>
-                                <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-                                    <option>Chọn danh mục phụ</option>
-                                    <option>Điện thoại & Phụ kiện</option>
-                                    <option>Laptop & Máy tính</option>
-                                </select>
-                                <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-                                    <option>Chọn danh mục con</option>
-                                    <option>Điện thoại di động</option>
-                                    <option>Tai nghe</option>
+            <div class="flex justify-end gap-3">
+                <button class="bg-white border border-slate-300 px-6 py-3 rounded-lg hover:bg-slate-50 flex items-center transition">
+                    <i class="fas fa-times mr-2"></i> Hủy bỏ
+                </button>
+                <button class="next-step bg-primary text-white px-6 py-3 rounded-lg hover:bg-primaryDark transition flex items-center" data-next="2">
+                    Tiếp theo <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Step 2: Category-specific Attributes -->
+        <div class="step-content" id="step-2">
+            <div class="bg-white rounded-xl shadow-card overflow-hidden mb-8">
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold text-slate-800 mb-6 pb-2 border-b">Thông tin chi tiết</h2>
+                    
+                    <div id="electronics-attributes" class="category-attributes">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-base font-medium text-slate-800 mb-2">Thương hiệu</label>
+                                <input type="text" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="Nhập thương hiệu">
+                            </div>
+                            <div>
+                                <label class="block text-base font-medium text-slate-800 mb-2">Model</label>
+                                <input type="text" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="Nhập model sản phẩm">
+                            </div>
+                            <div>
+                                <label class="block text-base font-medium text-slate-800 mb-2">Dung lượng</label>
+                                <input type="text" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="Ví dụ: 128GB, 256GB">
+                            </div>
+                            <div>
+                                <label class="block text-base font-medium text-slate-800 mb-2">Pin</label>
+                                <input type="text" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="Ví dụ: 5000mAh">
+                            </div>
+                            <div>
+                                <label class="block text-base font-medium text-slate-800 mb-2">Kích thước</label>
+                                <input type="text" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="Ví dụ: 6.1 inch">
+                            </div>
+                            <div>
+                                <label class="block text-base font-medium text-slate-800 mb-2">Tình trạng</label>
+                                <select class="w-full px-4 py-3 border border-slate-300 rounded-lg">
+                                    <option value="new">Hàng mới</option>
+                                    <option value="used">Hàng cũ</option>
+                                    <option value="refurbished">Hàng tân trang</option>
                                 </select>
                             </div>
-                        </div>
-                        
-                        <div class="col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Thương hiệu</label>
-                            <div class="flex gap-3">
-                                <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-                                    <option>Chọn thương hiệu</option>
-                                    <option>Samsung</option>
-                                    <option>Apple</option>
-                                    <option>Xiaomi</option>
-                                </select>
-                                <button class="bg-gray-100 hover:bg-gray-200 px-4 rounded-lg flex items-center">
-                                    <i class="fas fa-plus mr-2"></i> Thêm mới
-                                </button>
+                            <div>
+                                <label class="block text-base font-medium text-slate-800 mb-2">Bảo hành</label>
+                                <input type="text" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="Ví dụ: 12 tháng">
                             </div>
-                        </div>
-                        
-                        <div class="col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Mô tả ngắn <span class="text-red-500">*</span></label>
-                            <textarea class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent h-32" placeholder="Mô tả ngắn gọn về sản phẩm (hiển thị trên danh sách sản phẩm)"></textarea>
-                        </div>
-                        
-                        <div class="col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Mô tả chi tiết <span class="text-red-500">*</span></label>
-                            <div class="border border-gray-300 rounded-lg overflow-hidden">
-                                <div class="border-b bg-gray-50 p-2 flex flex-wrap gap-2">
-                                    <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-200 rounded">
-                                        <i class="fas fa-bold"></i>
-                                    </button>
-                                    <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-200 rounded">
-                                        <i class="fas fa-italic"></i>
-                                    </button>
-                                    <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-200 rounded">
-                                        <i class="fas fa-underline"></i>
-                                    </button>
-                                    <div class="border-l mx-2"></div>
-                                    <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-200 rounded">
-                                        <i class="fas fa-list-ul"></i>
-                                    </button>
-                                    <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-200 rounded">
-                                        <i class="fas fa-list-ol"></i>
-                                    </button>
-                                    <div class="border-l mx-2"></div>
-                                    <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-200 rounded">
-                                        <i class="fas fa-link"></i>
-                                    </button>
-                                    <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-200 rounded">
-                                        <i class="fas fa-image"></i>
-                                    </button>
-                                </div>
-                                <textarea class="w-full px-4 py-3 focus:outline-none min-h-[200px]" placeholder="Mô tả chi tiết về sản phẩm..."></textarea>
+                            <div>
+                                <label class="block text-base font-medium text-slate-800 mb-2">Ngày sản xuất</label>
+                                <input type="date" class="w-full px-4 py-3 border border-slate-300 rounded-lg">
                             </div>
                         </div>
                     </div>
+                    
+                    <div id="fashion-attributes" class="category-attributes">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-base font-medium text-slate-800 mb-2">Thương hiệu</label>
+                                <input type="text" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="Nhập thương hiệu">
+                            </div>
+                            <div>
+                                <label class="block text-base font-medium text-slate-800 mb-2">Xuất xứ</label>
+                                <input type="text" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="Ví dụ: Việt Nam, Trung Quốc">
+                            </div>
+                            <div>
+                                <label class="block text-base font-medium text-slate-800 mb-2">Chất liệu</label>
+                                <input type="text" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="Ví dụ: Cotton, Polyester">
+                            </div>
+                            <div>
+                                <label class="block text-base font-medium text-slate-800 mb-2">Chiều dài</label>
+                                <input type="text" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="Ví dụ: 70cm">
+                            </div>
+                            <div>
+                                <label class="block text-base font-medium text-slate-800 mb-2">Mẫu mã</label>
+                                <input type="text" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="Ví dụ: Cổ tròn, cổ tim">
+                            </div>
+                            <div>
+                                <label class="block text-base font-medium text-slate-800 mb-2">Kích cỡ</label>
+                                <input type="text" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="Ví dụ: S, M, L, XL">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="default-attributes" class="category-attributes">
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+                            <i class="fas fa-info-circle text-blue-500 text-3xl mb-3"></i>
+                            <p class="text-blue-700">Vui lòng chọn danh mục sản phẩm để hiển thị thông tin chi tiết</p>
+                        </div>
+                    </div>
                 </div>
-                
-                <!-- Images Tab -->
-                <div id="images" class="tab-content">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="col-span-1">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Hình ảnh chính</h3>
+            </div>
+            
+            <div class="flex justify-between gap-3">
+                <button class="prev-step bg-white border border-slate-300 px-6 py-3 rounded-lg hover:bg-slate-50 flex items-center transition" data-prev="1">
+                    <i class="fas fa-arrow-left mr-2"></i> Quay lại
+                </button>
+                <button class="next-step bg-primary text-white px-6 py-3 rounded-lg hover:bg-primaryDark transition flex items-center" data-next="3">
+                    Tiếp theo <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Step 3: Images -->
+        <div class="step-content" id="step-3">
+            <div class="bg-white rounded-xl shadow-card overflow-hidden mb-8">
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold text-slate-800 mb-6 pb-2 border-b">Hình ảnh sản phẩm</h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-lg font-semibold text-slate-800 mb-4">Hình ảnh chính</h3>
                             <div class="image-upload-container relative cursor-pointer flex flex-col items-center justify-center p-8 text-center">
                                 <input type="file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="main-image-upload" accept="image/*">
-                                <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
-                                <h4 class="font-medium text-gray-700 mb-1">Kéo thả hoặc nhấn để tải lên</h4>
-                                <p class="text-gray-500 text-sm">Hình ảnh chính của sản phẩm (tỉ lệ 1:1)</p>
-                                <p class="text-gray-500 text-xs mt-2">Định dạng: JPG, PNG, GIF. Tối đa: 5MB</p>
-                            </div>
-                            <div class="mt-4 text-center">
-                                <button class="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg text-sm">
-                                    <i class="fas fa-camera mr-2"></i> Chụp ảnh
-                                </button>
+                                <i class="fas fa-cloud-upload-alt text-4xl text-slate-400 mb-3"></i>
+                                <h4 class="font-medium text-slate-700 mb-1">Kéo thả hoặc nhấn để tải lên</h4>
+                                <p class="text-slate-500 text-sm">Hình ảnh chính của sản phẩm (tỉ lệ 1:1)</p>
+                                <p class="text-slate-500 text-xs mt-2">Định dạng: JPG, PNG, GIF. Tối đa: 5MB</p>
                             </div>
                         </div>
                         
-                        <div class="col-span-1">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Hình ảnh phụ</h3>
+                        <div>
+                            <h3 class="text-lg font-semibold text-slate-800 mb-4">Hình ảnh phụ</h3>
                             <div class="image-upload-container relative cursor-pointer flex flex-col items-center justify-center p-8 text-center">
                                 <input type="file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="gallery-upload" accept="image/*" multiple>
-                                <i class="fas fa-images text-4xl text-gray-400 mb-3"></i>
-                                <h4 class="font-medium text-gray-700 mb-1">Tải lên hình ảnh phụ</h4>
-                                <p class="text-gray-500 text-sm">Tối đa 8 hình ảnh (tỉ lệ 1:1)</p>
-                                <p class="text-gray-500 text-xs mt-2">Định dạng: JPG, PNG, GIF. Tối đa: 5MB/hình</p>
+                                <i class="fas fa-images text-4xl text-slate-400 mb-3"></i>
+                                <h4 class="font-medium text-slate-700 mb-1">Tải lên hình ảnh phụ</h4>
+                                <p class="text-slate-500 text-sm">Tối đa 8 hình ảnh (tỉ lệ 1:1)</p>
+                                <p class="text-slate-500 text-xs mt-2">Định dạng: JPG, PNG, GIF. Tối đa: 5MB/hình</p>
                             </div>
                         </div>
                         
-                        <div class="col-span-2">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Xem trước hình ảnh</h3>
+                        <div class="lg:col-span-2">
+                            <h3 class="text-lg font-semibold text-slate-800 mb-4">Xem trước hình ảnh</h3>
                             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                                 <div class="image-preview relative">
-                                    <div class="bg-gray-200 border-2 border-dashed rounded-xl w-full h-32"></div>
+                                    <div class="bg-slate-200 border-2 border-dashed rounded-xl w-full h-32 flex items-center justify-center">
+                                        <i class="fas fa-image text-slate-400 text-3xl"></i>
+                                    </div>
                                     <div class="absolute top-2 right-2">
                                         <button class="remove-image-btn bg-white rounded-full w-6 h-6 flex items-center justify-center shadow">
                                             <i class="fas fa-times text-xs"></i>
                                         </button>
                                     </div>
-                                    <div class="text-center mt-2 text-sm">Hình chính</div>
+                                    <div class="text-center mt-2 text-sm font-medium">Hình chính</div>
                                 </div>
                                 
                                 <div class="image-preview relative">
-                                    <div class="bg-gray-200 border-2 border-dashed rounded-xl w-full h-32"></div>
-                                    <div class="absolute top-2 right-2">
-                                        <button class="remove-image-btn bg-white rounded-full w-6 h-6 flex items-center justify-center shadow">
-                                            <i class="fas fa-times text-xs"></i>
-                                        </button>
+                                    <div class="bg-slate-200 border-2 border-dashed rounded-xl w-full h-32 flex items-center justify-center">
+                                        <i class="fas fa-plus text-slate-400 text-3xl"></i>
                                     </div>
-                                    <div class="text-center mt-2 text-sm">Hình 1</div>
+                                    <div class="text-center mt-2 text-sm text-slate-500">Thêm hình</div>
                                 </div>
                                 
                                 <div class="image-preview relative">
-                                    <div class="bg-gray-200 border-2 border-dashed rounded-xl w-full h-32"></div>
-                                    <div class="absolute top-2 right-2">
-                                        <button class="remove-image-btn bg-white rounded-full w-6 h-6 flex items-center justify-center shadow">
-                                            <i class="fas fa-times text-xs"></i>
-                                        </button>
+                                    <div class="bg-slate-200 border-2 border-dashed rounded-xl w-full h-32 flex items-center justify-center">
+                                        <i class="fas fa-plus text-slate-400 text-3xl"></i>
                                     </div>
-                                    <div class="text-center mt-2 text-sm">Hình 2</div>
+                                    <div class="text-center mt-2 text-sm text-slate-500">Thêm hình</div>
                                 </div>
-                                
-                                <div class="image-preview relative">
-                                    <div class="bg-gray-200 border-2 border-dashed rounded-xl w-full h-32"></div>
-                                    <div class="absolute top-2 right-2">
-                                        <button class="remove-image-btn bg-white rounded-full w-6 h-6 flex items-center justify-center shadow">
-                                            <i class="fas fa-times text-xs"></i>
-                                        </button>
-                                    </div>
-                                    <div class="text-center mt-2 text-sm">Hình 3</div>
-                                </div>
-                                
-                                <div class="image-preview relative">
-                                    <div class="bg-gray-200 border-2 border-dashed rounded-xl w-full h-32"></div>
-                                    <div class="absolute top-2 right-2">
-                                        <button class="remove-image-btn bg-white rounded-full w-6 h-6 flex items-center justify-center shadow">
-                                            <i class="fas fa-times text-xs"></i>
-                                        </button>
-                                    </div>
-                                    <div class="text-center mt-2 text-sm">Hình 4</div>
-                                </div>
-                                
-                                <div class="image-preview relative">
-                                    <div class="bg-gray-200 border-2 border-dashed rounded-xl w-full h-32"></div>
-                                    <div class="absolute top-2 right-2">
-                                        <button class="remove-image-btn bg-white rounded-full w-6 h-6 flex items-center justify-center shadow">
-                                            <i class="fas fa-times text-xs"></i>
-                                        </button>
-                                    </div>
-                                    <div class="text-center mt-2 text-sm">Hình 5</div>
-                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="lg:col-span-2">
+                            <h3 class="text-lg font-semibold text-slate-800 mb-4">Video sản phẩm</h3>
+                            <div class="image-upload-container relative cursor-pointer flex flex-col items-center justify-center p-8 text-center">
+                                <input type="file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="video-upload" accept="video/*">
+                                <i class="fas fa-video text-4xl text-slate-400 mb-3"></i>
+                                <h4 class="font-medium text-slate-700 mb-1">Tải lên video giới thiệu sản phẩm</h4>
+                                <p class="text-slate-500 text-sm">Tối đa 1 video (tối đa 60 giây)</p>
+                                <p class="text-slate-500 text-xs mt-2">Định dạng: MP4, MOV. Tối đa: 30MB</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Price & Inventory Tab -->
-                <div id="price-inventory" class="tab-content">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            </div>
+            
+            <div class="flex justify-between gap-3">
+                <button class="prev-step bg-white border border-slate-300 px-6 py-3 rounded-lg hover:bg-slate-50 flex items-center transition" data-prev="2">
+                    <i class="fas fa-arrow-left mr-2"></i> Quay lại
+                </button>
+                <button class="next-step bg-primary text-white px-6 py-3 rounded-lg hover:bg-primaryDark transition flex items-center" data-next="4">
+                    Tiếp theo <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Step 4: Attributes & Variations -->
+        <div class="step-content" id="step-4">
+            <div class="bg-white rounded-xl shadow-card overflow-hidden mb-8">
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold text-slate-800 mb-6 pb-2 border-b">Thuộc tính & Biến thể</h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Attribute Management -->
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Giá sản phẩm</h3>
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Giá gốc <span class="text-red-500">*</span></label>
-                                    <div class="relative">
-                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                            <span class="text-gray-500">₫</span>
-                                        </div>
-                                        <input type="number" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="0">
-                                    </div>
-                                </div>
-                                
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Giá khuyến mãi</label>
-                                    <div class="relative">
-                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                            <span class="text-gray-500">₫</span>
-                                        </div>
-                                        <input type="number" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="0">
-                                    </div>
-                                    <div class="flex items-center mt-2">
-                                        <input type="checkbox" class="rounded text-primary focus:ring-primary">
-                                        <span class="ml-2 text-sm text-gray-600">Đặt lịch khuyến mãi</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Ngày bắt đầu</label>
-                                        <input type="date" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Ngày kết thúc</label>
-                                        <input type="date" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-                                    </div>
+                            <h3 class="text-lg font-semibold text-slate-800 mb-4">Thuộc tính sản phẩm</h3>
+                            
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                                <div class="flex items-start">
+                                    <i class="fas fa-lightbulb text-blue-500 text-xl mt-1 mr-3"></i>
+                                    <p class="text-blue-700">Thêm thuộc tính giúp sản phẩm của bạn xuất hiện nhiều hơn trong kết quả tìm kiếm. Mỗi thuộc tính có phân loại và giá trị.</p>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Tồn kho</h3>
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">SKU (Mã sản phẩm)</label>
-                                    <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="SKU-2023-001">
-                                    <p class="text-xs text-gray-500 mt-1">Mã định danh duy nhất cho sản phẩm</p>
-                                </div>
-                                
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Số lượng tồn kho <span class="text-red-500">*</span></label>
-                                    <input type="number" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="0" value="100">
-                                </div>
-                                
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Cảnh báo tồn kho</label>
-                                    <input type="number" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="10" value="10">
-                                    <p class="text-xs text-gray-500 mt-1">Cảnh báo khi tồn kho dưới mức này</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-span-2">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Biến thể sản phẩm</h3>
-                            <div class="border rounded-lg p-4 bg-gray-50">
-                                <div class="flex justify-between items-center mb-4">
-                                    <div>
-                                        <input type="checkbox" class="rounded text-primary focus:ring-primary" id="enable-variations">
-                                        <label for="enable-variations" class="ml-2 font-medium text-gray-700">Tạo biến thể cho sản phẩm</label>
+                            
+                            <div id="attributes-container" class="space-y-4">
+                                <!-- Attribute Template -->
+                                <div class="attribute-item bg-white p-4 rounded-lg border shadow-sm">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <h4 class="font-medium text-slate-800">Thuộc tính 1</h4>
+                                        <button class="text-red-500 hover:text-red-700">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </div>
-                                    <button class="text-primary text-sm font-medium flex items-center">
-                                        <i class="fas fa-plus-circle mr-2"></i> Thêm thuộc tính
-                                    </button>
-                                </div>
-                                
-                                <div class="variation-container hidden">
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">Thuộc tính 1</label>
-                                            <div class="flex gap-3">
-                                                <input type="text" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Tên thuộc tính (vd: Màu sắc)">
-                                                <button class="bg-gray-100 hover:bg-gray-200 px-4 rounded-lg flex items-center">
-                                                    <i class="fas fa-plus mr-2"></i> Giá trị
-                                                </button>
-                                            </div>
+                                    
+                                    <div class="mb-4">
+                                        <label class="block text-sm font-medium text-slate-700 mb-2">Phân loại</label>
+                                        <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Ví dụ: Màu sắc, Kích thước">
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-700 mb-2">Giá trị</label>
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Ví dụ: Đỏ, Xanh">
+                                            <button class="text-red-500 hover:text-red-700">
+                                                <i class="fas fa-times"></i>
+                                            </button>
                                         </div>
                                         
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">Thuộc tính 2</label>
-                                            <div class="flex gap-3">
-                                                <input type="text" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Tên thuộc tính (vd: Kích thước)">
-                                                <button class="bg-gray-100 hover:bg-gray-200 px-4 rounded-lg flex items-center">
-                                                    <i class="fas fa-plus mr-2"></i> Giá trị
-                                                </button>
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Thêm giá trị">
+                                            <button class="text-red-500 hover:text-red-700">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="flex items-center gap-2">
+                                            <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Thêm giá trị mới">
+                                            <button class="text-slate-500 hover:text-slate-700 w-8 h-8 flex items-center justify-center">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button id="add-attribute-btn" class="mt-4 bg-white border border-slate-300 px-4 py-2 rounded-lg hover:bg-slate-50 flex items-center transition">
+                                <i class="fas fa-plus-circle mr-2"></i> Thêm thuộc tính
+                            </button>
+                        </div>
+                        
+                        <!-- Variation Management -->
+                        <div>
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-semibold text-slate-800">Biến thể sản phẩm</h3>
+                                <button class="text-primary text-sm font-medium flex items-center">
+                                    <i class="fas fa-sync-alt mr-2"></i> Tạo biến thể
+                                </button>
+                            </div>
+                            
+                            <div class="bg-slate-50 border rounded-lg p-4 mb-6">
+                                <div class="flex items-center mb-4">
+                                    <input id="enable-variations" type="checkbox" class="h-4 w-4 text-primary" checked>
+                                    <label for="enable-variations" class="ml-2 font-medium text-slate-700">Tạo biến thể cho sản phẩm</label>
+                                </div>
+                                
+                                <div class="variation-container">
+                                    <div class="mb-4">
+                                        <label class="block text-sm font-medium text-slate-700 mb-2">Thuộc tính tạo biến thể</label>
+                                        <div class="flex flex-wrap gap-2">
+                                            <div class="attribute-tag">
+                                                Màu sắc <button><i class="fas fa-times"></i></button>
                                             </div>
+                                            <button class="text-primary text-sm font-medium flex items-center">
+                                                <i class="fas fa-plus-circle mr-1"></i> Thêm thuộc tính
+                                            </button>
                                         </div>
                                     </div>
                                     
                                     <div class="overflow-x-auto">
                                         <table class="w-full">
-                                            <thead class="bg-gray-100">
+                                            <thead class="bg-slate-100">
                                                 <tr>
                                                     <th class="py-3 px-4 text-left">Biến thể</th>
+                                                    <th class="py-3 px-4 text-left">Hình ảnh</th>
                                                     <th class="py-3 px-4 text-left">Giá</th>
                                                     <th class="py-3 px-4 text-left">Tồn kho</th>
-                                                    <th class="py-3 px-4 text-left">SKU</th>
-                                                    <th class="py-3 px-4 text-left">Hình ảnh</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr class="variation-item border-b">
                                                     <td class="py-3 px-4">
                                                         <div class="flex items-center">
-                                                            <div class="w-8 h-8 rounded-full bg-blue-500 mr-2"></div>
-                                                            <span>Xanh dương, 128GB</span>
+                                                            <div class="variation-badge">Đen</div>
                                                         </div>
                                                     </td>
                                                     <td class="py-3 px-4">
-                                                        <input type="text" class="w-32 px-3 py-1 border border-gray-300 rounded-lg" placeholder="₫" value="8,500,000">
-                                                    </td>
-                                                    <td class="py-3 px-4">
-                                                        <input type="number" class="w-20 px-3 py-1 border border-gray-300 rounded-lg" value="25">
-                                                    </td>
-                                                    <td class="py-3 px-4">
-                                                        <input type="text" class="w-32 px-3 py-1 border border-gray-300 rounded-lg" value="SKU-001-BLUE">
-                                                    </td>
-                                                    <td class="py-3 px-4">
-                                                        <div class="w-10 h-10 bg-gray-200 rounded-lg cursor-pointer flex items-center justify-center">
-                                                            <i class="fas fa-image text-gray-400"></i>
+                                                        <div class="variant-image-preview bg-slate-200">
+                                                            <div class="variant-image-overlay">
+                                                                <i class="fas fa-camera"></i>
+                                                            </div>
                                                         </div>
+                                                    </td>
+                                                    <td class="py-3 px-4">
+                                                        <div class="relative">
+                                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                <span class="text-slate-500">₫</span>
+                                                            </div>
+                                                            <input type="text" class="w-32 pl-10 pr-4 py-2 border border-slate-300 rounded-lg" placeholder="0">
+                                                        </div>
+                                                    </td>
+                                                    <td class="py-3 px-4">
+                                                        <input type="number" class="w-20 px-3 py-2 border border-slate-300 rounded-lg" placeholder="0">
                                                     </td>
                                                 </tr>
                                                 <tr class="variation-item border-b">
                                                     <td class="py-3 px-4">
                                                         <div class="flex items-center">
-                                                            <div class="w-8 h-8 rounded-full bg-red-500 mr-2"></div>
-                                                            <span>Đỏ, 128GB</span>
+                                                            <div class="variation-badge">Trắng</div>
                                                         </div>
                                                     </td>
                                                     <td class="py-3 px-4">
-                                                        <input type="text" class="w-32 px-3 py-1 border border-gray-300 rounded-lg" placeholder="₫" value="8,500,000">
-                                                    </td>
-                                                    <td class="py-3 px-4">
-                                                        <input type="number" class="w-20 px-3 py-1 border border-gray-300 rounded-lg" value="18">
-                                                    </td>
-                                                    <td class="py-3 px-4">
-                                                        <input type="text" class="w-32 px-3 py-1 border border-gray-300 rounded-lg" value="SKU-001-RED">
-                                                    </td>
-                                                    <td class="py-3 px-4">
-                                                        <div class="w-10 h-10 bg-gray-200 rounded-lg cursor-pointer flex items-center justify-center">
-                                                            <i class="fas fa-image text-gray-400"></i>
+                                                        <div class="variant-image-preview bg-slate-200">
+                                                            <div class="variant-image-overlay">
+                                                                <i class="fas fa-camera"></i>
+                                                            </div>
                                                         </div>
+                                                    </td>
+                                                    <td class="py-3 px-4">
+                                                        <div class="relative">
+                                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                                <span class="text-slate-500">₫</span>
+                                                            </div>
+                                                            <input type="text" class="w-32 pl-10 pr-4 py-2 border border-slate-300 rounded-lg" placeholder="0">
+                                                        </div>
+                                                    </td>
+                                                    <td class="py-3 px-4">
+                                                        <input type="number" class="w-20 px-3 py-2 border border-slate-300 rounded-lg" placeholder="0">
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -493,178 +701,233 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                                <div class="flex items-start">
+                                    <i class="fas fa-exclamation-circle text-yellow-500 text-xl mt-1 mr-3"></i>
+                                    <p class="text-yellow-700">
+                                        <span class="font-medium">Lưu ý:</span> Sau khi tạo biến thể, bạn có thể thiết lập giá và tồn kho riêng cho từng biến thể trong bước tiếp theo.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Shipping Tab -->
-                <div id="shipping" class="tab-content">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            </div>
+            
+            <div class="flex justify-between gap-3">
+                <button class="prev-step bg-white border border-slate-300 px-6 py-3 rounded-lg hover:bg-slate-50 flex items-center transition" data-prev="3">
+                    <i class="fas fa-arrow-left mr-2"></i> Quay lại
+                </button>
+                <button class="next-step bg-primary text-white px-6 py-3 rounded-lg hover:bg-primaryDark transition flex items-center" data-next="5">
+                    Tiếp theo <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Step 5: Price & Inventory -->
+        <div class="step-content" id="step-5">
+            <div class="bg-white rounded-xl shadow-card overflow-hidden mb-8">
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold text-slate-800 mb-6 pb-2 border-b">Giá & Tồn kho</h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Trọng lượng & Kích thước</h3>
-                            <div class="space-y-4">
+                            <h3 class="text-lg font-semibold text-slate-800 mb-4">Giá sản phẩm</h3>
+                            
+                            <div class="space-y-6">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Trọng lượng (gram) <span class="text-red-500">*</span></label>
-                                    <input type="number" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="0" value="350">
+                                    <label class="block text-base font-medium text-slate-800 mb-2 required-field">Giá gốc</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <span class="text-slate-500">₫</span>
+                                        </div>
+                                        <input type="text" class="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg" placeholder="0">
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-base font-medium text-slate-800 mb-2">Giá khuyến mãi</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <span class="text-slate-500">₫</span>
+                                        </div>
+                                        <input type="text" class="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg" placeholder="0">
+                                    </div>
+                                    <div class="flex items-center mt-3">
+                                        <input type="checkbox" class="h-4 w-4 text-primary">
+                                        <span class="ml-2 text-sm text-slate-600">Đặt lịch khuyến mãi</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-700 mb-2">Ngày bắt đầu</label>
+                                        <input type="date" class="w-full px-4 py-2 border border-slate-300 rounded-lg">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-700 mb-2">Ngày kết thúc</label>
+                                        <input type="date" class="w-full px-4 py-2 border border-slate-300 rounded-lg">
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-base font-medium text-slate-800 mb-2">Thuế</label>
+                                    <select class="w-full px-4 py-3 border border-slate-300 rounded-lg">
+                                        <option value="0">Không chịu thuế</option>
+                                        <option value="5">5%</option>
+                                        <option value="10" selected>10%</option>
+                                        <option value="15">15%</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-semibold text-slate-800 mb-4">Quản lý kho hàng</h3>
+                            
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-base font-medium text-slate-800 mb-2">SKU (Mã sản phẩm)</label>
+                                    <input type="text" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="SKU-2023-001">
+                                    <p class="text-slate-500 text-sm mt-2">Mã định danh duy nhất cho sản phẩm</p>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-base font-medium text-slate-800 mb-2 required-field">Số lượng tồn kho</label>
+                                    <input type="number" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="0">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-base font-medium text-slate-800 mb-2">Cảnh báo tồn kho</label>
+                                    <input type="number" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="10">
+                                    <p class="text-slate-500 text-sm mt-2">Cảnh báo khi tồn kho dưới mức này</p>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-base font-medium text-slate-800 mb-2">Đơn vị bán</label>
+                                    <input type="text" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="Ví dụ: Cái, Hộp, Chiếc..." value="Chiếc">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-between gap-3">
+                <button class="prev-step bg-white border border-slate-300 px-6 py-3 rounded-lg hover:bg-slate-50 flex items-center transition" data-prev="4">
+                    <i class="fas fa-arrow-left mr-2"></i> Quay lại
+                </button>
+                <button class="next-step bg-primary text-white px-6 py-3 rounded-lg hover:bg-primaryDark transition flex items-center" data-next="6">
+                    Tiếp theo <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Step 6: Shipping & SEO -->
+        <div class="step-content" id="step-6">
+            <div class="bg-white rounded-xl shadow-card overflow-hidden mb-8">
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold text-slate-800 mb-6 pb-2 border-b">Vận chuyển & SEO</h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-lg font-semibold text-slate-800 mb-4">Vận chuyển</h3>
+                            
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-base font-medium text-slate-800 mb-2 required-field">Trọng lượng (gram)</label>
+                                    <div class="relative">
+                                        <input type="number" class="w-full pl-4 pr-16 py-3 border border-slate-300 rounded-lg" placeholder="0">
+                                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                            <span class="text-slate-500">gram</span>
+                                        </div>
+                                    </div>
                                 </div>
                                 
                                 <div class="grid grid-cols-3 gap-4">
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Dài (cm)</label>
-                                        <input type="number" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="0" value="15">
+                                        <label class="block text-sm font-medium text-slate-700 mb-2">Dài (cm)</label>
+                                        <input type="number" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="0">
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Rộng (cm)</label>
-                                        <input type="number" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="0" value="8">
+                                        <label class="block text-sm font-medium text-slate-700 mb-2">Rộng (cm)</label>
+                                        <input type="number" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="0">
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Cao (cm)</label>
-                                        <input type="number" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="0" value="2">
+                                        <label class="block text-sm font-medium text-slate-700 mb-2">Cao (cm)</label>
+                                        <input type="number" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="0">
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Phương thức vận chuyển</h3>
-                            <div class="space-y-4">
+                                
                                 <div>
-                                    <div class="flex items-center justify-between mb-2">
-                                        <label class="block text-sm font-medium text-gray-700">Chọn phương thức vận chuyển</label>
-                                        <button class="text-primary text-sm font-medium flex items-center">
-                                            <i class="fas fa-plus-circle mr-2"></i> Thêm mới
-                                        </button>
-                                    </div>
+                                    <label class="block text-base font-medium text-slate-800 mb-2">Chọn dịch vụ vận chuyển</label>
                                     <div class="border rounded-lg overflow-hidden">
                                         <div class="p-4 border-b flex items-center">
-                                            <input type="checkbox" class="rounded text-primary focus:ring-primary" checked>
+                                            <input type="checkbox" class="h-4 w-4 text-primary" checked>
                                             <div class="ml-3">
                                                 <div class="font-medium">Giao hàng nhanh</div>
-                                                <div class="text-sm text-gray-500">Giao trong 2-4 ngày</div>
+                                                <div class="text-sm text-slate-500">Giao trong 2-4 ngày</div>
                                             </div>
                                         </div>
                                         <div class="p-4 border-b flex items-center">
-                                            <input type="checkbox" class="rounded text-primary focus:ring-primary">
+                                            <input type="checkbox" class="h-4 w-4 text-primary">
                                             <div class="ml-3">
                                                 <div class="font-medium">Giao hàng tiết kiệm</div>
-                                                <div class="text-sm text-gray-500">Giao trong 4-7 ngày</div>
+                                                <div class="text-sm text-slate-500">Giao trong 4-7 ngày</div>
                                             </div>
                                         </div>
                                         <div class="p-4 flex items-center">
-                                            <input type="checkbox" class="rounded text-primary focus:ring-primary" checked>
+                                            <input type="checkbox" class="h-4 w-4 text-primary" checked>
                                             <div class="ml-3">
                                                 <div class="font-medium">Giao hàng hỏa tốc</div>
-                                                <div class="text-sm text-gray-500">Giao trong 1-2 ngày</div>
+                                                <div class="text-sm text-slate-500">Giao trong 1-2 ngày</div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Phí vận chuyển cố định (nếu có)</label>
+                                    <label class="block text-base font-medium text-slate-800 mb-2">Phí vận chuyển cố định (nếu có)</label>
                                     <div class="relative">
                                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                            <span class="text-gray-500">₫</span>
+                                            <span class="text-slate-500">₫</span>
                                         </div>
-                                        <input type="number" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="0">
+                                        <input type="number" class="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg" placeholder="0">
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Attributes Tab -->
-                <div id="attributes" class="tab-content">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Thuộc tính sản phẩm</h3>
-                            <p class="text-gray-600 mb-6">Thêm các thuộc tính giúp khách hàng tìm thấy sản phẩm dễ dàng hơn</p>
-                            
-                            <div class="space-y-4">
-                                <div class="attribute-item bg-gray-50 p-4 rounded-lg border">
-                                    <div class="flex justify-between items-center mb-2">
-                                        <label class="font-medium text-gray-700">Chất liệu</label>
-                                        <button class="text-red-500 text-sm">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" value="Nhựa cao cấp, kim loại">
-                                </div>
-                                
-                                <div class="attribute-item bg-gray-50 p-4 rounded-lg border">
-                                    <div class="flex justify-between items-center mb-2">
-                                        <label class="font-medium text-gray-700">Màu sắc</label>
-                                        <button class="text-red-500 text-sm">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" value="Xanh dương, Đỏ, Đen">
-                                </div>
-                                
-                                <div class="attribute-item bg-gray-50 p-4 rounded-lg border">
-                                    <div class="flex justify-between items-center mb-2">
-                                        <label class="font-medium text-gray-700">Kích cỡ</label>
-                                        <button class="text-red-500 text-sm">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" value="128GB, 256GB">
-                                </div>
-                            </div>
-                            
-                            <button class="mt-6 bg-white border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50 flex items-center">
-                                <i class="fas fa-plus-circle mr-2"></i> Thêm thuộc tính
-                            </button>
                         </div>
                         
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Thuộc tính được đề xuất</h3>
-                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                                <div class="flex items-start">
-                                    <i class="fas fa-lightbulb text-blue-500 text-xl mt-1 mr-3"></i>
-                                    <p class="text-blue-700">Thêm thuộc tính giúp sản phẩm của bạn xuất hiện nhiều hơn trong kết quả tìm kiếm và tăng tỉ lệ chuyển đổi.</p>
-                                </div>
-                            </div>
+                            <h3 class="text-lg font-semibold text-slate-800 mb-4">Tối ưu SEO</h3>
                             
-                            <div class="space-y-3">
-                                <div class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                                    <input type="checkbox" class="rounded text-primary focus:ring-primary">
-                                    <div class="ml-3">
-                                        <div class="font-medium">Thương hiệu</div>
-                                        <div class="text-sm text-gray-500">Apple, Samsung, Xiaomi,...</div>
-                                    </div>
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-base font-medium text-slate-800 mb-2">Tiêu đề SEO</label>
+                                    <input type="text" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="Nhập tiêu đề SEO">
+                                    <p class="text-slate-500 text-sm mt-2">Tối đa 60 ký tự</p>
                                 </div>
                                 
-                                <div class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                                    <input type="checkbox" class="rounded text-primary focus:ring-primary">
-                                    <div class="ml-3">
-                                        <div class="font-medium">Model</div>
-                                        <div class="text-sm text-gray-500">iPhone 15, Galaxy S23,...</div>
-                                    </div>
+                                <div>
+                                    <label class="block text-base font-medium text-slate-800 mb-2">Mô tả SEO</label>
+                                    <textarea class="w-full px-4 py-3 border border-slate-300 rounded-lg h-32" placeholder="Nhập mô tả SEO"></textarea>
+                                    <p class="text-slate-500 text-sm mt-2">Tối đa 160 ký tự</p>
                                 </div>
                                 
-                                <div class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                                    <input type="checkbox" class="rounded text-primary focus:ring-primary" checked>
-                                    <div class="ml-3">
-                                        <div class="font-medium">Màu sắc</div>
-                                        <div class="text-sm text-gray-500">Xanh dương, Đỏ, Đen,...</div>
-                                    </div>
+                                <div>
+                                    <label class="block text-base font-medium text-slate-800 mb-2">Từ khóa SEO</label>
+                                    <input type="text" class="w-full px-4 py-3 border border-slate-300 rounded-lg" placeholder="Nhập từ khóa, cách nhau bằng dấu phẩy">
+                                    <p class="text-slate-500 text-sm mt-2">Ví dụ: điện thoại, iphone, giá rẻ</p>
                                 </div>
                                 
-                                <div class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                                    <input type="checkbox" class="rounded text-primary focus:ring-primary">
-                                    <div class="ml-3">
-                                        <div class="font-medium">Dung lượng</div>
-                                        <div class="text-sm text-gray-500">128GB, 256GB, 512GB,...</div>
-                                    </div>
-                                </div>
-                                
-                                <div class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                                    <input type="checkbox" class="rounded text-primary focus:ring-primary">
-                                    <div class="ml-3">
-                                        <div class="font-medium">Kích thước màn hình</div>
-                                        <div class="text-sm text-gray-500">6.1 inch, 6.7 inch,...</div>
+                                <div>
+                                    <label class="block text-base font-medium text-slate-800 mb-2">Đường dẫn tùy chỉnh</label>
+                                    <div class="flex">
+                                        <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-slate-300 bg-slate-50 text-slate-500 text-sm">
+                                            premium-marketplace.com/san-pham/
+                                        </span>
+                                        <input type="text" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border-slate-300" placeholder="duong-dan-san-pham">
                                     </div>
                                 </div>
                             </div>
@@ -672,18 +935,12 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-            <button class="bg-white border border-gray-300 px-6 py-3 rounded-lg hover:bg-gray-50 flex items-center w-full md:w-auto justify-center">
-                <i class="fas fa-times mr-2"></i> Hủy bỏ
-            </button>
-            <div class="flex gap-3 w-full md:w-auto">
-                <button class="bg-gray-100 hover:bg-gray-200 px-6 py-3 rounded-lg flex items-center w-full md:w-auto justify-center">
-                    <i class="fas fa-save mr-2"></i> Lưu nháp
+            
+            <div class="flex justify-between gap-3">
+                <button class="prev-step bg-white border border-slate-300 px-6 py-3 rounded-lg hover:bg-slate-50 flex items-center transition" data-prev="5">
+                    <i class="fas fa-arrow-left mr-2"></i> Quay lại
                 </button>
-                <button class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-secondary transition flex items-center w-full md:w-auto justify-center">
+                <button class="bg-success text-white px-6 py-3 rounded-lg hover:bg-green-600 transition flex items-center">
                     <i class="fas fa-rocket mr-2"></i> Đăng bán ngay
                 </button>
             </div>
@@ -692,60 +949,113 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Tab switching functionality
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
+            // Step navigation
+            const nextButtons = document.querySelectorAll('.next-step');
+            const prevButtons = document.querySelectorAll('.prev-step');
+            const stepContents = document.querySelectorAll('.step-content');
+            const stepIndicators = document.querySelectorAll('.step-indicator');
             
-            tabButtons.forEach(button => {
+            // Initialize step 1 as active
+            stepIndicators[0].classList.add('active');
+            
+            // Next step functionality
+            nextButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    const tabId = this.getAttribute('data-tab');
+                    const nextStep = this.getAttribute('data-next');
+                    const currentStep = nextStep - 1;
                     
-                    // Remove active class from all buttons and contents
-                    tabButtons.forEach(btn => btn.classList.remove('border-primary', 'text-primary'));
-                    tabContents.forEach(content => content.classList.remove('active'));
+                    // Deactivate current step
+                    document.querySelector(`#step-${currentStep}`).classList.remove('active');
+                    stepIndicators[currentStep - 1].classList.remove('active');
+                    stepIndicators[currentStep - 1].classList.add('completed');
                     
-                    // Add active class to current button and content
-                    this.classList.add('border-primary', 'text-primary');
-                    document.getElementById(tabId).classList.add('active');
+                    // Activate next step
+                    document.querySelector(`#step-${nextStep}`).classList.add('active');
+                    stepIndicators[nextStep - 1].classList.add('active');
+                    
+                    // Scroll to top
+                    window.scrollTo(0, 0);
                 });
             });
             
-            // Enable/disable variations
-            const variationsCheckbox = document.getElementById('enable-variations');
-            const variationsContainer = document.querySelector('.variation-container');
-            
-            variationsCheckbox.addEventListener('change', function() {
-                if (this.checked) {
-                    variationsContainer.classList.remove('hidden');
-                } else {
-                    variationsContainer.classList.add('hidden');
-                }
-            });
-            
-            // Image upload preview (simulated functionality)
-            const imageUploads = document.querySelectorAll('input[type="file"]');
-            imageUploads.forEach(upload => {
-                upload.addEventListener('change', function(e) {
-                    alert(`Đã chọn ${e.target.files.length} hình ảnh để tải lên`);
+            // Previous step functionality
+            prevButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const prevStep = this.getAttribute('data-prev');
+                    const currentStep = parseInt(prevStep) + 1;
+                    
+                    // Deactivate current step
+                    document.querySelector(`#step-${currentStep}`).classList.remove('active');
+                    stepIndicators[currentStep - 1].classList.remove('active');
+                    
+                    // Activate previous step
+                    document.querySelector(`#step-${prevStep}`).classList.add('active');
+                    stepIndicators[prevStep - 1].classList.add('active');
+                    
+                    // Scroll to top
+                    window.scrollTo(0, 0);
                 });
             });
             
-            // Remove image buttons
-            const removeButtons = document.querySelectorAll('.remove-image-btn');
-            removeButtons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const preview = this.closest('.image-preview');
-                    preview.style.opacity = '0';
-                    setTimeout(() => {
-                        preview.remove();
-                    }, 300);
-                });
+            // Add attribute functionality
+            document.getElementById('add-attribute-btn').addEventListener('click', function() {
+                const container = document.getElementById('attributes-container');
+                const attributeCount = container.children.length + 1;
+                
+                const newAttribute = document.createElement('div');
+                newAttribute.className = 'attribute-item bg-white p-4 rounded-lg border shadow-sm';
+                newAttribute.innerHTML = `
+                    <div class="flex justify-between items-center mb-3">
+                        <h4 class="font-medium text-slate-800">Thuộc tính ${attributeCount}</h4>
+                        <button class="text-red-500 hover:text-red-700">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Phân loại</label>
+                        <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Ví dụ: Màu sắc, Kích thước">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Giá trị</label>
+                        <div class="flex items-center gap-2">
+                            <input type="text" class="w-full px-4 py-2 border border-slate-300 rounded-lg" placeholder="Thêm giá trị mới">
+                            <button class="text-slate-500 hover:text-slate-700 w-8 h-8 flex items-center justify-center">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(newAttribute);
             });
-            
-            // Initialize the first tab as active
-            document.querySelector('.tab-btn[data-tab="basic-info"]').classList.add('border-primary', 'text-primary');
         });
+        
+        // Update category attributes based on selection
+        function updateCategoryAttributes() {
+            const mainCategory = document.getElementById('main-category').value;
+            const categoryAttributes = document.querySelectorAll('.category-attributes');
+            
+            // Hide all category attributes
+            categoryAttributes.forEach(attr => {
+                attr.classList.remove('active');
+            });
+            
+            // Show attributes for selected category
+            if (mainCategory === 'electronics') {
+                document.getElementById('electronics-attributes').classList.add('active');
+            } else if (mainCategory === 'fashion') {
+                document.getElementById('fashion-attributes').classList.add('active');
+            } else if (mainCategory) {
+                document.getElementById('default-attributes').classList.add('active');
+            } else {
+                document.getElementById('default-attributes').classList.add('active');
+            }
+        }
+        
+        // Initialize category attributes
+        updateCategoryAttributes();
     </script>
 </body>
 </html>

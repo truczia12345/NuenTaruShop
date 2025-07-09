@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Danh mục - Premium Marketplace</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff424f',
+                        secondary: '#c43a43',
+                        dark: '#1a202c',
+                        light: '#f8f9fa',
+                        premium: '#ff424f',
+                        premiumLight: '#fff5f5',
+                        premiumDark: '#d1323d',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                        info: '#3b82f6'
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(0, 0, 0, 0.08)',
+                        'input': '0 0 0 3px rgba(255, 66, 79, 0.25)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: 'Roboto', sans-serif;
+        }
+        .category-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid #ff424f;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .category-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .category-active {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+        .category-inactive {
+            background-color: #fef9c3;
+            color: #a16207;
+        }
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            background-color: #e2e8f0;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+        .subcategory-item {
+            transition: all 0.2s ease;
+            border-left: 2px solid #e2e8f0;
+        }
+        .subcategory-item:hover {
+            background-color: #f1f5f9;
+            border-left-color: #ff424f;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .tab-button {
+            padding: 10px 20px;
+            border-radius: 8px 8px 0 0;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tab-button.active {
+            background-color: white;
+            color: #ff424f;
+            border-bottom: 3px solid #ff424f;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-slate-800">Quản lý Danh mục</h1>
+                <p class="text-slate-600 mt-2">Xem và quản lý sản phẩm theo danh mục hệ thống</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex gap-3 flex-wrap">
+                <button class="bg-white border border-slate-300 px-5 py-2.5 rounded-lg hover:bg-slate-50 flex items-center transition">
+                    <i class="fas fa-file-export text-slate-600 mr-2"></i> Xuất báo cáo
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="bg-white rounded-xl shadow-card p-6">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-lg font-medium text-slate-600 mb-2">Tổng danh mục</h3>
+                        <p class="text-2xl font-bold text-slate-800">24</p>
+                    </div>
+                    <div class="bg-premiumLight p-3 rounded-lg">
+                        <i class="fas fa-folder text-premium text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center text-sm text-slate-500">
+                        <span>8 danh mục chính, 16 danh mục con</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-card p-6">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-lg font-medium text-slate-600 mb-2">Sản phẩm đang bán</h3>
+                        <p class="text-2xl font-bold text-slate-800">1,248</p>
+                    </div>
+                    <div class="bg-green-50 p-3 rounded-lg">
+                        <i class="fas fa-box text-green-500 text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center text-sm text-slate-500">
+                        <i class="fas fa-arrow-up text-success mr-1"></i>
+                        <span>+18 sản phẩm mới trong tháng</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-card p-6">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-lg font-medium text-slate-600 mb-2">Danh mục phổ biến</h3>
+                        <p class="text-2xl font-bold text-slate-800">Điện thoại</p>
+                    </div>
+                    <div class="bg-blue-50 p-3 rounded-lg">
+                        <i class="fas fa-star text-blue-500 text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center text-sm text-slate-500">
+                        <span>312 sản phẩm, 24.5K đã bán</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="bg-white rounded-t-xl shadow-card">
+            <div class="flex border-b">
+                <div class="tab-button active" data-tab="categories">
+                    <i class="fas fa-folder-tree mr-2"></i> Danh mục hệ thống
+                </div>
+                <div class="tab-button" data-tab="products">
+                    <i class="fas fa-boxes mr-2"></i> Sản phẩm theo danh mục
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories Tab -->
+        <div class="tab-content active" id="categories-tab">
+            <div class="bg-white rounded-b-xl shadow-card p-6 mb-6">
+                <div class="flex flex-col md:flex-row justify-between gap-4 mb-6">
+                    <div class="relative flex-1 max-w-lg">
+                        <input type="text" placeholder="Tìm kiếm danh mục..." class="w-full px-4 py-3 pl-12 border border-slate-300 rounded-lg">
+                        <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                    </div>
+                    
+                    <div class="flex gap-3">
+                        <select class="px-4 py-3 border border-slate-300 rounded-lg">
+                            <option>Tất cả danh mục</option>
+                            <option>Danh mục chính</option>
+                            <option>Danh mục con</option>
+                        </select>
+                        
+                        <select class="px-4 py-3 border border-slate-300 rounded-lg">
+                            <option>Sắp xếp theo: Tên A-Z</option>
+                            <option>Sắp xếp theo: Tên Z-A</option>
+                            <option>Sắp xếp theo: Sản phẩm nhiều nhất</option>
+                            <option>Sắp xếp theo: Sản phẩm ít nhất</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Category Card 1 -->
+                    <div class="category-card bg-white p-5 rounded-lg shadow-sm border border-slate-100">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-800 flex items-center">
+                                    <i class="fas fa-mobile-alt text-slate-500 mr-3"></i>
+                                    Điện thoại
+                                </h3>
+                                <span class="category-badge category-active mt-2">
+                                    <i class="fas fa-check-circle mr-2"></i> Đang hoạt động
+                                </span>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold text-slate-800">312</div>
+                                <div class="text-slate-500 text-sm">sản phẩm</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm text-slate-600 mb-1">
+                                <span>Sản phẩm đang bán</span>
+                                <span>285/312</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill bg-green-500" style="width: 91%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-sm font-medium text-slate-700 mb-2">Danh mục con:</div>
+                        <ul class="space-y-2">
+                            <li class="subcategory-item pl-4 py-2">
+                                <div class="flex justify-between">
+                                    <span>Điện thoại thông minh</span>
+                                    <span class="text-slate-500">204 SP</span>
+                                </div>
+                            </li>
+                            <li class="subcategory-item pl-4 py-2">
+                                <div class="flex justify-between">
+                                    <span>Điện thoại cơ bản</span>
+                                    <span class="text-slate-500">76 SP</span>
+                                </div>
+                            </li>
+                            <li class="subcategory-item pl-4 py-2">
+                                <div class="flex justify-between">
+                                    <span>Điện thoại bàn phím</span>
+                                    <span class="text-slate-500">32 SP</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Category Card 2 -->
+                    <div class="category-card bg-white p-5 rounded-lg shadow-sm border border-slate-100">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-800 flex items-center">
+                                    <i class="fas fa-laptop text-slate-500 mr-3"></i>
+                                    Laptop
+                                </h3>
+                                <span class="category-badge category-active mt-2">
+                                    <i class="fas fa-check-circle mr-2"></i> Đang hoạt động
+                                </span>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold text-slate-800">156</div>
+                                <div class="text-slate-500 text-sm">sản phẩm</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm text-slate-600 mb-1">
+                                <span>Sản phẩm đang bán</span>
+                                <span>142/156</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill bg-green-500" style="width: 91%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-sm font-medium text-slate-700 mb-2">Danh mục con:</div>
+                        <ul class="space-y-2">
+                            <li class="subcategory-item pl-4 py-2">
+                                <div class="flex justify-between">
+                                    <span>Laptop văn phòng</span>
+                                    <span class="text-slate-500">76 SP</span>
+                                </div>
+                            </li>
+                            <li class="subcategory-item pl-4 py-2">
+                                <div class="flex justify-between">
+                                    <span>Laptop gaming</span>
+                                    <span class="text-slate-500">54 SP</span>
+                                </div>
+                            </li>
+                            <li class="subcategory-item pl-4 py-2">
+                                <div class="flex justify-between">
+                                    <span>Laptop đồ họa</span>
+                                    <span class="text-slate-500">26 SP</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Category Card 3 -->
+                    <div class="category-card bg-white p-5 rounded-lg shadow-sm border border-slate-100">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-800 flex items-center">
+                                    <i class="fas fa-tshirt text-slate-500 mr-3"></i>
+                                    Thời trang
+                                </h3>
+                                <span class="category-badge category-active mt-2">
+                                    <i class="fas fa-check-circle mr-2"></i> Đang hoạt động
+                                </span>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold text-slate-800">287</div>
+                                <div class="text-slate-500 text-sm">sản phẩm</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm text-slate-600 mb-1">
+                                <span>Sản phẩm đang bán</span>
+                                <span>264/287</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill bg-green-500" style="width: 92%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-sm font-medium text-slate-700 mb-2">Danh mục con:</div>
+                        <ul class="space-y-2">
+                            <li class="subcategory-item pl-4 py-2">
+                                <div class="flex justify-between">
+                                    <span>Áo thun</span>
+                                    <span class="text-slate-500">98 SP</span>
+                                </div>
+                            </li>
+                            <li class="subcategory-item pl-4 py-2">
+                                <div class="flex justify-between">
+                                    <span>Quần jeans</span>
+                                    <span class="text-slate-500">76 SP</span>
+                                </div>
+                            </li>
+                            <li class="subcategory-item pl-4 py-2">
+                                <div class="flex justify-between">
+                                    <span>Áo sơ mi</span>
+                                    <span class="text-slate-500">65 SP</span>
+                                </div>
+                            </li>
+                            <li class="subcategory-item pl-4 py-2">
+                                <div class="flex justify-between">
+                                    <span>Váy đầm</span>
+                                    <span class="text-slate-500">48 SP</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Category Card 4 -->
+                    <div class="category-card bg-white p-5 rounded-lg shadow-sm border border-slate-100">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-800 flex items-center">
+                                    <i class="fas fa-home text-slate-500 mr-3"></i>
+                                    Đồ gia dụng
+                                </h3>
+                                <span class="category-badge category-active mt-2">
+                                    <i class="fas fa-check-circle mr-2"></i> Đang hoạt động
+                                </span>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold text-slate-800">134</div>
+                                <div class="text-slate-500 text-sm">sản phẩm</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm text-slate-600 mb-1">
+                                <span>Sản phẩm đang bán</span>
+                                <span>121/134</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill bg-green-500" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-sm font-medium text-slate-700 mb-2">Danh mục con:</div>
+                        <ul class="space-y-2">
+                            <li class="subcategory-item pl-4 py-2">
+                                <div class="flex justify-between">
+                                    <span>Thiết bị nhà bếp</span>
+                                    <span class="text-slate-500">65 SP</span>
+                                </div>
+                            </li>
+                            <li class="subcategory-item pl-4 py-2">
+                                <div class="flex justify-between">
+                                    <span>Đồ dùng phòng tắm</span>
+                                    <span class="text-slate-500">42 SP</span>
+                                </div>
+                            </li>
+                            <li class="subcategory-item pl-4 py-2">
+                                <div class="flex justify-between">
+                                    <span>Nội thất</span>
+                                    <span class="text-slate-500">27 SP</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Category Card 5 -->
+                    <div class="category-card bg-white p-5 rounded-lg shadow-sm border border-slate-100">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-800 flex items-center">
+                                    <i class="fas fa-heart text-slate-500 mr-3"></i>
+                                    Làm đẹp
+                                </h3>
+                                <span class="category-badge category-active mt-2">
+                                    <i class="fas fa-check-circle mr-2"></i> Đang hoạt động
+                                </span>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold text-slate-800">198</div>
+                                <div class="text-slate-500 text-sm">sản phẩm</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm text-slate-600 mb-1">
+                                <span>Sản phẩm đang bán</span>
+                                <span>182/198</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill bg-green-500" style="width: 92%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-sm font-medium text-slate-700 mb-2">Danh mục con:</div>
+                        <ul class="space-y-2">
+                            <li class="subcategory-item pl-4 py-2">
+                                <div class="flex justify-between">
+                                    <span>Mỹ phẩm</span>
+                                    <span class="text-slate-500">87 SP</span>
+                                </div>
+                            </li>
+                            <li class="subcategory-item pl-4 py-2">
+                                <div class="flex justify-between">
+                                    <span>Chăm sóc da</span>
+                                    <span class="text-slate-500">65 SP</span>
+                                </div>
+                            </li>
+                            <li class="subcategory-item pl-4 py-2">
+                                <div class="flex justify-between">
+                                    <span>Chăm sóc tóc</span>
+                                    <span class="text-slate-500">46 SP</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Category Card 6 -->
+                    <div class="category-card bg-white p-5 rounded-lg shadow-sm border border-slate-100">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-800 flex items-center">
+                                    <i class="fas fa-dumbbell text-slate-500 mr-3"></i>
+                                    Thể thao
+                                </h3>
+                                <span class="category-badge category-inactive mt-2">
+                                    <i class="fas fa-exclamation-circle mr-2"></i> Hạn chế
+                                </span>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold text-slate-800">76</div>
+                                <div class="text-slate-500 text-sm">sản phẩm</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm text-slate-600 mb-1">
+                                <span>Sản phẩm đang bán</span>
+                                <span>68/76</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill bg-yellow-500" style="width: 89%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-sm font-medium text-slate-700 mb-2">Danh mục con:</div>
+                        <ul class="space-y-2">
+                            <li class="subcategory-item pl-4 py-2">
+                                <div class="flex justify-between">
+                                    <span>Dụng cụ thể thao</span>
+                                    <span class="text-slate-500">42 SP</span>
+                                </div>
+                            </li>
+                            <li class="subcategory-item pl-4 py-2">
+                                <div class="flex justify-between">
+                                    <span>Quần áo thể thao</span>
+                                    <span class="text-slate-500">34 SP</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="mt-8 flex justify-center">
+                    <div class="flex gap-1">
+                        <button class="pagination-btn bg-white border border-slate-300 w-10 h-10 flex items-center justify-center rounded-lg">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="pagination-btn bg-primary text-white w-10 h-10 flex items-center justify-center rounded-lg">1</button>
+                        <button class="pagination-btn bg-white border border-slate-300 w-10 h-10 flex items-center justify-center rounded-lg">2</button>
+                        <button class="pagination-btn bg-white border border-slate-300 w-10 h-10 flex items-center justify-center rounded-lg">3</button>
+                        <span class="p-2 text-slate-400">...</span>
+                        <button class="pagination-btn bg-white border border-slate-300 w-10 h-10 flex items-center justify-center rounded-lg">5</button>
+                        <button class="pagination-btn bg-white border border-slate-300 w-10 h-10 flex items-center justify-center rounded-lg">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products by Category Tab -->
+        <div class="tab-content" id="products-tab">
+            <div class="bg-white rounded-b-xl shadow-card p-6 mb-6">
+                <div class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-800 mb-4">Sản phẩm trong danh mục: <span class="text-primary">Điện thoại</span></h2>
+                    
+                    <div class="flex flex-col md:flex-row justify-between gap-4">
+                        <div class="flex gap-3">
+                            <select class="px-4 py-3 border border-slate-300 rounded-lg">
+                                <option>Tất cả danh mục con</option>
+                                <option>Điện thoại thông minh</option>
+                                <option>Điện thoại cơ bản</option>
+                                <option>Điện thoại bàn phím</option>
+                            </select>
+                            
+                            <select class="px-4 py-3 border border-slate-300 rounded-lg">
+                                <option>Sắp xếp: Mặc định</option>
+                                <option>Sắp xếp: Giá tăng dần</option>
+                                <option>Sắp xếp: Giá giảm dần</option>
+                                <option>Sắp xếp: Bán chạy nhất</option>
+                            </select>
+                        </div>
+                        
+                        <div class="relative">
+                            <input type="text" placeholder="Tìm sản phẩm..." class="w-full md:w-64 px-4 py-3 pl-12 border border-slate-300 rounded-lg">
+                            <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-grid">
+                    <!-- Product 1 -->
+                    <div class="product-card bg-white rounded-lg overflow-hidden">
+                        <div class="p-4 border-b">
+                            <div class="bg-slate-100 rounded-lg h-40 flex items-center justify-center">
+                                <img src="https://images.pexels.com/photos/699122/pexels-photo-699122.jpeg?auto=compress&cs=tinysrgb&w=160&h=160" alt="Product" class="h-32 object-contain">
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-slate-800 truncate">iPhone 13 Pro Max 128GB</h3>
+                            <div class="flex items-center mt-2">
+                                <div class="text-sm text-slate-500">SKU: IP13PM-128</div>
+                                <div class="ml-auto bg-slate-100 px-2 py-1 rounded text-xs">Còn 42</div>
+                            </div>
+                            <div class="mt-3 flex items-center justify-between">
+                                <div class="font-bold text-lg">18.990.000₫</div>
+                                <div class="flex gap-2">
+                                    <button class="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-full hover:bg-slate-200">
+                                        <i class="fas fa-edit text-sm text-slate-600"></i>
+                                    </button>
+                                    <button class="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-full hover:bg-slate-200">
+                                        <i class="fas fa-chart-line text-sm text-slate-600"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 2 -->
+                    <div class="product-card bg-white rounded-lg overflow-hidden">
+                        <div class="p-4 border-b">
+                            <div class="bg-slate-100 rounded-lg h-40 flex items-center justify-center">
+                                <img src="https://images.pexels.com/photos/47261/pexels-photo-47261.jpeg?auto=compress&cs=tinysrgb&w=160&h=160" alt="Product" class="h-32 object-contain">
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-slate-800 truncate">Samsung Galaxy S22 Ultra 256GB</h3>
+                            <div class="flex items-center mt-2">
+                                <div class="text-sm text-slate-500">SKU: SGS22U-256</div>
+                                <div class="ml-auto bg-slate-100 px-2 py-1 rounded text-xs">Còn 24</div>
+                            </div>
+                            <div class="mt-3 flex items-center justify-between">
+                                <div class="font-bold text-lg">21.500.000₫</div>
+                                <div class="flex gap-2">
+                                    <button class="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-full hover:bg-slate-200">
+                                        <i class="fas fa-edit text-sm text-slate-600"></i>
+                                    </button>
+                                    <button class="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-full hover:bg-slate-200">
+                                        <i class="fas fa-chart-line text-sm text-slate-600"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 3 -->
+                    <div class="product-card bg-white rounded-lg overflow-hidden">
+                        <div class="p-4 border-b">
+                            <div class="bg-slate-100 rounded-lg h-40 flex items-center justify-center">
+                                <img src="https://images.pexels.com/photos/1275929/pexels-photo-1275929.jpeg?auto=compress&cs=tinysrgb&w=160&h=160" alt="Product" class="h-32 object-contain">
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-slate-800 truncate">Xiaomi Redmi Note 11 Pro</h3>
+                            <div class="flex items-center mt-2">
+                                <div class="text-sm text-slate-500">SKU: XRN11P-128</div>
+                                <div class="ml-auto bg-slate-100 px-2 py-1 rounded text-xs">Còn 56</div>
+                            </div>
+                            <div class="mt-3 flex items-center justify-between">
+                                <div class="font-bold text-lg">7.290.000₫</div>
+                                <div class="flex gap-2">
+                                    <button class="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-full hover:bg-slate-200">
+                                        <i class="fas fa-edit text-sm text-slate-600"></i>
+                                    </button>
+                                    <button class="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-full hover:bg-slate-200">
+                                        <i class="fas fa-chart-line text-sm text-slate-600"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 4 -->
+                    <div class="product-card bg-white rounded-lg overflow-hidden">
+                        <div class="p-4 border-b">
+                            <div class="bg-slate-100 rounded-lg h-40 flex items-center justify-center">
+                                <img src="https://images.pexels.com/photos/1334597/pexels-photo-1334597.jpeg?auto=compress&cs=tinysrgb&w=160&h=160" alt="Product" class="h-32 object-contain">
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-slate-800 truncate">OPPO Reno7 5G 128GB</h3>
+                            <div class="flex items-center mt-2">
+                                <div class="text-sm text-slate-500">SKU: OPR7-5G-128</div>
+                                <div class="ml-auto bg-slate-100 px-2 py-1 rounded text-xs">Còn 32</div>
+                            </div>
+                            <div class="mt-3 flex items-center justify-between">
+                                <div class="font-bold text-lg">8.990.000₫</div>
+                                <div class="flex gap-2">
+                                    <button class="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-full hover:bg-slate-200">
+                                        <i class="fas fa-edit text-sm text-slate-600"></i>
+                                    </button>
+                                    <button class="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-full hover:bg-slate-200">
+                                        <i class="fas fa-chart-line text-sm text-slate-600"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="mt-8 flex justify-center">
+                    <div class="flex gap-1">
+                        <button class="pagination-btn bg-white border border-slate-300 w-10 h-10 flex items-center justify-center rounded-lg">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="pagination-btn bg-primary text-white w-10 h-10 flex items-center justify-center rounded-lg">1</button>
+                        <button class="pagination-btn bg-white border border-slate-300 w-10 h-10 flex items-center justify-center rounded-lg">2</button>
+                        <button class="pagination-btn bg-white border border-slate-300 w-10 h-10 flex items-center justify-center rounded-lg">3</button>
+                        <button class="pagination-btn bg-white border border-slate-300 w-10 h-10 flex items-center justify-center rounded-lg">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // Category card hover effect
+            const categoryCards = document.querySelectorAll('.category-card');
+            categoryCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = '0 10px 25px rgba(0,0,0,0.1)';
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = '';
+                    this.style.transform = '';
+                });
+            });
+            
+            // Subcategory hover effect
+            const subcategories = document.querySelectorAll('.subcategory-item');
+            subcategories.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.borderLeftColor = '#ff424f';
+                    this.style.backgroundColor = '#f1f5f9';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.borderLeftColor = '#e2e8f0';
+                    this.style.backgroundColor = '';
+                });
+            });
+            
+            // Product card hover effect
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.08)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
