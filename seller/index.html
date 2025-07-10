@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seller Dashboard - Premium</title>
+    <title>Seller Dashboard - Premium Marketplace</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
+    <link rel="stylesheet" href="/assets/css/seller.css">
+
     <script>
         tailwind.config = {
             theme: {
@@ -26,7 +24,9 @@
                         premium: '#ff424f',
                         premiumLight: '#fff5f5',
                         premiumDark: '#d1323d',
-                        premiumAccent: '#ff6b78'
+                        premiumAccent: '#ff6b78',
+                        chatLeft: '#f0f7ff',
+                        chatRight: '#e3f2fd'
                     },
                     fontFamily: {
                         'sans': ['Roboto', 'sans-serif']
@@ -37,7 +37,9 @@
                     boxShadow: {
                         'sidebar': '0 0 20px rgba(0,0,0,0.1)',
                         'sidebar-item': '0 4px 10px rgba(0,0,0,0.05)',
-                        'premium': '0 5px 15px rgba(255, 66, 79, 0.2)'
+                        'premium': '0 5px 15px rgba(255, 66, 79, 0.2)',
+                        'chat': '0 2px 8px rgba(0, 0, 0, 0.1)',
+                        'message': '0 1px 3px rgba(0, 0, 0, 0.08)'
                     },
                     transitionProperty: {
                         'height': 'height',
@@ -47,146 +49,6 @@
             }
         }
     </script>
-    
-    <style>
-        .sidebar {
-            transition: all 0.3s ease;
-            z-index: 1000;
-            background: linear-gradient(180deg, #ffffff 0%, #fff8f8 100%);
-            border-right: 1px solid #f0f0f0;
-        }
-        
-        .sidebar-nav .nav-link {
-            transition: all 0.2s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .nav-link:hover, .nav-link.active {
-            background: linear-gradient(90deg, #ffeff0 0%, #ffffff 100%);
-            border-left: 3px solid #ff424f;
-        }
-        
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 3px;
-            height: 100%;
-            background: #ff424f;
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
-        }
-        
-        .nav-link:hover::before, .nav-link.active::before {
-            transform: translateX(0);
-        }
-        
-        .submenu {
-            transition: max-height 0.3s ease-in-out, opacity 0.3s ease;
-            background: #fafafa;
-            max-height: 0;
-            overflow: hidden;
-        }
-        
-        .submenu.show {
-            max-height: 500px;
-        }
-        
-        .submenu .nav-link {
-            border-left: 0;
-            background: transparent;
-            padding-left: 3.5rem;
-        }
-        
-        .submenu .nav-link:hover {
-            background: #f5f5f5;
-            padding-left: 3.7rem;
-        }
-        
-        .dropdown-btn .fa-chevron-down {
-            transition: transform 0.3s ease;
-        }
-        
-        .dropdown-btn.active .fa-chevron-down {
-            transform: rotate(180deg);
-        }
-        
-        .sidebar-divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent 0%, #e0e0e0 50%, transparent 100%);
-        }
-        
-        .sidebar-badge {
-            position: absolute;
-            right: 35px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #ff424f;
-            color: white;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 10px;
-        }
-        
-        .notification-panel, .chat-panel {
-            transition: right 0.3s ease;
-            z-index: 1000;
-        }
-        
-        .notification-panel.show, .chat-panel.show {
-            right: 0;
-        }
-        
-        .account-menu {
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-        }
-        
-        .account-menu.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-        
-        .notification-tab.active {
-            border-bottom-color: #ff424f;
-            color: #ff424f;
-        }
-        
-        .breadcrumb-item + .breadcrumb-item::before {
-            content: "›";
-            padding: 0 8px;
-            color: #999;
-        }
-        
-        .premium-gradient {
-            background: linear-gradient(135deg, #ff424f 0%, #ff6b78 100%);
-        }
-        
-        .sidebar-header {
-            border-bottom: 1px solid rgba(255, 66, 79, 0.1);
-        }
-        
-        .collapsed .submenu {
-            max-height: 0;
-        }
-        
-        .submenu-item {
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-        }
-        
-        .show .submenu-item {
-            opacity: 1;
-            transform: translateY(0);
-            transition-delay: 0.1s;
-        }
-    </style>
 </head>
 <body class="font-sans bg-gray-50">
     <!-- Notification Panel -->
@@ -251,7 +113,7 @@
             </div>
         </div>
         <div class="chat-list flex-1 overflow-y-auto">
-            <div class="chat-item p-3 flex gap-3 items-center border-b cursor-pointer hover:bg-gray-50">
+            <div class="chat-item p-3 flex gap-3 items-center border-b cursor-pointer hover:bg-gray-50" onclick="openChatBox('TV box 24h Store', 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=48&h=48')">
                 <img src="https://via.placeholder.com/48" alt="TV box 24h Store" class="w-12 h-12 rounded-full object-cover">
                 <div class="chat-info flex-1 min-w-0">
                     <div class="chat-name font-medium truncate">TV box 24h Store</div>
@@ -259,7 +121,7 @@
                 </div>
                 <div class="chat-time text-gray-500 text-xs whitespace-nowrap">30/12/24</div>
             </div>
-            <div class="chat-item p-3 flex gap-3 items-center border-b cursor-pointer hover:bg-gray-50">
+            <div class="chat-item p-3 flex gap-3 items-center border-b cursor-pointer hover:bg-gray-50" onclick="openChatBox('linhkienhnh281', 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=48&h=48')">
                 <img src="https://via.placeholder.com/48" alt="linhkienhnh281" class="w-12 h-12 rounded-full object-cover">
                 <div class="chat-info flex-1 min-w-0">
                     <div class="chat-name font-medium truncate">linhkienhnh281</div>
@@ -267,9 +129,17 @@
                 </div>
                 <div class="chat-time text-gray-500 text-xs whitespace-nowrap">20/05/24</div>
             </div>
+            <div class="chat-item p-3 flex gap-3 items-center border-b cursor-pointer hover:bg-gray-50" onclick="openChatBox('quang0945250969', 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=48&h=48')">
+                <img src="https://via.placeholder.com/48" alt="quang0945250969" class="w-12 h-12 rounded-full object-cover">
+                <div class="chat-info flex-1 min-w-0">
+                    <div class="chat-name font-medium truncate">quang0945250969</div>
+                    <div class="chat-message text-gray-600 text-sm truncate">mua trên này giá rẻ hơn nhiều sp với mua t...</div>
+                </div>
+                <div class="chat-time text-gray-500 text-xs whitespace-nowrap">15/06</div>
+            </div>
         </div>
         <div class="webchat-button p-4 border-t text-center">
-            <a href="#" class="text-blue-500 hover:text-blue-700 text-sm inline-flex items-center gap-2">
+            <a href="webchat.html" class="text-blue-500 hover:text-blue-700 text-sm inline-flex items-center gap-2">
                 <i class="fas fa-desktop"></i> Webchat
             </a>
         </div>
@@ -571,6 +441,11 @@
         </main>
     </div>
 
+    <!-- Chat Boxes Container -->
+    <div class="chat-boxes-container" id="chatBoxesContainer">
+        <!-- Chat boxes will be added here dynamically -->
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize event listeners for notification tabs and account menu
@@ -689,6 +564,277 @@
             
             notificationPanel.classList.remove('show');
             chatPanel.classList.toggle('show');
+        }
+        
+        // Function to create a chat box
+        function createChatBox(customerName, customerAvatar) {
+            const chatBoxId = `chatBox-${customerName.replace(/\s+/g, '-')}`;
+            
+            // Create chat box element
+            const chatBox = document.createElement('div');
+            chatBox.id = chatBoxId;
+            chatBox.className = 'chat-box bg-white flex flex-col';
+            chatBox.innerHTML = `
+                <div class="chat-box-header bg-gray-100 p-3 flex justify-between items-center">
+                    <div class="flex items-center">
+                        <img src="${customerAvatar}" alt="${customerName}" class="w-8 h-8 rounded-full object-cover">
+                        <div class="ml-2">
+                            <div class="font-semibold text-sm truncate max-w-[120px]">${customerName}</div>
+                            <div class="text-xs text-green-500">Đang hoạt động</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-1">
+                        <button class="minimize-btn p-1 text-gray-500 hover:text-primary">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button class="close-btn p-1 text-gray-500 hover:text-primary">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="chat-messages flex-1 overflow-y-auto p-3 bg-white">
+                    <!-- Messages will be loaded here -->
+                </div>
+                <div class="p-3 border-t">
+                    <div class="flex items-center gap-2">
+                        <div class="flex-1">
+                            <i class="fas fa-plus text-gray-500 cursor-pointer hover:text-primary"></i>
+                            <i class="fas fa-smile text-gray-500 cursor-pointer hover:text-primary"></i>
+                            <i class="fas fa-paperclip text-gray-500 cursor-pointer hover:text-primary"></i>
+                            <input type="text" placeholder="Nhập tin nhắn..." class="w-50 p-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <button class="send-btn p-2 bg-primary text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-premiumDark">
+                            <i class="fas fa-paper-plane text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Add to container
+            document.getElementById('chatBoxesContainer').appendChild(chatBox);
+            
+            // Load chat history
+            loadChatHistory(chatBoxId, customerName);
+            
+            // Add event listeners
+            const minimizeBtn = chatBox.querySelector('.minimize-btn');
+            const closeBtn = chatBox.querySelector('.close-btn');
+            const sendBtn = chatBox.querySelector('.send-btn');
+            const messageInput = chatBox.querySelector('input');
+            
+            minimizeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                chatBox.classList.toggle('minimized');
+            });
+            
+            closeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                chatBox.remove();
+            });
+            
+            sendBtn.addEventListener('click', function() {
+                sendMessage(chatBox, customerName, messageInput.value);
+                messageInput.value = '';
+            });
+            
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage(chatBox, customerName, messageInput.value);
+                    messageInput.value = '';
+                }
+            });
+            
+            // Auto-scroll to bottom
+            const messagesContainer = chatBox.querySelector('.chat-messages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Function to load chat history
+        function loadChatHistory(chatBoxId, customerName) {
+            const messagesContainer = document.querySelector(`#${chatBoxId} .chat-messages`);
+            
+            // Sample chat history data
+            const chatHistory = {
+                'TV box 24h Store': [
+                    { sender: 'customer', message: 'Còn box nguyên seal thì sẽ phải đóng cước vận chuyển không shop?', time: '14:22' },
+                    { sender: 'seller', message: 'Chào bạn! Box nguyên seal sẽ không phải đóng thêm cước vận chuyển nhé', time: '14:30' },
+                    { sender: 'customer', message: 'Cảm ơn shop, tôi sẽ đặt hàng ngay', time: '14:45' }
+                ],
+                'linhkienhnh281': [
+                    { sender: 'customer', message: '[Hình ảnh] máy em Pixel4xl mà đặt nhầm phần mềm cho Pixel4, shop hỗ trợ giúp em với', time: '09:15' },
+                    { sender: 'seller', message: 'Chào bạn! Để mình kiểm tra và hỗ trợ bạn ngay', time: '09:30' },
+                    { sender: 'customer', message: 'Cảm ơn shop nhiều', time: '10:05' }
+                ],
+                'quang0945250969': [
+                    { sender: 'customer', message: 'Cho mình địa chỉ mình qua mua đọc k', time: '20:37' },
+                    { sender: 'system', message: 'Tin nhắn vừa gửi có nội dung không phù hợp với Tiêu Chuẩn Cộng Đồng của chúng tôi, bạn vui lòng kiểm tra lại. Tìm hiểu thêm' },
+                    { sender: 'customer', message: 'Cho mình đc mình qua mua được k', time: '20:38' },
+                    { sender: 'seller', message: 'còn nha bạn', time: '21:18' },
+                    { sender: 'seller', message: 'Xin chào! Tôi có thể giúp gì cho bạn?', time: '23:26', autoReply: true },
+                    { sender: 'seller', message: 'mua trên này giá rẻ hơn nhiều sp với mua trực tiếp nha bạn', time: '23:19' },
+                    { sender: 'customer', message: 'ok cảm ơn shop', time: '23:25' }
+                ]
+            };
+            
+            const history = chatHistory[customerName] || [];
+            
+            history.forEach(msg => {
+                // Create message element
+                const messageDiv = document.createElement('div');
+                
+                if (msg.sender === 'system') {
+                    messageDiv.className = 'text-center text-xs text-gray-500 my-2';
+                    messageDiv.textContent = msg.message;
+                } else if (msg.sender === 'customer') {
+                    messageDiv.className = 'flex items-start mb-3';
+                    messageDiv.innerHTML = `
+                        <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=32&h=32" alt="Customer" class="w-6 h-6 rounded-full object-cover mt-1">
+                        <div class="ml-2 max-w-[70%]">
+                            <div class="message-left shadow-message py-2 px-3 text-sm">
+                                <p>${msg.message}</p>
+                            </div>
+                            <div class="message-time text-xs text-gray-500 mt-1 ml-1">${msg.time}</div>
+                        </div>
+                    `;
+                } else if (msg.sender === 'seller') {
+                    messageDiv.className = 'flex items-start justify-end mb-3';
+                    messageDiv.innerHTML = `
+                        <div class="mr-2 max-w-[70%]">
+                            <div class="message-right shadow-message py-2 px-3 text-sm ${msg.autoReply ? 'bg-gray-100' : ''}">
+                                <p>${msg.message}</p>
+                                ${msg.autoReply ? '<div class="text-xs text-gray-500 mt-1">Auto-Reply</div>' : ''}
+                            </div>
+                            <div class="message-time text-xs text-gray-500 mt-1 text-right mr-1">${msg.time}</div>
+                        </div>
+                        <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=32&h=32" alt="Seller" class="w-6 h-6 rounded-full object-cover mt-1">
+                    `;
+                }
+                
+                messagesContainer.appendChild(messageDiv);
+            });
+            
+            // Add typing indicator
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'flex items-start';
+            typingDiv.innerHTML = `
+                <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=32&h=32" alt="Customer" class="w-6 h-6 rounded-full object-cover mt-1">
+                <div class="ml-2">
+                    <div class="typing-indicator bg-gray-200 rounded-full py-2 px-3">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            `;
+            messagesContainer.appendChild(typingDiv);
+            
+            // Auto-scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Function to send a message
+        function sendMessage(chatBox, customerName, message) {
+            if (!message.trim()) return;
+            
+            const messagesContainer = chatBox.querySelector('.chat-messages');
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const time = `${hours}:${minutes}`;
+            
+            // Remove typing indicator
+            messagesContainer.querySelector('.typing-indicator')?.parentElement.parentElement.remove();
+            
+            // Create message element
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex items-start justify-end mb-3';
+            messageDiv.innerHTML = `
+                <div class="mr-2 max-w-[70%]">
+                    <div class="message-right shadow-message py-2 px-3 text-sm">
+                        <p>${message}</p>
+                    </div>
+                    <div class="message-time text-xs text-gray-500 mt-1 text-right mr-1">${time}</div>
+                </div>
+                <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=32&h=32" alt="Seller" class="w-6 h-6 rounded-full object-cover mt-1">
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            
+            // Add typing indicator for customer response
+            setTimeout(() => {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'flex items-start';
+                typingDiv.innerHTML = `
+                    <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=32&h=32" alt="Customer" class="w-6 h-6 rounded-full object-cover mt-1">
+                    <div class="ml-2">
+                        <div class="typing-indicator bg-gray-200 rounded-full py-2 px-3">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                `;
+                messagesContainer.appendChild(typingDiv);
+                
+                // Auto-scroll to bottom
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                // Simulate customer response
+                setTimeout(() => {
+                    const responses = [
+                        "Cảm ơn shop!",
+                        "Tôi sẽ cân nhắc",
+                        "Được, tôi hiểu rồi",
+                        "Tôi đã đặt hàng thành công",
+                        "Shop có thể gửi thêm thông tin không?"
+                    ];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    
+                    // Remove typing indicator
+                    typingDiv.remove();
+                    
+                    // Add customer response
+                    const responseDiv = document.createElement('div');
+                    responseDiv.className = 'flex items-start mb-3';
+                    responseDiv.innerHTML = `
+                        <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=32&h=32" alt="Customer" class="w-6 h-6 rounded-full object-cover mt-1">
+                        <div class="ml-2 max-w-[70%]">
+                            <div class="message-left shadow-message py-2 px-3 text-sm">
+                                <p>${randomResponse}</p>
+                            </div>
+                            <div class="message-time text-xs text-gray-500 mt-1 ml-1">${time}</div>
+                        </div>
+                    `;
+                    
+                    messagesContainer.appendChild(responseDiv);
+                    
+                    // Auto-scroll to bottom
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }, 2000);
+            }, 500);
+            
+            // Auto-scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Function to open chat box
+        function openChatBox(customerName, customerAvatar) {
+            // Check if chat box already exists
+            const existingBox = document.querySelector(`#chatBox-${customerName.replace(/\s+/g, '-')}`);
+            
+            if (existingBox) {
+                // If minimized, maximize it
+                if (existingBox.classList.contains('minimized')) {
+                    existingBox.classList.remove('minimized');
+                }
+                return;
+            }
+            
+            // Create new chat box
+            createChatBox(customerName, customerAvatar);
+            
+            // Close the chat panel
+            document.getElementById('chatPanel').classList.remove('show');
         }
     </script>
 </body>

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webchat - Premium Marketplace</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/assets/css/seller.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff424f',
+                        secondary: '#c43a43',
+                        dark: '#1a202c',
+                        light: '#f8f9fa',
+                        premium: '#ff424f',
+                        premiumLight: '#fff5f5',
+                        premiumDark: '#d1323d',
+                        premiumAccent: '#ff6b78',
+                        chatLeft: '#f0f7ff',
+                        chatRight: '#e3f2fd'
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'chat': '0 2px 8px rgba(0, 0, 0, 0.1)',
+                        'message': '0 1px 3px rgba(0, 0, 0, 0.08)'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-gray-50">
+    <div class="flex wc-chat-container">
+        <!-- Left sidebar: customer list -->
+        <div class="w-1/3 md:w-1/4 bg-white border-r border-gray-200 flex flex-col">
+            <!-- Header -->
+            <div class="p-4 border-b border-gray-200 flex items-center justify-between">
+                <h1 class="text-xl font-bold text-gray-800">Trò chuyện</h1>
+                <div class="flex items-center gap-2">
+                    <button class="p-2 text-gray-500 hover:text-primary rounded-full hover:bg-gray-100">
+                        <i class="fas fa-filter"></i>
+                    </button>
+                    <button class="p-2 text-gray-500 hover:text-primary rounded-full hover:bg-gray-100">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search bar -->
+            <div class="p-4 border-b border-gray-200">
+                <div class="relative">
+                    <input type="text" placeholder="Tìm kiếm khách hàng..." class="w-full p-3 pl-10 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+            </div>
+
+            <!-- Customer list -->
+            <div class="flex-1 overflow-y-auto">
+                <!-- Customer item -->
+                <div class="wc-customer-item p-4 border-b border-gray-200 cursor-pointer active">
+                    <div class="flex items-center">
+                        <div class="relative">
+                            <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=48&h=48" alt="Customer" class="w-12 h-12 rounded-full object-cover">
+                            <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                        </div>
+                        <div class="ml-4 flex-1 min-w-0">
+                            <div class="flex justify-between items-center">
+                                <h2 class="font-semibold truncate">Trần Thị B</h2>
+                                <span class="text-xs text-gray-500">10:30</span>
+                            </div>
+                            <div class="flex justify-between items-center mt-1">
+                                <p class="text-sm text-gray-600 truncate">Cảm ơn shop, sản phẩm rất tốt</p>
+                                <span class="unread-badge bg-primary text-white rounded-full px-1.5">3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="wc-customer-item p-4 border-b border-gray-200 cursor-pointer">
+                    <div class="flex items-center">
+                        <div class="relative">
+                            <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=48&h=48" alt="Customer" class="w-12 h-12 rounded-full object-cover">
+                            <div class="absolute bottom-0 right-0 w-3 h-3 bg-gray-400 rounded-full border-2 border-white"></div>
+                        </div>
+                        <div class="ml-4 flex-1 min-w-0">
+                            <div class="flex justify-between items-center">
+                                <h2 class="font-semibold truncate">Nguyễn Văn C</h2>
+                                <span class="text-xs text-gray-500">Hôm qua</span>
+                            </div>
+                            <div class="flex justify-between items-center mt-1">
+                                <p class="text-sm text-gray-600 truncate">Khi nào shop có hàng mới?</p>
+                                <span class="unread-badge bg-primary text-white rounded-full px-1.5">1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="wc-customer-item p-4 border-b border-gray-200 cursor-pointer">
+                    <div class="flex items-center">
+                        <div class="relative">
+                            <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=48&h=48" alt="Customer" class="w-12 h-12 rounded-full object-cover">
+                            <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                        </div>
+                        <div class="ml-4 flex-1 min-w-0">
+                            <div class="flex justify-between items-center">
+                                <h2 class="font-semibold truncate">Lê Thị D</h2>
+                                <span class="text-xs text-gray-500">Thứ 2</span>
+                            </div>
+                            <div class="flex justify-between items-center mt-1">
+                                <p class="text-sm text-gray-600 truncate">Đơn hàng của tôi đã giao chưa?</p>
+                                <span class="unread-badge bg-gray-200 text-gray-700 rounded-full px-1.5">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="wc-customer-item p-4 border-b border-gray-200 cursor-pointer">
+                    <div class="flex items-center">
+                        <div class="relative">
+                            <img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=48&h=48" alt="Customer" class="w-12 h-12 rounded-full object-cover">
+                            <div class="absolute bottom-0 right-0 w-3 h-3 bg-gray-400 rounded-full border-2 border-white"></div>
+                        </div>
+                        <div class="ml-4 flex-1 min-w-0">
+                            <div class="flex justify-between items-center">
+                                <h2 class="font-semibold truncate">Phạm Văn E</h2>
+                                <span class="text-xs text-gray-500">25/05</span>
+                            </div>
+                            <div class="flex justify-between items-center mt-1">
+                                <p class="text-sm text-gray-600 truncate">Sản phẩm này có được giảm giá không?</p>
+                                <span class="unread-badge bg-gray-200 text-gray-700 rounded-full px-1.5">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="wc-customer-item p-4 border-b border-gray-200 cursor-pointer">
+                    <div class="flex items-center">
+                        <div class="relative">
+                            <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=48&h=48" alt="Customer" class="w-12 h-12 rounded-full object-cover">
+                            <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                        </div>
+                        <div class="ml-4 flex-1 min-w-0">
+                            <div class="flex justify-between items-center">
+                                <h2 class="font-semibold truncate">Hoàng Thị F</h2>
+                                <span class="text-xs text-gray-500">24/05</span>
+                            </div>
+                            <div class="flex justify-between items-center mt-1">
+                                <p class="text-sm text-gray-600 truncate">Có chương trình khuyến mãi nào không?</p>
+                                <span class="unread-badge bg-gray-200 text-gray-700 rounded-full px-1.5">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="wc-customer-item p-4 border-b border-gray-200 cursor-pointer">
+                    <div class="flex items-center">
+                        <div class="relative">
+                            <img src="https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=48&h=48" alt="Customer" class="w-12 h-12 rounded-full object-cover">
+                            <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                        </div>
+                        <div class="ml-4 flex-1 min-w-0">
+                            <div class="flex justify-between items-center">
+                                <h2 class="font-semibold truncate">Vũ Văn G</h2>
+                                <span class="text-xs text-gray-500">23/05</span>
+                            </div>
+                            <div class="flex justify-between items-center mt-1">
+                                <p class="text-sm text-gray-600 truncate">Tôi muốn đổi size sản phẩm</p>
+                                <span class="unread-badge bg-gray-200 text-gray-700 rounded-full px-1.5">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: chat area -->
+        <div class="flex-1 flex flex-col">
+            <!-- Chat header -->
+            <div class="p-4 border-b border-gray-200 bg-white flex items-center">
+                <div class="relative">
+                    <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=48&h=48" alt="Customer" class="w-12 h-12 rounded-full object-cover">
+                    <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                </div>
+                <div class="ml-4">
+                    <h2 class="font-semibold text-gray-800">Trần Thị B</h2>
+                    <p class="text-xs text-gray-500">Đang hoạt động</p>
+                </div>
+                <div class="ml-auto flex items-center gap-3">
+                    <button class="p-2 text-gray-500 hover:text-primary rounded-full hover:bg-gray-100">
+                        <i class="fas fa-phone-alt"></i>
+                    </button>
+                    <button class="p-2 text-gray-500 hover:text-primary rounded-full hover:bg-gray-100">
+                        <i class="fas fa-video"></i>
+                    </button>
+                    <button class="p-2 text-gray-500 hover:text-primary rounded-full hover:bg-gray-100">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat messages -->
+            <div class="flex-1 overflow-y-auto p-4 bg-gray-50 chat-messages" id="chatMessages">
+                <div class="flex flex-col space-y-4">
+                    <!-- Date divider -->
+                    <div class="text-center text-xs text-gray-500 my-4">Hôm nay</div>
+                    
+                    <!-- Incoming message -->
+                    <div class="flex items-start">
+                        <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=48&h=48" alt="Customer" class="w-8 h-8 rounded-full object-cover mt-1">
+                        <div class="ml-3 max-w-[70%]">
+                            <div class="message-left shadow-message py-2 px-4">
+                                <p>Xin chào shop, sản phẩm này còn hàng không ạ?</p>
+                            </div>
+                            <div class="message-time mt-1 ml-2">10:15</div>
+                        </div>
+                    </div>
+
+                    <!-- Outgoing message -->
+                    <div class="flex items-start justify-end">
+                        <div class="mr-3 max-w-[70%]">
+                            <div class="message-right shadow-message py-2 px-4">
+                                <p>Chào bạn, sản phẩm vẫn còn hàng ạ. Bạn muốn đặt mua không?</p>
+                            </div>
+                            <div class="message-time mt-1 text-right mr-2">10:16</div>
+                        </div>
+                        <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=40&h=40" alt="Seller" class="w-8 h-8 rounded-full object-cover mt-1">
+                    </div>
+                    
+                    <!-- Incoming message -->
+                    <div class="flex items-start">
+                        <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=48&h=48" alt="Customer" class="w-8 h-8 rounded-full object-cover mt-1">
+                        <div class="ml-3 max-w-[70%]">
+                            <div class="message-left shadow-message py-2 px-4">
+                                <p>Tôi muốn mua 2 cái, shop có thể giảm giá không?</p>
+                            </div>
+                            <div class="message-time mt-1 ml-2">10:18</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Outgoing message -->
+                    <div class="flex items-start justify-end">
+                        <div class="mr-3 max-w-[70%]">
+                            <div class="message-right shadow-message py-2 px-4">
+                                <p>Chúng tôi có chương trình giảm 10% cho đơn hàng từ 2 sản phẩm trở lên bạn nhé</p>
+                            </div>
+                            <div class="message-time mt-1 text-right mr-2">10:20</div>
+                        </div>
+                        <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=40&h=40" alt="Seller" class="w-8 h-8 rounded-full object-cover mt-1">
+                    </div>
+                    
+                    <!-- Incoming message -->
+                    <div class="flex items-start">
+                        <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=48&h=48" alt="Customer" class="w-8 h-8 rounded-full object-cover mt-1">
+                        <div class="ml-3 max-w-[70%]">
+                            <div class="message-left shadow-message py-2 px-4">
+                                <p>Tuyệt vời! Tôi sẽ đặt 2 cái nhé</p>
+                                <p>Cho tôi hỏi thêm là sản phẩm này có bảo hành không?</p>
+                            </div>
+                            <div class="message-time mt-1 ml-2">10:22</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Outgoing message -->
+                    <div class="flex items-start justify-end">
+                        <div class="mr-3 max-w-[70%]">
+                            <div class="message-right shadow-message py-2 px-4">
+                                <p>Vâng ạ, sản phẩm có bảo hành 12 tháng bạn nhé</p>
+                                <p>Bạn có thể đặt hàng trực tiếp tại đây: <a href="#" class="text-blue-500 underline">[Liên kết đặt hàng]</a></p>
+                            </div>
+                            <div class="message-time mt-1 text-right mr-2">10:25</div>
+                        </div>
+                        <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=40&h=40" alt="Seller" class="w-8 h-8 rounded-full object-cover mt-1">
+                    </div>
+                    
+                    <!-- Incoming message -->
+                    <div class="flex items-start">
+                        <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=48&h=48" alt="Customer" class="w-8 h-8 rounded-full object-cover mt-1">
+                        <div class="ml-3 max-w-[70%]">
+                            <div class="message-left shadow-message py-2 px-4">
+                                <p>Cảm ơn shop nhiều, tôi đã đặt hàng thành công!</p>
+                            </div>
+                            <div class="message-time mt-1 ml-2">10:30</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Customer typing indicator -->
+                    <div class="flex items-start">
+                        <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=48&h=48" alt="Customer" class="w-8 h-8 rounded-full object-cover mt-1">
+                        <div class="ml-3">
+                            <div class="typing-indicator bg-gray-200 rounded-full py-2 px-4">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message input -->
+            <div class="p-4 border-t border-gray-200 bg-white">
+                <div class="flex items-center gap-2">
+                    <div class="flex items-center">
+                        <button class="attachment-btn p-2 text-gray-500 rounded-full hover:bg-gray-100">
+                            <i class="fas fa-smile"></i>
+                        </button>
+                        <button class="attachment-btn p-2 text-gray-500 rounded-full hover:bg-gray-100">
+                            <i class="fas fa-paperclip"></i>
+                        </button>
+                    </div>
+                    <div class="flex-1">
+                        <input type="text" placeholder="Nhập tin nhắn..." class="w-full p-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" id="messageInput">
+                    </div>
+                    <button class="ml-2 p-2 bg-primary text-white rounded-full w-12 h-12 flex items-center justify-center hover:bg-premiumDark" id="sendMessageBtn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageInput = document.getElementById('messageInput');
+            const sendMessageBtn = document.getElementById('sendMessageBtn');
+            
+            // Auto-scroll to bottom of chat
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Function to add a new message to the chat
+            function addMessage(message, isOutgoing = true) {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                const time = `${hours}:${minutes}`;
+                
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `flex items-start ${isOutgoing ? 'justify-end' : ''}`;
+                
+                if (isOutgoing) {
+                    messageDiv.innerHTML = `
+                        <div class="mr-3 max-w-[70%]">
+                            <div class="message-right shadow-message py-2 px-4">
+                                <p>${message}</p>
+                            </div>
+                            <div class="message-time mt-1 text-right mr-2">${time}</div>
+                        </div>
+                        <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=40&h=40" alt="Seller" class="w-8 h-8 rounded-full object-cover mt-1">
+                    `;
+                } else {
+                    messageDiv.innerHTML = `
+                        <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=48&h=48" alt="Customer" class="w-8 h-8 rounded-full object-cover mt-1">
+                        <div class="ml-3 max-w-[70%]">
+                            <div class="message-left shadow-message py-2 px-4">
+                                <p>${message}</p>
+                            </div>
+                            <div class="message-time mt-1 ml-2">${time}</div>
+                        </div>
+                    `;
+                }
+                
+                // Add message to chat
+                chatMessages.querySelector('.typing-indicator').parentElement.parentElement.remove();
+                chatMessages.appendChild(messageDiv);
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Send message on button click
+            sendMessageBtn.addEventListener('click', function() {
+                const message = messageInput.value.trim();
+                if (message) {
+                    addMessage(message, true);
+                    messageInput.value = '';
+                    
+                    // Simulate customer response after delay
+                    setTimeout(() => {
+                        const responses = [
+                            "Cảm ơn shop!",
+                            "Tôi sẽ cân nhắc",
+                            "Được, tôi hiểu rồi",
+                            "Tôi đã đặt hàng thành công",
+                            "Shop có thể gửi thêm thông tin không?"
+                        ];
+                        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                        addMessage(randomResponse, false);
+                        
+                        // Show typing indicator after response
+                        const typingDiv = document.createElement('div');
+                        typingDiv.className = 'flex items-start';
+                        typingDiv.innerHTML = `
+                            <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=48&h=48" alt="Customer" class="w-8 h-8 rounded-full object-cover mt-1">
+                            <div class="ml-3">
+                                <div class="typing-indicator bg-gray-200 rounded-full py-2 px-4">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                        `;
+                        chatMessages.appendChild(typingDiv);
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }, 2000);
+                }
+            });
+            
+            // Send message on Enter key
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessageBtn.click();
+                }
+            });
+            
+            // Customer selection
+            const customerItems = document.querySelectorAll('.wc-customer-item');
+            customerItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    customerItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update chat header with selected customer
+                    const customerName = this.querySelector('.font-semibold').textContent;
+                    document.querySelector('.chat-header h2').textContent = customerName;
+                    
+                    // Clear and reset chat messages
+                    chatMessages.innerHTML = `
+                        <div class="flex flex-col space-y-4">
+                            <div class="text-center text-xs text-gray-500 my-4">Hôm nay</div>
+                            
+                            <div class="flex items-start">
+                                <img src="${this.querySelector('img').src}" alt="Customer" class="w-8 h-8 rounded-full object-cover mt-1">
+                                <div class="ml-3 max-w-[70%]">
+                                    <div class="message-left shadow-message py-2 px-4">
+                                        <p>Xin chào shop!</p>
+                                    </div>
+                                    <div class="message-time mt-1 ml-2">10:00</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start justify-end">
+                                <div class="mr-3 max-w-[70%]">
+                                    <div class="message-right shadow-message py-2 px-4">
+                                        <p>Chào bạn! Shop có thể giúp gì cho bạn?</p>
+                                    </div>
+                                    <div class="message-time mt-1 text-right mr-2">10:01</div>
+                                </div>
+                                <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=40&h=40" alt="Seller" class="w-8 h-8 rounded-full object-cover mt-1">
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <img src="${this.querySelector('img').src}" alt="Customer" class="w-8 h-8 rounded-full object-cover mt-1">
+                                <div class="ml-3">
+                                    <div class="typing-indicator bg-gray-200 rounded-full py-2 px-4">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Scroll to bottom
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
