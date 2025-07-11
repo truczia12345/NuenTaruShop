@@ -11,6 +11,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
+    <!-- Css Style -->
+    <link rel="stylesheet" href="/assets/css/seller.css">
+
     <script>
         tailwind.config = {
             theme: {
@@ -39,115 +42,6 @@
             }
         }
     </script>
-    
-    <style>
-        body {
-            background-color: #f8fafc;
-            font-family: 'Roboto', sans-serif;
-        }
-        .inventory-table th {
-            background-color: #f1f5f9;
-            font-weight: 600;
-            color: #334155;
-            border-bottom: 2px solid #e2e8f0;
-        }
-        .inventory-table tr:nth-child(even) {
-            background-color: #f8fafc;
-        }
-        .inventory-table tr:hover {
-            background-color: #f1f5f9;
-        }
-        .status-badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        .status-in-stock {
-            background-color: #dcfce7;
-            color: #15803d;
-        }
-        .status-low-stock {
-            background-color: #fef9c3;
-            color: #a16207;
-        }
-        .status-out-of-stock {
-            background-color: #fee2e2;
-            color: #b91c1c;
-        }
-        .action-btn {
-            transition: all 0.2s ease;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 13px;
-        }
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .filter-card {
-            transition: all 0.3s ease;
-        }
-        .filter-toggle {
-            cursor: pointer;
-        }
-        .filter-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-        .filter-content.open {
-            max-height: 500px;
-        }
-        .stock-input {
-            width: 80px;
-            text-align: center;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            padding: 4px 8px;
-        }
-        .stock-input:focus {
-            border-color: #ff424f;
-            box-shadow: 0 0 0 3px rgba(255, 66, 79, 0.25);
-        }
-        .pagination-btn {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-        .pagination-btn:hover {
-            background-color: #f1f5f9;
-        }
-        .pagination-btn.active {
-            background-color: #ff424f;
-            color: white;
-        }
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        .badge-primary {
-            background-color: #ffe4e6;
-            color: #ff424f;
-        }
-        .badge-warning {
-            background-color: #fef9c3;
-            color: #a16207;
-        }
-        .badge-success {
-            background-color: #dcfce7;
-            color: #15803d;
-        }
-    </style>
 </head>
 <body class="font-sans bg-gray-50">
     <div class="container mx-auto px-4 py-6">
@@ -412,10 +306,10 @@
                             </td>
                             <td class="py-4 px-6">
                                 <div class="flex justify-center gap-2">
-                                    <button class="action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
+                                    <button class="ivt-action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
                                         <i class="fas fa-history mr-1"></i> Lịch sử
                                     </button>
-                                    <button class="action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
+                                    <button class="ivt-action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </div>
@@ -459,10 +353,10 @@
                             </td>
                             <td class="py-4 px-6">
                                 <div class="flex justify-center gap-2">
-                                    <button class="action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
+                                    <button class="ivt-action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
                                         <i class="fas fa-history mr-1"></i> Lịch sử
                                     </button>
-                                    <button class="action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
+                                    <button class="ivt-action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </div>
@@ -506,10 +400,10 @@
                             </td>
                             <td class="py-4 px-6">
                                 <div class="flex justify-center gap-2">
-                                    <button class="action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
+                                    <button class="ivt-action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
                                         <i class="fas fa-history mr-1"></i> Lịch sử
                                     </button>
-                                    <button class="action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
+                                    <button class="ivt-action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </div>
@@ -553,10 +447,10 @@
                             </td>
                             <td class="py-4 px-6">
                                 <div class="flex justify-center gap-2">
-                                    <button class="action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
+                                    <button class="ivt-action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
                                         <i class="fas fa-history mr-1"></i> Lịch sử
                                     </button>
-                                    <button class="action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
+                                    <button class="ivt-action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </div>
@@ -600,10 +494,10 @@
                             </td>
                             <td class="py-4 px-6">
                                 <div class="flex justify-center gap-2">
-                                    <button class="action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
+                                    <button class="ivt-action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
                                         <i class="fas fa-history mr-1"></i> Lịch sử
                                     </button>
-                                    <button class="action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
+                                    <button class="ivt-action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </div>
@@ -647,10 +541,10 @@
                             </td>
                             <td class="py-4 px-6">
                                 <div class="flex justify-center gap-2">
-                                    <button class="action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
+                                    <button class="ivt-action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
                                         <i class="fas fa-history mr-1"></i> Lịch sử
                                     </button>
-                                    <button class="action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
+                                    <button class="ivt-action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </div>

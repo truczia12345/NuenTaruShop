@@ -11,6 +11,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/assets/css/seller.css">
+
     <script>
         tailwind.config = {
             theme: {
@@ -44,62 +47,6 @@
             }
         }
     </script>
-    
-    <style>
-        .stats-card {
-            transition: all 0.3s ease;
-        }
-        .stats-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .request-item {
-            transition: all 0.2s ease;
-        }
-        .request-item:hover {
-            background-color: #f8fafc;
-        }
-        .status-badge {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        .status-processing { background-color: #dbeafe; color: #1d4ed8; }
-        .status-returned { background-color: #ede9fe; color: #6d28d9; }
-        .status-completed { background-color: #dcfce7; color: #047857; }
-        .status-cancelled { background-color: #fee2e2; color: #b91c1c; }
-        .status-rejected { background-color: #f3f4f6; color: #4b5563; }
-        .action-btn {
-            transition: all 0.2s ease;
-        }
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .filter-btn {
-            transition: all 0.2s ease;
-        }
-        .filter-btn.active {
-            background-color: #ff424f;
-            color: white;
-        }
-        .tab-button {
-            padding: 10px 20px;
-            border-radius: 8px 8px 0 0;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .tab-button.active {
-            background-color: white;
-            color: #ff424f;
-            border-bottom: 3px solid #ff424f;
-        }
-        .reason-box {
-            border-left: 3px solid #ff424f;
-        }
-    </style>
 </head>
 <body class="font-sans bg-gray-50">
     <div class="container mx-auto px-4 py-6">
@@ -163,16 +110,16 @@
         <div class="bg-white rounded-xl shadow-card overflow-hidden mb-6">
             <div class="p-5 border-b">
                 <div class="flex flex-wrap gap-2">
-                    <button class="filter-btn px-4 py-2 rounded-lg border border-slate-300 active" data-status="all">
+                    <button class="dlrt-filter-btn px-4 py-2 rounded-lg border border-slate-300 active" data-status="all">
                         Tất cả
                     </button>
-                    <button class="filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="processing">
+                    <button class="dlrt-filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="processing">
                         <i class="fas fa-sync-alt mr-2 text-processing"></i> Đang xử lý
                     </button>
-                    <button class="filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="completed">
+                    <button class="dlrt-filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="completed">
                         <i class="fas fa-check-circle mr-2 text-completed"></i> Đã hoàn thành
                     </button>
-                    <button class="filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="rejected">
+                    <button class="dlrt-filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="rejected">
                         <i class="fas fa-times-circle mr-2 text-rejected"></i> Đã từ chối
                     </button>
                 </div>
@@ -241,7 +188,7 @@
                     </thead>
                     <tbody class="text-slate-700">
                         <!-- Request 1: Return -->
-                        <tr class="request-item border-b">
+                        <tr class="rt-request-item border-b">
                             <td class="py-4 px-6">
                                 <div class="flex items-center">
                                     <input type="checkbox" class="h-4 w-4 text-primary rounded" checked>
@@ -283,7 +230,7 @@
                         </tr>
                         
                         <!-- Request 2: Cancellation -->
-                        <tr class="request-item border-b">
+                        <tr class="rt-request-item border-b">
                             <td class="py-4 px-6">
                                 <div class="flex items-center">
                                     <input type="checkbox" class="h-4 w-4 text-primary rounded" checked>
@@ -325,7 +272,7 @@
                         </tr>
                         
                         <!-- Request 3: Return Completed -->
-                        <tr class="request-item border-b">
+                        <tr class="rt-request-item border-b">
                             <td class="py-4 px-6">
                                 <div class="flex items-center">
                                     <input type="checkbox" class="h-4 w-4 text-primary rounded">
@@ -367,7 +314,7 @@
                         </tr>
                         
                         <!-- Request 4: Cancellation Rejected -->
-                        <tr class="request-item border-b">
+                        <tr class="rt-request-item border-b">
                             <td class="py-4 px-6">
                                 <div class="flex items-center">
                                     <input type="checkbox" class="h-4 w-4 text-primary rounded">
@@ -620,7 +567,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Filter buttons functionality
-            const filterButtons = document.querySelectorAll('.filter-btn');
+            const filterButtons = document.querySelectorAll('.dlrt-filter-btn');
             filterButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     filterButtons.forEach(btn => btn.classList.remove('active'));
@@ -642,7 +589,7 @@
             });
             
             // Request item hover effect
-            const requestItems = document.querySelectorAll('.request-item');
+            const requestItems = document.querySelectorAll('.rt-request-item');
             requestItems.forEach(item => {
                 item.addEventListener('mouseenter', function() {
                     this.style.backgroundColor = '#f8fafc';

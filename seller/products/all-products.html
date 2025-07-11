@@ -6,6 +6,7 @@
     <title>Quản lý Sản phẩm - Seller Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/seller.css">
     <script>
         tailwind.config = {
             theme: {
@@ -20,44 +21,6 @@
             }
         }
     </script>
-    <style>
-        .product-table th {
-            background-color: #f8fafc;
-        }
-        .status-badge {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        .action-btn {
-            transition: all 0.2s ease;
-        }
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .checkbox:checked {
-            background-color: #ff424f;
-            border-color: #ff424f;
-        }
-        .pagination-btn {
-            transition: all 0.2s ease;
-        }
-        .pagination-btn:hover:not(.disabled) {
-            background-color: #ffeff0;
-            color: #ff424f;
-        }
-        .filter-card {
-            transition: all 0.3s ease;
-        }
-        .filter-card:hover {
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-        }
-        .product-row:hover {
-            background-color: #fdf3f4;
-        }
-    </style>
 </head>
 <body class="bg-gray-50">
     <div class="container mx-auto px-4 py-8">

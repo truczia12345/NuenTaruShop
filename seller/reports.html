@@ -14,6 +14,9 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="/assets/css/seller.css">
+
     <script>
         tailwind.config = {
             theme: {
@@ -44,112 +47,6 @@
             }
         }
     </script>
-    
-    <style>
-        .report-card {
-            transition: all 0.3s ease;
-            border-left: 3px solid #8b5cf6;
-        }
-        .report-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-        .tab-button {
-            padding: 12px 24px;
-            border-radius: 8px 8px 0 0;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .tab-button.active {
-            background-color: white;
-            color: #ff424f;
-            border-bottom: 3px solid #ff424f;
-        }
-        .report-item {
-            transition: all 0.2s ease;
-        }
-        .report-item:hover {
-            background-color: #f8fafc;
-        }
-        .trend-up {
-            color: #10b981;
-        }
-        .trend-down {
-            color: #ef4444;
-        }
-        .progress-bar {
-            height: 6px;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        .report-tag {
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 10px;
-            border-radius: 16px;
-            font-size: 12px;
-            font-weight: 500;
-            background-color: #f3f4f6;
-        }
-        .action-btn {
-            transition: all 0.2s ease;
-        }
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .chart-container {
-            position: relative;
-            height: 250px;
-        }
-        .report-type-card {
-            transition: all 0.3s ease;
-        }
-        .report-type-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-        .modal-overlay {
-            background-color: rgba(0,0,0,0.6);
-            z-index: 10000;
-        }
-        .modal-content {
-            animation: modalAppear 0.3s ease-out;
-        }
-        @keyframes modalAppear {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .kpi-badge {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        .kpi-excellent {
-            background-color: #10b98120;
-            color: #10b981;
-        }
-        .kpi-good {
-            background-color: #3b82f620;
-            color: #3b82f6;
-        }
-        .kpi-average {
-            background-color: #f59e0b20;
-            color: #f59e0b;
-        }
-        .kpi-poor {
-            background-color: #ef444420;
-            color: #ef4444;
-        }
-        .report-header {
-            background: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 100%);
-            color: white;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-    </style>
 </head>
 <body class="font-sans bg-gray-50">
     <div class="container mx-auto px-4 py-6">
@@ -309,11 +206,11 @@
         <div class="bg-white rounded-xl shadow-card overflow-hidden mb-6">
             <div class="p-5 border-b flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div class="flex gap-1 overflow-x-auto w-full md:w-auto">
-                    <div class="tab-button active" data-tab="sales">Báo cáo bán hàng</div>
-                    <div class="tab-button" data-tab="products">Sản phẩm</div>
-                    <div class="tab-button" data-tab="customers">Khách hàng</div>
-                    <div class="tab-button" data-tab="marketing">Marketing</div>
-                    <div class="tab-button" data-tab="finance">Tài chính</div>
+                    <div class="rp-tab-button active" data-tab="sales">Báo cáo bán hàng</div>
+                    <div class="rp-tab-button" data-tab="products">Sản phẩm</div>
+                    <div class="rp-tab-button" data-tab="customers">Khách hàng</div>
+                    <div class="rp-tab-button" data-tab="marketing">Marketing</div>
+                    <div class="rp-tab-button" data-tab="finance">Tài chính</div>
                 </div>
                 
                 <div class="flex flex-wrap gap-2 w-full md:w-auto">
@@ -362,7 +259,7 @@
                                 <td class="py-3 px-4 text-center font-medium">12,450,000</td>
                                 <td class="py-3 px-4 text-center font-medium text-green-600">10,240,000</td>
                                 <td class="py-3 px-4 text-center">
-                                    <span class="kpi-badge kpi-excellent">82.3%</span>
+                                    <span class="rp-kpi-badge rp-kpi-excellent">82.3%</span>
                                 </td>
                                 <td class="py-3 px-4 text-center">
                                     <div class="flex justify-center items-center">
@@ -378,7 +275,7 @@
                                 <td class="py-3 px-4 text-center font-medium">10,780,000</td>
                                 <td class="py-3 px-4 text-center font-medium text-green-600">8,920,000</td>
                                 <td class="py-3 px-4 text-center">
-                                    <span class="kpi-badge kpi-excellent">82.7%</span>
+                                    <span class="rp-kpi-badge rp-kpi-excellent">82.7%</span>
                                 </td>
                                 <td class="py-3 px-4 text-center">
                                     <div class="flex justify-center items-center">
@@ -394,7 +291,7 @@
                                 <td class="py-3 px-4 text-center font-medium">9,120,000</td>
                                 <td class="py-3 px-4 text-center font-medium text-green-600">7,450,000</td>
                                 <td class="py-3 px-4 text-center">
-                                    <span class="kpi-badge kpi-good">81.7%</span>
+                                    <span class="rp-kpi-badge rp-kpi-good">81.7%</span>
                                 </td>
                                 <td class="py-3 px-4 text-center">
                                     <div class="flex justify-center items-center">
@@ -410,7 +307,7 @@
                                 <td class="py-3 px-4 text-center font-medium">7,450,000</td>
                                 <td class="py-3 px-4 text-center font-medium text-green-600">6,120,000</td>
                                 <td class="py-3 px-4 text-center">
-                                    <span class="kpi-badge kpi-good">82.1%</span>
+                                    <span class="rp-kpi-badge rp-kpi-good">82.1%</span>
                                 </td>
                                 <td class="py-3 px-4 text-center">
                                     <div class="flex justify-center items-center">
@@ -426,7 +323,7 @@
                                 <td class="py-3 px-4 text-center font-medium">9,780,000</td>
                                 <td class="py-3 px-4 text-center font-medium text-green-600">8,050,000</td>
                                 <td class="py-3 px-4 text-center">
-                                    <span class="kpi-badge kpi-excellent">82.3%</span>
+                                    <span class="rp-kpi-badge rp-kpi-excellent">82.3%</span>
                                 </td>
                                 <td class="py-3 px-4 text-center">
                                     <div class="flex justify-center items-center">
@@ -670,7 +567,7 @@
             });
             
             // Tab Switching
-            const tabs = document.querySelectorAll('.tab-button');
+            const tabs = document.querySelectorAll('.rp-tab-button');
             
             tabs.forEach(tab => {
                 tab.addEventListener('click', function() {

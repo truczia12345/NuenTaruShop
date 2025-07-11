@@ -11,6 +11,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/assets/css/seller.css">
+
     <script>
         tailwind.config = {
             theme: {
@@ -44,109 +47,6 @@
             }
         }
     </script>
-    
-    <style>
-        body {
-            background-color: #f8fafc;
-            font-family: 'Roboto', sans-serif;
-        }
-        .order-card {
-            transition: all 0.3s ease;
-            border-left: 4px solid #3b82f6;
-        }
-        .order-card.processing { border-left-color: #3b82f6; }
-        .order-card.shipped { border-left-color: #8b5cf6; }
-        .order-card.delivered { border-left-color: #10b981; }
-        .order-card.cancelled { border-left-color: #ef4444; }
-        .order-card.returned { border-left-color: #f59e0b; }
-        
-        .order-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-        .status-badge {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        .status-processing { background-color: #dbeafe; color: #1d4ed8; }
-        .status-shipped { background-color: #ede9fe; color: #6d28d9; }
-        .status-delivered { background-color: #dcfce7; color: #047857; }
-        .status-cancelled { background-color: #fee2e2; color: #b91c1c; }
-        .status-returned { background-color: #fef3c7; color: #b45309; }
-        .order-table th {
-            background-color: #f1f5f9;
-            font-weight: 600;
-            color: #334155;
-            border-bottom: 2px solid #e2e8f0;
-        }
-        .order-table tr:nth-child(even) {
-            background-color: #f8fafc;
-        }
-        .order-table tr:hover {
-            background-color: #f1f5f9;
-        }
-        .order-item {
-            transition: all 0.2s ease;
-        }
-        .order-item:hover {
-            background-color: #f1f5f9;
-        }
-        .tab-button {
-            padding: 10px 20px;
-            border-radius: 8px 8px 0 0;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .tab-button.active {
-            background-color: white;
-            color: #ff424f;
-            border-bottom: 3px solid #ff424f;
-        }
-        .filter-btn {
-            transition: all 0.2s ease;
-        }
-        .filter-btn.active {
-            background-color: #ff424f;
-            color: white;
-        }
-        .action-btn {
-            transition: all 0.2s ease;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-        }
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .pagination-btn {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-        .pagination-btn:hover {
-            background-color: #f1f5f9;
-        }
-        .pagination-btn.active {
-            background-color: #ff424f;
-            color: white;
-        }
-        .stats-card {
-            transition: all 0.3s ease;
-        }
-        .stats-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-    </style>
 </head>
 <body class="font-sans bg-gray-50">
     <div class="container mx-auto px-4 py-6">
@@ -214,19 +114,19 @@
             <div class="p-5 border-b">
                 <div class="flex flex-col md:flex-row justify-between gap-4">
                     <div class="flex flex-wrap gap-2">
-                        <button class="filter-btn px-4 py-2 rounded-lg border border-slate-300 active" data-status="all">
+                        <button class="dlrt-filter-btn px-4 py-2 rounded-lg border border-slate-300 active" data-status="all">
                             Tất cả
                         </button>
-                        <button class="filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="processing">
+                        <button class="dlrt-filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="processing">
                             <i class="fas fa-sync-alt mr-2 text-processing"></i> Chờ xử lý
                         </button>
-                        <button class="filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="shipped">
+                        <button class="dlrt-filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="shipped">
                             <i class="fas fa-truck mr-2 text-shipped"></i> Đang giao
                         </button>
-                        <button class="filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="delivered">
+                        <button class="dlrt-filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="delivered">
                             <i class="fas fa-check-circle mr-2 text-delivered"></i> Đã giao
                         </button>
-                        <button class="filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="cancelled">
+                        <button class="dlrt-filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="cancelled">
                             <i class="fas fa-times-circle mr-2 text-cancelled"></i> Đã hủy
                         </button>
                     </div>
@@ -331,10 +231,10 @@
                             </td>
                             <td class="py-4 px-6">
                                 <div class="flex justify-center gap-2">
-                                    <button class="action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
+                                    <button class="ao-action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
                                         <i class="fas fa-eye mr-1"></i> Xem
                                     </button>
-                                    <button class="action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
+                                    <button class="ao-action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
                                         <i class="fas fa-print"></i>
                                     </button>
                                 </div>
@@ -373,10 +273,10 @@
                             </td>
                             <td class="py-4 px-6">
                                 <div class="flex justify-center gap-2">
-                                    <button class="action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
+                                    <button class="ao-action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
                                         <i class="fas fa-eye mr-1"></i> Xem
                                     </button>
-                                    <button class="action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
+                                    <button class="ao-action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
                                         <i class="fas fa-print"></i>
                                     </button>
                                 </div>
@@ -415,10 +315,10 @@
                             </td>
                             <td class="py-4 px-6">
                                 <div class="flex justify-center gap-2">
-                                    <button class="action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
+                                    <button class="ao-action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
                                         <i class="fas fa-eye mr-1"></i> Xem
                                     </button>
-                                    <button class="action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
+                                    <button class="ao-action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
                                         <i class="fas fa-print"></i>
                                     </button>
                                 </div>
@@ -457,10 +357,10 @@
                             </td>
                             <td class="py-4 px-6">
                                 <div class="flex justify-center gap-2">
-                                    <button class="action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
+                                    <button class="ao-action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
                                         <i class="fas fa-eye mr-1"></i> Xem
                                     </button>
-                                    <button class="action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
+                                    <button class="ao-action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
                                         <i class="fas fa-print"></i>
                                     </button>
                                 </div>
@@ -499,10 +399,10 @@
                             </td>
                             <td class="py-4 px-6">
                                 <div class="flex justify-center gap-2">
-                                    <button class="action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
+                                    <button class="ao-action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
                                         <i class="fas fa-eye mr-1"></i> Xem
                                     </button>
-                                    <button class="action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
+                                    <button class="ao-action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
                                         <i class="fas fa-print"></i>
                                     </button>
                                 </div>
@@ -541,10 +441,10 @@
                             </td>
                             <td class="py-4 px-6">
                                 <div class="flex justify-center gap-2">
-                                    <button class="action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
+                                    <button class="ao-action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
                                         <i class="fas fa-eye mr-1"></i> Xem
                                     </button>
-                                    <button class="action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
+                                    <button class="ao-action-btn bg-slate-100 text-slate-700 hover:bg-slate-200">
                                         <i class="fas fa-print"></i>
                                     </button>
                                 </div>
@@ -752,7 +652,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Filter buttons functionality
-            const filterButtons = document.querySelectorAll('.filter-btn');
+            const filterButtons = document.querySelectorAll('.dlrt-filter-btn');
             
             filterButtons.forEach(button => {
                 button.addEventListener('click', function() {
@@ -806,7 +706,7 @@
             });
             
             // Action buttons hover effect
-            const actionButtons = document.querySelectorAll('.action-btn');
+            const actionButtons = document.querySelectorAll('.ao-action-btn');
             actionButtons.forEach(button => {
                 button.addEventListener('mouseenter', function() {
                     this.style.transform = 'translateY(-2px)';

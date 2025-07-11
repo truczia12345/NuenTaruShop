@@ -11,6 +11,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/assets/css/seller.css">
+
     <script>
         tailwind.config = {
             theme: {
@@ -43,63 +46,6 @@
             }
         }
     </script>
-    
-    <style>
-        .status-badge {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        .status-pending { background-color: #ede9fe; color: #6d28d9; }
-        .status-shipping { background-color: #dbeafe; color: #1d4ed8; }
-        .status-delivered { background-color: #dcfce7; color: #047857; }
-        .status-cancelled { background-color: #fee2e2; color: #b91c1c; }
-        .order-item {
-            transition: all 0.2s ease;
-        }
-        .order-item:hover {
-            background-color: #f8fafc;
-        }
-        .action-btn {
-            transition: all 0.2s ease;
-        }
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .filter-btn {
-            transition: all 0.2s ease;
-        }
-        .filter-btn.active {
-            background-color: #ff424f;
-            color: white;
-        }
-        .tab-button {
-            padding: 10px 20px;
-            border-radius: 8px 8px 0 0;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .tab-button.active {
-            background-color: white;
-            color: #ff424f;
-            border-bottom: 3px solid #ff424f;
-        }
-        .stats-card {
-            transition: all 0.3s ease;
-        }
-        .stats-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .map-container {
-            height: 400px;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-    </style>
 </head>
 <body class="font-sans bg-gray-50">
     <div class="container mx-auto px-4 py-6">
@@ -158,19 +104,19 @@
         <div class="bg-white rounded-xl shadow-card overflow-hidden mb-6">
             <div class="p-5 border-b">
                 <div class="flex flex-wrap gap-2">
-                    <button class="filter-btn px-4 py-2 rounded-lg border border-slate-300 active" data-status="all">
+                    <button class="dlrt-filter-btn px-4 py-2 rounded-lg border border-slate-300 active" data-status="all">
                         Tất cả
                     </button>
-                    <button class="filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="pending">
+                    <button class="dlrt-filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="pending">
                         <i class="fas fa-clock mr-2 text-pending"></i> Chờ giao
                     </button>
-                    <button class="filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="shipping">
+                    <button class="dlrt-filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="shipping">
                         <i class="fas fa-truck mr-2 text-shipping"></i> Đang giao
                     </button>
-                    <button class="filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="delivered">
+                    <button class="dlrt-filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="delivered">
                         <i class="fas fa-check-circle mr-2 text-delivered"></i> Đã giao
                     </button>
-                    <button class="filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="cancelled">
+                    <button class="dlrt-filter-btn px-4 py-2 rounded-lg border border-slate-300" data-status="cancelled">
                         <i class="fas fa-times-circle mr-2 text-cancelled"></i> Đã hủy
                     </button>
                 </div>
@@ -213,7 +159,7 @@
                 <p class="text-slate-600 mt-2">Theo dõi lộ trình giao hàng trực quan</p>
             </div>
             <div class="p-5">
-                <div class="map-container bg-gray-200 flex items-center justify-center">
+                <div class="dl-map-container bg-gray-200 flex items-center justify-center">
                     <div class="text-center">
                         <i class="fas fa-map-marked-alt text-5xl text-slate-400 mb-4"></i>
                         <p class="text-slate-600">Bản đồ giao hàng sẽ hiển thị tại đây</p>
@@ -600,7 +546,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Filter buttons functionality
-            const filterButtons = document.querySelectorAll('.filter-btn');
+            const filterButtons = document.querySelectorAll('.dlrt-filter-btn');
             
             filterButtons.forEach(button => {
                 button.addEventListener('click', function() {

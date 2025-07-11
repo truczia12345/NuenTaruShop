@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/assets/css/seller.css">
     <script>
         tailwind.config = {
             theme: {
@@ -24,46 +25,6 @@
             }
         }
     </script>
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f8fafc;
-        }
-        .stat-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        .dashboard-section {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-        }
-        .dashboard-section:hover {
-            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-        }
-        .progress-bar {
-            height: 8px;
-            border-radius: 4px;
-        }
-        .notification-dot {
-            position: absolute;
-            top: -3px;
-            right: -3px;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background-color: #ff424f;
-            color: white;
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
 </head>
 <body class="bg-gray-50">
     <div class="container mx-auto px-4 py-6">

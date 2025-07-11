@@ -1,3 +1,251 @@
+/* =======================Global Styles ===================================*/
+
+/* Style CSS Settings Page & Reports Page & Customer Page & Inventory Page & All Product Page*/
+.action-btn {
+    transition: all 0.2s ease;
+}
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Style CSS Vouchers Page & Finance Page & Settings Page & Category Page Shipping Setting Page*/
+.tab-button {
+    padding: 12px 24px;
+    border-radius: 8px 8px 0 0;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.tab-button.active {
+    background-color: white;
+    color: #ff424f;
+    border-bottom: 3px solid #ff424f;
+}
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+.tab-content.active {
+    display: block;
+}
+
+/* Style CSS Campaign Page & Finance Page & Support Page & Customer Page & Return Cancellations Page & Delivery List Page & All Orders Page */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.status-open {
+    background-color: #3b82f620;
+    color: #3b82f6;
+}
+.status-pending {
+    background-color: #f59e0b20;
+    color: #f59e0b;
+}
+.status-completed {
+    background-color: #10b98120;
+    color: #10b981;
+}
+.status-failed {
+    background-color: #ef444420;
+    color: #ef4444;
+}
+.status-resolved {
+    background-color: #10b98120;
+    color: #10b981;
+}
+.status-closed {
+    background-color: #94a3b820;
+    color: #64748b;
+}
+.status-active {
+    background-color: #10b98120;
+    color: #10b981;
+}
+.status-inactive {
+    background-color: #ef4444;
+}
+.status-upcoming {
+    background-color: #3b82f620;
+    color: #3b82f6;
+}
+.status-expired {
+    background-color: #ef444420;
+    color: #ef4444;
+}
+.status-paused {
+    background-color: #f59e0b20;
+    color: #f59e0b;
+}
+.status-ending {
+    background-color: #94a3b820;
+    color: #64748b;
+}
+.status-shipping { background-color: #dbeafe; color: #1d4ed8; }
+        .status-delivered { background-color: #dcfce7; color: #047857; }
+.status-processing { background-color: #dbeafe; color: #1d4ed8; }
+        .status-returned { background-color: #ede9fe; color: #6d28d9; }
+        .status-cancelled { background-color: #fee2e2; color: #b91c1c; }
+        .status-rejected { background-color: #f3f4f6; color: #4b5563; }
+
+/* Style CSS Campaign Page & Finance Page & Reports Page Analytics Page & Category Page & Flash Sale Page*/
+.progress-bar {
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: #e2e8f0;
+}
+.progress-fill {
+    height: 100%;
+    border-radius: 4px;
+}
+
+.chart-container {
+    position: relative;
+    height: 250px;
+}
+
+/* Style CSS Analytics Page & Reports Page */
+.trend-up {
+    color: #10b981;
+}
+.trend-down {
+    color: #ef4444;
+}
+
+/* Style CSS Inventory Page & All Product Page & All Orders Page */
+.pagination-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+.pagination-btn:hover {
+    background-color: #f1f5f9;
+}
+.pagination-btn.active {
+    background-color: #ff424f;
+    color: white;
+}
+.pagination-btn:hover:not(.disabled) {
+    background-color: #ffeff0;
+    color: #ff424f;
+}
+
+.filter-card {
+    transition: all 0.3s ease;
+}
+.filter-card:hover {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* Style CSS Category Page & Add Product Page & Batch Shipping Page & Voucher Page*/
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+.modal-overlay {
+    background-color: rgba(0,0,0,0.6);
+    z-index: 10000;
+}
+.modal-content {
+    animation: modalAppear 0.3s ease-out;
+}
+@keyframes modalAppear {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Style CSS Delivery List Page & Return Cancellations Page & All Orders Page  */
+.stats-card {
+    transition: all 0.3s ease;
+}
+.stats-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Style CSS Delivery List Page & Batch Shipping */
+.order-item {
+    transition: all 0.2s ease;
+}
+.order-item:hover {
+    background-color: #f8fafc;
+}
+
+/* Style CSS Finance Page & Promotions Page */
+.timeline-item {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 20px;
+}
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #10b981;
+}
+.timeline-item::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 20px;
+    width: 2px;
+    height: calc(100% - 10px);
+    background: #e2e8f0;
+}
+.timeline-item:last-child::after {
+    display: none;
+}
+
+/* Style CSS Category Pages & Flash Sale Page */
+.product-card {
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+}
+.product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+/* Style CSS Campaign Page & Promotions Page */
+.campaign-item {
+    transition: all 0.2s ease;
+}
+.campaign-item:hover {
+    background-color: #f8fafc;
+}
+
+
+
+/* Style CSS Campaign Page & Finance Page */
+.goal-meter {
+    position: relative;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #e2e8f0;
+}
+.goal-meter .progress {
+    position: absolute;
+    height: 100%;
+    border-radius: 4px;
+}
+
+/* =======================CSS Seller Sidebar (INDEX)========================== */
 .sidebar {
             transition: all 0.3s ease;
             z-index: 1000;
@@ -228,8 +476,41 @@
         }
 
 
+        /* =============================CSS Dashboard Page=========================== */
+        .stat-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .dashboard-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .dashboard-section:hover {
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+        }
+        .notification-dot {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: #ff424f;
+            color: white;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-        /* CSS Webchat Page */
+
+
+        /* =============================CSS Webchat Page=========================== */
         .wc-chat-container {
             height: calc(100vh - 60px);
         }
@@ -242,7 +523,7 @@
 
 
 
-        /* CSS Support Page */
+        /* ==============================CSS Support Page =========================*/
         .sp-support-card {
             transition: all 0.3s ease;
             border-left: 3px solid #3b82f6;
@@ -278,13 +559,6 @@
         .sp-status-closed {
             background-color: #94a3b820;
             color: #64748b;
-        }
-        .sp-action-btn {
-            transition: all 0.2s ease;
-        }
-        .sp-action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         .sp-faq-item {
             border-bottom: 1px solid #e2e8f0;
@@ -334,4 +608,1060 @@
             border-radius: 24px;
             padding: 12px 20px;
             background-color: #f1f5f9;
+        }
+
+
+
+
+
+        /* =======================================CSS Seller Settings Page ============================*/
+        .settings-card {
+            transition: all 0.3s ease;
+        }
+        .settings-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .st-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .st-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .st-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .st-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .st-slider {
+            background-color: #10b981;
+        }
+        input:checked + .st-slider:before {
+            transform: translateX(26px);
+        }
+        .settings-section {
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .settings-section:last-child {
+            border-bottom: none;
+        }
+        .st-avatar-upload {
+            position: relative;
+            display: inline-block;
+        }
+        .st-avatar-upload .edit-icon {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        .st-security-level {
+            position: relative;
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            background: #e2e8f0;
+            margin-top: 8px;
+        }
+        .st-security-level .progress {
+            height: 100%;
+            border-radius: 3px;
+        }
+        .security-weak { background-color: #ef4444; width: 30%; }
+        .security-medium { background-color: #f59e0b; width: 60%; }
+        .security-strong { background-color: #10b981; width: 90%; }
+        
+        /* Custom upload style */
+        .st-upload-container {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            background: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        .st-upload-container input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        .st-preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            display: block;
+            margin-top: 10px;
+        }
+
+
+
+
+
+        /* ======================CSS Seller Reports Page========================== */
+        .report-card {
+            transition: all 0.3s ease;
+            border-left: 3px solid #8b5cf6;
+        }
+        .report-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .rp-tab-button {
+            padding: 12px 24px;
+            border-radius: 8px 8px 0 0;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .rp-tab-button.active {
+            background-color: white;
+            color: #ff424f;
+            border-bottom: 3px solid #ff424f;
+        }
+        .report-item {
+            transition: all 0.2s ease;
+        }
+        .report-item:hover {
+            background-color: #f8fafc;
+        }
+        .report-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            background-color: #f3f4f6;
+        }
+        .report-type-card {
+            transition: all 0.3s ease;
+        }
+        .report-type-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .rp-kpi-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .rp-kpi-excellent {
+            background-color: #10b98120;
+            color: #10b981;
+        }
+        .rp-kpi-good {
+            background-color: #3b82f620;
+            color: #3b82f6;
+        }
+        .rp-kpi-average {
+            background-color: #f59e0b20;
+            color: #f59e0b;
+        }
+        .rp-kpi-poor {
+            background-color: #ef444420;
+            color: #ef4444;
+        }
+        .report-header {
+            background: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 100%);
+            color: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+
+
+        /* ==============================CSS Seller Finance Page ============================*/
+        .finance-card {
+            transition: all 0.3s ease;
+            border-left: 3px solid #10b981;
+        }
+        .finance-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .fn-transaction-item {
+            transition: all 0.2s ease;
+        }
+        .fn-transaction-item:hover {
+            background-color: #f8fafc;
+        }
+        .finance-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            background-color: #f3f4f6;
+        }
+        .method-card {
+            transition: all 0.3s ease;
+        }
+        .method-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .modal-overlay {
+            background-color: rgba(0,0,0,0.6);
+            z-index: 10000;
+        }
+        .modal-content {
+            animation: modalAppear 0.3s ease-out;
+        }
+        .balance-card {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            color: white;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+
+
+        /* ==============================CSS Seller Customers Page ============================*/
+        .customer-card {
+            transition: all 0.3s ease;
+            border-left: 3px solid #0ea5e9;
+        }
+        .customer-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .customer-item {
+            transition: all 0.2s ease;
+        }
+        .customer-item:hover {
+            background-color: #f8fafc;
+        }
+        .loyalty-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: white;
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+        .customer-chart {
+            height: 250px;
+        }
+        .filter-btn {
+            transition: all 0.2s ease;
+        }
+        .filter-btn.active {
+            background-color: #0ea5e9;
+            color: white;
+        }
+        .segment-tag {
+            transition: all 0.2s ease;
+        }
+        .segment-tag:hover {
+            transform: scale(1.05);
+        }
+
+
+
+
+        /* ==============================CSS Seller Analytics Page ============================*/
+        .analytics-card {
+            transition: all 0.3s ease;
+            border-left: 3px solid #8b5cf6;
+        }
+        .analytics-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .product-item {
+            transition: all 0.2s ease;
+        }
+        .product-item:hover {
+            background-color: #f8fafc;
+        }
+        .map-container {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        .map-overlay {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+
+
+
+        /* ==============================CSS Seller Inventory Page ============================*/
+        .inventory-table th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+            color: #334155;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .inventory-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        .inventory-table tr:hover {
+            background-color: #f1f5f9;
+        }
+        .status-in-stock {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+        .status-low-stock {
+            background-color: #fef9c3;
+            color: #a16207;
+        }
+        .status-out-of-stock {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        .ivt-action-btn {
+            transition: all 0.2s ease;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+        .filter-toggle {
+            cursor: pointer;
+        }
+        .filter-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .filter-content.open {
+            max-height: 500px;
+        }
+        .stock-input {
+            width: 80px;
+            text-align: center;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 4px 8px;
+        }
+        .stock-input:focus {
+            border-color: #ff424f;
+            box-shadow: 0 0 0 3px rgba(255, 66, 79, 0.25);
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .badge-primary {
+            background-color: #ffe4e6;
+            color: #ff424f;
+        }
+        .badge-warning {
+            background-color: #fef9c3;
+            color: #a16207;
+        }
+        .badge-success {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+
+
+
+        /* ==============================CSS Seller Category Page ============================*/
+        .category-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid #ff424f;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .category-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .category-active {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+        .category-inactive {
+            background-color: #fef9c3;
+            color: #a16207;
+        }
+        .subcategory-item {
+            transition: all 0.2s ease;
+            border-left: 2px solid #e2e8f0;
+        }
+        .subcategory-item:hover {
+            background-color: #f1f5f9;
+            border-left-color: #ff424f;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+
+
+        /* ==============================CSS Seller All Products Page ============================*/
+        .product-table th {
+            background-color: #f8fafc;
+        }
+        .checkbox:checked {
+            background-color: #ff424f;
+            border-color: #ff424f;
+        }
+        .product-row:hover {
+            background-color: #fdf3f4;
+        }
+
+
+
+
+        /* ==============================CSS Seller Add Product Page ============================*/
+        .step-indicator.active {
+            background-color: #ff424f;
+            color: white;
+            border-color: #ff424f;
+        }
+        .step-indicator.completed {
+            background-color: #e0f2fe;
+            color: #0ea5e9;
+            border-color: #0ea5e9;
+        }
+        .image-upload-container {
+            border: 2px dashed #d1d5db;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        .image-upload-container:hover {
+            border-color: #ff424f;
+            background-color: #fff5f5;
+        }
+        .image-preview {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .image-preview:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .remove-image-btn {
+            transition: all 0.2s ease;
+        }
+        .remove-image-btn:hover {
+            transform: scale(1.1);
+            background-color: #ef4444;
+            color: white;
+        }
+        .step-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .step-content.active {
+            display: block;
+        }
+        .attribute-item {
+            transition: all 0.2s ease;
+        }
+        .attribute-item:hover {
+            background-color: #f1f5f9;
+        }
+        .variation-item {
+            transition: all 0.2s ease;
+        }
+        .variation-item:hover {
+            background-color: #f8fafc;
+        }
+        .color-option {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .color-option.selected::after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .variant-image-preview {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            position: relative;
+            border: 1px solid #e2e8f0;
+        }
+        .variant-image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 8px;
+        }
+        .variant-image-preview:hover .variant-image-overlay {
+            opacity: 1;
+        }
+        .editor-toolbar {
+            border: 1px solid #cbd5e1;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            padding: 8px;
+            background-color: #f8fafc;
+        }
+        .editor-content {
+            border: 1px solid #cbd5e1;
+            border-radius: 0 0 6px 6px;
+            min-height: 300px;
+            padding: 16px;
+        }
+        .attribute-tag {
+            display: inline-flex;
+            align-items: center;
+            background-color: #e0f2fe;
+            color: #c40606;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .attribute-tag button {
+            margin-left: 6px;
+            color: #c40606;
+            opacity: 0.7;
+        }
+        .attribute-tag button:hover {
+            opacity: 1;
+        }
+        .variation-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: #dbeafe;
+            color: #ff0000;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+            border-color: #ff424f;
+        }
+        .required-field::after {
+            content: "*";
+            color: #ef4444;
+            margin-left: 4px;
+        }
+        .category-attributes {
+            display: none;
+        }
+        .category-attributes.active {
+            display: block;
+        }
+
+
+
+        /* ======================= Shipping Settings Page ========================== */
+.shipping-settings-page .tab-content {
+            display: block; /* Hiển thị mặc định */
+        }
+        
+        .shipping-settings-page .tab-content.hidden {
+            display: none; /* Ẩn khi có class hidden */
+        }
+        
+        .shipping-settings-page .shipping-settings-card {
+            transition: all 0.3s ease;
+            border-left: 3px solid #8b5cf6;
+            background: white;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        .shipping-settings-page .shipping-settings-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .shipping-settings-page .shipping-tab-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem 0.5rem 0 0;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .shipping-settings-page .shipping-tab-button.active {
+            background-color: white;
+            color: #ff424f;
+            border-bottom: 3px solid #ff424f;
+        }
+        
+        .shipping-settings-page .shipping-toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 3rem;
+            height: 1.5rem;
+        }
+        .shipping-settings-page .shipping-toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .shipping-settings-page .shipping-toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 1.5rem;
+        }
+        .shipping-settings-page .shipping-toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 1.125rem;
+            width: 1.125rem;
+            left: 0.1875rem;
+            bottom: 0.1875rem;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        .shipping-settings-page input:checked + .shipping-toggle-slider {
+            background-color: #ff424f;
+        }
+        .shipping-settings-page input:checked + .shipping-toggle-slider:before {
+            transform: translateX(1.5rem);
+        }
+        
+        .shipping-settings-page .zone-item {
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 1.5rem;
+        }
+        .shipping-settings-page .zone-item:hover {
+            background-color: #f8fafc;
+        }
+        
+        .shipping-settings-page .integration-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            background: white;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+        }
+        .shipping-settings-page .integration-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-color: #ff424f;
+        }
+        .shipping-settings-page .integration-card.connected {
+            border-color: #10b981;
+            background-color: #f0fdf4;
+        }
+        
+        .shipping-settings-page .shipping-modal-overlay {
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+        }
+        .shipping-settings-page .shipping-modal-content {
+            animation: modalAppear 0.3s ease-out;
+        }
+        @keyframes modalAppear {
+            from { opacity: 0; transform: translateY(-1.25rem); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Animation cho tab chuyển đổi */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .shipping-settings-page .tab-content {
+            animation: fadeIn 0.3s ease;
+        }
+
+
+
+
+
+        /* ==============================CSS Seller Return Cancellations Page ============================*/
+        
+        .rt-request-item {
+            transition: all 0.2s ease;
+        }
+        .rt-request-item:hover {
+            background-color: #f8fafc;
+        }
+        .dlrt-filter-btn {
+            transition: all 0.2s ease;
+        }
+        .dlrt-filter-btn.active {
+            background-color: #ff424f;
+            color: white;
+        }
+        .reason-box {
+            border-left: 3px solid #ff424f;
+        }
+
+
+
+
+
+
+        /* ==============================CSS Seller Delivery List Page ============================*/
+        
+        .dlrt-filter-btn {
+            transition: all 0.2s ease;
+        }
+        .dlrt-filter-btn.active {
+            background-color: #ff424f;
+            color: white;
+        }
+        .dl-map-container {
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+
+
+
+        /* ==============================CSS Seller Batch Shipping Page ============================*/
+        .step-card {
+            border-left: 3px solid #ff424f;
+            transition: all 0.3s ease;
+        }
+        .step-card.active {
+            background-color: #fff5f5;
+            border-left-width: 4px;
+        }
+        .bs-shipping-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        .bs-shipping-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-color: #ff424f;
+        }
+        .bs-shipping-card.selected {
+            border: 2px solid #ff424f;
+            background-color: #fff5f5;
+        }
+        .bs-address-card {
+            border-left: 3px solid #3b82f6;
+        }
+        .history-tab {
+            transition: all 0.3s ease;
+        }
+        .history-tab.active {
+            border-bottom: 3px solid #ff424f;
+            color: #ff424f;
+        }
+
+
+
+
+
+
+        /* ==============================CSS Seller All Orders Page ============================*/
+        .order-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid #3b82f6;
+        }
+        .order-card.processing { border-left-color: #3b82f6; }
+        .order-card.shipped { border-left-color: #8b5cf6; }
+        .order-card.delivered { border-left-color: #10b981; }
+        .order-card.cancelled { border-left-color: #ef4444; }
+        .order-card.returned { border-left-color: #f59e0b; }
+        
+        .order-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .status-processing { background-color: #dbeafe; color: #1d4ed8; }
+        .status-shipped { background-color: #ede9fe; color: #6d28d9; }
+        .status-delivered { background-color: #dcfce7; color: #047857; }
+        .status-cancelled { background-color: #fee2e2; color: #b91c1c; }
+        .status-returned { background-color: #fef3c7; color: #b45309; }
+        .order-table th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+            color: #334155;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .order-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        .order-table tr:hover {
+            background-color: #f1f5f9;
+        }
+        .order-item {
+            transition: all 0.2s ease;
+        }
+        .order-item:hover {
+            background-color: #f1f5f9;
+        }
+        .dlrt-filter-btn {
+            transition: all 0.2s ease;
+        }
+        .dlrt-filter-btn.active {
+            background-color: #ff424f;
+            color: white;
+        }
+        .ao-action-btn {
+            transition: all 0.2s ease;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+        .ao-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+
+
+
+
+
+
+        /* ==============================CSS Seller Voucher Page ============================*/
+        .voucher-card {
+            transition: all 0.3s ease;
+            border-left: 3px solid #8b5cf6;
+        }
+        .voucher-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .voucher-item {
+            transition: all 0.2s ease;
+        }
+        .voucher-item:hover {
+            background-color: #f8fafc;
+        }
+        .voucher-tag {
+            transition: all 0.2s ease;
+        }
+        .voucher-tag:hover {
+            transform: scale(1.05);
+        }
+        .voucher-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            background-color: #f3f4f6;
+        }
+        .usage-bar {
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .voucher-preview {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+            color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        .voucher-divider {
+            position: relative;
+        }
+        .voucher-divider::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 1px;
+            background: repeating-linear-gradient(transparent, transparent 5px, rgba(255,255,255,0.3) 5px, rgba(255,255,255,0.3) 10px);
+        }
+
+
+
+
+        /* ==============================CSS Seller Promotions Page ============================*/
+        .promotion-card {
+            transition: all 0.3s ease;
+            border-left: 3px solid #8b5cf6;
+        }
+        .promotion-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .promotion-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            background-color: #f3f4f6;
+        }
+        .pm-campaign-card {
+            transition: all 0.3s ease;
+        }
+        .pm-campaign-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+
+
+
+
+        /*====================================Seller Flash Sale Page===================================*/
+        .flash-card {
+            transition: all 0.3s ease;
+            border-left: 3px solid #f97316;
+        }
+        .flash-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .event-item {
+            transition: all 0.2s ease;
+        }
+        .event-item:hover {
+            background-color: #f8fafc;
+        }
+        .countdown-item {
+            min-width: 50px;
+            padding: 8px 5px;
+            background: linear-gradient(135deg, #ff424f 0%, #f97316 100%);
+            color: white;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .countdown-label {
+            font-size: 10px;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #ff424f 0%, #f97316 100%);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+
+
+
+
+        /*====================================Seller Campaign Page===================================*/
+        .campaign-card {
+            transition: all 0.3s ease;
+            border-left: 3px solid #8b5cf6;
+        }
+        .campaign-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .campaign-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            background-color: #f3f4f6;
+        }
+        .template-card {
+            transition: all 0.3s ease;
+        }
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }

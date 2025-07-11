@@ -11,6 +11,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/assets/css/seller.css">
+
     <script>
         tailwind.config = {
             theme: {
@@ -43,64 +46,6 @@
             }
         }
     </script>
-    
-    <style>
-        .step-card {
-            border-left: 3px solid #ff424f;
-            transition: all 0.3s ease;
-        }
-        .step-card.active {
-            background-color: #fff5f5;
-            border-left-width: 4px;
-        }
-        .order-item {
-            transition: all 0.2s ease;
-        }
-        .order-item:hover {
-            background-color: #f8fafc;
-        }
-        .shipping-card {
-            transition: all 0.3s ease;
-            border: 1px solid #e2e8f0;
-        }
-        .shipping-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            border-color: #ff424f;
-        }
-        .shipping-card.selected {
-            border: 2px solid #ff424f;
-            background-color: #fff5f5;
-        }
-        .action-btn {
-            transition: all 0.2s ease;
-        }
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .address-card {
-            border-left: 3px solid #3b82f6;
-        }
-        .modal-overlay {
-            background-color: rgba(0,0,0,0.6);
-            z-index: 10000;
-        }
-        .modal-content {
-            animation: modalAppear 0.3s ease-out;
-        }
-        .history-tab {
-            transition: all 0.3s ease;
-        }
-        .history-tab.active {
-            border-bottom: 3px solid #ff424f;
-            color: #ff424f;
-        }
-        @keyframes modalAppear {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
 </head>
 <body class="font-sans bg-gray-50">
     <div class="container mx-auto px-4 py-6">
@@ -155,7 +100,7 @@
             <div class="p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div class="flex-1">
                     <h2 class="text-lg font-semibold text-slate-800 mb-3">Địa chỉ lấy hàng</h2>
-                    <div class="address-card bg-blue-50 p-4 rounded-lg">
+                    <div class="bs-address-card bg-blue-50 p-4 rounded-lg">
                         <div class="flex justify-between items-start">
                             <div>
                                 <div class="font-bold text-blue-700 mb-1">Kho Hà Nội</div>
@@ -383,7 +328,7 @@
                 <div class="p-5">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <!-- Shipping Method 1 -->
-                        <div class="shipping-card bg-white p-5 rounded-lg cursor-pointer" data-carrier="ghtk">
+                        <div class="bs-shipping-card bg-white p-5 rounded-lg cursor-pointer" data-carrier="ghtk">
                             <div class="flex justify-between items-start mb-4">
                                 <div>
                                     <h3 class="font-bold text-lg text-slate-800">Giao Hàng Tiết Kiệm</h3>
@@ -415,7 +360,7 @@
                         </div>
                         
                         <!-- Shipping Method 2 -->
-                        <div class="shipping-card bg-white p-5 rounded-lg cursor-pointer" data-carrier="ghn">
+                        <div class="bs-shipping-card bg-white p-5 rounded-lg cursor-pointer" data-carrier="ghn">
                             <div class="flex justify-between items-start mb-4">
                                 <div>
                                     <h3 class="font-bold text-lg text-slate-800">Giao Hàng Nhanh</h3>
@@ -443,7 +388,7 @@
                         </div>
                         
                         <!-- Shipping Method 3 -->
-                        <div class="shipping-card bg-white p-5 rounded-lg cursor-pointer" data-carrier="vtp">
+                        <div class="bs-shipping-card bg-white p-5 rounded-lg cursor-pointer" data-carrier="vtp">
                             <div class="flex justify-between items-start mb-4">
                                 <div>
                                     <h3 class="font-bold text-lg text-slate-800">Viettel Post</h3>
@@ -753,7 +698,7 @@
             <div class="p-5 max-h-[70vh] overflow-y-auto">
                 <div class="mb-6">
                     <h4 class="font-semibold text-slate-800 mb-3">Địa chỉ hiện tại</h4>
-                    <div class="address-card bg-blue-50 p-4 rounded-lg">
+                    <div class="bs-address-card bg-blue-50 p-4 rounded-lg">
                         <div class="flex justify-between items-start">
                             <div>
                                 <div class="font-bold text-blue-700 mb-1">Kho Hà Nội</div>
@@ -767,7 +712,7 @@
                 <div class="mb-6">
                     <h4 class="font-semibold text-slate-800 mb-3">Chọn địa chỉ khác</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="address-card bg-white border border-slate-200 p-4 rounded-lg cursor-pointer hover:border-blue-500">
+                        <div class="bs-address-card bg-white border border-slate-200 p-4 rounded-lg cursor-pointer hover:border-blue-500">
                             <div class="flex justify-between items-start">
                                 <div>
                                     <div class="font-bold text-slate-800 mb-1">Kho TP.HCM</div>
@@ -895,9 +840,9 @@
             });
             
             // Shipping card selection
-            document.querySelectorAll('.shipping-card').forEach(card => {
+            document.querySelectorAll('.bs-shipping-card').forEach(card => {
                 card.addEventListener('click', function() {
-                    document.querySelectorAll('.shipping-card').forEach(c => c.classList.remove('selected'));
+                    document.querySelectorAll('.bs-shipping-card').forEach(c => c.classList.remove('selected'));
                     this.classList.add('selected');
                     selectedCarrier = this.getAttribute('data-carrier');
                 });
@@ -949,9 +894,9 @@
             });
             
             // Address card selection
-            document.querySelectorAll('.address-card.bg-white').forEach(card => {
+            document.querySelectorAll('.bs-address-card.bg-white').forEach(card => {
                 card.addEventListener('click', function() {
-                    document.querySelectorAll('.address-card.bg-white').forEach(c => {
+                    document.querySelectorAll('.bs-address-card.bg-white').forEach(c => {
                         const icon = c.querySelector('.fa-check').parentElement;
                         icon.classList.remove('bg-blue-100', 'text-blue-700');
                         icon.classList.add('text-slate-400');
