@@ -1,3 +1,4 @@
+//Modal của các trang banners, pages-policy, popups, system-notifications, hot-product, new-user, orders,   
 // modal.js
 
 // Mở modal bằng ID

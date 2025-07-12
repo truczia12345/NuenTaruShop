@@ -6,184 +6,7 @@
     <title>Sản phẩm yêu thích - E-Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .product-card {
-            transition: all 0.3s ease;
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .product-image {
-            height: 200px;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .product-card:hover .product-image {
-            transform: scale(1.05);
-        }
-        
-        .wishlist-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 10;
-        }
-        
-        .wishlist-btn.active {
-            background-color: #ff424f;
-            color: white;
-        }
-        
-        .wishlist-btn:hover {
-            transform: scale(1.1);
-        }
-        
-        .add-to-cart-btn {
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: translateY(10px);
-        }
-        
-        .product-card:hover .add-to-cart-btn {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .sale-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: #ff424f;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 500;
-            z-index: 5;
-        }
-        
-        .empty-wishlist {
-            opacity: 0.6;
-            transition: all 0.3s ease;
-        }
-        
-        .sort-btn {
-            transition: all 0.2s ease;
-            border-radius: 20px;
-            padding: 6px 16px;
-        }
-        
-        .sort-btn.active, .sort-btn:hover {
-            background-color: #ff424f;
-            color: white;
-        }
-        
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(255, 255, 255, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease;
-        }
-        
-        .loading-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .loading-spinner {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(79, 70, 229, 0.2);
-            border-radius: 50%;
-            border-top-color: #4f46e5;
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .pagination-btn {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            transition: all 0.2s;
-        }
-        
-        .pagination-btn.active {
-            background-color: #ff424f;
-            color: white;
-        }
-        
-        .pagination-btn:not(.disabled):hover {
-            background-color: #f0f0f0;
-        }
-        
-        .stock-badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 500;
-            margin-top: 4px;
-        }
-        
-        .in-stock {
-            background-color: #dcfce7;
-            color: #16a34a;
-        }
-        
-        .low-stock {
-            background-color: #fef3c7;
-            color: #d97706;
-        }
-        
-        .out-of-stock {
-            background-color: #fee2e2;
-            color: #ef4444;
-        }
-        
-        .filter-container {
-            transition: all 0.3s ease;
-            max-height: 0;
-            overflow: hidden;
-        }
-        
-        .filter-container.open {
-            max-height: 500px;
-            padding: 16px 0;
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/css/user.css">
 </head>
 <body class="bg-gray-50 min-h-screen">
     <!-- Loading Overlay -->
@@ -567,7 +390,7 @@
                 }
                 
                 const productCard = document.createElement('div');
-                productCard.className = 'product-card bg-white rounded-lg shadow-md overflow-hidden';
+                productCard.className = 'wl-product-card bg-white rounded-lg shadow-md overflow-hidden';
                 
                 productCard.innerHTML = `
                     <div class="relative">
@@ -643,7 +466,7 @@
             // Simulate API call delay
             setTimeout(() => {
                 // Remove product from UI
-                const productCard = document.querySelector(`.wishlist-btn[data-id="${productId}"]`).closest('.product-card');
+                const productCard = document.querySelector(`.wishlist-btn[data-id="${productId}"]`).closest('.wl-product-card');
                 productCard.style.opacity = '0';
                 productCard.style.transform = 'translateY(20px)';
                 
@@ -652,7 +475,7 @@
                     productCard.remove();
                     
                     // Update wishlist count
-                    const products = document.querySelectorAll('.product-card');
+                    const products = document.querySelectorAll('.wl-product-card');
                     wishlistCountElement.textContent = products.length;
                     
                     // Check if wishlist is now empty

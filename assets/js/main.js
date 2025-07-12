@@ -1,3 +1,5 @@
+/*==============================JS INDEX==============================*/
+
 document.addEventListener('DOMContentLoaded', function() {
         // ==================== NOTIFICATION FIX ====================
         const notificationIcon = document.getElementById('notification-icon');

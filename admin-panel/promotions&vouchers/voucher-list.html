@@ -6,6 +6,18 @@
   <title>Danh sách voucher</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- CSS ghi đè để sử dụng màu hồng thay vì màu xanh -->
+  <style>
+    .tab-link.active {
+      color: #db2777 !important; /* màu pink-600 */
+      border-bottom-color: #db2777 !important;
+    }
+    
+    .tab-link:hover {
+      color: #db2777 !important; /* màu pink-600 khi hover */
+    }
+  </style>
 </head>
 <body class="bg-gray-100 p-8 font-sans">
   <div class="p-6">
@@ -24,18 +36,18 @@
       </a>
     </div>
 
-    <!-- Tabs -->
+    <!-- Tabs (đã sửa) -->
     <div class="mb-6 border-b border-gray-200">
       <ul class="flex text-sm font-medium text-center text-gray-500">
         <li class="mr-4">
-          <button class="tab-link active text-pink-600 border-b-2 border-pink-600 pb-2" onclick="openTab(event, 'system')">
+          <a href="#system" class="tab-link active text-blue-600 border-b-2 border-blue-600 pb-2 inline-block">
             Voucher hệ thống
-          </button>
+          </a>
         </li>
         <li>
-          <button class="tab-link text-gray-500 hover:text-pink-600 hover:border-pink-600 pb-2" onclick="openTab(event, 'seller')">
+          <a href="#seller" class="tab-link text-gray-500 hover:text-blue-600 hover:border-blue-600 pb-2 inline-block">
             Voucher nhà bán hàng
-          </button>
+          </a>
         </li>
       </ul>
     </div>
@@ -178,16 +190,7 @@
 
   </div>
 
-  <script>
-    function openTab(evt, tabId) {
-      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
-      document.getElementById(tabId).classList.remove('hidden');
-      document.querySelectorAll('.tab-link').forEach(btn => {
-        btn.classList.remove('active', 'text-pink-600', 'border-pink-600');
-        btn.classList.add('text-gray-500');
-      });
-      evt.currentTarget.classList.add('active', 'text-pink-600', 'border-b-2', 'border-pink-600');
-    }
-  </script>
+  <!-- Nhúng file tabs.js -->
+  <script src="/assets/js/tabs.js"></script>
 </body>
 </html>

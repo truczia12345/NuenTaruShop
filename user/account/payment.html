@@ -6,249 +6,8 @@
     <title>Phương thức thanh toán - E-Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Các style giữ nguyên từ trước */
-        .payment-card {
-            transition: all 0.3s ease;
-            border-left: 4px solid #ff424f;
-        }
-        
-        .payment-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        .card-type {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        
-        .type-visa {
-            background-color: #dbeafe;
-            color: #1a1f71;
-        }
-        
-        .type-mastercard {
-            background-color: #fee2e2;
-            color: #eb001b;
-        }
-        
-        .type-jcb {
-            background-color: #f0fdf4;
-            color: #0f9d58;
-        }
-        
-        .type-momo {
-            background-color: #ede9fe;
-            color: #a435f0;
-        }
-        
-        .type-zalopay {
-            background-color: #dcfce7;
-            color: #0c9c45;
-        }
-        
-        .type-bank {
-            background-color: #fef3c7;
-            color: #d97706;
-        }
-        
-        .default-badge {
-            display: inline-flex;
-            align-items: center;
-            background-color: #ff424f;
-            color: white;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        
-        .add-payment-card {
-            border: 2px dashed #cbd5e1;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .add-payment-card:hover {
-            border-color: #ff424f;
-            background-color: #fff1f2;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal.active {
-            display: flex;
-        }
-        
-        .modal-content {
-            width: 90%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        
-        .payment-tab {
-            transition: all 0.2s ease;
-            padding: 10px 20px;
-            border-bottom: 3px solid transparent;
-        }
-        
-        .payment-tab.active, .payment-tab:hover {
-            border-bottom-color: #ff424f;
-            color: #ff424f;
-            font-weight: 500;
-        }
-        
-        .card-input {
-            transition: all 0.3s ease;
-        }
-        
-        .card-input:focus-within {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-        
-        .card-preview {
-            transition: all 0.5s ease;
-            transform-style: preserve-3d;
-            height: 220px; /* Tăng chiều cao lên 220px */
-            width: 100%;
-            max-width: 350px; /* Giới hạn chiều rộng tối đa */
-            margin: 0 auto; /* Căn giữa */
-        }
-        
-        .card-preview.flipped {
-            transform: rotateY(180deg);
-        }
-        
-        .card-front, .card-back {
-            backface-visibility: hidden;
-            height: 100%; /* Chiếm toàn bộ chiều cao */
-            width: 100%; /* Chiếm toàn bộ chiều rộng */
-        }
-        
-        .card-back {
-            transform: rotateY(180deg);
-        }
-        
-        .card-logo {
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-        }
-        
-        .cvv-hint {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .cvv-hint:hover {
-            color: #3b82f6;
-        }
-        
-        .input-error {
-            border-color: #ef4444;
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-        }
-        
-        .error-message {
-            color: #ef4444;
-            font-size: 0.75rem;
-            margin-top: 0.25rem;
-        }
-
-        .card-visa {
-            background: linear-gradient(135deg, #1a1f71, #3d5bff);
-        }
-        
-        .card-mastercard {
-            background: linear-gradient(135deg, #f79e1b, #eb001b);
-        }
-        
-        .card-jcb {
-            background: linear-gradient(135deg, #a4a4a4, #6e6e6e);
-        }
-        
-        .card-default {
-            background: linear-gradient(135deg, #b1b1b1, #7d7d7d);
-        }
-        
-        /* Điều chỉnh bố cục thẻ */
-        .card-content {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            justify-content: space-between;
-            padding: 20px;
-        }
-        
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-        
-        .card-brand {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 4px;
-            padding: 5px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            opacity: 0; /* Ẩn mặc định */
-            transition: opacity 0.3s ease;
-        }
-        
-        .card-brand.visible {
-            opacity: 1; /* Hiển thị khi có logo */
-        }
-        
-        .card-body {
-            margin-top: auto;
-            padding-bottom: 15px;
-        }
-        
-        .card-footer {
-            margin-top: auto;
-        }
-        
-        /* Thêm tỷ lệ khung hình cho thẻ */
-        .card-preview-container {
-            position: relative;
-            max-width: 350px;
-            margin: 0 auto;
-        }
-        
-        .card-preview-container::before {
-            content: "";
-            display: block;
-            padding-top: 63%; /* Tỷ lệ khung hình thẻ tín dụng (56mm x 88mm) */
-        }
-        
-        .card-preview {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/css/user.css">
+    <link rel="stylesheet" href="/assets/css/user.css">
 </head>
 <body class="bg-gray-50 min-h-screen">
     <!-- Loading Overlay -->
@@ -560,9 +319,11 @@
                             <div class="card-front absolute w-full h-full rounded-xl shadow-lg text-white card-default" id="card-front-preview">
                                 <div class="card-content">
                                     <div class="card-header">
-                                        <div class="text-xl font-bold">Thẻ ghi nợ</div>
+                                        <div class="text-xl">
+                                            <img src="/assets/img/icon/checkout/chip.svg" width="50px" height="60px" alt="">
+                                        </div>
                                         <div class="card-brand" id="card-brand">
-                                            <img id="card-type-icon" src="" alt="Card type" class="h-6">
+                                            <img id="card-type-icon" src="" alt="Card type" width="50px" height="60px">
                                         </div>
                                     </div>
                                     
@@ -615,7 +376,7 @@
                                     <i class="far fa-credit-card"></i>
                                 </button>
                             </div>
-                            <div class="error-message hidden" id="card-number-error"></div>
+                            <div class="pm-error-message hidden" id="card-number-error"></div>
                         </div>
                         
                         <div>
@@ -627,7 +388,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Ngày hết hạn</label>
                                 <input type="text" id="card-expiry" placeholder="MM/YY" class="w-full p-3 border rounded-lg" required>
-                                <div class="error-message hidden" id="expiry-error"></div>
+                                <div class="pm-error-message hidden" id="expiry-error"></div>
                             </div>
                             
                             <div>
@@ -811,44 +572,7 @@
     </div>
 
     <script>
-        // Hàm gửi chiều cao về trang chủ
-  function sendHeightToParent() {
-    const height = Math.max(
-      document.body.scrollHeight,
-      document.body.offsetHeight,
-      document.documentElement.clientHeight,
-      document.documentElement.scrollHeight,
-      document.documentElement.offsetHeight
-    );
-    
-    // Gửi chiều cao về trang chủ
-    window.parent.postMessage({
-      type: 'resize',
-      height: height
-    }, '*');
-  }
-
-  // Gửi chiều cao khi trang tải xong
-  window.addEventListener('load', sendHeightToParent);
-  
-  // Gửi chiều cao khi cửa sổ thay đổi kích thước
-  window.addEventListener('resize', sendHeightToParent);
-  
-  // Gửi chiều cao khi có thay đổi nội dung (MutationObserver)
-  const observer = new MutationObserver(sendHeightToParent);
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-    characterData: true
-  });
-
-  // Trả lời khi nhận được yêu cầu từ trang chủ
-  window.addEventListener('message', (event) => {
-    if (event.data === 'getHeight') {
-      sendHeightToParent();
-    }
-  });
+        
 
         // Tab switching
         document.querySelectorAll('.payment-tab').forEach(button => {
@@ -1070,11 +794,11 @@
             const cardCVV = document.getElementById('card-cvv').value;
             
             // Reset errors
-            document.querySelectorAll('.error-message').forEach(el => {
+            document.querySelectorAll('.pm-error-message').forEach(el => {
                 el.classList.add('hidden');
             });
-            document.querySelectorAll('.input-error').forEach(el => {
-                el.classList.remove('input-error');
+            document.querySelectorAll('.pm-input-error').forEach(el => {
+                el.classList.remove('pm-input-error');
             });
             
             let isValid = true;
@@ -1082,7 +806,7 @@
             // Validate card number (min 16 digits)
             const cleanCardNumber = cardNumber.replace(/\s/g, '');
             if (cleanCardNumber.length < 16) {
-                document.getElementById('card-number-container').classList.add('input-error');
+                document.getElementById('card-number-container').classList.add('pm-input-error');
                 document.getElementById('card-number-error').textContent = "Số thẻ phải có ít nhất 16 chữ số";
                 document.getElementById('card-number-error').classList.remove('hidden');
                 isValid = false;
@@ -1090,19 +814,19 @@
             
             // Validate expiry date
             if (!validateExpiry(cardExpiry)) {
-                document.getElementById('card-expiry').classList.add('input-error');
+                document.getElementById('card-expiry').classList.add('pm-input-error');
                 isValid = false;
             }
             
             // Validate card name
             if (!cardName.trim()) {
-                document.getElementById('card-name').classList.add('input-error');
+                document.getElementById('card-name').classList.add('pm-input-error');
                 isValid = false;
             }
             
             // Validate CVV (exactly 3 digits)
             if (!/^\d{3}$/.test(cardCVV)) {
-                document.getElementById('card-cvv').classList.add('input-error');
+                document.getElementById('card-cvv').classList.add('pm-input-error');
                 isValid = false;
             }
             
@@ -1222,7 +946,7 @@
             // Kiểm tra  Luhn
             const cleanCardNumber = cardNumber.replace(/\s/g, '');
             if (!isValidCardNumber(cleanCardNumber)) {
-            document.getElementById('card-number-container').classList.add('input-error');
+            document.getElementById('card-number-container').classList.add('pm-input-error');
             document.getElementById('card-number-error').textContent = "Số thẻ không hợp lệ";
             document.getElementById('card-number-error').classList.remove('hidden');
             isValid = false;
@@ -1239,6 +963,30 @@
             e.preventDefault();
             alert('Tài khoản ngân hàng đã được thêm thành công!');
             document.getElementById('bank-modal').classList.remove('active');
+        });
+
+        // Hàm gửi chiều cao về trang chủ (cho iframe)
+        function sendHeightToParent() {
+            const height = document.body.scrollHeight;
+            if (window.parent !== window) {
+                window.parent.postMessage({
+                    type: 'resize',
+                    height: height
+                }, '*');
+            }
+        }
+        
+        // Gửi chiều cao khi trang tải xong
+        window.addEventListener('load', sendHeightToParent);
+        
+        // Gửi chiều cao khi cửa sổ thay đổi kích thước
+        window.addEventListener('resize', sendHeightToParent);
+        
+        // Trả lời khi nhận được yêu cầu từ trang chủ
+        window.addEventListener('message', (event) => {
+            if (event.data === 'getHeight') {
+                sendHeightToParent();
+            }
         });
     </script>
 </body>

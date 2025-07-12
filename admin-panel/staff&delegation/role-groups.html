@@ -6,6 +6,8 @@
   <title>Nhóm vai trò | Admin Panel</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/@fortawesome/fontawesome-free/js/all.js" defer></script>
+  <!-- Nhúng file modal.js -->
+  <script src="/assets/js/modal.js" defer></script>
 </head>
 <body class="bg-gray-100 p-8 font-sans">
   <div class="p-6">
@@ -46,7 +48,8 @@
             <td class="p-3 text-sm">01/06/2024</td>
             <td class="p-3 text-center">
               <div class="flex justify-center gap-2 text-sm">
-                <button onclick="openModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded" title="Xem chi tiết">
+                <!-- Sửa gọi hàm openModal('groupModal') -->
+                <button onclick="openModal('groupModal')" class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded" title="Xem chi tiết">
                     <i class="fas fa-eye"></i>
                 </button>
                 <button class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded" title="Chỉnh sửa">
@@ -65,7 +68,7 @@
             <td class="p-3 text-sm">20/04/2024</td>
             <td class="p-3 text-center">
               <div class="flex justify-center gap-2 text-sm">
-                <button class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded" title="Xem chi tiết">
+                <button onclick="openModal('groupModal')" class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded" title="Xem chi tiết">
                   <i class="fas fa-eye"></i>
                 </button>
                 <button class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded" title="Chỉnh sửa">
@@ -82,7 +85,8 @@
     </div>
 
     <!-- Modal chi tiết nhóm -->
-    <div id="groupModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <!-- Thêm class 'modal' và giữ nguyên id 'groupModal' -->
+    <div id="groupModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50 modal">
       <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
         <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
           <i class="fas fa-info-circle text-purple-600"></i>
@@ -98,25 +102,17 @@
           <li>Gán quyền nhân viên</li>
         </ul>
         <div class="text-right">
-          <button onclick="closeModal()" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">
+          <!-- Sửa gọi hàm closeModal('groupModal') -->
+          <button onclick="closeModal('groupModal')" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">
             Đóng
           </button>
         </div>
-        <button onclick="closeModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">
+        <!-- Thêm class close-modal -->
+        <button onclick="closeModal('groupModal')" class="close-modal absolute top-3 right-3 text-gray-400 hover:text-gray-600">
           <i class="fas fa-times"></i>
         </button>
       </div>
     </div>
-
-    <script>
-      function openModal() {
-        document.getElementById("groupModal").classList.remove("hidden");
-      }
-      function closeModal() {
-        document.getElementById("groupModal").classList.add("hidden");
-      }
-    </script>
-
   </div>
 </body>
 </html>

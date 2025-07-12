@@ -1,3 +1,4 @@
+// Tab của các trang ad-campaign, revenue-ad, debt-management, payment-history, and payment-history, flash sale,  
 // tabs.js
 function initTabs() {
     const tabLinks = document.querySelectorAll('.tab-link');
