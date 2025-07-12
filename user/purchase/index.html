@@ -541,12 +541,14 @@
         // Hàm mở modal chi tiết
         function openOrderDetailModal() {
             orderDetailModal.classList.remove('hidden');
+            orderDetailModal.classList.add('active'); // THÊM DÒNG NÀY
             document.body.style.overflow = 'hidden';
         }
         
         // Hàm đóng modal chi tiết
         function closeOrderDetailModal() {
             orderDetailModal.classList.add('hidden');
+            orderDetailModal.classList.remove('active'); // THÊM DÒNG NÀY
             document.body.style.overflow = 'auto';
         }
 
@@ -599,7 +601,10 @@
         
         // Xử lý sự kiện cho nút xem chi tiết
         viewDetailBtns.forEach(btn => {
-            btn.addEventListener('click', openOrderDetailModal);
+            btn.addEventListener('click', function() {
+                console.log('Detail button clicked', this.dataset.id);
+                openOrderDetailModal();
+            });
         });
         
         // Xử lý sự kiện cho nút đánh giá
