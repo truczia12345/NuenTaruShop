@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/user.css">
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen flex flex-col">
 
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loading-overlay">
@@ -82,12 +82,12 @@
     </div>
 
     <!-- Main Content -->
-    <div class="container mx-auto px-4 py-6 flex flex-col md:flex-row">
+    <div class="container mx-auto px-4 py-6 flex flex-1 min-h-0">
         <!-- Sidebar Overlay (Mobile) -->
         <div class="sidebar-overlay" id="sidebar-overlay"></div>
         
         <!-- Sidebar -->
-        <div class="sidebar w-full md:w-64 bg-white rounded-lg shadow-md md:mr-6 mb-6 md:mb-0" id="sidebar">
+        <div class="sidebar w-full md:w-64 bg-white rounded-lg shadow-md md:mr-6 mb-6 md:mb-0 flex-shrink-0" id="sidebar">
             <!-- Profile Summary -->
             <div class="p-4 border-b">
                 <div class="flex items-center">
@@ -159,9 +159,9 @@
         </div>
         
         <!-- Main Content Area -->
-        <div class="flex-1 flex flex-col min-h-0">
+        <div class="flex-1 flex flex-col min-h-0" id="iframe-container">
             
-            <div class="iframe-container">
+            <div class="iframe-container flex-1 min-h-0">
                 <div id="iframe-loading" class="iframe-loading">
                     <div class="spinner"></div>
                     <p class="mt-2 text-gray-600">Đang tải nội dung...</p>
@@ -182,7 +182,7 @@
     </div>
     
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8 mt-10">
+    <footer class="bg-gray-800 text-white py-8 mt-auto">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
                 <!-- Column 1 -->
@@ -276,9 +276,13 @@
         const iframeError = document.getElementById('iframe-error');
         const retryButton = document.getElementById('retry-button');
         
-        // Hàm điều chỉnh chiều cao iframe
-        function adjustIframeHeight(height) {
+        // Hàm điều chỉnh chiều cao iframe và đồng bộ sidebar
+        function adjustHeights(height) {
+            // Đặt chiều cao cho iframe
             contentIframe.style.height = `${height}px`;
+            
+            // Đặt cùng chiều cao cho sidebar
+            sidebar.style.height = `${height}px`;
             
             // Cuộn lên đầu trang
             window.scrollTo(0, 0);
@@ -287,7 +291,7 @@
         // Lắng nghe sự kiện từ iframe con
         window.addEventListener('message', (event) => {
             if (event.data.type === 'resize') {
-                adjustIframeHeight(event.data.height);
+                adjustHeights(event.data.height);
             }
         });
         
@@ -355,6 +359,17 @@
                 iframeError.classList.remove('hidden');
             }
         }, 5000);
+
+        // Khởi tạo ResizeObserver để theo dõi thay đổi kích thước
+        const resizeObserver = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                const { height } = entry.contentRect;
+                adjustHeights(height);
+            }
+        });
+
+        // Bắt đầu theo dõi iframe-container
+        resizeObserver.observe(document.getElementById('iframe-container'));
     </script>
 </body>
 </html>
