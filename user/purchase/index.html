@@ -7,27 +7,50 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/user.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff424f',
+                        secondary: '#c43a43',
+                        accent: '#ff6b78',
+                        light: '#f8f9fa',
+                        dark: '#1a202c',
+                        sidebarActive: '#fff5f5'
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(0,0,0,0.08)'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-gray-50">
-    <!-- Profile Header -->
-    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-800 mb-2">Đơn hàng của tôi</h1>
-                <p class="text-gray-600 mt-1">Quản lý và theo dõi các đơn hàng của bạn</p>
-            </div>
-            <div class="mt-4 md:mt-0 flex items-center">
-                <button id="new-order-btn" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center transition-all duration-300 shadow-md hover:shadow-lg">
-                    <i class="fas fa-plus mr-2"></i> Đặt hàng mới
-                </button>
+<body class="bg-gray-50 purchase-page">
+    <div class="mx-auto ">
+        <!-- Profile Header -->
+        <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800 mb-2">Đơn hàng của tôi</h1>
+                    <p class="text-gray-600">Quản lý và theo dõi các đơn hàng của bạn</p>
+                </div>
+                <div class="px-4 mt-4 md:mt-0">
+                    <!-- Đã cập nhật màu nút theo yêu cầu -->
+                    <button id="new-order-btn" class="bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white px-4 py-2.5 rounded-lg flex items-center transition-all duration-300 shadow-md hover:shadow-lg">
+                        <i class="fas fa-plus mr-2"></i> Đặt hàng mới
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-        
-    <!-- Filter Section -->
-    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
-        <div class="status-filter-container flex pb-1">
-            <div class="flex flex-nowrap gap-2">
+            
+        <!-- Filter Section -->
+        <div class="bg-white rounded-xl shadow-sm p-5 mb-6">
+            <div class="filter-tabs">
                 <button class="filter-btn active" data-status="all">Tất cả đơn hàng</button>
                 <button class="filter-btn" data-status="pending">Chờ xác nhận</button>
                 <button class="filter-btn" data-status="processing">Đang chuẩn bị</button>
@@ -35,201 +58,200 @@
                 <button class="filter-btn" data-status="delivered">Đã giao</button>
                 <button class="filter-btn" data-status="cancelled">Đã hủy</button>
             </div>
+            
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <div class="relative">
+                        <input id="order-search" type="text" placeholder="Nhập mã đơn hàng..." class="w-full p-3 border rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-primary">
+                        <i class="fas fa-search absolute left-3 top-3.5 text-gray-400"></i>
+                    </div>
+                </div>
+                
+                <div class="w-full md:w-48">
+                    <select id="time-filter" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="30">30 ngày gần đây</option>
+                        <option value="90">3 tháng gần đây</option>
+                        <option value="180">6 tháng gần đây</option>
+                        <option value="2025">Năm 2025</option>
+                        <option value="all">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders List -->
+        <div id="orders-container" class="space-y-4">
+            <!-- Đơn hàng Đã giao (Đã đánh giá) -->
+            <div class="bg-white p-6 rounded-xl shadow-sm order-card" data-status="delivered">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-2">
+                    <div>
+                        <span class="font-bold">Mã đơn: ĐH230901</span>
+                        <span class="order-status status-delivered ml-2 sm:ml-4">Đã giao</span>
+                        <div class="text-sm text-gray-500 mt-1">Ngày đặt: 01/09/2025</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-primary font-bold text-lg">1.110.000₫</div>
+                        <div class="text-sm text-gray-500">3 sản phẩm</div>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-center border-b pb-4 last:border-b-0 last:pb-0">
+                        <!-- Hình ảnh thật của sản phẩm -->
+                        <img src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" class="w-16 h-16 rounded-lg mr-4 object-cover">
+                        <div class="flex-1 min-w-0">
+                            <div class="font-medium truncate">Tai nghe Bluetooth Sony WH-1000XM5</div>
+                            <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 1.000.000₫</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center border-b pb-4 last:border-b-0 last:pb-0">
+                        <img src="https://images.unsplash.com/photo-1512054502232-10a0a035d672?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" class="w-16 h-16 rounded-lg mr-4 object-cover">
+                        <div class="flex-1 min-w-0">
+                            <div class="font-medium truncate">Ốp lưng iPhone 14 Pro Max</div>
+                            <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 250.000₫</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" class="w-16 h-16 rounded-lg mr-4 object-cover">
+                        <div class="flex-1 min-w-0">
+                            <div class="font-medium truncate">Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên</div>
+                            <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 800.000₫</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 justify-end mt-4">
+                    <button class="action-btn outline">Mua lại</button>
+                    <button class="action-btn outline return-request" data-id="ĐH230901">Yêu cầu trả hàng</button>
+                    <button class="action-btn secondary view-detail" data-id="ĐH230901">Chi tiết</button>
+                    <button class="action-btn primary review-btn" 
+                            data-id="ĐH230901" 
+                            data-product="Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên"
+                            data-reviewed="true">Đánh giá</button>
+                </div>
+            </div>
+
+            <!-- Đơn hàng Đã giao (Chưa đánh giá) -->
+            <div class="bg-white p-6 rounded-xl shadow-sm order-card" data-status="delivered">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-2">
+                    <div>
+                        <span class="font-bold">Mã đơn: ĐH230902</span>
+                        <span class="order-status status-delivered ml-2 sm:ml-4">Đã giao</span>
+                        <div class="text-sm text-gray-500 mt-1">Ngày đặt: 05/09/2025</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-primary font-bold text-lg">350.000₫</div>
+                        <div class="text-sm text-gray-500">1 sản phẩm</div>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" class="w-16 h-16 rounded-lg mr-4 object-cover">
+                        <div class="flex-1 min-w-0">
+                            <div class="font-medium truncate">Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên</div>
+                            <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 350.000₫</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 justify-end mt-4">
+                    <button class="action-btn outline">Mua lại</button>
+                    <button class="action-btn outline return-request" data-id="ĐH230902">Yêu cầu trả hàng</button>
+                    <button class="action-btn secondary view-detail" data-id="ĐH230902">Chi tiết</button>
+                    <button class="action-btn primary review-btn" 
+                            data-id="ĐH230902" 
+                            data-product="Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên"
+                            data-reviewed="false">Đánh giá</button>
+                </div>
+            </div>
+
+            <!-- Đơn hàng Đang vận chuyển -->
+            <div class="bg-white p-6 rounded-xl shadow-sm order-card" data-status="shipping">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-2">
+                    <div>
+                        <span class="font-bold">Mã đơn: ĐH230825</span>
+                        <span class="order-status status-shipping ml-2 sm:ml-4">Đang vận chuyển</span>
+                        <div class="text-sm text-gray-500 mt-1">Ngày đặt: 25/08/2025</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-primary font-bold text-lg">18.680.000₫</div>
+                        <div class="text-sm text-gray-500">2 sản phẩm</div>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-center border-b pb-4 last:border-b-0 last:pb-0">
+                        <img src="https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" class="w-16 h-16 rounded-lg mr-4 object-cover">
+                        <div class="flex-1 min-w-0">
+                            <div class="font-medium truncate">Laptop Dell XPS 13 9315</div>
+                            <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 17.500.000₫</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" class="w-16 h-16 rounded-lg mr-4 object-cover">
+                        <div class="flex-1 min-w-0">
+                            <div class="font-medium truncate">Túi chống sốc laptop 15.6 inch</div>
+                            <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 600.000₫</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 justify-end mt-4">
+                    <button class="action-btn secondary view-detail" data-id="ĐH230825">Chi tiết</button>
+                </div>
+            </div>
+
+            <!-- Đơn hàng Chờ xác nhận -->
+            <div class="bg-white p-6 rounded-xl shadow-sm order-card" data-status="pending">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-2">
+                    <div>
+                        <span class="font-bold">Mã đơn: ĐH230815</span>
+                        <span class="order-status status-pending ml-2 sm:ml-4">Chờ xác nhận</span>
+                        <div class="text-sm text-gray-500 mt-1">Ngày đặt: 15/08/2025</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-primary font-bold text-lg">280.000₫</div>
+                        <div class="text-sm text-gray-500">1 sản phẩm</div>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <img src="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" class="w-16 h-16 rounded-lg mr-4 object-cover">
+                        <div class="flex-1 min-w-0">
+                            <div class="font-medium truncate">Chuột không dây Logitech MX Master 3</div>
+                            <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 320.000₫</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 justify-end mt-4">
+                    <button class="action-btn outline cancel-order" data-id="ĐH230815">Hủy đơn</button>
+                    <button class="action-btn secondary view-detail" data-id="ĐH230815">Chi tiết</button>
+                </div>
+            </div>
         </div>
         
-        <div class="mt-4 flex flex-col md:flex-row gap-4">
-            <div class="flex-1">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Tìm kiếm đơn hàng</label>
-                <div class="relative">
-                    <input id="order-search" type="text" placeholder="Nhập mã đơn hàng..." class="search-input w-full p-2 border rounded-lg pl-10 focus:outline-none">
-                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-                </div>
+        <!-- Pagination -->
+        <div id="pagination-container" class="mb-5 mt-5 flex justify-center">
+            <div class="flex items-center gap-1">
+                <button id="prev-page" class="pagination-btn disabled">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                
+                <span class="px-2 text-gray-500">...</span>
+                
+                <button class="pagination-btn">8</button>
+                
+                <button id="next-page" class="pagination-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
-            
-            <div class="w-full md:w-48">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Thời gian</label>
-                <select id="time-filter" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-200">
-                    <option value="30">30 ngày gần đây</option>
-                    <option value="90">3 tháng gần đây</option>
-                    <option value="180">6 tháng gần đây</option>
-                    <option value="2025">Năm 2025</option>
-                    <option value="all">Tất cả</option>
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <!-- Orders List -->
-    <div id="orders-container" class="space-y-4">
-        <!-- Đơn hàng Đã giao (Đã đánh giá) -->
-        <div class="bg-white p-6 rounded-lg shadow-md order-card" data-status="delivered">
-            <div class="flex justify-between items-center mb-4">
-                <div>
-                    <span class="font-bold">Mã đơn: ĐH230901</span>
-                    <span class="order-status status-delivered ml-4">Đã giao</span>
-                    <div class="text-sm text-gray-500">Ngày đặt: 01/09/2025</div>
-                </div>
-                <div class="text-right">
-                    <div class="text-red-600 font-bold text-lg">1.110.000₫</div>
-                    <div class="text-sm text-gray-500">3 sản phẩm</div>
-                </div>
-            </div>
-            <div class="space-y-3">
-                <div class="flex items-center">
-                    <img src="https://via.placeholder.com/60x60?text=S1" class="w-16 h-16 rounded mr-4">
-                    <div>
-                        <div class="font-medium">Tai nghe Bluetooth Sony WH-1000XM5</div>
-                        <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 1.000.000₫</div>
-                    </div>
-                </div>
-                <div class="flex items-center">
-                    <img src="https://via.placeholder.com/60x60?text=S2" class="w-16 h-16 rounded mr-4">
-                    <div>
-                        <div class="font-medium">Ốp lưng iPhone 14 Pro Max</div>
-                        <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 250.000₫</div>
-                    </div>
-                </div>
-                <div class="flex items-center">
-                    <img src="https://via.placeholder.com/60x60?text=S3" class="w-16 h-16 rounded mr-4">
-                    <div>
-                        <div class="font-medium">Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên</div>
-                        <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 800.000₫</div>
-                    </div>
-                </div>
-            </div>
-            <div class="flex flex-wrap gap-2 justify-end mt-4">
-                <button class="border px-4 py-2 rounded hover:bg-gray-50">Mua lại</button>
-                <button class="border px-4 py-2 rounded text-red-600 hover:bg-gray-50 return-request" data-id="ĐH230901">Yêu cầu Trả hàng/Hoàn tiền</button>
-                <button class="bg-gray-100 px-4 py-2 rounded hover:bg-gray-200 view-detail" data-id="ĐH230901">Chi tiết</button>
-                <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 review-btn" 
-                        data-id="ĐH230901" 
-                        data-product="Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên"
-                        data-reviewed="true">Đánh giá</button>
-            </div>
-        </div>
-
-        <!-- Đơn hàng Đã giao (Chưa đánh giá) -->
-        <div class="bg-white p-6 rounded-lg shadow-md order-card" data-status="delivered">
-            <div class="flex justify-between items-center mb-4">
-                <div>
-                    <span class="font-bold">Mã đơn: ĐH230902</span>
-                    <span class="order-status status-delivered ml-4">Đã giao</span>
-                    <div class="text-sm text-gray-500">Ngày đặt: 05/09/2025</div>
-                </div>
-                <div class="text-right">
-                    <div class="text-red-600 font-bold text-lg">350.000₫</div>
-                    <div class="text-sm text-gray-500">1 sản phẩm</div>
-                </div>
-            </div>
-            <div class="space-y-3">
-                <div class="flex items-center">
-                    <img src="https://via.placeholder.com/60x60?text=Trà" class="w-16 h-16 rounded mr-4">
-                    <div>
-                        <div class="font-medium">Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên</div>
-                        <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 350.000₫</div>
-                    </div>
-                </div>
-            </div>
-            <div class="flex flex-wrap gap-2 justify-end mt-4">
-                <button class="border px-4 py-2 rounded hover:bg-gray-50">Mua lại</button>
-                <button class="border px-4 py-2 rounded text-red-600 hover:bg-gray-50 return-request" data-id="ĐH230902">Yêu cầu Trả hàng/Hoàn tiền</button>
-                <button class="bg-gray-100 px-4 py-2 rounded hover:bg-gray-200 view-detail" data-id="ĐH230902">Chi tiết</button>
-                <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 review-btn" 
-                        data-id="ĐH230902" 
-                        data-product="Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên"
-                        data-reviewed="false">Đánh giá</button>
-            </div>
-        </div>
-
-        <!-- Đơn hàng Đang vận chuyển -->
-        <div class="bg-white p-6 rounded-lg shadow-md order-card" data-status="shipping">
-            <div class="flex justify-between items-center mb-4">
-                <div>
-                    <span class="font-bold">Mã đơn: ĐH230825</span>
-                    <span class="order-status status-shipping ml-4">Đang vận chuyển</span>
-                    <div class="text-sm text-gray-500">Ngày đặt: 25/08/2025</div>
-                </div>
-                <div class="text-right">
-                    <div class="text-red-600 font-bold text-lg">18.680.000₫</div>
-                    <div class="text-sm text-gray-500">2 sản phẩm</div>
-                </div>
-            </div>
-            <div class="space-y-3">
-                <div class="flex items-center">
-                    <img src="https://via.placeholder.com/60x60?text=S4" class="w-16 h-16 rounded mr-4">
-                    <div>
-                        <div class="font-medium">Laptop Dell XPS 13 9315</div>
-                        <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 17.500.000₫</div>
-                    </div>
-                </div>
-                <div class="flex items-center">
-                    <img src="https://via.placeholder.com/60x60?text=S5" class="w-16 h-16 rounded mr-4">
-                    <div>
-                        <div class="font-medium">Túi chống sốc laptop 15.6 inch</div>
-                        <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 600.000₫</div>
-                    </div>
-                </div>
-            </div>
-            <div class="flex flex-wrap gap-2 justify-end mt-4">
-                <button class="bg-gray-100 px-4 py-2 rounded hover:bg-gray-200 view-detail" data-id="ĐH230825">Chi tiết</button>
-            </div>
-        </div>
-
-        <!-- Đơn hàng Chờ xác nhận -->
-        <div class="bg-white p-6 rounded-lg shadow-md order-card" data-status="pending">
-            <div class="flex justify-between items-center mb-4">
-                <div>
-                    <span class="font-bold">Mã đơn: ĐH230815</span>
-                    <span class="order-status status-pending ml-4">Chờ xác nhận</span>
-                    <div class="text-sm text-gray-500">Ngày đặt: 15/08/2025</div>
-                </div>
-                <div class="text-right">
-                    <div class="text-red-600 font-bold text-lg">280.000₫</div>
-                    <div class="text-sm text-gray-500">1 sản phẩm</div>
-                </div>
-            </div>
-            <div class="space-y-3">
-                <div class="flex items-center">
-                    <img src="https://via.placeholder.com/60x60?text=S6" class="w-16 h-16 rounded mr-4">
-                    <div>
-                        <div class="font-medium">Chuột không dây Logitech MX Master 3</div>
-                        <div class="text-sm text-gray-500">Số lượng: 1 - Giá: 320.000₫</div>
-                    </div>
-                </div>
-            </div>
-            <div class="flex flex-wrap gap-2 justify-end mt-4">
-                <button class="border px-4 py-2 rounded hover:bg-gray-50 cancel-order" data-id="ĐH230815">Hủy đơn</button>
-                <button class="bg-gray-100 px-4 py-2 rounded hover:bg-gray-200 view-detail" data-id="ĐH230815">Chi tiết</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Pagination -->
-    <div id="pagination-container" class="mt-8 flex justify-center">
-        <div class="flex items-center gap-1">
-            <button id="prev-page" class="pagination-btn disabled text-gray-300">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            
-            <button class="pagination-btn active">1</button>
-            <button class="pagination-btn">2</button>
-            <button class="pagination-btn">3</button>
-            
-            <span class="px-2 text-gray-500">...</span>
-            
-            <button class="pagination-btn">8</button>
-            
-            <button id="next-page" class="pagination-btn">
-                <i class="fas fa-chevron-right"></i>
-            </button>
         </div>
     </div>
 
     <!-- Modal Chi tiết đơn hàng -->
-    <div id="order-detail-modal" class="hidden modal-overlay">
+    <div id="order-detail-modal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Chi tiết đơn hàng <span id="modal-order-id" class="text-red-600">ĐH230901</span></h3>
+                <h3 class="modal-title">Chi tiết đơn hàng <span id="modal-order-id" class="text-primary">ĐH230901</span></h3>
                 <button class="close-btn" id="close-modal">
                     <i class="fas fa-times"></i>
                 </button>
@@ -240,8 +262,8 @@
                     <div class="md:col-span-2">
                         <h3 class="font-bold text-lg mb-4">Sản phẩm</h3>
                         <div id="order-items-container" class="space-y-4">
-                            <div class="order-item flex items-center p-3 border rounded-lg">
-                                <img src="https://via.placeholder.com/60x60?text=S1" alt="Tai nghe Bluetooth Sony WH-1000XM5" class="w-16 h-16 rounded-md object-cover">
+                            <div class="flex items-center p-3 border rounded-lg">
+                                <img src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Tai nghe Bluetooth" class="w-16 h-16 rounded-md object-cover">
                                 <div class="ml-4 flex-1">
                                     <div class="font-medium">Tai nghe Bluetooth Sony WH-1000XM5</div>
                                     <div class="text-gray-500 text-sm mt-1">Số lượng: 1</div>
@@ -251,8 +273,8 @@
                                     <div class="text-gray-500 text-sm">1.000.000₫</div>
                                 </div>
                             </div>
-                            <div class="order-item flex items-center p-3 border rounded-lg">
-                                <img src="https://via.placeholder.com/60x60?text=S2" alt="Ốp lưng iPhone 14 Pro Max" class="w-16 h-16 rounded-md object-cover">
+                            <div class="flex items-center p-3 border rounded-lg">
+                                <img src="https://images.unsplash.com/photo-1512054502232-10a0a035d672?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Ốp lưng iPhone" class="w-16 h-16 rounded-md object-cover">
                                 <div class="ml-4 flex-1">
                                     <div class="font-medium">Ốp lưng iPhone 14 Pro Max</div>
                                     <div class="text-gray-500 text-sm mt-1">Số lượng: 1</div>
@@ -262,10 +284,10 @@
                                     <div class="text-gray-500 text-sm">250.000₫</div>
                                 </div>
                             </div>
-                            <div class="order-item flex items-center p-3 border rounded-lg">
-                                <img src="https://via.placeholder.com/60x60?text=S3" alt="Củ sạc Apple" class="w-16 h-16 rounded-md object-cover">
+                            <div class="flex items-center p-3 border rounded-lg">
+                                <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Trà Đông Trùng" class="w-16 h-16 rounded-md object-cover">
                                 <div class="ml-4 flex-1">
-                                    <div class="font-medium">Củ sạc Apple</div>
+                                    <div class="font-medium">Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên</div>
                                     <div class="text-gray-500 text-sm mt-1">Số lượng: 1</div>
                                 </div>
                                 <div class="text-right">
@@ -282,7 +304,7 @@
                             <div class="flex justify-between mb-3 pb-3 border-b">
                                 <div class="font-medium">Trạng thái:</div>
                                 <div>
-                                    <span class="status-badge badge-delivered">Đã giao</span>
+                                    <span class="status-delivered order-status">Đã giao</span>
                                 </div>
                             </div>
                             
@@ -303,7 +325,7 @@
                             
                             <div class="flex justify-between font-bold text-lg pt-4 border-t">
                                 <div>Tổng cộng:</div>
-                                <div id="total-amount" class="text-red-600">1.110.000₫</div>
+                                <div id="total-amount" class="text-primary">1.110.000₫</div>
                             </div>
                         </div>
                         
@@ -335,32 +357,48 @@
                     
                     <div>
                         <h4 class="font-medium mb-2">Lịch sử đơn hàng</h4>
-                        <div id="order-history" class="relative pl-4">
-                            <div class="timeline-item completed">
-                                <div class="timeline-connector"></div>
-                                <div class="font-medium">Đơn hàng đã giao thành công</div>
-                                <div class="text-gray-500 text-sm">01/09/2025 - 15:20</div>
-                                <div class="text-sm mt-1">Người nhận: Nguyễn Văn A</div>
+                        <div id="order-history" class="timeline-container">
+                            <!-- Timeline với các mốc quan trọng -->
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">Đơn hàng đã giao thành công</div>
+                                    <div class="timeline-date">01/09/2025 - 15:20</div>
+                                    <div class="timeline-desc">Người nhận: Nguyễn Văn A</div>
+                                </div>
                             </div>
-                            <div class="timeline-item completed">
-                                <div class="timeline-connector"></div>
-                                <div class="font-medium">Đơn hàng đang giao</div>
-                                <div class="text-gray-500 text-sm">01/09/2025 - 10:45</div>
-                                <div class="text-sm mt-1">Nhân viên giao hàng: Trần Văn B - 0909123456</div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">Đơn hàng đang giao</div>
+                                    <div class="timeline-date">01/09/2025 - 10:45</div>
+                                    <div class="timeline-desc">Nhân viên giao hàng: Trần Văn B - 0909123456</div>
+                                </div>
                             </div>
-                            <div class="timeline-item completed">
-                                <div class="timeline-connector"></div>
-                                <div class="font-medium">Đơn hàng đã được đóng gói</div>
-                                <div class="text-gray-500 text-sm">31/08/2025 - 16:30</div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">Đơn hàng đã được đóng gói</div>
+                                    <div class="timeline-date">31/08/2025 - 16:30</div>
+                                </div>
                             </div>
-                            <div class="timeline-item completed">
-                                <div class="timeline-connector"></div>
-                                <div class="font-medium">Đơn hàng đã được xác nhận</div>
-                                <div class="text-gray-500 text-sm">31/08/2025 - 14:15</div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">Đơn hàng đã được xác nhận</div>
+                                    <div class="timeline-date">31/08/2025 - 14:15</div>
+                                </div>
                             </div>
-                            <div class="timeline-item completed">
-                                <div class="font-medium">Đơn hàng đã đặt</div>
-                                <div class="text-gray-500 text-sm">31/08/2025 - 13:15</div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">Đơn hàng đã đặt</div>
+                                    <div class="timeline-date">31/08/2025 - 13:15</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -368,8 +406,8 @@
             </div>
             
             <div class="modal-footer">
-                <button id="close-detail-btn" class="btn btn-secondary">Đóng</button>
-                <button id="return-request-btn" class="btn btn-primary">
+                <button id="close-detail-btn" class="action-btn secondary">Đóng</button>
+                <button id="return-request-btn" class="action-btn primary">
                     Yêu cầu Trả hàng/Hoàn tiền
                 </button>
             </div>
@@ -377,132 +415,118 @@
     </div>
 
     <!-- Modal Hiển thị đánh giá đã gửi -->
-    <div id="review-display-modal" class="review-display-modal hidden">
-        <div class="review-modal-content">
-            <div class="review-modal-header">
-                <h3 class="review-modal-title">Đánh Giá Của Bạn</h3>
-                <button class="review-close-btn" id="close-review-display-modal">
+    <div id="review-display-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Đánh Giá Của Bạn</h3>
+                <button class="close-btn" id="close-review-display-modal">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             
-            <div class="review-modal-body">
-                <div class="product-info">
-                    <img src="https://via.placeholder.com/300x300?text=Trà+Đông+Trùng" alt="Trà Đông Trùng" class="product-image">
-                    <div class="product-details">
-                        <div class="product-name">Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên</div>
-                        <div class="product-order">Đơn hàng: <strong>ĐH230901</strong></div>
-                        <div class="product-order">Ngày đặt: <strong>01/09/2025</strong></div>
+            <div class="modal-body">
+                <div class="flex flex-col md:flex-row gap-6 mb-6">
+                    <div class="md:w-1/3">
+                        <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Trà Đông Trùng" class="w-full rounded-lg">
                     </div>
-                </div>
-                
-                <div class="review-details">
-                    <div class="review-header">
-                        <div>
-                            <div class="reviewer">Nguyễn Văn A</div>
-                            <div class="review-date">Đánh giá vào: 03/09/2025</div>
+                    <div class="md:w-2/3">
+                        <div class="text-2xl font-bold mb-2">Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên</div>
+                        <div class="text-gray-600 mb-4">Đơn hàng: <span class="font-medium">ĐH230901</span></div>
+                        <div class="text-gray-600 mb-6">Ngày đặt: <span class="font-medium">01/09/2025</span></div>
+                        
+                        <div class="flex items-center mb-4">
+                            <div class="text-lg font-medium mr-4">Nguyễn Văn A</div>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
                         </div>
-                        <div class="rating-display">
-                            <i class="fas fa-star rating-star active"></i>
-                            <i class="fas fa-star rating-star active"></i>
-                            <i class="fas fa-star rating-star active"></i>
-                            <i class="fas fa-star rating-star active"></i>
-                            <i class="fas fa-star rating-star active"></i>
+                        <div class="text-gray-500 mb-6">Đánh giá vào: 03/09/2025</div>
+                        
+                        <div class="mb-6">
+                            <p class="mb-3">Tôi rất hài lòng với sản phẩm này! Trà có hương vị thơm ngon, đậm đà. Sản phẩm giúp tôi cải thiện sức khỏe rõ rệt sau 2 tuần sử dụng.</p>
+                            <p>Bao bì đẹp mắt, gói hàng cẩn thận. Tôi sẽ tiếp tục ủng hộ sản phẩm của shop trong thời gian tới.</p>
                         </div>
-                    </div>
-                    
-                    <div class="review-content">
-                        <p>Tôi rất hài lòng với sản phẩm này! Trà có hương vị thơm ngon, đậm đà. Sản phẩm giúp tôi cải thiện sức khỏe rõ rệt sau 2 tuần sử dụng.</p>
-                        <p class="mt-3">Bao bì đẹp mắt, gói hàng cẩn thận. Tôi sẽ tiếp tục ủng hộ sản phẩm của shop trong thời gian tới.</p>
-                    </div>
-                    
-                    <h4 class="font-medium mt-6 mb-3">Hình ảnh đính kèm:</h4>
-                    <div class="review-images-display">
-                        <img src="https://via.placeholder.com/300x300?text=Hình+1" alt="Hình ảnh đánh giá" class="review-image">
-                        <img src="https://via.placeholder.com/300x300?text=Hình+2" alt="Hình ảnh đánh giá" class="review-image">
+                        
+                        <h4 class="font-medium mb-3">Hình ảnh đính kèm:</h4>
+                        <div class="flex gap-3">
+                            <img src="https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&q=80" alt="Hình ảnh đánh giá" class="w-24 h-24 rounded-lg object-cover">
+                            <img src="https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&q=80" alt="Hình ảnh đánh giá" class="w-24 h-24 rounded-lg object-cover">
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div class="review-modal-footer">
-                <button class="close-review-btn" id="close-review-display-btn">Đóng</button>
+            <div class="modal-footer">
+                <button class="action-btn secondary" id="close-review-display-btn">Đóng</button>
             </div>
         </div>
     </div>
 
     <!-- Modal Đánh giá sản phẩm (chưa đánh giá) -->
-    <div id="review-form-modal" class="review-form-modal hidden">
-        <div class="review-form-content">
-            <div class="review-form-header">
-                <h3 class="review-form-title">Đánh Giá Sản Phẩm</h3>
-                <button class="review-form-close-btn" id="close-review-form-modal">
+    <div id="review-form-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Đánh Giá Sản Phẩm</h3>
+                <button class="close-btn" id="close-review-form-modal">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             
-            <div class="review-form-body">
-                <div class="product-info">
-                    <img src="https://via.placeholder.com/300x300?text=Trà+Đông+Trùng" alt="Trà Đông Trùng" class="product-image">
-                    <div class="product-details">
-                        <div class="product-name">Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên</div>
-                        <div class="product-order">Đơn hàng: <strong id="form-order-id">ĐH230902</strong></div>
+            <div class="modal-body">
+                <div class="flex flex-col md:flex-row gap-6 mb-6">
+                    <div class="md:w-1/3">
+                        <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Trà Đông Trùng" class="w-full rounded-lg">
                     </div>
-                </div>
-                
-                <div class="rating-section">
-                    <div class="rating-title">Đánh giá của bạn</div>
-                    <div class="rating-stars">
-                        <i class="fas fa-star rating-star" data-value="1"></i>
-                        <i class="fas fa-star rating-star" data-value="2"></i>
-                        <i class="fas fa-star rating-star" data-value="3"></i>
-                        <i class="fas fa-star rating-star" data-value="4"></i>
-                        <i class="fas fa-star rating-star" data-value="5"></i>
-                    </div>
-                </div>
-                
-                <div class="review-text-section">
-                    <label class="rating-title">Nhận xét chi tiết</label>
-                    <textarea class="review-textarea" placeholder="Hãy chia sẻ cảm nhận của bạn về sản phẩm..." id="review-text"></textarea>
-                </div>
-                
-                <!-- Upload image -->
-                <div class="image-upload-section">
-                    <label class="image-upload-label">Hình ảnh đính kèm</label>
-                    <div class="image-upload-note">Tải lên tối đa 5 hình ảnh (định dạng JPG, PNG)</div>
-                    
-                    <div class="image-upload-container">
-                        <div class="image-upload-box" id="image-upload-btn">
-                            <i class="fas fa-camera image-upload-icon"></i>
-                            <div class="image-upload-text">Thêm ảnh</div>
+                    <div class="md:w-2/3">
+                        <div class="text-2xl font-bold mb-2">Trà Đông Trùng Hạ Thảo Long Nhãn Tứ Vị An Nhiên</div>
+                        <div class="text-gray-600 mb-6">Đơn hàng: <span id="form-order-id" class="font-medium">ĐH230902</span></div>
+                        
+                        <div class="mb-6">
+                            <div class="text-lg font-medium mb-3">Đánh giá của bạn</div>
+                            <div class="flex text-2xl text-gray-300">
+                                <i class="fas fa-star cursor-pointer hover:text-yellow-400 rating-star" data-value="1"></i>
+                                <i class="fas fa-star cursor-pointer hover:text-yellow-400 rating-star" data-value="2"></i>
+                                <i class="fas fa-star cursor-pointer hover:text-yellow-400 rating-star" data-value="3"></i>
+                                <i class="fas fa-star cursor-pointer hover:text-yellow-400 rating-star" data-value="4"></i>
+                                <i class="fas fa-star cursor-pointer hover:text-yellow-400 rating-star" data-value="5"></i>
+                            </div>
                         </div>
                         
-                        <div class="image-preview-container" id="image-preview-container">
-                            <!-- Hình ảnh preview sẽ được thêm vào đây -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Upload video -->
-                <div class="video-upload-section">
-                    <label class="video-upload-label">Video đính kèm</label>
-                    <div class="video-upload-note">Tải lên tối đa 1 video (định dạng MP4, MOV, kích thước tối đa 50MB)</div>
-                    
-                    <div class="video-upload-container">
-                        <div class="video-upload-box" id="video-upload-btn">
-                            <i class="fas fa-video video-upload-icon"></i>
-                            <div class="video-upload-text">Thêm video</div>
+                        <div class="mb-6">
+                            <label class="text-lg font-medium mb-3 block">Nhận xét chi tiết</label>
+                            <textarea class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Hãy chia sẻ cảm nhận của bạn về sản phẩm..." id="review-text" rows="4"></textarea>
                         </div>
                         
-                        <div class="video-preview-container" id="video-preview-container">
-                            <!-- Video preview sẽ được thêm vào đây -->
+                        <div class="mb-6">
+                            <label class="text-lg font-medium mb-3 block">Hình ảnh đính kèm</label>
+                            <div class="text-gray-500 text-sm mb-3">Tải lên tối đa 5 hình ảnh (định dạng JPG, PNG)</div>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-primary transition-colors">
+                                <i class="fas fa-camera text-3xl text-gray-400 mb-3"></i>
+                                <div class="font-medium">Thêm ảnh</div>
+                                <div class="text-gray-500 text-sm">Kéo thả ảnh vào đây hoặc nhấn để chọn</div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="text-lg font-medium mb-3 block">Video đính kèm</label>
+                            <div class="text-gray-500 text-sm mb-3">Tải lên tối đa 1 video (định dạng MP4, MOV, kích thước tối đa 50MB)</div>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-primary transition-colors">
+                                <i class="fas fa-video text-3xl text-gray-400 mb-3"></i>
+                                <div class="font-medium">Thêm video</div>
+                                <div class="text-gray-500 text-sm">Kéo thả video vào đây hoặc nhấn để chọn</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="review-form-footer">
-                <button class="btn btn-secondary" id="cancel-review-form-btn">Hủy</button>
-                <button class="btn btn-primary" id="submit-review-btn">Gửi đánh giá</button>
+            <div class="modal-footer">
+                <button class="action-btn secondary" id="cancel-review-form-btn">Hủy</button>
+                <button class="action-btn primary" id="submit-review-btn">Gửi đánh giá</button>
             </div>
         </div>
     </div>
@@ -524,85 +548,49 @@
         const closeReviewFormModal = document.getElementById('close-review-form-modal');
         const cancelReviewFormBtn = document.getElementById('cancel-review-form-btn');
         const submitReviewBtn = document.getElementById('submit-review-btn');
-        const imageUploadBtn = document.getElementById('image-upload-btn');
-        const imagePreviewContainer = document.getElementById('image-preview-container');
-        const videoUploadBtn = document.getElementById('video-upload-btn');
-        const videoPreviewContainer = document.getElementById('video-preview-container');
-        const ratingStars = document.querySelectorAll('.review-form-modal .rating-star');
         
         const reviewBtns = document.querySelectorAll('.review-btn');
+        const filterBtns = document.querySelectorAll('.filter-btn');
         
-        // Biến lưu trữ tạm
-        let selectedRating = 0;
-        let uploadedImages = [];
-        let uploadedVideo = null;
-        let currentOrderId = '';
-
         // Hàm mở modal chi tiết
         function openOrderDetailModal() {
-            orderDetailModal.classList.remove('hidden');
-            orderDetailModal.classList.add('active'); // THÊM DÒNG NÀY
+            orderDetailModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
         
         // Hàm đóng modal chi tiết
         function closeOrderDetailModal() {
-            orderDetailModal.classList.add('hidden');
-            orderDetailModal.classList.remove('active'); // THÊM DÒNG NÀY
+            orderDetailModal.classList.remove('active');
             document.body.style.overflow = 'auto';
         }
 
         // Hàm mở modal hiển thị đánh giá
         function openReviewDisplayModal() {
-            reviewDisplayModal.classList.remove('hidden');
+            reviewDisplayModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
         
         // Hàm đóng modal hiển thị đánh giá
         function closeReviewDisplayModalFunc() {
-            reviewDisplayModal.classList.add('hidden');
+            reviewDisplayModal.classList.remove('active');
             document.body.style.overflow = 'auto';
         }
         
         // Hàm mở modal form đánh giá
         function openReviewFormModal() {
-            reviewFormModal.classList.remove('hidden');
+            reviewFormModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
         
         // Hàm đóng modal form đánh giá
         function closeReviewFormModalFunc() {
-            reviewFormModal.classList.add('hidden');
+            reviewFormModal.classList.remove('active');
             document.body.style.overflow = 'auto';
-            // Reset form
-            resetReviewForm();
-        }
-        
-        // Reset form đánh giá
-        function resetReviewForm() {
-            selectedRating = 0;
-            uploadedImages = [];
-            
-            // Reset video
-            if (uploadedVideo) {
-                URL.revokeObjectURL(uploadedVideo.url);
-                uploadedVideo = null;
-            }
-            
-            document.getElementById('review-text').value = '';
-            imagePreviewContainer.innerHTML = '';
-            videoPreviewContainer.innerHTML = '';
-            
-            // Reset sao đánh giá
-            ratingStars.forEach(star => {
-                star.classList.remove('active');
-            });
         }
         
         // Xử lý sự kiện cho nút xem chi tiết
         viewDetailBtns.forEach(btn => {
             btn.addEventListener('click', function() {
-                console.log('Detail button clicked', this.dataset.id);
                 openOrderDetailModal();
             });
         });
@@ -611,13 +599,11 @@
         reviewBtns.forEach(btn => {
             btn.addEventListener('click', function() {
                 const reviewed = this.getAttribute('data-reviewed') === 'true';
-                currentOrderId = this.getAttribute('data-id');
                 
                 if (reviewed) {
                     openReviewDisplayModal();
                 } else {
                     openReviewFormModal();
-                    document.getElementById('form-order-id').textContent = currentOrderId;
                 }
             });
         });
@@ -647,233 +633,6 @@
             }
         });
         
-        // Xử lý đánh giá sao trong form
-        ratingStars.forEach(star => {
-            star.addEventListener('click', function() {
-                const value = parseInt(this.getAttribute('data-value'));
-                selectedRating = value;
-                
-                ratingStars.forEach((s, i) => {
-                    if (i < value) {
-                        s.classList.add('active');
-                    } else {
-                        s.classList.remove('active');
-                    }
-                });
-            });
-        });
-        
-        // Xử lý tải ảnh đính kèm
-        imageUploadBtn.addEventListener('click', function() {
-            if (uploadedImages.length >= 5) { // Thay đổi từ 3 lên 5
-                alert('Bạn chỉ có thể tải lên tối đa 5 ảnh.');
-                return;
-            }
-            
-            // Tạo input file ẩn
-            const fileInput = document.createElement('input');
-            fileInput.type = 'file';
-            fileInput.accept = 'image/*';
-            fileInput.multiple = true;
-            fileInput.style.display = 'none';
-            
-            fileInput.addEventListener('change', function(e) {
-                const files = e.target.files;
-                
-                for (let i = 0; i < files.length; i++) {
-                    if (uploadedImages.length >= 5) break; // Giới hạn 5 ảnh
-                    
-                    const file = files[i];
-                    const reader = new FileReader();
-                    
-                    reader.onload = function(event) {
-                        const imageData = {
-                            name: file.name,
-                            url: event.target.result
-                        };
-                        
-                        uploadedImages.push(imageData);
-                        renderImagePreviews();
-                    };
-                    
-                    reader.readAsDataURL(file);
-                }
-                
-                document.body.removeChild(fileInput);
-            });
-            
-            document.body.appendChild(fileInput);
-            fileInput.click();
-        });
-
-        videoUploadBtn.addEventListener('click', function() {
-            if (uploadedVideo) {
-                alert('Bạn chỉ có thể tải lên tối đa 1 video.');
-                return;
-            }
-            
-            // Tạo input file ẩn
-            const fileInput = document.createElement('input');
-            fileInput.type = 'file';
-            fileInput.accept = 'video/*';
-            fileInput.style.display = 'none';
-            
-            fileInput.addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                
-                if (!file) return;
-                
-                // Kiểm tra kích thước video (tối đa 50MB)
-                if (file.size > 50 * 1024 * 1024) {
-                    alert('Kích thước video tối đa là 50MB. Vui lòng chọn video nhỏ hơn.');
-                    return;
-                }
-                
-                // Kiểm tra định dạng
-                const validTypes = ['video/mp4', 'video/quicktime', 'video/x-m4v'];
-                if (!validTypes.includes(file.type)) {
-                    alert('Chỉ chấp nhận định dạng MP4 hoặc MOV. Vui lòng chọn file khác.');
-                    return;
-                }
-                
-                const videoURL = URL.createObjectURL(file);
-                uploadedVideo = {
-                    file: file,
-                    url: videoURL,
-                    name: file.name
-                };
-                
-                renderVideoPreview();
-                
-                document.body.removeChild(fileInput);
-            });
-            
-            document.body.appendChild(fileInput);
-            fileInput.click();
-        });
-        
-        // Hiển thị preview ảnh
-        function renderImagePreviews() {
-            imagePreviewContainer.innerHTML = '';
-            
-            uploadedImages.forEach((image, index) => {
-                const preview = document.createElement('div');
-                preview.className = 'image-preview';
-                preview.innerHTML = `
-                    <img src="${image.url}" alt="Preview">
-                    <div class="remove-image" data-index="${index}">&times;</div>
-                `;
-                imagePreviewContainer.appendChild(preview);
-            });
-            
-            // Xử lý nút xóa ảnh
-            document.querySelectorAll('.remove-image').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const index = parseInt(this.getAttribute('data-index'));
-                    uploadedImages.splice(index, 1);
-                    renderImagePreviews();
-                });
-            });
-        }
-
-        function renderVideoPreview() {
-            videoPreviewContainer.innerHTML = '';
-            
-            if (uploadedVideo) {
-                const preview = document.createElement('div');
-                preview.className = 'video-preview';
-                preview.innerHTML = `
-                    <video controls>
-                        <source src="${uploadedVideo.url}" type="${uploadedVideo.file.type}">
-                        Trình duyệt của bạn không hỗ trợ video.
-                    </video>
-                    <div class="remove-video">&times;</div>
-                `;
-                videoPreviewContainer.appendChild(preview);
-                
-                // Xử lý nút xóa video
-                preview.querySelector('.remove-video').addEventListener('click', function() {
-                    URL.revokeObjectURL(uploadedVideo.url);
-                    uploadedVideo = null;
-                    renderVideoPreview();
-                });
-            }
-        }
-        
-        // Xử lý gửi đánh giá
-        submitReviewBtn.addEventListener('click', function() {
-            const reviewText = document.getElementById('review-text').value;
-            
-            if (selectedRating === 0) {
-                alert('Vui lòng chọn số sao đánh giá!');
-                return;
-            }
-            
-            if (!reviewText.trim()) {
-                alert('Vui lòng nhập nhận xét chi tiết!');
-                return;
-            }
-            
-            // Kiểm tra số lượng hình ảnh
-            if (uploadedImages.length > 5) {
-                alert('Bạn chỉ có thể tải lên tối đa 5 hình ảnh.');
-                return;
-            }
-            
-            // Tạo FormData để gửi file lên server
-            const formData = new FormData();
-            formData.append('orderId', currentOrderId);
-            formData.append('rating', selectedRating);
-            formData.append('review', reviewText);
-            
-            // Thêm hình ảnh
-            uploadedImages.forEach((image, index) => {
-                formData.append(`images[${index}]`, image.file);
-            });
-            
-            // Thêm video nếu có
-            if (uploadedVideo) {
-                formData.append('video', uploadedVideo.file);
-            }
-            
-            // Ở đây sẽ gọi API gửi đánh giá đến backend
-            // fetch('/api/submit-review', {
-            //     method: 'POST',
-            //     body: formData
-            // })
-            // .then(response => response.json())
-            // .then(data => {
-            //     if (data.success) {
-            //         alert('Đánh giá của bạn đã được gửi thành công! Cảm ơn bạn đã đóng góp ý kiến.');
-            //         // Đánh dấu đơn hàng đã được đánh giá
-            //         document.querySelectorAll('.review-btn').forEach(btn => {
-            //             if (btn.getAttribute('data-id') === currentOrderId) {
-            //                 btn.setAttribute('data-reviewed', 'true');
-            //             }
-            //         });
-            //         closeReviewFormModalFunc();
-            //     } else {
-            //         alert('Có lỗi xảy ra: ' + data.message);
-            //     }
-            // })
-            // .catch(error => {
-            //     console.error('Error:', error);
-            //     alert('Đã xảy ra lỗi khi gửi đánh giá. Vui lòng thử lại.');
-            // });
-            
-            // Tạm thời dùng alert thay cho API
-            alert('Đánh giá của bạn đã được gửi thành công! Cảm ơn bạn đã đóng góp ý kiến.');
-            
-            // Đánh dấu đơn hàng đã được đánh giá
-            document.querySelectorAll('.review-btn').forEach(btn => {
-                if (btn.getAttribute('data-id') === currentOrderId) {
-                    btn.setAttribute('data-reviewed', 'true');
-                }
-            });
-            
-            closeReviewFormModalFunc();
-        });
-        
         // Xử lý hủy đơn hàng
         document.querySelectorAll('.cancel-order').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -895,28 +654,68 @@
             alert('Chuyển hướng đến trang mua sắm...');
         });
         
-        // Hàm gửi chiều cao về trang chủ (cho iframe)
+        // Xử lý filter tabs
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Xóa active class từ tất cả các nút
+                filterBtns.forEach(btn => btn.classList.remove('active'));
+                
+                // Thêm active class cho nút được click
+                this.classList.add('active');
+                
+                // Lọc đơn hàng theo trạng thái
+                const status = this.getAttribute('data-status');
+                const orderCards = document.querySelectorAll('.order-card');
+                
+                orderCards.forEach(card => {
+                    if (status === 'all' || card.getAttribute('data-status') === status) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Xử lý đánh giá sao
+        const ratingStars = document.querySelectorAll('.rating-star');
+        ratingStars.forEach(star => {
+            star.addEventListener('click', function() {
+                const value = parseInt(this.getAttribute('data-value'));
+                
+                // Cập nhật sao được chọn
+                ratingStars.forEach((s, i) => {
+                    if (i < value) {
+                        s.classList.add('text-yellow-400');
+                        s.classList.remove('text-gray-300', 'hover:text-yellow-400');
+                    } else {
+                        s.classList.remove('text-yellow-400');
+                        s.classList.add('text-gray-300', 'hover:text-yellow-400');
+                    }
+                });
+            });
+        });
+        
+        // Hàm gửi chiều cao về trang chủ
         function sendHeightToParent() {
-            const height = document.body.scrollHeight;
-            if (window.parent !== window) {
-                window.parent.postMessage({
-                    type: 'resize',
-                    height: height
-                }, '*');
-            }
+            const height = document.documentElement.scrollHeight;
+            window.parent.postMessage({
+                type: 'resizeIframe',
+                height: height
+            }, '*');
         }
-        
-        // Gửi chiều cao khi trang tải xong
+
+        // Gửi chiều cao khi trang tải xong và khi có thay đổi
         window.addEventListener('load', sendHeightToParent);
-        
-        // Gửi chiều cao khi cửa sổ thay đổi kích thước
         window.addEventListener('resize', sendHeightToParent);
         
-        // Trả lời khi nhận được yêu cầu từ trang chủ
-        window.addEventListener('message', (event) => {
-            if (event.data === 'getHeight') {
-                sendHeightToParent();
-            }
+        // Theo dõi thay đổi nội dung
+        const observer = new MutationObserver(sendHeightToParent);
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            characterData: true
         });
     </script>
 </body>

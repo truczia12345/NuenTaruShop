@@ -210,44 +210,64 @@
     </div>
 
     <script>
-        // Hàm gửi chiều cao về trang chủ
-  function sendHeightToParent() {
-    const height = Math.max(
-      document.body.scrollHeight,
-      document.body.offsetHeight,
-      document.documentElement.clientHeight,
-      document.documentElement.scrollHeight,
-      document.documentElement.offsetHeight
-    );
-    
-    // Gửi chiều cao về trang chủ
-    window.parent.postMessage({
-      type: 'resize',
-      height: height
-    }, '*');
-  }
+            // Hàm gửi chiều cao về trang chủ
+        function sendHeightToParent() {
+            const height = Math.max(
+                document.body.scrollHeight,
+                document.body.offsetHeight,
+                document.documentElement.scrollHeight,
+                document.documentElement.offsetHeight
+            );
+            
+            // Gửi chiều cao về trang chủ
+            window.parent.postMessage({
+                type: 'resize',
+                height: height
+            }, '*');
+        }
 
-  // Gửi chiều cao khi trang tải xong
-  window.addEventListener('load', sendHeightToParent);
-  
-  // Gửi chiều cao khi cửa sổ thay đổi kích thước
-  window.addEventListener('resize', sendHeightToParent);
-  
-  // Gửi chiều cao khi có thay đổi nội dung (MutationObserver)
-  const observer = new MutationObserver(sendHeightToParent);
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-    characterData: true
-  });
+        // Sử dụng requestAnimationFrame để giới hạn tần suất gửi
+        let lastSentHeight = 0;
+        function throttledSendHeight() {
+            const currentHeight = Math.max(
+                document.body.scrollHeight,
+                document.documentElement.scrollHeight
+            );
+            
+            // Chỉ gửi nếu chiều cao thay đổi đáng kể
+            if (Math.abs(currentHeight - lastSentHeight) > 50) {
+                sendHeightToParent();
+                lastSentHeight = currentHeight;
+            }
+            requestAnimationFrame(throttledSendHeight);
+        }
 
-  // Trả lời khi nhận được yêu cầu từ trang chủ
-  window.addEventListener('message', (event) => {
-    if (event.data === 'getHeight') {
-      sendHeightToParent();
-    }
-  });
+        // Bắt đầu theo dõi
+        throttledSendHeight();
+
+        // Gửi chiều cao khi trang tải xong
+        window.addEventListener('load', () => {
+            setTimeout(sendHeightToParent, 300);
+        });
+
+        // Trả lời khi nhận được yêu cầu từ trang chủ
+        window.addEventListener('message', (event) => {
+            if (event.data === 'getHeight') {
+                throttledSendHeight();
+            }
+        });
+
+        // Theo dõi thay đổi nội dung với MutationObserver
+        const observer = new MutationObserver(() => {
+            throttledSendHeight();
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+            attributes: false,
+            characterData: false
+        });
   
         // Sample product data
         const sampleProducts = [

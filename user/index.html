@@ -7,50 +7,93 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/user.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff424f',
+                        secondary: '#c43a43',
+                        accent: '#ff6b78',
+                        light: '#f8f9fa',
+                        dark: '#1a202c',
+                        sidebarActive: '#fff5f5'
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(0,0,0,0.08)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #ff424f;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .iframe-container {
+            height: auto !important;
+            min-height: 500px;
+        }
+
+        #iframe-loading,
+        #iframe-error {
+            min-height: 500px;
+        }
+    </style>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen bg-gray-50">
 
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loading-overlay">
-        <div class="loading-spinner"></div>
-    </div>
-
-    <!-- Header -->
-    <header class="bg-[#ff424f] text-white shadow-md">
+    <!-- Header (nếu sau này thêm xử lý backend chỉ cần include header và footer của index main vò và xóa header này cùng footer) -->
+    <header class="bg-primary text-white shadow-md">
         <div class="container mx-auto px-4">
             <!-- Top Row: User Actions -->
-            <div class="flex justify-end items-center py-2 space-x-6 text-sm">
-                <a href="/thong-bao" class="hover:text-yellow-200 flex items-center" aria-label="Thông báo">
+            <div class="flex justify-end items-center py-2 space-x-4 md:space-x-6 text-xs md:text-sm">
+                <a href="/thong-bao" class="hover:text-yellow-200 flex items-center relative" aria-label="Thông báo">
                     <i class="fas fa-bell mr-1" aria-hidden="true"></i>
-                    <span>Thông báo</span>
+                    <span class="hidden sm:inline">Thông báo</span>
+                    <span class="notification-badge">5</span>
                 </a>
                 <a href="/khuyen-mai" class="hover:text-yellow-200 flex items-center" aria-label="Khuyến mãi">
                     <i class="fas fa-tag mr-1" aria-hidden="true"></i>
-                    <span>Khuyến mãi</span>
+                    <span class="hidden sm:inline">Khuyến mãi</span>
                 </a>
                 <a href="/ho-tro" class="hover:text-yellow-200 flex items-center" aria-label="Hỗ trợ">
                     <i class="fas fa-headset mr-1" aria-hidden="true"></i>
-                    <span>Hỗ trợ</span>
+                    <span class="hidden sm:inline">Hỗ trợ</span>
                 </a>
             </div>
 
             <!-- Main Header: Logo + Search -->
-            <div class="flex items-center justify-between pb-3">
+            <div class="flex flex-col md:flex-row items-center justify-between py-3 gap-4">
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="/" class="text-2xl font-bold" aria-label="Trang chủ E-Shop">
-                        <img src="/assets/img/logo/nuentaru1.png" width="120px" height="120px" alt="E-Shop - Trang mua sắm trực tuyến">
+                        <img src="/assets/img/logo/nuentaru1.png" width="120" height="120" alt="E-Shop">
                     </a>
                 </div>
 
                 <!-- Search Bar -->
-                <div class="flex-1 mx-8">
+                <div class="w-full max-w-lg">
                     <form action="/search" method="GET" role="search">
-                        <div class="relative mb-1">
+                        <div class="relative">
                             <input type="text" name="q" placeholder="Tìm kiếm sản phẩm..." 
-                                class="w-full py-2 px-4 rounded-full text-gray-800 focus:outline-none"
+                                class="w-full py-2 px-4 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary"
                                 aria-label="Tìm kiếm sản phẩm">
-                            <button type="submit" class="absolute right-0 top-0 h-full px-4 bg-yellow-400 rounded-r-full text-gray-800" aria-label="Tìm kiếm">
+                            <button type="submit" class="absolute right-0 top-0 h-full px-4 bg-yellow-400 rounded-r-full text-gray-800 hover:bg-yellow-500" aria-label="Tìm kiếm">
                                 <i class="fas fa-search" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -58,14 +101,51 @@
                 </div>
 
                 <!-- User Actions -->
-                <div class="flex items-center space-x-6">
-                    <a href="/tai-khoan" class="flex flex-col items-center" aria-label="Tài khoản">
-                        <i class="fas fa-user text-xl" aria-hidden="true"></i>
-                        <span class="text-xs mt-1">Tài khoản</span>
-                    </a>
+                <div class="flex items-center space-x-4 md:space-x-6">
+                    <!-- Account Dropdown -->
+                    <div class="relative">
+                        <div class="account-toggle flex flex-col items-center cursor-pointer">
+                            <div class="flex items-center">
+                                <img src="https://i.pravatar.cc/40?img=12" alt="User Avatar" class="w-8 h-8 rounded-full mr-2">
+                                <span class="text-sm hidden md:block">Nguyễn Văn A</span>
+                            </div>
+                        </div>
+                        <div class="account-dropdown hidden absolute right-0 mt-2 w-60 bg-white rounded-lg shadow-xl z-50">
+                            <div class="p-4 border-b flex items-center gap-3">
+                                <img src="https://i.pravatar.cc/60?img=12" alt="Profile" class="w-12 h-12 rounded-full object-cover">
+                                <div>
+                                    <h6 class="font-semibold mb-0">Nguyễn Văn A</h6>
+                                    <small class="text-gray-500">Thành viên Bạc</small>
+                                </div>
+                            </div>
+                            <div class="py-2">
+                                <a href="#" class="account-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50">
+                                    <i class="fas fa-user-circle w-5 text-center"></i>
+                                    Hồ sơ cá nhân
+                                </a>
+                                <a href="#" class="account-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50">
+                                    <i class="fas fa-shopping-bag w-5 text-center"></i>
+                                    Đơn hàng của tôi
+                                </a>
+                                <a href="#" class="account-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50">
+                                    <i class="fas fa-ticket-alt w-5 text-center"></i>
+                                    Voucher của tôi
+                                </a>
+                                <a href="#" class="account-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50">
+                                    <i class="fas fa-cog w-5 text-center"></i>
+                                    Cài đặt tài khoản
+                                </a>
+                                <a href="#" class="account-link flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50">
+                                    <i class="fas fa-sign-out-alt w-5 text-center"></i>
+                                    Đăng xuất
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <a href="/gio-hang" class="flex flex-col items-center relative" aria-label="Giỏ hàng">
                         <i class="fas fa-shopping-cart text-xl" aria-hidden="true"></i>
-                        <span class="text-xs mt-1">Giỏ hàng</span>
+                        <span class="text-xs mt-1 hidden sm:block">Giỏ hàng</span>
                         <span class="absolute -top-2 -right-2 bg-yellow-400 text-red-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">3</span>
                     </a>
                 </div>
@@ -73,85 +153,88 @@
         </div>
     </header>
 
-    <!-- Mobile Menu Button -->
-    <div class="md:hidden bg-white py-3 px-4 flex justify-between items-center border-b">
-        <button id="sidebar-toggle" class="text-gray-600">
-            <i class="fas fa-bars text-xl"></i>
-        </button>
-        <h1 class="text-xl font-bold text-gray-800">Hồ sơ của tôi</h1>
-    </div>
-
     <!-- Main Content -->
-    <div class="container mx-auto px-4 py-6 flex flex-col md:flex-row">
-        <!-- Sidebar Overlay (Mobile) -->
-        <div class="sidebar-overlay" id="sidebar-overlay"></div>
-        
+    <div class="container mx-auto px-4 py-6 flex flex-col lg:flex-row">
         <!-- Sidebar -->
-        <div class="sidebar w-full md:w-64 bg-white rounded-lg shadow-md md:mr-6 mb-6 md:mb-0" id="sidebar">
+        <div class="sidebar w-full lg:w-64 bg-white rounded-xl shadow-md lg:mr-6 mb-6 lg:mb-0">
             <!-- Profile Summary -->
-            <div class="p-4 border-b">
+            <div class="p-5 border-b border-gray-200">
                 <div class="flex items-center">
-                    <img src="https://i.pravatar.cc/80?img=12" alt="User Avatar" class="w-16 h-16 rounded-full border-2 border-white shadow">
+                    <img src="https://i.pravatar.cc/60?img=12" alt="User Avatar" class="w-14 h-14 rounded-full border-2 border-white shadow">
                     <div class="ml-3">
-                        <h2 class="font-semibold text-lg">Nguyễn Văn A</h2>
+                        <h2 class="font-semibold text-lg text-gray-800">Nguyễn Văn A</h2>
                         <p class="text-gray-500 text-sm">Thành viên Bạc</p>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between text-center">
+                    <div>
+                        <div class="font-bold text-gray-800">₫1.2M</div>
+                        <div class="text-xs text-gray-500">Ví tiền</div>
+                    </div>
+                    <div>
+                        <div class="font-bold text-gray-800">124</div>
+                        <div class="text-xs text-gray-500">Điểm</div>
+                    </div>
+                    <div>
+                        <div class="font-bold text-gray-800">3</div>
+                        <div class="text-xs text-gray-500">Voucher</div>
                     </div>
                 </div>
             </div>
             
             <!-- Navigation -->
             <nav class="p-2">
-                <a href="account/profile.html" class="sidebar-item active flex items-center p-3 rounded-lg mb-1">
-                    <i class="fas fa-user-circle mr-3 text-lg"></i>
+                <a href="account/profile.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1 text-gray-700 hover:bg-gray-50 transition-colors active">
+                    <i class="fas fa-user-circle mr-3 text-lg text-gray-500"></i>
                     <span>Hồ sơ</span>
                 </a>
-                <a href="purchase/index.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
-                    <i class="fas fa-shopping-bag mr-3 text-lg"></i>
+                <a href="purchase/index.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1 text-gray-700 hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-shopping-bag mr-3 text-lg text-gray-500"></i>
                     <span>Đơn hàng</span>
-                    <span class="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">5</span>
+                    <span class="ml-auto bg-primary text-white rounded-full px-2 py-0.5 text-xs font-bold">5</span>
                 </a>
-                <a href="account/address.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
-                    <i class="fas fa-map-marker-alt mr-3 text-lg"></i>
+                <a href="account/address.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1 text-gray-700 hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-map-marker-alt mr-3 text-lg text-gray-500"></i>
                     <span>Địa chỉ</span>
                 </a>
-                <a href="account/payment.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
-                    <i class="fas fa-wallet mr-3 text-lg"></i>
+                <a href="account/payment.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1 text-gray-700 hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-wallet mr-3 text-lg text-gray-500"></i>
                     <span>Thanh toán</span>
                 </a>
-                <a href="voucher-wallets.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
-                    <i class="fas fa-ticket-alt mr-3 text-lg"></i>
+                <a href="voucher-wallets.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1 text-gray-700 hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-ticket-alt mr-3 text-lg text-gray-500"></i>
                     <span>Voucher</span>
-                    <span class="ml-auto bg-green-500 text-white text-xs px-2 py-1 rounded-full">3</span>
+                    <span class="ml-auto bg-primary text-white rounded-full px-2 py-0.5 text-xs font-bold">3</span>
                 </a>
-                <a href="wishlist.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
-                    <i class="fas fa-heart mr-3 text-lg"></i>
+                <a href="wishlist.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1 text-gray-700 hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-heart mr-3 text-lg text-gray-500"></i>
                     <span>Sản phẩm yêu thích</span>
                 </a>
-                <a href="v-history.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
-                    <i class="fas fa-history mr-3 text-lg"></i>
+                <a href="v-history.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1 text-gray-700 hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-history mr-3 text-lg text-gray-500"></i>
                     <span>Lịch sử xem</span>
                 </a>
-                <a href="account/change-password.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
-                    <i class="fas fa-lock mr-3 text-lg"></i>
+                <a href="account/change-password.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1 text-gray-700 hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-lock mr-3 text-lg text-gray-500"></i>
                     <span>Đổi mật khẩu</span>
                 </a>
-                <a href="notification.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
-                    <i class="fas fa-bell mr-3 text-lg"></i>
+                <a href="notification.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1 text-gray-700 hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-bell mr-3 text-lg text-gray-500"></i>
                     <span>Thông báo</span>
                 </a>
-                <a href="reviews.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
-                    <i class="fas fa-star mr-3 text-lg"></i>
+                <a href="reviews.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1 text-gray-700 hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-star mr-3 text-lg text-gray-500"></i>
                     <span>Đánh giá</span>
                 </a>
-                <a href="point.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
-                    <i class="fas fa-coins mr-3 text-lg"></i>
+                <a href="point.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1 text-gray-700 hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-coins mr-3 text-lg text-gray-500"></i>
                     <span>Điểm</span>
                 </a>
-                <a href="settings.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1">
-                    <i class="fas fa-cog mr-3 text-lg"></i>
+                <a href="settings.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1 text-gray-700 hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-cog mr-3 text-lg text-gray-500"></i>
                     <span>Cài đặt tài khoản</span>
                 </a>
-                <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-red-500">
+                <a href="#" class="sidebar-item flex items-center p-3 rounded-lg text-red-500 hover:bg-red-50 transition-colors">
                     <i class="fas fa-sign-out-alt mr-3 text-lg"></i>
                     <span>Đăng xuất</span>
                 </a>
@@ -159,24 +242,23 @@
         </div>
         
         <!-- Main Content Area -->
-        <div class="flex-1 flex flex-col min-h-0">
-            
-            <div class="iframe-container">
-                <div id="iframe-loading" class="iframe-loading">
+        <div class="flex-1">
+            <div class="relative w-full iframe-container bg-white rounded-xl shadow-md overflow-hidden">
+                <div id="iframe-loading" class="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-90 z-10">
                     <div class="spinner"></div>
-                    <p class="mt-2 text-gray-600">Đang tải nội dung...</p>
+                    <p class="mt-4 text-gray-600 font-medium">Đang tải nội dung...</p>
                 </div>
                 
-                <div id="iframe-error" class="iframe-error hidden">
-                    <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-3"></i>
+                <div id="iframe-error" class="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-90 z-10 hidden">
+                    <i class="fas fa-exclamation-triangle text-red-500 text-5xl mb-4"></i>
                     <h3 class="text-xl font-bold text-gray-800 mb-2">Không thể tải nội dung</h3>
-                    <p class="text-gray-600 mb-4">Đã xảy ra lỗi khi tải trang. Vui lòng thử lại.</p>
-                    <button id="retry-button" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
-                        Thử lại
+                    <p class="text-gray-600 mb-6 text-center max-w-md">Đã xảy ra lỗi khi tải trang. Vui lòng kiểm tra kết nối mạng hoặc thử lại sau.</p>
+                    <button id="retry-button" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-secondary transition font-medium">
+                        <i class="fas fa-redo mr-2"></i>Thử lại
                     </button>
                 </div>
                 
-                <iframe id="content-iframe" src="account/profile.html" class="w-full h-full" frameborder="0"></iframe>
+                <iframe id="content-iframe" src="purchase/index.html" class="w-full" frameborder="0"></iframe>
             </div>
         </div>
     </div>
@@ -185,176 +267,124 @@
     <footer class="bg-gray-800 text-white py-8 mt-10">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                <!-- Column 1 -->
                 <div>
                     <h3 class="font-bold text-lg mb-4">Về chúng tôi</h3>
                     <ul class="space-y-2">
-                        <li><a href="/gioi-thieu" class="text-gray-300 hover:text-white">Giới thiệu</a></li>
-                        <li><a href="/tuyen-dung" class="text-gray-300 hover:text-white">Tuyển dụng</a></li>
-                        <li><a href="/dieu-khoan" class="text-gray-300 hover:text-white">Điều khoản</a></li>
-                        <li><a href="/chinh-sach-bao-mat" class="text-gray-300 hover:text-white">Chính sách bảo mật</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Giới thiệu</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Tuyển dụng</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Điều khoản</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Chính sách bảo mật</a></li>
                     </ul>
                 </div>
-                
-                <!-- Column 2 -->
                 <div>
                     <h3 class="font-bold text-lg mb-4">Dành cho khách hàng</h3>
                     <ul class="space-y-2">
-                        <li><a href="/trung-tam-tro-giup" class="text-gray-300 hover:text-white">Trung tâm trợ giúp</a></li>
-                        <li><a href="/huong-dan-mua-hang" class="text-gray-300 hover:text-white">Hướng dẫn mua hàng</a></li>
-                        <li><a href="/thanh-toan" class="text-gray-300 hover:text-white">Thanh toán</a></li>
-                        <li><a href="/van-chuyen" class="text-gray-300 hover:text-white">Vận chuyển</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Trung tâm trợ giúp</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Hướng dẫn mua hàng</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Thanh toán</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Vận chuyển</a></li>
                     </ul>
                 </div>
-                
-                <!-- Column 3 -->
                 <div>
                     <h3 class="font-bold text-lg mb-4">Liên hệ</h3>
                     <ul class="space-y-2">
                         <li class="flex items-center">
-                            <i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i>
+                            <i class="fas fa-map-marker-alt mr-2"></i>
                             <span class="text-gray-300">Đà Nẵng, Việt Nam</span>
                         </li>
                         <li class="flex items-center">
-                            <i class="fas fa-phone-alt mr-2" aria-hidden="true"></i>
+                            <i class="fas fa-phone-alt mr-2"></i>
                             <span class="text-gray-300">1900 1234</span>
                         </li>
                         <li class="flex items-center">
-                            <i class="fas fa-envelope mr-2" aria-hidden="true"></i>
+                            <i class="fas fa-envelope mr-2"></i>
                             <span class="text-gray-300">support@eshop.com</span>
                         </li>
                     </ul>
                 </div>
-                
-                <!-- Column 4 -->
                 <div>
                     <h3 class="font-bold text-lg mb-4">Kết nối với chúng tôi</h3>
                     <div class="flex space-x-4 mb-4">
-                        <a href="https://facebook.com/your-eshop" class="bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Facebook">
-                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        <a href="#" class="bg-blue-600 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="https://instagram.com/your-eshop" class="bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Instagram">
-                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        <a href="#" class="bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="https://twitter.com/your-eshop" class="bg-blue-400 w-10 h-10 rounded-full flex items-center justify-center" aria-label="Twitter">
-                            <i class="fab fa-twitter" aria-hidden="true"></i>
+                        <a href="#" class="bg-blue-400 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="https://youtube.com/your-eshop" class="bg-red-600 w-10 h-10 rounded-full flex items-center justify-center" aria-label="YouTube">
-                            <i class="fab fa-youtube" aria-hidden="true"></i>
+                        <a href="#" class="bg-red-600 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-youtube"></i>
                         </a>
                     </div>
                 </div>
             </div>
-            
             <div class="border-t border-gray-700 pt-6 text-center text-gray-400">
                 <p>© 2025 NuenTaru-Shop. Tất cả các quyền được bảo lưu.</p>
             </div>
         </div>
     </footer>
-    
-    <script>
-        // Mobile sidebar toggle
-        const sidebarToggle = document.getElementById('sidebar-toggle');
-        const sidebar = document.getElementById('sidebar');
-        const sidebarOverlay = document.getElementById('sidebar-overlay');
-        
-        if (sidebarToggle && sidebar && sidebarOverlay) {
-            sidebarToggle.addEventListener('click', () => {
-                sidebar.classList.add('active');
-                sidebarOverlay.classList.add('active');
-            });
-            
-            sidebarOverlay.addEventListener('click', () => {
-                sidebar.classList.remove('active');
-                sidebarOverlay.classList.remove('active');
-            });
-        }
-        
-        // Xử lý iframe loading
-        const contentIframe = document.getElementById('content-iframe');
-        const iframeLoading = document.getElementById('iframe-loading');
-        const iframeError = document.getElementById('iframe-error');
-        const retryButton = document.getElementById('retry-button');
-        
-        // Hàm điều chỉnh chiều cao iframe
-        function adjustIframeHeight(height) {
-            contentIframe.style.height = `${height}px`;
-            
-            // Cuộn lên đầu trang
-            window.scrollTo(0, 0);
-        }
 
-        // Lắng nghe sự kiện từ iframe con
-        window.addEventListener('message', (event) => {
-            if (event.data.type === 'resize') {
-                adjustIframeHeight(event.data.height);
-            }
-        });
-        
-        // Ẩn loading khi iframe tải xong
-        contentIframe.addEventListener('load', function() {
-            iframeLoading.style.display = 'none';
-            iframeError.classList.add('hidden');
+    <script>
+        // Simulate iframe loading
+        document.addEventListener('DOMContentLoaded', function() {
+            const iframe = document.getElementById('content-iframe');
+            const loading = document.getElementById('iframe-loading');
+            const error = document.getElementById('iframe-error');
+            const retryButton = document.getElementById('retry-button');
+            const accountToggle = document.querySelector('.account-toggle');
+            const accountDropdown = document.querySelector('.account-dropdown');
             
-            // Gửi yêu cầu lấy chiều cao cho iframe con
-            contentIframe.contentWindow.postMessage('getHeight', '*');
+            // Account dropdown toggle
+            accountToggle.addEventListener('click', function() {
+                accountDropdown.classList.toggle('hidden');
+            });
             
-            // Gọi lại sau 500ms để đảm bảo nếu có nội dung động
-            setTimeout(() => {
-                contentIframe.contentWindow.postMessage('getHeight', '*');
-            }, 500);
-        });
-        
-        // Xử lý lỗi tải iframe
-        contentIframe.addEventListener('error', () => {
-            iframeLoading.style.display = 'none';
-            iframeError.classList.remove('hidden');
-        });
-        
-        // Nút thử lại
-        retryButton.addEventListener('click', () => {
-            iframeError.classList.add('hidden');
-            iframeLoading.style.display = 'flex';
-            contentIframe.src = contentIframe.src; // Tải lại
-        });
-        
-        // Simulate loading content in iframe
-        document.querySelectorAll('.sidebar-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Remove active class from all items
-                document.querySelectorAll('.sidebar-item').forEach(el => {
-                    el.classList.remove('active');
-                });
-                
-                // Add active class to clicked item
-                this.classList.add('active');
-                
-                // Hiển thị loading
-                iframeLoading.style.display = 'flex';
-                iframeError.classList.add('hidden');
-                
-                // Update iframe src
-                if (this.href) {
-                    contentIframe.src = this.href;
-                }
-                
-                // Close sidebar on mobile after selection
-                if (window.innerWidth < 768) {
-                    sidebar.classList.remove('active');
-                    sidebarOverlay.classList.remove('active');
+            // Hide dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!accountToggle.contains(event.target) && !accountDropdown.contains(event.target)) {
+                    accountDropdown.classList.add('hidden');
                 }
             });
+            
+            // Hide loading after 2 seconds
+            setTimeout(() => {
+                loading.style.display = 'none';
+            }, 1000);
+            
+            // Retry button handler
+            retryButton.addEventListener('click', function() {
+                error.classList.add('hidden');
+                loading.style.display = 'flex';
+                
+                setTimeout(() => {
+                    loading.style.display = 'none';
+                }, 1500);
+            });
+            
+            // Handle sidebar active state
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            sidebarItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    sidebarItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    loading.style.display = 'flex';
+                    setTimeout(() => {
+                        loading.style.display = 'none';
+                    }, 800);
+                });
+            });
         });
-        
-        // Kiểm tra nếu iframe chưa tải xong sau 5 giây
-        setTimeout(() => {
-            if (iframeLoading.style.display !== 'none') {
-                iframeLoading.style.display = 'none';
-                iframeError.classList.remove('hidden');
+
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'resizeIframe') {
+                const iframe = document.getElementById('content-iframe');
+                // Chỉ cập nhật chiều cao cho iframe
+                iframe.style.height = event.data.height + 'px';
             }
-        }, 5000);
+        });
     </script>
 </body>
 </html>

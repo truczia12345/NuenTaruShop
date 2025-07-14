@@ -965,28 +965,63 @@
             document.getElementById('bank-modal').classList.remove('active');
         });
 
-        // Hàm gửi chiều cao về trang chủ (cho iframe)
+            // Hàm gửi chiều cao về trang chủ
         function sendHeightToParent() {
-            const height = document.body.scrollHeight;
-            if (window.parent !== window) {
-                window.parent.postMessage({
-                    type: 'resize',
-                    height: height
-                }, '*');
-            }
+            const height = Math.max(
+                document.body.scrollHeight,
+                document.body.offsetHeight,
+                document.documentElement.scrollHeight,
+                document.documentElement.offsetHeight
+            );
+            
+            // Gửi chiều cao về trang chủ
+            window.parent.postMessage({
+                type: 'resize',
+                height: height
+            }, '*');
         }
-        
+
+        // Sử dụng requestAnimationFrame để giới hạn tần suất gửi
+        let lastSentHeight = 0;
+        function throttledSendHeight() {
+            const currentHeight = Math.max(
+                document.body.scrollHeight,
+                document.documentElement.scrollHeight
+            );
+            
+            // Chỉ gửi nếu chiều cao thay đổi đáng kể
+            if (Math.abs(currentHeight - lastSentHeight) > 50) {
+                sendHeightToParent();
+                lastSentHeight = currentHeight;
+            }
+            requestAnimationFrame(throttledSendHeight);
+        }
+
+        // Bắt đầu theo dõi
+        throttledSendHeight();
+
         // Gửi chiều cao khi trang tải xong
-        window.addEventListener('load', sendHeightToParent);
-        
-        // Gửi chiều cao khi cửa sổ thay đổi kích thước
-        window.addEventListener('resize', sendHeightToParent);
-        
+        window.addEventListener('load', () => {
+            setTimeout(sendHeightToParent, 300);
+        });
+
         // Trả lời khi nhận được yêu cầu từ trang chủ
         window.addEventListener('message', (event) => {
             if (event.data === 'getHeight') {
-                sendHeightToParent();
+                throttledSendHeight();
             }
+        });
+
+        // Theo dõi thay đổi nội dung với MutationObserver
+        const observer = new MutationObserver(() => {
+            throttledSendHeight();
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+            attributes: false,
+            characterData: false
         });
     </script>
 </body>

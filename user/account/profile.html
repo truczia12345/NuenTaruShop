@@ -4,291 +4,418 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hồ Sơ Người Dùng - E-Shop</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/assets/css/user.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #ff424f;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .membership-badge::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 100%);
+            transform: rotate(45deg);
+            animation: shine 2s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: rotate(45deg) translateX(-100%); }
+            100% { transform: rotate(45deg) translateX(100%); }
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff424f',
+                        secondary: '#c43a43',
+                        accent: '#ff6b78',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body class="bg-gray-50">
 
     <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-overlay fixed inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50 hidden" id="loading-overlay">
         <div class="loading-spinner"></div>
     </div>
 
-    <!-- Profile Header -->
-            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-                    <div>
-                        <h1 class="text-2xl font-bold text-gray-800">Hồ sơ của tôi</h1>
-                        <p class="text-gray-600 mt-1">Quản lý thông tin cá nhân, đơn hàng và các hoạt động của bạn</p>
+    <div class="profile-content">
+        <!-- Profile Header -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-6 transition-shadow duration-300 hover:shadow-lg">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Hồ sơ của tôi</h1>
+                    <p class="text-gray-600 mt-2">Quản lý thông tin cá nhân, đơn hàng và các hoạt động của bạn</p>
+                </div>
+                <div class="mt-4 md:mt-0 flex flex-wrap gap-2">
+                    <div class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium relative overflow-hidden">
+                        <i class="fas fa-medal mr-2"></i> Thành viên Bạc
                     </div>
-                    <div class="mt-4 md:mt-0 flex items-center">
-                        <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                            <i class="fas fa-medal mr-1"></i> Thành viên Bạc
-                        </div>
-                        <div class="ml-4 bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
-                            <i class="fas fa-coins mr-1"></i> 1,250 điểm
-                        </div>
+                    <div class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-sm font-medium">
+                        <i class="fas fa-coins mr-2"></i> 1,250 điểm
                     </div>
-                </div>
-            </div>
-
-    <!-- Profile Card -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Personal Info -->
-        <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6 profile-card">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold text-gray-800">Thông tin cá nhân</h2>
-                <button id="edit-btn" class="text-blue-600 font-medium">
-                    <i class="fas fa-edit mr-1"></i> Chỉnh sửa
-                </button>
-            </div>
-            
-            <!-- Avatar Upload -->
-            <div class="flex justify-center mb-6">
-                <div class="avatar-upload">
-                    <label for="avatar-input" class="avatar-upload-label">
-                        <img id="avatar-preview" src="https://i.pravatar.cc/150?img=12" alt="User Avatar" class="w-32 h-32 rounded-full border-2 border-white shadow object-cover">
-                        <div class="absolute bottom-0 right-0 bg-blue-600 text-white rounded-full p-2">
-                            <i class="fas fa-camera"></i>
-                        </div>
-                    </label>
-                    <input type="file" id="avatar-input" accept="image/*">
-                </div>
-            </div>
-            
-            <!-- View Mode -->
-            <div id="view-mode" class="view-mode space-y-4">
-                <div class="flex">
-                    <div class="w-1/3 text-gray-500">Họ và tên</div>
-                    <div id="view-name" class="w-2/3 font-medium">Nguyễn Văn A</div>
-                </div>
-                
-                <div class="flex">
-                    <div class="w-1/3 text-gray-500">Email</div>
-                    <div id="view-email" class="w-2/3 font-medium">nguyenvana@example.com</div>
-                </div>
-                
-                <div class="flex">
-                    <div class="w-1/3 text-gray-500">Số điện thoại</div>
-                    <div id="view-phone" class="w-2/3 font-medium">0987654321</div>
-                </div>
-                
-                <div class="flex">
-                    <div class="w-1/3 text-gray-500">Ngày sinh</div>
-                    <div id="view-dob" class="w-2/3 font-medium">15/05/1990</div>
-                </div>
-                
-                <div class="flex">
-                    <div class="w-1/3 text-gray-500">Giới tính</div>
-                    <div id="view-gender" class="w-2/3 font-medium">Nam</div>
-                </div>
-            </div>
-            
-            <!-- Edit Mode -->
-            <div id="edit-mode" class="edit-mode h-full space-y-4 hidden">
-                <div class="flex items-center">
-                    <div class="w-1/3 text-gray-500">Họ và tên</div>
-                    <div class="w-2/3">
-                        <input type="text" id="edit-name" class="w-full p-2 border rounded" value="Nguyễn Văn A">
-                    </div>
-                </div>
-                
-                <div class="flex items-center">
-                    <div class="w-1/3 text-gray-500">Email</div>
-                    <div class="w-2/3">
-                        <input type="email" id="edit-email" class="w-full p-2 border rounded" value="nguyenvana@example.com">
-                    </div>
-                </div>
-                
-                <div class="flex items-center">
-                    <div class="w-1/3 text-gray-500">Số điện thoại</div>
-                    <div class="w-2/3">
-                        <input type="tel" id="edit-phone" class="w-full p-2 border rounded" value="0987654321">
-                    </div>
-                </div>
-                
-                <div class="flex items-center">
-                    <div class="w-1/3 text-gray-500">Ngày sinh</div>
-                    <div class="w-2/3">
-                        <input type="date" id="edit-dob" class="w-full p-2 border rounded" value="1990-05-15">
-                    </div>
-                </div>
-                
-                <div class="flex items-center">
-                    <div class="w-1/3 text-gray-500">Giới tính</div>
-                    <div class="w-2/3">
-                        <select id="edit-gender" class="w-full p-2 border rounded">
-                            <option value="Nam">Nam</option>
-                            <option value="Nữ">Nữ</option>
-                            <option value="Khác">Khác</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="flex justify-end space-x-3 mt-6">
-                    <button id="cancel-btn" class="px-4 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-100">Hủy</button>
-                    <button id="save-btn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Lưu thay đổi</button>
                 </div>
             </div>
         </div>
-        
-        <!-- Account Security -->
-        <div class="bg-white rounded-lg shadow-md p-6 profile-card">
-            <h2 class="text-xl font-bold text-gray-800 mb-6">Bảo mật tài khoản</h2>
+
+        <!-- Profile Card -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Personal Info -->
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-md p-6 transition-shadow duration-300 hover:shadow-lg">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b">
+                    <h2 class="text-xl font-bold text-gray-800">Thông tin cá nhân</h2>
+                    <button id="edit-btn" class="text-primary font-medium hover:text-secondary transition flex items-center">
+                        <i class="fas fa-edit mr-2"></i> Chỉnh sửa
+                    </button>
+                </div>
+                
+                <!-- Avatar Upload -->
+                <div class="flex justify-center mb-8">
+                    <div class="avatar-upload relative inline-block cursor-pointer">
+                        <label for="avatar-input" class="block relative w-36 h-36">
+                            <img id="avatar-preview" src="https://i.pravatar.cc/150?img=12" alt="User Avatar" class="w-full h-full object-cover rounded-full border-4 border-white shadow-lg transition-transform duration-300">
+                            <div class="absolute bottom-3 right-3 bg-primary text-white rounded-full w-9 h-9 flex items-center justify-center transition-all duration-300 hover:bg-secondary hover:scale-110">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </label>
+                        <input type="file" id="avatar-input" accept="image/*" class="hidden">
+                    </div>
+                </div>
+                
+                <!-- View Mode -->
+                <div id="view-mode" class="view-mode space-y-5">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="text-gray-500 font-medium">Họ và tên</div>
+                        <div id="view-name" class="text-gray-800 font-medium md:col-span-2">Nguyễn Văn A</div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="text-gray-500 font-medium">Email</div>
+                        <div id="view-email" class="text-gray-800 font-medium md:col-span-2">nguyenvana@example.com</div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="text-gray-500 font-medium">Số điện thoại</div>
+                        <div id="view-phone" class="text-gray-800 font-medium md:col-span-2">0987654321</div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="text-gray-500 font-medium">Ngày sinh</div>
+                        <div id="view-dob" class="text-gray-800 font-medium md:col-span-2">15/05/1990</div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="text-gray-500 font-medium">Giới tính</div>
+                        <div id="view-gender" class="text-gray-800 font-medium md:col-span-2">Nam</div>
+                    </div>
+                </div>
+                
+                <!-- Edit Mode -->
+                <div id="edit-mode" class="edit-mode space-y-5 hidden opacity-0 scale-95 transition duration-300">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                        <div class="text-gray-500 font-medium">Họ và tên</div>
+                        <div class="md:col-span-2">
+                            <input type="text" id="edit-name" class="w-full p-3 border rounded-lg focus:ring-primary focus:border-primary transition" value="Nguyễn Văn A">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                        <div class="text-gray-500 font-medium">Email</div>
+                        <div class="md:col-span-2">
+                            <input type="email" id="edit-email" class="w-full p-3 border rounded-lg focus:ring-primary focus:border-primary transition" value="nguyenvana@example.com">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                        <div class="text-gray-500 font-medium">Số điện thoại</div>
+                        <div class="md:col-span-2">
+                            <input type="tel" id="edit-phone" class="w-full p-3 border rounded-lg focus:ring-primary focus:border-primary transition" value="0987654321">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                        <div class="text-gray-500 font-medium">Ngày sinh</div>
+                        <div class="md:col-span-2">
+                            <input type="date" id="edit-dob" class="w-full p-3 border rounded-lg focus:ring-primary focus:border-primary transition" value="1990-05-15">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                        <div class="text-gray-500 font-medium">Giới tính</div>
+                        <div class="md:col-span-2">
+                            <div class="flex flex-wrap gap-4">
+                                <label class="flex items-center">
+                                    <input type="radio" name="gender" value="Nam" class="h-4 w-4 text-primary focus:ring-primary" checked>
+                                    <span class="ml-2 text-gray-700">Nam</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="gender" value="Nữ" class="h-4 w-4 text-primary focus:ring-primary">
+                                    <span class="ml-2 text-gray-700">Nữ</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="gender" value="Khác" class="h-4 w-4 text-primary focus:ring-primary">
+                                    <span class="ml-2 text-gray-700">Khác</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 mt-8 pt-4 border-t">
+                        <button id="cancel-btn" class="px-5 py-2.5 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 transition font-medium">Hủy</button>
+                        <button id="save-btn" class="px-5 py-2.5 bg-primary text-white rounded-lg hover:bg-secondary transition font-medium">Lưu thay đổi</button>
+                    </div>
+                </div>
+            </div>
             
-            <div class="space-y-4">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h3 class="font-medium">Mật khẩu</h3>
-                        <p class="text-gray-500 text-sm">••••••••</p>
-                    </div>
-                    <a href="change-password.html" class="text-blue-600 font-medium text-sm">
-                        Đổi mật khẩu
+            <!-- Account Security -->
+            <div class="bg-white rounded-xl shadow-md p-6 transition-shadow duration-300 hover:shadow-lg">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b">
+                    <h2 class="text-xl font-bold text-gray-800">Bảo mật tài khoản</h2>
+                    <i class="fas fa-shield-alt text-primary text-xl"></i>
+                </div>
+                
+                <div class="space-y-4">
+                    <a href="change-password.html" class="security-item flex justify-between items-center p-4 rounded-lg hover:shadow-sm transition">
+                        <div class="flex items-center">
+                            <div class="bg-blue-100 text-blue-600 p-3 rounded-lg mr-4">
+                                <i class="fas fa-lock text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-800">Mật khẩu</h3>
+                                <p class="text-gray-500 text-sm mt-1">••••••••</p>
+                            </div>
+                        </div>
+                        <div class="text-primary">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
                     </a>
+                    
+                    <div class="security-item flex justify-between items-center p-4 rounded-lg hover:shadow-sm transition cursor-pointer">
+                        <div class="flex items-center">
+                            <div class="bg-purple-100 text-purple-600 p-3 rounded-lg mr-4">
+                                <i class="fas fa-shield-alt text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-800">Xác thực 2 bước</h3>
+                                <p class="text-gray-500 text-sm mt-1">Chưa bật</p>
+                            </div>
+                        </div>
+                        <div class="text-primary">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="security-item flex justify-between items-center p-4 rounded-lg hover:shadow-sm transition cursor-pointer">
+                        <div class="flex items-center">
+                            <div class="bg-green-100 text-green-600 p-3 rounded-lg mr-4">
+                                <i class="fas fa-mobile-alt text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-800">Thiết bị đăng nhập</h3>
+                                <p class="text-gray-500 text-sm mt-1">3 thiết bị</p>
+                            </div>
+                        </div>
+                        <div class="text-primary">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h3 class="font-medium">Xác thực 2 bước</h3>
-                        <p class="text-gray-500 text-sm">Chưa bật</p>
+                <!-- Recent Activity -->
+                <div class="mt-8 pt-6 border-t">
+                    <h3 class="font-medium text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-history text-gray-500 mr-2"></i> Hoạt động gần đây
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <div class="bg-gray-100 p-2 rounded-lg mr-3">
+                                <i class="fas fa-shopping-cart text-primary"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-700">Bạn đã đặt hàng <span class="font-medium">#DH123456</span></p>
+                                <p class="text-xs text-gray-500 mt-1">Hôm nay, 14:30</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-gray-100 p-2 rounded-lg mr-3">
+                                <i class="fas fa-star text-yellow-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-700">Bạn đã đánh giá sản phẩm <span class="font-medium">Tai nghe Bluetooth</span></p>
+                                <p class="text-xs text-gray-500 mt-1">Hôm qua, 09:15</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-gray-100 p-2 rounded-lg mr-3">
+                                <i class="fas fa-key text-red-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-700">Bạn đã thay đổi mật khẩu</p>
+                                <p class="text-xs text-gray-500 mt-1">2 ngày trước</p>
+                            </div>
+                        </div>
                     </div>
-                    <button class="text-blue-600 font-medium text-sm">
-                        Bật ngay
-                    </button>
-                </div>
-                
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h3 class="font-medium">Thiết bị đăng nhập</h3>
-                        <p class="text-gray-500 text-sm">3 thiết bị</p>
-                    </div>
-                    <button class="text-blue-600 font-medium text-sm">
-                        Quản lý
-                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Hàm gửi chiều cao về trang chủ
-  function sendHeightToParent() {
-    const height = Math.max(
-      document.body.scrollHeight,
-      document.body.offsetHeight,
-      document.documentElement.clientHeight,
-      document.documentElement.scrollHeight,
-      document.documentElement.offsetHeight
-    );
-    
-    // Gửi chiều cao về trang chủ
-    window.parent.postMessage({
-      type: 'resize',
-      height: height
-    }, '*');
-  }
-
-  // Gửi chiều cao khi trang tải xong
-  window.addEventListener('load', sendHeightToParent);
-  
-  // Gửi chiều cao khi cửa sổ thay đổi kích thước
-  window.addEventListener('resize', sendHeightToParent);
-  
-  // Gửi chiều cao khi có thay đổi nội dung (MutationObserver)
-  const observer = new MutationObserver(sendHeightToParent);
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-    characterData: true
-  });
-
-  // Trả lời khi nhận được yêu cầu từ trang chủ
-  window.addEventListener('message', (event) => {
-    if (event.data === 'getHeight') {
-      sendHeightToParent();
-    }
-  });
-  
-        // DOM Elements
-        const viewMode = document.getElementById('view-mode');
-        const editMode = document.getElementById('edit-mode');
-        const editBtn = document.getElementById('edit-btn');
-        const cancelBtn = document.getElementById('cancel-btn');
-        const saveBtn = document.getElementById('save-btn');
-        const avatarInput = document.getElementById('avatar-input');
-        const avatarPreview = document.getElementById('avatar-preview');
-        
-        // Toggle Edit Mode
-        editBtn.addEventListener('click', () => {
-            viewMode.classList.add('hidden');
-            editMode.classList.remove('hidden');
-            editBtn.classList.add('hidden');
-        });
-        
-        // Cancel Edit
-        cancelBtn.addEventListener('click', () => {
-            editMode.classList.add('hidden');
-            viewMode.classList.remove('hidden');
-            editBtn.classList.remove('hidden');
-        });
-        
-        // Save Changes
-        saveBtn.addEventListener('click', () => {
-
-            const email = document.getElementById('edit-email').value;
-            const phone = document.getElementById('edit-phone').value;
+        document.addEventListener('DOMContentLoaded', function() {
+            const editBtn = document.getElementById('edit-btn');
+            const cancelBtn = document.getElementById('cancel-btn');
+            const saveBtn = document.getElementById('save-btn');
+            const viewMode = document.getElementById('view-mode');
+            const editMode = document.getElementById('edit-mode');
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const avatarInput = document.getElementById('avatar-input');
+            const avatarPreview = document.getElementById('avatar-preview');
             
-            // Validate email
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            alert('Email không hợp lệ');
-            return;
-            }
+            // Toggle edit mode
+            editBtn.addEventListener('click', function() {
+                viewMode.classList.add('hidden');
+                editMode.classList.remove('hidden');
+                setTimeout(() => {
+                    editMode.classList.remove('opacity-0', 'scale-95');
+                    editMode.classList.add('opacity-100', 'scale-100');
+                }, 10);
+            });
             
-            // Validate phone number (10 số)
-            if (!/^\d{10}$/.test(phone)) {
-            alert('Số điện thoại phải có 10 chữ số');
-            return;
-            }
+            // Cancel edit
+            cancelBtn.addEventListener('click', function() {
+                editMode.classList.add('opacity-0', 'scale-95');
+                setTimeout(() => {
+                    editMode.classList.add('hidden');
+                    viewMode.classList.remove('hidden');
+                }, 300);
+            });
             
-            // Update view mode with new values
-            document.getElementById('view-name').textContent = document.getElementById('edit-name').value;
-            document.getElementById('view-email').textContent = document.getElementById('edit-email').value;
-            document.getElementById('view-phone').textContent = document.getElementById('edit-phone').value;
-            document.getElementById('view-dob').textContent = formatDate(document.getElementById('edit-dob').value);
-            document.getElementById('view-gender').textContent = document.getElementById('edit-gender').value;
-            
-            // Switch back to view mode
-            editMode.classList.add('hidden');
-            viewMode.classList.remove('hidden');
-            editBtn.classList.remove('hidden');
-            
-            // Here you would typically send an AJAX request to save the changes
-            alert('Thông tin đã được cập nhật!');
-        });
-        
-        // Avatar Upload
-        avatarInput.addEventListener('change', function(e) {
-            if (this.files && this.files[0]) {
-                const reader = new FileReader();
+            // Save changes
+            saveBtn.addEventListener('click', function() {
+                loadingOverlay.style.display = 'flex';
                 
-                reader.onload = function(e) {
-                    avatarPreview.src = e.target.result;
+                setTimeout(() => {
+                    document.getElementById('view-name').textContent = document.getElementById('edit-name').value;
+                    document.getElementById('view-email').textContent = document.getElementById('edit-email').value;
+                    document.getElementById('view-phone').textContent = document.getElementById('edit-phone').value;
+                    
+                    const dob = new Date(document.getElementById('edit-dob').value);
+                    document.getElementById('view-dob').textContent = 
+                        dob.getDate() + '/' + (dob.getMonth() + 1) + '/' + dob.getFullYear();
+                    
+                    const selectedGender = document.querySelector('input[name="gender"]:checked').value;
+                    document.getElementById('view-gender').textContent = selectedGender;
+
+                    updateParentHeight();
+                    
+                    loadingOverlay.style.display = 'none';
+                    showNotification('Cập nhật thông tin thành công!', 'success');
+                    
+                    editMode.classList.add('opacity-0', 'scale-95');
+                    setTimeout(() => {
+                        editMode.classList.add('hidden');
+                        viewMode.classList.remove('hidden');
+                    }, 300);
+                }, 1500);
+            });
+            
+            // Handle avatar upload
+            avatarInput.addEventListener('change', function(e) {
+                if (e.target.files && e.target.files[0]) {
+                    const reader = new FileReader();
+                    
+                    loadingOverlay.style.display = 'flex';
+                    
+                    reader.onload = function(event) {
+                        setTimeout(() => {
+                            avatarPreview.src = event.target.result;
+                            loadingOverlay.style.display = 'none';
+                            showNotification('Cập nhật ảnh đại diện thành công!', 'success');
+                            updateParentHeight();
+                        }, 1000);
+                    }
+                    
+                    reader.readAsDataURL(e.target.files[0]);
                 }
+            });
+            
+            // Show notification function
+            function showNotification(message, type) {
+                const notification = document.createElement('div');
+                notification.className = `fixed top-6 right-6 z-50 px-6 py-4 rounded-lg shadow-lg text-white font-medium transform transition-all duration-300 ${
+                    type === 'success' ? 'bg-green-500' : 'bg-red-500'
+                }`;
+                notification.textContent = message;
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(-20px)';
                 
-                reader.readAsDataURL(this.files[0]);
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.opacity = '1';
+                    notification.style.transform = 'translateY(0)';
+                }, 10);
+                
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    notification.style.transform = 'translateY(-20px)';
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 3000);
             }
+
+            // Hàm cập nhật chiều cao cho iframe
+            function updateParentHeight() {
+                const height = document.documentElement.scrollHeight;
+                
+                if (window.parent) {
+                    window.parent.postMessage({
+                        type: 'resizeIframe',
+                        height: height
+                    }, '*');
+                }
+            }
+
+            // Gọi khi tải trang và khi có thay đổi
+            // Gọi khi tải trang
+            updateParentHeight();
+
+            // Theo dõi thay đổi DOM - CHỈ CẦN 1 LẦN
+            const observer = new MutationObserver(function() {
+                updateParentHeight();
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                characterData: true
+            });
+
+            // Cập nhật khi thay đổi kích thước cửa sổ
+            window.addEventListener('resize', updateParentHeight);
         });
-        
-        // Helper function to format date
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            const day = date.getDate().toString().padStart(2, '0');
-            const month = (date.getMonth() + 1).toString().padStart(2, '0');
-            const year = date.getFullYear();
-            return `${day}/${month}/${year}`;
-        }
     </script>
 </body>
 </html>
