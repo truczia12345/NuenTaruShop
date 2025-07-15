@@ -55,13 +55,9 @@
         }
     </style>
 </head>
-<<<<<<< HEAD
 <body class="min-h-screen bg-gray-50">
-=======
-<body class="min-h-screen flex flex-col">
->>>>>>> 6fe106e291c26f4ec8335f25cbc7f91f7272a1f6
 
-    <!-- Header (nếu sau này thêm xử lý backend chỉ cần include header và footer của index main vò và xóa header này cùng footer) -->
+    <!-- Header -->
     <header class="bg-primary text-white shadow-md">
         <div class="container mx-auto px-4">
             <!-- Top Row: User Actions -->
@@ -158,18 +154,9 @@
     </header>
 
     <!-- Main Content -->
-<<<<<<< HEAD
     <div class="container mx-auto px-4 py-6 flex flex-col lg:flex-row">
         <!-- Sidebar -->
         <div class="sidebar w-full lg:w-64 bg-white rounded-xl shadow-md lg:mr-6 mb-6 lg:mb-0">
-=======
-    <div class="container mx-auto px-4 py-6 flex flex-1 min-h-0">
-        <!-- Sidebar Overlay (Mobile) -->
-        <div class="sidebar-overlay" id="sidebar-overlay"></div>
-        
-        <!-- Sidebar -->
-        <div class="sidebar w-full md:w-64 bg-white rounded-lg shadow-md md:mr-6 mb-6 md:mb-0 flex-shrink-0" id="sidebar">
->>>>>>> 6fe106e291c26f4ec8335f25cbc7f91f7272a1f6
             <!-- Profile Summary -->
             <div class="p-5 border-b border-gray-200">
                 <div class="flex items-center">
@@ -255,16 +242,9 @@
         </div>
         
         <!-- Main Content Area -->
-<<<<<<< HEAD
         <div class="flex-1">
             <div class="relative w-full iframe-container bg-white rounded-xl shadow-md overflow-hidden">
                 <div id="iframe-loading" class="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-90 z-10">
-=======
-        <div class="flex-1 flex flex-col min-h-0" id="iframe-container">
-            
-            <div class="iframe-container flex-1 min-h-0">
-                <div id="iframe-loading" class="iframe-loading">
->>>>>>> 6fe106e291c26f4ec8335f25cbc7f91f7272a1f6
                     <div class="spinner"></div>
                     <p class="mt-4 text-gray-600 font-medium">Đang tải nội dung...</p>
                 </div>
@@ -284,7 +264,7 @@
     </div>
     
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8 mt-auto">
+    <footer class="bg-gray-800 text-white py-8 mt-10">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
                 <div>
@@ -345,7 +325,6 @@
             </div>
         </div>
     </footer>
-<<<<<<< HEAD
 
     <script>
         // Simulate iframe loading
@@ -356,56 +335,6 @@
             const retryButton = document.getElementById('retry-button');
             const accountToggle = document.querySelector('.account-toggle');
             const accountDropdown = document.querySelector('.account-dropdown');
-=======
-    
-    <script>
-        // Mobile sidebar toggle
-        const sidebarToggle = document.getElementById('sidebar-toggle');
-        const sidebar = document.getElementById('sidebar');
-        const sidebarOverlay = document.getElementById('sidebar-overlay');
-        
-        if (sidebarToggle && sidebar && sidebarOverlay) {
-            sidebarToggle.addEventListener('click', () => {
-                sidebar.classList.add('active');
-                sidebarOverlay.classList.add('active');
-            });
-            
-            sidebarOverlay.addEventListener('click', () => {
-                sidebar.classList.remove('active');
-                sidebarOverlay.classList.remove('active');
-            });
-        }
-        
-        // Xử lý iframe loading
-        const contentIframe = document.getElementById('content-iframe');
-        const iframeLoading = document.getElementById('iframe-loading');
-        const iframeError = document.getElementById('iframe-error');
-        const retryButton = document.getElementById('retry-button');
-        
-        // Hàm điều chỉnh chiều cao iframe và đồng bộ sidebar
-        function adjustHeights(height) {
-            // Đặt chiều cao cho iframe
-            contentIframe.style.height = `${height}px`;
-            
-            // Đặt cùng chiều cao cho sidebar
-            sidebar.style.height = `${height}px`;
-            
-            // Cuộn lên đầu trang
-            window.scrollTo(0, 0);
-        }
-
-        // Lắng nghe sự kiện từ iframe con
-        window.addEventListener('message', (event) => {
-            if (event.data.type === 'resize') {
-                adjustHeights(event.data.height);
-            }
-        });
-        
-        // Ẩn loading khi iframe tải xong
-        contentIframe.addEventListener('load', function() {
-            iframeLoading.style.display = 'none';
-            iframeError.classList.add('hidden');
->>>>>>> 6fe106e291c26f4ec8335f25cbc7f91f7272a1f6
             
             // Account dropdown toggle
             accountToggle.addEventListener('click', function() {
@@ -422,7 +351,7 @@
             // Hide loading after 2 seconds
             setTimeout(() => {
                 loading.style.display = 'none';
-            }, 1000);
+            }, 2000);
             
             // Retry button handler
             retryButton.addEventListener('click', function() {
@@ -455,22 +384,7 @@
                 // Chỉ cập nhật chiều cao cho iframe
                 iframe.style.height = event.data.height + 'px';
             }
-<<<<<<< HEAD
         });
-=======
-        }, 5000);
-
-        // Khởi tạo ResizeObserver để theo dõi thay đổi kích thước
-        const resizeObserver = new ResizeObserver(entries => {
-            for (let entry of entries) {
-                const { height } = entry.contentRect;
-                adjustHeights(height);
-            }
-        });
-
-        // Bắt đầu theo dõi iframe-container
-        resizeObserver.observe(document.getElementById('iframe-container'));
->>>>>>> 6fe106e291c26f4ec8335f25cbc7f91f7272a1f6
     </script>
 </body>
 </html>
