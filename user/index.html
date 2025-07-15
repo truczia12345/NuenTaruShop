@@ -55,7 +55,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen bg-gray-50">
+<body class="min-h-screen">
 
     <!-- Header (nếu sau này thêm xử lý backend chỉ cần include header và footer của index main vò và xóa header này cùng footer) -->
     <header class="bg-primary text-white shadow-md">
@@ -154,9 +154,12 @@
     </header>
 
     <!-- Main Content -->
-    <div class="container mx-auto px-4 py-6 flex flex-col lg:flex-row">
+    <div class="container mx-auto px-4 py-6 flex flex-col md:flex-row">
+        <!-- Sidebar Overlay (Mobile) -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+        
         <!-- Sidebar -->
-        <div class="sidebar w-full lg:w-64 bg-white rounded-xl shadow-md lg:mr-6 mb-6 lg:mb-0">
+        <div class="sidebar w-full md:w-64 bg-white rounded-lg shadow-md md:mr-6 mb-6 md:mb-0" id="sidebar">
             <!-- Profile Summary -->
             <div class="p-5 border-b border-gray-200">
                 <div class="flex items-center">
@@ -242,9 +245,10 @@
         </div>
         
         <!-- Main Content Area -->
-        <div class="flex-1">
-            <div class="relative w-full iframe-container bg-white rounded-xl shadow-md overflow-hidden">
-                <div id="iframe-loading" class="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-90 z-10">
+        <div class="flex-1 flex flex-col min-h-0">
+            
+            <div class="iframe-container">
+                <div id="iframe-loading" class="iframe-loading">
                     <div class="spinner"></div>
                     <p class="mt-4 text-gray-600 font-medium">Đang tải nội dung...</p>
                 </div>
@@ -264,7 +268,7 @@
     </div>
     
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8 mt-10">
+    <footer class="bg-gray-800 text-white py-8 mt-auto">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
                 <div>
@@ -327,26 +331,51 @@
     </footer>
 
     <script>
-        // Simulate iframe loading
-        document.addEventListener('DOMContentLoaded', function() {
-            const iframe = document.getElementById('content-iframe');
-            const loading = document.getElementById('iframe-loading');
-            const error = document.getElementById('iframe-error');
-            const retryButton = document.getElementById('retry-button');
-            const accountToggle = document.querySelector('.account-toggle');
-            const accountDropdown = document.querySelector('.account-dropdown');
-            
-            // Account dropdown toggle
-            accountToggle.addEventListener('click', function() {
-                accountDropdown.classList.toggle('hidden');
+        // Mobile sidebar toggle
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        
+        if (sidebarToggle && sidebar && sidebarOverlay) {
+            sidebarToggle.addEventListener('click', () => {
+                sidebar.classList.add('active');
+                sidebarOverlay.classList.add('active');
             });
             
-            // Hide dropdown when clicking outside
-            document.addEventListener('click', function(event) {
-                if (!accountToggle.contains(event.target) && !accountDropdown.contains(event.target)) {
-                    accountDropdown.classList.add('hidden');
-                }
+            sidebarOverlay.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
             });
+        }
+        
+        // Xử lý iframe loading
+        const contentIframe = document.getElementById('content-iframe');
+        const iframeLoading = document.getElementById('iframe-loading');
+        const iframeError = document.getElementById('iframe-error');
+        const retryButton = document.getElementById('retry-button');
+        
+        // Hàm điều chỉnh chiều cao iframe
+        function adjustIframeHeight(height) {
+            contentIframe.style.height = `${height}px`;
+            
+            // Cuộn lên đầu trang
+            window.scrollTo(0, 0);
+        }
+
+        // Lắng nghe sự kiện từ iframe con
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'resize') {
+                adjustIframeHeight(event.data.height);
+            }
+        });
+        
+        // Ẩn loading khi iframe tải xong
+        contentIframe.addEventListener('load', function() {
+            iframeLoading.style.display = 'none';
+            iframeError.classList.add('hidden');
+            
+            // Gửi yêu cầu lấy chiều cao cho iframe con
+            contentIframe.contentWindow.postMessage('getHeight', '*');
             
             // Hide loading after 2 seconds
             setTimeout(() => {
@@ -384,7 +413,7 @@
                 // Chỉ cập nhật chiều cao cho iframe
                 iframe.style.height = event.data.height + 'px';
             }
-        });
+        }, 5000);
     </script>
 </body>
 </html>
