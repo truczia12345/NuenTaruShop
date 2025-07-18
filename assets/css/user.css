@@ -35,6 +35,35 @@
 }
 
 
+
+/*============================================ CSS PROFILES ========================================*/
+.loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #ff424f;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .membership-badge::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 100%);
+            transform: rotate(45deg);
+            animation: shine 2s infinite;
+        }
+
+
 /*=============================================CSS ORDERS=============================================*/
 .purchase-page {
             font-family: 'Roboto', sans-serif;
@@ -295,3 +324,306 @@
             margin-top: 4px;
         }
         
+
+
+
+
+
+        /*======================================== CSS ADDRESS =========================*/
+        
+        @keyframes address-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .address-loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+        
+        .address-loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #ff424f;
+            width: 50px;
+            height: 50px;
+            animation: address-spin 1s linear infinite;
+        }
+        
+        .address-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .address-tag-home {
+            background-color: #dbeafe;
+            color: #3b82f6;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+        }
+
+        .address-tag-office {
+            background-color: #ede9fe;
+            color: #8b5cf6;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+        }
+
+        .address-tag-other {
+            background-color: #f3f4f6;
+            color: #4b5563;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+        }
+        
+        .address-default-badge { 
+            @apply bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs;
+        }
+
+        .address-modal {
+            display: flex !important;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .address-modal.hidden {
+            display: none !important;
+        }
+
+
+
+
+
+
+
+        /*========================================== CSS PAYMENT =========================*/
+        .pm-loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.pm-loading-spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #ff424f;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: pm-spin 1s linear infinite;
+}
+
+@keyframes pm-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.pm-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.pm-card-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    color: white;
+    background: linear-gradient(135deg, #4a5568, #1a202c);
+}
+
+.pm-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    color: white;
+    background: linear-gradient(135deg, #2d3748, #1a202c);
+}
+
+.pm-card-preview {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+
+.pm-card-preview.pm-flipped {
+    transform: rotateY(180deg);
+}
+
+.pm-card-face {
+    backface-visibility: hidden;
+}
+
+.pm-card-back {
+    transform: rotateY(180deg);
+}
+
+.pm-input-error {
+    border-color: #e53e3e !important;
+}
+
+.pm-error-message {
+    color: #e53e3e;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: none;
+}
+
+.pm-error-message:not(.hidden) {
+    display: block;
+}
+
+.pm-card-visa {
+    background: linear-gradient(135deg, #1a191f, #4364f7) !important;
+}
+
+.pm-card-mastercard {
+    background: linear-gradient(135deg, #f46b45, #eea849) !important;
+}
+
+.pm-card-jcb {
+    background: linear-gradient(135deg, #0f4c81, #005eb8) !important;
+}
+
+.pm-card-default {
+    background: linear-gradient(135deg, #4a5568, #1a202c) !important;
+}
+
+.pm-type-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.pm-type-visa {
+    background-color: #ebf8ff;
+    color: #3182ce;
+}
+
+.pm-type-mastercard {
+    background-color: #fffaf0;
+    color: #dd6b20;
+}
+
+.pm-type-jcb {
+    background-color: #ebf8ff;
+    color: #3182ce;
+}
+
+.pm-type-momo {
+    background-color: #fff5f7;
+    color: #d53f8c;
+}
+
+.pm-type-zalopay {
+    background-color: #ebf8ff;
+    color: #3182ce;
+}
+
+.pm-type-bank {
+    background-color: #f0fff4;
+    color: #38a169;
+}
+
+.pm-tab {
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    color: #4a5568;
+    transition: color 0.2s;
+    cursor: pointer;
+}
+
+.pm-tab:hover {
+    color: #ff424f;
+}
+
+.pm-tab-active {
+    color: #ff424f;
+    border-bottom: 2px solid #ff424f;
+}
+
+.pm-payment-card {
+    position: relative;
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.pm-payment-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.pm-add-card {
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pm-add-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.pm-default-badge {
+    background-color: #f0fff4;
+    color: #38a169;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
