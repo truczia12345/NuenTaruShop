@@ -36,6 +36,8 @@
 
 
 
+
+
 /*============================================ CSS PROFILES ========================================*/
 .loading-spinner {
             border: 4px solid rgba(0, 0, 0, 0.1);
@@ -485,8 +487,10 @@
 
 .pm-card-preview {
     perspective: 1000px;
-    transform-style: preserve-3d;
+    position: relative;
+    height: 224px;
     transition: transform 0.6s;
+    transform-style: preserve-3d;
 }
 
 .pm-card-preview.pm-flipped {
@@ -494,7 +498,13 @@
 }
 
 .pm-card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
     backface-visibility: hidden;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
 .pm-card-back {
@@ -627,3 +637,836 @@
     font-size: 0.75rem;
     font-weight: 500;
 }
+
+
+
+
+
+
+
+
+
+
+/*========================================= CSS VOUCHERS =========================================*/
+.vc-loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+        
+        .vc-loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #ff424f;
+            width: 50px;
+            height: 50px;
+            animation: vc-spin 1s linear infinite;
+        }
+        
+        @keyframes vc-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .vc-ribbon {
+            position: absolute;
+            top: 12px;
+            right: -30px;
+            width: 100px;
+            padding: 4px 0;
+            background: #ff424f;
+            color: white;
+            text-align: center;
+            transform: rotate(45deg);
+            font-weight: 600;
+            font-size: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .vc-counter {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 28px;
+            height: 28px;
+            background: #ff424f;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .vc-progress-bar {
+            height: 6px;
+            background-color: #e5e7eb;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .vc-progress-value {
+            height: 100%;
+            background-color: #ff424f;
+            border-radius: 3px;
+        }
+        
+        .vc-voucher-enter {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: vc-enter 0.5s forwards;
+        }
+        
+        @keyframes vc-enter {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .vc-type-discount {
+            background-color: #fff5f5;
+            color: #ff424f;
+        }
+        
+        .vc-type-free-ship {
+            background-color: #ebf8ff;
+            color: #3182ce;
+        }
+        
+        .vc-type-cashback {
+            background-color: #f0fff4;
+            color: #38a169;
+        }
+        
+        .vc-status-available {
+            background-color: #f0fff4;
+            color: #38a169;
+        }
+        
+        .vc-status-used {
+            background-color: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        .vc-status-expired {
+            background-color: #fef2f2;
+            color: #ef4444;
+        }
+        
+        .vc-points-animate {
+            animation: vc-points-pulse 1s;
+        }
+        
+        @keyframes vc-points-pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+
+
+
+
+
+
+
+        /*============================================ CSS WISHLISTS ============================================*/
+        .wl-product-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            background-color: white;
+        }
+        
+        .wl-product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .wl-sale-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            z-index: 10;
+        }
+        
+        .wl-wishlist-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .wl-wishlist-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .wl-wishlist-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .wl-stock-badge {
+            display: inline-flex;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        
+        .wl-stock-in {
+            background-color: #f0fff4;
+            color: #38a169;
+        }
+        
+        .wl-stock-low {
+            background-color: #fffaf0;
+            color: #dd6b20;
+        }
+        
+        .wl-stock-out {
+            background-color: #fff5f5;
+            color: #e53e3e;
+        }
+        
+        .wl-filter-container {
+            transition: all 0.3s ease;
+            max-height: 0;
+            overflow: hidden;
+        }
+        
+        .wl-filter-container.open {
+            max-height: 500px;
+        }
+        
+        .wl-sort-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            background-color: #f3f4f6;
+            color: #4b5563;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+        
+        .wl-sort-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .wl-sort-btn:hover {
+            background-color: #e5e7eb;
+        }
+        
+        .wl-product-image {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+            background-color: #f9fafb;
+        }
+        
+        .wl-pagination-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background-color: #e53e3e;
+            color: #f3f4f6;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+        
+        .wl-pagination-btn.active {
+            background-color: #e53e3e;
+            color: white;
+        }
+        
+        .wl-pagination-btn:hover:not(.disabled) {
+            background-color: #e5e7eb;
+        }
+        
+        .wl-pagination-btn.disabled {
+            color: #d1d5db;
+            cursor: not-allowed;
+        }
+        
+        .wl-header-gradient {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+        
+        .wl-add-cart-btn {
+            transition: all 0.3s ease;
+            background-color: #1a202c;
+        }
+        
+        .wl-add-cart-btn:hover {
+            background-color: #2d3748;
+            transform: translateY(-2px);
+        }
+        
+        .wl-heart-icon {
+            color: var(--primary);
+        }
+
+        
+
+
+
+
+
+
+        /*=========================================== CSS HISTORY =============================*/
+        .vh-history-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            background-color: white;
+        }
+        
+        .vh-history-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .vh-delete-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .vh-delete-btn:hover {
+            background-color: #fff5f5;
+            color: #ff424f;
+        }
+        
+        .vh-stock-in {
+            background-color: #f0fff4;
+            color: #38a169;
+        }
+        
+        .vh-stock-low {
+            background-color: #fffaf0;
+            color: #dd6b20;
+        }
+        
+        .vh-stock-out {
+            background-color: #fff5f5;
+            color: #e53e3e;
+        }
+        
+        .vh-time-badge {
+            display: inline-flex;
+            align-items: center;
+            font-size: 13px;
+            background-color: #fff5f5;
+            color: #ff424f;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        
+        .vh-sort-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            background-color: #f3f4f6;
+            color: #4b5563;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+        
+        .vh-sort-btn.active {
+            background-color: #ff424f;
+            color: white;
+        }
+        
+        .vh-sort-btn:hover {
+            background-color: #e5e7eb;
+        }
+        
+        .vh-time-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            background-color: #f3f4f6;
+            color: #4b5563;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+        
+        .vh-time-btn.active {
+            background-color: #ff424f;
+            color: white;
+        }
+        
+        .vh-time-btn:hover {
+            background-color: #e5e7eb;
+        }
+        
+        .vh-clear-btn {
+            transition: all 0.3s ease;
+            background-color: #fef2f2;
+            color: #e53e3e;
+            border: 1px solid #fee2e2;
+        }
+        
+        .vh-clear-btn:hover {
+            background-color: #fee2e2;
+            transform: translateY(-2px);
+        }
+        
+        .vh-product-image {
+            height: 150px;
+            object-fit: cover;
+            width: 100%;
+            background-color: #f9fafb;
+        }
+        
+        .vh-history-icon {
+            color: #ff424f;
+        }
+        
+        .vh-header-badge {
+            background-color: #fff5f5;
+            color: #ff424f;
+        }
+        
+        #empty-state {
+            display: none;
+        }
+
+
+
+
+
+
+
+        /*===================================== CSS CHANGE PASSWORD ============================*/
+        .cp-loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+        
+        .cp-loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #ff424f;
+            width: 50px;
+            height: 50px;
+            animation: cp-spin 1s linear infinite;
+        }
+        
+        @keyframes cp-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .cp-success-alert {
+            background-color: #f0fdf4;
+            border-left: 4px solid #16a34a;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.375rem;
+        }
+        
+        .cp-password-container {
+            position: relative;
+        }
+        
+        .cp-toggle-password {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6b7280;
+        }
+        
+        .cp-password-strength-meter {
+            height: 6px;
+            background-color: #e5e7eb;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        
+        .cp-strength-bar {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+        
+        .cp-requirement-item.valid i {
+            color: #16a34a;
+        }
+        
+        .cp-requirement-item.valid {
+            color: #16a34a;
+        }
+        
+        .cp-error-message {
+            margin-top: 0.25rem;
+            color: #ef4444;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        #cp-content {
+            min-height: 100vh;
+        }
+
+
+
+
+
+
+
+
+
+        /*========================================= CSS NOTIFICATION ===========================*/
+        .nt-tab-item {
+        transition: all 0.3s ease;
+        }
+
+        .nt-tab-item.active {
+        background-color: #fff5f5;
+        color: #ff424f;
+        border-bottom: 2px solid #ff424f;
+        font-weight: 600; 
+        }
+        
+        .nt-count-badge {
+            min-width: 24px;
+            height: 24px;
+            background-color: #ff424f;
+            color: white;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .nt-filter-btn.active {
+            background-color: #ff424f;
+            color: white;
+        }
+        
+        .nt-notification-card.unread {
+            background-color: #fff5f5;
+        }
+        
+        .nt-notification-badge {
+            width: 8px;
+            height: 8px;
+            background-color: #ff424f;
+            border-radius: 9999px;
+        }
+        
+        .nt-notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+        
+        .nt-notification-icon.order {
+            background-color: #dbeafe;
+            color: #3b82f6;
+        }
+        
+        .nt-notification-icon.promotion {
+            background-color: #ffedd5;
+            color: #f97316;
+        }
+        
+        .nt-notification-icon.wallet {
+            background-color: #dcfce7;
+            color: #22c55e;
+        }
+        
+        .nt-notification-icon.system {
+            background-color: #f3e8ff;
+            color: #8b5cf6;
+        }
+        
+        .nt-empty-notifications {
+            display: none;
+        }
+
+
+
+
+
+
+
+        /*===================================== CSS POINT =====================================*/
+        .point-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .progress-fill {
+            height: 8px;
+            background-color: white;
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+        
+        .point-history-item:hover {
+            background-color: #f9fafb;
+        }
+        
+        .earn-point-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .level-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .level-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .point-btn {
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .point-btn-primary {
+            background-color: #ff424f;
+            color: white;
+            border: none;
+        }
+        
+        .point-btn-primary:hover {
+            background-color: #e53e3e;
+            transform: translateY(-2px);
+        }
+        
+        .point-btn-outline {
+            background-color: transparent;
+            color: #ff424f;
+            border: 1px solid #ff424f;
+        }
+        
+        .point-btn-outline:hover {
+            background-color: #fff5f5;
+            transform: translateY(-2px);
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            background-color: #f3f4f6;
+            color: #4b5563;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .filter-btn.active {
+            background-color: #ff424f;
+            color: white;
+        }
+        
+        .filter-btn:hover {
+            background-color: #e5e7eb;
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            padding: 20px;
+            background: #ff424f;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .gift-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .gift-card:hover {
+            border-color: #ff424f;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .privilege-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .privilege-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .history-item {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .point-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .point-earn {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .point-use {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .task-item:hover {
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }

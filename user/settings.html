@@ -7,16 +7,182 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/user.css">
+    <style>
+        /* CSS cho trang settings với tiền tố st- */
+        .st-loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+        
+        .st-loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #ff424f;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        
+        .st-delete-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .st-delete-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .st-modal-content {
+            background-color: white;
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .st-tab-btn {
+            padding: 1rem 1.5rem;
+            font-weight: 500;
+            color: #4b5563;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .st-tab-btn.active {
+            color: #ff424f;
+            border-bottom-color: #ff424f;
+        }
+        
+        .st-setting-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+        }
+        
+        .st-language-option {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .st-language-option.active {
+            background-color: #f0f7ff;
+        }
+        
+        .st-security-level {
+            height: 8px;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .st-security-level-bar {
+            height: 100%;
+            border-radius: 4px;
+            background-color: #10b981; /* Màu xanh lá cho bảo mật cao */
+        }
+        
+        .st-toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .st-toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .st-toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .st-toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .st-toggle-slider {
+            background-color: #ff424f;
+        }
+        
+        input:checked + .st-toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        .st-danger-zone {
+            background-color: #fef2f2;
+            border: 1px solid #fee2e2;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        /* Sửa lỗi không hiển thị tab */
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
     <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loading-overlay">
-        <div class="loading-spinner"></div>
+    <div class="st-loading-overlay hidden" id="loading-overlay">
+        <div class="st-loading-spinner"></div>
     </div>
 
     <!-- Delete Account Modal -->
-    <div class="delete-account-modal" id="delete-account-modal">
-        <div class="modal-content">
+    <div class="st-delete-modal hidden" id="delete-account-modal">
+        <div class="st-modal-content">
             <h3 class="text-xl font-bold text-gray-800 mb-4">Xác nhận xóa tài khoản</h3>
             
             <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
@@ -52,7 +218,7 @@
                 </button>
                 <button 
                     id="confirm-delete" 
-                    class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors danger-btn"
+                    class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
                 >
                     <i class="fas fa-trash-alt mr-2"></i> Xóa tài khoản
                 </button>
@@ -78,12 +244,12 @@
     <!-- Settings Tabs -->
     <div class="bg-white rounded-lg shadow-md mb-6">
         <!-- Tab Navigation -->
-        <div class="flex border-b">
-            <button class="tab-btn px-6 py-4 font-medium" data-tab="account">Thông tin tài khoản</button>
-            <button class="tab-btn px-6 py-4 font-medium" data-tab="security">Bảo mật</button>
-            <button class="tab-btn px-6 py-4 font-medium" data-tab="notifications">Thông báo</button>
-            <button class="tab-btn px-6 py-4 font-medium" data-tab="language">Ngôn ngữ & Vùng</button>
-            <button class="tab-btn px-6 py-4 font-medium" data-tab="privacy">Quyền riêng tư</button>
+        <div class="flex border-b overflow-x-auto">
+            <button class="st-tab-btn whitespace-nowrap active" data-tab="account">Thông tin tài khoản</button>
+            <button class="st-tab-btn whitespace-nowrap" data-tab="security">Bảo mật</button>
+            <button class="st-tab-btn whitespace-nowrap" data-tab="notifications">Thông báo</button>
+            <button class="st-tab-btn whitespace-nowrap" data-tab="language">Ngôn ngữ & Vùng</button>
+            <button class="st-tab-btn whitespace-nowrap" data-tab="privacy">Quyền riêng tư</button>
         </div>
         
         <!-- Tab Contents -->
@@ -92,7 +258,7 @@
             <div class="tab-content active" id="account-tab">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Account Info -->
-                    <div class="setting-card bg-white rounded-lg p-6">
+                    <div class="st-setting-card">
                         <h2 class="text-xl font-bold text-gray-800 mb-4">Thông tin tài khoản</h2>
                         
                         <div class="flex items-center mb-6">
@@ -156,17 +322,17 @@
                     </div>
                     
                     <!-- Account Preferences -->
-                    <div class="setting-card bg-white rounded-lg p-6">
+                    <div class="st-setting-card">
                         <h2 class="text-xl font-bold text-gray-800 mb-4">Tùy chọn tài khoản</h2>
                         
                         <div class="space-y-6">
                             <div>
                                 <label class="block text-gray-700 font-medium mb-2">Chủ đề</label>
                                 <div class="flex gap-4">
-                                    <button class="px-4 py-3 bg-blue-600 text-white rounded-lg flex-1">
+                                    <button class="theme-btn px-4 py-3 bg-blue-600 text-white rounded-lg flex-1">
                                         <i class="fas fa-sun mr-2"></i> Sáng
                                     </button>
-                                    <button class="px-4 py-3 bg-gray-800 text-white rounded-lg flex-1">
+                                    <button class="theme-btn px-4 py-3 bg-gray-100 text-gray-800 rounded-lg flex-1">
                                         <i class="fas fa-moon mr-2"></i> Tối
                                     </button>
                                 </div>
@@ -186,25 +352,25 @@
                                 <div class="space-y-3">
                                     <div class="flex items-center justify-between">
                                         <span>Hiển thị sản phẩm đã xem gần đây</span>
-                                        <label class="toggle-switch">
+                                        <label class="st-toggle-switch">
                                             <input type="checkbox" checked>
-                                            <span class="toggle-slider"></span>
+                                            <span class="st-toggle-slider"></span>
                                         </label>
                                     </div>
                                     
                                     <div class="flex items-center justify-between">
                                         <span>Hiển thị sản phẩm đã yêu thích</span>
-                                        <label class="toggle-switch">
+                                        <label class="st-toggle-switch">
                                             <input type="checkbox" checked>
-                                            <span class="toggle-slider"></span>
+                                            <span class="st-toggle-slider"></span>
                                         </label>
                                     </div>
                                     
                                     <div class="flex items-center justify-between">
                                         <span>Hiển thị đề xuất sản phẩm</span>
-                                        <label class="toggle-switch">
+                                        <label class="st-toggle-switch">
                                             <input type="checkbox">
-                                            <span class="toggle-slider"></span>
+                                            <span class="st-toggle-slider"></span>
                                         </label>
                                     </div>
                                 </div>
@@ -218,15 +384,15 @@
             <div class="tab-content" id="security-tab">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Password & Security -->
-                    <div class="setting-card bg-white rounded-lg p-6">
+                    <div class="st-setting-card">
                         <h2 class="text-xl font-bold text-gray-800 mb-4">Mật khẩu & Bảo mật</h2>
                         
                         <div class="mb-6">
                             <h3 class="font-medium text-gray-700 mb-2">Mức độ bảo mật</h3>
-                            <div class="security-level mb-1">
-                                <div class="security-level-bar bg-green-500" style="width: 85%"></div>
+                            <div class="st-security-level mb-1">
+                                <div class="st-security-level-bar" style="width: 85%"></div>
                             </div>
-                            <div class="security-level-text text-green-600">
+                            <div class="text-green-600">
                                 <i class="fas fa-shield-alt mr-1"></i> Bảo mật cao
                             </div>
                         </div>
@@ -247,9 +413,9 @@
                                     <h3 class="font-medium text-gray-800">Xác thực 2 bước</h3>
                                     <p class="text-gray-600 text-sm">Hiện đang tắt</p>
                                 </div>
-                                <label class="toggle-switch">
+                                <label class="st-toggle-switch">
                                     <input type="checkbox">
-                                    <span class="toggle-slider"></span>
+                                    <span class="st-toggle-slider"></span>
                                 </label>
                             </div>
                             
@@ -276,7 +442,7 @@
                     </div>
                     
                     <!-- Session Management -->
-                    <div class="setting-card bg-white rounded-lg p-6">
+                    <div class="st-setting-card">
                         <h2 class="text-xl font-bold text-gray-800 mb-4">Quản lý phiên đăng nhập</h2>
                         
                         <div class="mb-6">
@@ -349,7 +515,7 @@
             <div class="tab-content" id="notifications-tab">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Notification Preferences -->
-                    <div class="setting-card bg-white rounded-lg p-6">
+                    <div class="st-setting-card">
                         <h2 class="text-xl font-bold text-gray-800 mb-4">Tùy chỉnh thông báo</h2>
                         
                         <div class="space-y-6">
@@ -358,33 +524,33 @@
                                 <div class="space-y-3">
                                     <div class="flex items-center justify-between">
                                         <span>Khuyến mãi và ưu đãi đặc biệt</span>
-                                        <label class="toggle-switch">
+                                        <label class="st-toggle-switch">
                                             <input type="checkbox" checked>
-                                            <span class="toggle-slider"></span>
+                                            <span class="st-toggle-slider"></span>
                                         </label>
                                     </div>
                                     
                                     <div class="flex items-center justify-between">
                                         <span>Cập nhật đơn hàng</span>
-                                        <label class="toggle-switch">
+                                        <label class="st-toggle-switch">
                                             <input type="checkbox" checked>
-                                            <span class="toggle-slider"></span>
+                                            <span class="st-toggle-slider"></span>
                                         </label>
                                     </div>
                                     
                                     <div class="flex items-center justify-between">
                                         <span>Sản phẩm mới phù hợp</span>
-                                        <label class="toggle-switch">
+                                        <label class="st-toggle-switch">
                                             <input type="checkbox">
-                                            <span class="toggle-slider"></span>
+                                            <span class="st-toggle-slider"></span>
                                         </label>
                                     </div>
                                     
                                     <div class="flex items-center justify-between">
                                         <span>Tin tức và cập nhật</span>
-                                        <label class="toggle-switch">
+                                        <label class="st-toggle-switch">
                                             <input type="checkbox" checked>
-                                            <span class="toggle-slider"></span>
+                                            <span class="st-toggle-slider"></span>
                                         </label>
                                     </div>
                                 </div>
@@ -395,33 +561,33 @@
                                 <div class="space-y-3">
                                     <div class="flex items-center justify-between">
                                         <span>Thông báo khuyến mãi</span>
-                                        <label class="toggle-switch">
+                                        <label class="st-toggle-switch">
                                             <input type="checkbox" checked>
-                                            <span class="toggle-slider"></span>
+                                            <span class="st-toggle-slider"></span>
                                         </label>
                                     </div>
                                     
                                     <div class="flex items-center justify-between">
                                         <span>Thông báo đơn hàng</span>
-                                        <label class="toggle-switch">
+                                        <label class="st-toggle-switch">
                                             <input type="checkbox" checked>
-                                            <span class="toggle-slider"></span>
+                                            <span class="st-toggle-slider"></span>
                                         </label>
                                     </div>
                                     
                                     <div class="flex items-center justify-between">
                                         <span>Thông báo giao hàng</span>
-                                        <label class="toggle-switch">
+                                        <label class="st-toggle-switch">
                                             <input type="checkbox" checked>
-                                            <span class="toggle-slider"></span>
+                                            <span class="st-toggle-slider"></span>
                                         </label>
                                     </div>
                                     
                                     <div class="flex items-center justify-between">
                                         <span>Nhắc nhở đánh giá sản phẩm</span>
-                                        <label class="toggle-switch">
+                                        <label class="st-toggle-switch">
                                             <input type="checkbox">
-                                            <span class="toggle-slider"></span>
+                                            <span class="st-toggle-slider"></span>
                                         </label>
                                     </div>
                                 </div>
@@ -430,7 +596,7 @@
                     </div>
                     
                     <!-- Notification Methods -->
-                    <div class="setting-card bg-white rounded-lg p-6">
+                    <div class="st-setting-card">
                         <h2 class="text-xl font-bold text-gray-800 mb-4">Phương thức nhận thông báo</h2>
                         
                         <div class="space-y-6">
@@ -490,11 +656,11 @@
             <div class="tab-content" id="language-tab">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Language Preferences -->
-                    <div class="setting-card bg-white rounded-lg p-6">
+                    <div class="st-setting-card">
                         <h2 class="text-xl font-bold text-gray-800 mb-4">Ngôn ngữ</h2>
                         
                         <div class="space-y-4">
-                            <div class="language-option active">
+                            <div class="st-language-option active">
                                 <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
                                     <span class="text-blue-800 font-bold">VI</span>
                                 </div>
@@ -504,7 +670,7 @@
                                 </div>
                             </div>
                             
-                            <div class="language-option">
+                            <div class="st-language-option">
                                 <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mr-4">
                                     <span class="text-gray-800 font-bold">EN</span>
                                 </div>
@@ -514,7 +680,7 @@
                                 </div>
                             </div>
                             
-                            <div class="language-option">
+                            <div class="st-language-option">
                                 <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mr-4">
                                     <span class="text-gray-800 font-bold">ZH</span>
                                 </div>
@@ -527,7 +693,7 @@
                     </div>
                     
                     <!-- Region Preferences -->
-                    <div class="setting-card bg-white rounded-lg p-6">
+                    <div class="st-setting-card">
                         <h2 class="text-xl font-bold text-gray-800 mb-4">Khu vực & Múi giờ</h2>
                         
                         <div class="space-y-6">
@@ -554,10 +720,10 @@
                             <div>
                                 <label class="block text-gray-700 font-medium mb-2">Định dạng ngày giờ</label>
                                 <div class="flex gap-4">
-                                    <button class="px-4 py-3 bg-blue-600 text-white rounded-lg flex-1">
+                                    <button class="date-format-btn px-4 py-3 bg-blue-600 text-white rounded-lg flex-1">
                                         DD/MM/YYYY
                                     </button>
-                                    <button class="px-4 py-3 bg-gray-100 text-gray-800 rounded-lg flex-1">
+                                    <button class="date-format-btn px-4 py-3 bg-gray-100 text-gray-800 rounded-lg flex-1">
                                         MM/DD/YYYY
                                     </button>
                                 </div>
@@ -571,7 +737,7 @@
             <div class="tab-content" id="privacy-tab">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Privacy Preferences -->
-                    <div class="setting-card bg-white rounded-lg p-6">
+                    <div class="st-setting-card">
                         <h2 class="text-xl font-bold text-gray-800 mb-4">Quyền riêng tư</h2>
                         
                         <div class="space-y-6">
@@ -580,33 +746,33 @@
                                 <div class="space-y-3">
                                     <div class="flex items-center justify-between">
                                         <span>Cho phép đề xuất theo hoạt động</span>
-                                        <label class="toggle-switch">
+                                        <label class="st-toggle-switch">
                                             <input type="checkbox" checked>
-                                            <span class="toggle-slider"></span>
+                                            <span class="st-toggle-slider"></span>
                                         </label>
                                     </div>
                                     
                                     <div class="flex items-center justify-between">
                                         <span>Hiển thị tôi trong kết quả tìm kiếm</span>
-                                        <label class="toggle-switch">
+                                        <label class="st-toggle-switch">
                                             <input type="checkbox" checked>
-                                            <span class="toggle-slider"></span>
+                                            <span class="st-toggle-slider"></span>
                                         </label>
                                     </div>
                                     
                                     <div class="flex items-center justify-between">
                                         <span>Cho phép nhắn tin từ người lạ</span>
-                                        <label class="toggle-switch">
+                                        <label class="st-toggle-switch">
                                             <input type="checkbox">
-                                            <span class="toggle-slider"></span>
+                                            <span class="st-toggle-slider"></span>
                                         </label>
                                     </div>
                                     
                                     <div class="flex items-center justify-between">
                                         <span>Chia sẻ dữ liệu với đối tác tiếp thị</span>
-                                        <label class="toggle-switch">
+                                        <label class="st-toggle-switch">
                                             <input type="checkbox">
-                                            <span class="toggle-slider"></span>
+                                            <span class="st-toggle-slider"></span>
                                         </label>
                                     </div>
                                 </div>
@@ -640,11 +806,11 @@
                     </div>
                     
                     <!-- Account Management -->
-                    <div class="setting-card bg-white rounded-lg p-6">
+                    <div class="st-setting-card">
                         <h2 class="text-xl font-bold text-gray-800 mb-4">Quản lý tài khoản</h2>
                         
                         <div class="space-y-6">
-                            <div class="danger-zone p-6 rounded-lg">
+                            <div class="st-danger-zone">
                                 <h3 class="font-bold text-red-600 mb-4">
                                     <i class="fas fa-exclamation-triangle mr-2"></i> Khu vực nguy hiểm
                                 </h3>
@@ -721,67 +887,30 @@
     </div>
 
     <script>
-            // Hàm gửi chiều cao về trang chủ
-        function sendHeightToParent() {
-            const height = Math.max(
-                document.body.scrollHeight,
-                document.body.offsetHeight,
-                document.documentElement.scrollHeight,
-                document.documentElement.offsetHeight
-            );
+        //Hàm gửi chiều cao về trang chủ
+        function updateParentHeight() {
+            const height = document.documentElement.scrollHeight;
             
-            // Gửi chiều cao về trang chủ
             window.parent.postMessage({
-                type: 'resize',
+                type: 'resizeIframe',
                 height: height
             }, '*');
         }
 
-        // Sử dụng requestAnimationFrame để giới hạn tần suất gửi
-        let lastSentHeight = 0;
-        function throttledSendHeight() {
-            const currentHeight = Math.max(
-                document.body.scrollHeight,
-                document.documentElement.scrollHeight
-            );
+        // Gọi khi tải trang
+        document.addEventListener('DOMContentLoaded', function() {
+            updateParentHeight();
             
-            // Chỉ gửi nếu chiều cao thay đổi đáng kể
-            if (Math.abs(currentHeight - lastSentHeight) > 50) {
-                sendHeightToParent();
-                lastSentHeight = currentHeight;
-            }
-            requestAnimationFrame(throttledSendHeight);
-        }
-
-        // Bắt đầu theo dõi
-        throttledSendHeight();
-
-        // Gửi chiều cao khi trang tải xong
-        window.addEventListener('load', () => {
-            setTimeout(sendHeightToParent, 300);
-        });
-
-        // Trả lời khi nhận được yêu cầu từ trang chủ
-        window.addEventListener('message', (event) => {
-            if (event.data === 'getHeight') {
-                throttledSendHeight();
-            }
-        });
-
-        // Theo dõi thay đổi nội dung với MutationObserver
-        const observer = new MutationObserver(() => {
-            throttledSendHeight();
-        });
-
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-            attributes: false,
-            characterData: false
+            // Thêm ResizeObserver để tự động cập nhật
+            const resizeObserver = new ResizeObserver(entries => {
+                updateParentHeight();
+            });
+            
+            resizeObserver.observe(document.body);
         });
   
         // DOM Elements
-        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabBtns = document.querySelectorAll('.st-tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
         const loadingOverlay = document.getElementById('loading-overlay');
         const deleteAccountBtn = document.getElementById('delete-account-btn');
@@ -795,6 +924,8 @@
                 btn.addEventListener('click', function() {
                     // Remove active class from all tabs
                     tabBtns.forEach(b => b.classList.remove('active'));
+                    
+                    // Hide all tab contents
                     tabContents.forEach(c => c.classList.remove('active'));
                     
                     // Add active class to clicked tab
@@ -808,52 +939,58 @@
             
             // Set first tab as active by default
             tabBtns[0].classList.add('active');
-            tabContents[0].classList.add('active');
+            document.getElementById('account-tab').classList.add('active');
         }
         
         // Show/hide loading overlay
         function showLoading() {
-            loadingOverlay.classList.add('active');
+            loadingOverlay.classList.remove('hidden');
         }
         
         function hideLoading() {
-            loadingOverlay.classList.remove('active');
+            loadingOverlay.classList.add('hidden');
         }
         
         // Delete account functionality
-        deleteAccountBtn.addEventListener('click', () => {
-            deleteAccountModal.classList.add('active');
-        });
+        if (deleteAccountBtn) {
+            deleteAccountBtn.addEventListener('click', () => {
+                deleteAccountModal.classList.remove('hidden');
+            });
+        }
         
-        cancelDeleteBtn.addEventListener('click', () => {
-            deleteAccountModal.classList.remove('active');
-        });
+        if (cancelDeleteBtn) {
+            cancelDeleteBtn.addEventListener('click', () => {
+                deleteAccountModal.classList.add('hidden');
+            });
+        }
         
-        confirmDeleteBtn.addEventListener('click', () => {
-            const password = document.getElementById('confirm-delete-password').value;
-            if (!password) {
-                alert('Vui lòng nhập mật khẩu để xác nhận');
-                return;
-            }
-            
-            showLoading();
-            
-            // Simulate API call
-            setTimeout(() => {
-                hideLoading();
-                alert('Tài khoản của bạn đã được xóa thành công.');
-                // In a real app, this would redirect to homepage or login page
-            }, 1500);
-        });
+        if (confirmDeleteBtn) {
+            confirmDeleteBtn.addEventListener('click', () => {
+                const password = document.getElementById('confirm-delete-password').value;
+                if (!password) {
+                    alert('Vui lòng nhập mật khẩu để xác nhận');
+                    return;
+                }
+                
+                showLoading();
+                
+                // Simulate API call
+                setTimeout(() => {
+                    hideLoading();
+                    alert('Tài khoản của bạn đã được xóa thành công.');
+                    // In a real app, this would redirect to homepage or login page
+                }, 1500);
+            });
+        }
         
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', () => {
             initTabs();
             
             // Language selection
-            document.querySelectorAll('.language-option').forEach(option => {
+            document.querySelectorAll('.st-language-option').forEach(option => {
                 option.addEventListener('click', function() {
-                    document.querySelectorAll('.language-option').forEach(opt => {
+                    document.querySelectorAll('.st-language-option').forEach(opt => {
                         opt.classList.remove('active');
                     });
                     this.classList.add('active');
@@ -861,9 +998,21 @@
             });
             
             // Theme selection
-            document.querySelectorAll('.bg-blue-600, .bg-gray-800').forEach(btn => {
+            document.querySelectorAll('.theme-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    document.querySelectorAll('.bg-blue-600, .bg-gray-800').forEach(b => {
+                    document.querySelectorAll('.theme-btn').forEach(b => {
+                        b.classList.remove('bg-blue-600', 'text-white');
+                        b.classList.add('bg-gray-100', 'text-gray-800');
+                    });
+                    this.classList.remove('bg-gray-100', 'text-gray-800');
+                    this.classList.add('bg-blue-600', 'text-white');
+                });
+            });
+            
+            // Date format selection
+            document.querySelectorAll('.date-format-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.date-format-btn').forEach(b => {
                         b.classList.remove('bg-blue-600', 'text-white');
                         b.classList.add('bg-gray-100', 'text-gray-800');
                     });

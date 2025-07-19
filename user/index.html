@@ -44,22 +44,40 @@
             100% { transform: rotate(360deg); }
         }
 
-        .iframe-container {
-            height: auto !important;
-            min-height: 500px;
-        }
-
-        #iframe-loading,
-        #iframe-error {
-            min-height: 500px;
-        }
+        .flex-grow {
+        flex-grow: 1;
+    }
+    
+    .iframe-wrapper {
+        position: relative;
+        min-height: 500px;
+        height: 100%;
+    }
+    
+    #content-iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+    
+    #iframe-loading,
+    #iframe-error {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
     </style>
 </head>
 <body class="min-h-screen bg-gray-50">
 
     <!-- Header -->
     <header class="bg-primary text-white shadow-md">
-        <div class="container mx-auto px-4">
+        <div class="mx-auto px-4">
             <!-- Top Row: User Actions -->
             <div class="flex justify-end items-center py-2 space-x-4 md:space-x-6 text-xs md:text-sm">
                 <a href="/thong-bao" class="hover:text-yellow-200 flex items-center relative" aria-label="Thông báo">
@@ -156,7 +174,7 @@
     <!-- Main Content -->
     <div class="container mx-auto px-4 py-6 flex flex-col lg:flex-row">
         <!-- Sidebar -->
-        <div class="sidebar w-full lg:w-64 bg-white rounded-xl shadow-md lg:mr-6 mb-6 lg:mb-0">
+        <div class="sidebar w-full lg:w-64 rounded-xl lg:mr-6 mb-6 lg:mb-0">
             <!-- Profile Summary -->
             <div class="p-5 border-b border-gray-200">
                 <div class="flex items-center">
@@ -222,10 +240,10 @@
                     <i class="fas fa-bell mr-3 text-lg text-gray-500"></i>
                     <span>Thông báo</span>
                 </a>
-                <a href="reviews.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1 text-gray-700 hover:bg-gray-50 transition-colors">
+                <!-- <a href="reviews.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1 text-gray-700 hover:bg-gray-50 transition-colors">
                     <i class="fas fa-star mr-3 text-lg text-gray-500"></i>
                     <span>Đánh giá</span>
-                </a>
+                </a> -->
                 <a href="point.html" class="sidebar-item flex items-center p-3 rounded-lg mb-1 text-gray-700 hover:bg-gray-50 transition-colors">
                     <i class="fas fa-coins mr-3 text-lg text-gray-500"></i>
                     <span>Điểm</span>
@@ -242,8 +260,8 @@
         </div>
         
         <!-- Main Content Area -->
-        <div class="flex-1">
-            <div class="relative w-full iframe-container bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="flex-1 flex flex-col">
+            <div class="relative w-full bg-white rounded-xl shadow-md overflow-hidden flex-grow">
                 <div id="iframe-loading" class="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-90 z-10">
                     <div class="spinner"></div>
                     <p class="mt-4 text-gray-600 font-medium">Đang tải nội dung...</p>
@@ -258,7 +276,9 @@
                     </button>
                 </div>
                 
-                <iframe id="content-iframe" src="account/profile.html" class="w-full" frameborder="0"></iframe>
+                <div class="iframe-wrapper">
+                    <iframe id="content-iframe" src="settings.html" class="w-full h-full"></iframe>
+                </div>
             </div>
         </div>
     </div>
@@ -379,12 +399,18 @@
         });
 
         window.addEventListener('message', function(event) {
-            if (event.data.type === 'resizeIframe') {
-                const iframe = document.getElementById('content-iframe');
-                // Chỉ cập nhật chiều cao cho iframe
-                iframe.style.height = event.data.height + 'px';
-            }
-        });
+    if (event.data.type === 'resizeIframe') {
+        const iframe = document.getElementById('content-iframe');
+        const container = document.querySelector('.iframe-wrapper');
+        
+        // Cập nhật chiều cao
+        container.style.height = event.data.height + 'px';
+        
+        // Cập nhật min-height cho các trạng thái loading/error
+        document.getElementById('iframe-loading').style.minHeight = event.data.height + 'px';
+        document.getElementById('iframe-error').style.minHeight = event.data.height + 'px';
+    }
+});
     </script>
 </body>
 </html>

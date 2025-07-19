@@ -697,26 +697,26 @@
         });
         
         // Hàm gửi chiều cao về trang chủ
-        function sendHeightToParent() {
-            const height = document.documentElement.scrollHeight;
-            window.parent.postMessage({
-                type: 'resizeIframe',
-                height: height
-            }, '*');
-        }
+        function updateParentHeight() {
+    const height = document.documentElement.scrollHeight;
+    
+    window.parent.postMessage({
+        type: 'resizeIframe',
+        height: height
+    }, '*');
+}
 
-        // Gửi chiều cao khi trang tải xong và khi có thay đổi
-        window.addEventListener('load', sendHeightToParent);
-        window.addEventListener('resize', sendHeightToParent);
-        
-        // Theo dõi thay đổi nội dung
-        const observer = new MutationObserver(sendHeightToParent);
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-            attributes: true,
-            characterData: true
-        });
+// Gọi khi tải trang
+document.addEventListener('DOMContentLoaded', function() {
+    updateParentHeight();
+    
+    // Thêm ResizeObserver để tự động cập nhật
+    const resizeObserver = new ResizeObserver(entries => {
+        updateParentHeight();
+    });
+    
+    resizeObserver.observe(document.body);
+});
     </script>
 </body>
 </html>

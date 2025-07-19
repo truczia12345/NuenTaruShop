@@ -7,502 +7,470 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/user.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff424f',
+                        secondary: '#c43a43',
+                        accent: '#ff6b78',
+                        light: '#f8f9fa',
+                        dark: '#1a202c',
+                        sidebarActive: '#fff5f5'
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(0,0,0,0.08)'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-gray-50 min-h-screen">
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loading-overlay">
-        <div class="loading-spinner"></div>
-    </div>
-
-    <!-- Profile Header -->
-    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-800">Lịch sử xem</h1>
-                <p class="text-gray-600 mt-1">Danh sách sản phẩm bạn đã xem gần đây</p>
-            </div>
-            <div class="mt-4 md:mt-0 flex items-center">
-                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                    <i class="fas fa-clock mr-1"></i> <span id="history-count">12</span> sản phẩm
+<body class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="w-full bg-white shadow-md p-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Lịch sử xem</h1>
+                    <p class="text-gray-600 mt-1">Danh sách sản phẩm bạn đã xem gần đây</p>
+                </div>
+                <div class="mt-4 md:mt-0 flex items-center">
+                    <div class="vh-header-badge px-4 py-2 rounded-full text-sm font-medium flex items-center">
+                        <i class="fas fa-clock mr-2 vh-history-icon"></i> 
+                        <span id="history-count">12</span> sản phẩm
+                    </div>
                 </div>
             </div>
         </div>
     </div>
             
     <!-- Filter and Sort Controls -->
-    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
-        <div class="flex flex-col md:flex-row md:items-center justify-between">
-            <div class="mb-4 md:mb-0">
-                <span class="text-gray-600 mr-3">Lọc theo thời gian:</span>
-                <div class="flex flex-wrap gap-2 mt-2">
-                    <button class="time-filter-btn active" data-filter="all">Tất cả</button>
-                    <button class="time-filter-btn" data-filter="today">Hôm nay</button>
-                    <button class="time-filter-btn" data-filter="week">7 ngày</button>
-                    <button class="time-filter-btn" data-filter="month">30 ngày</button>
+    <div class="w-full bg-white shadow-md p-4 sm:p-6 mt-2">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-center justify-between">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex flex-col">
+                        <span class="text-gray-600 mb-2">Lọc theo thời gian:</span>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="vh-time-btn active" data-filter="all">Tất cả</button>
+                            <button class="vh-time-btn" data-filter="today">Hôm nay</button>
+                            <button class="vh-time-btn" data-filter="week">7 ngày</button>
+                            <button class="vh-time-btn" data-filter="month">30 ngày</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col">
+                    <span class="text-gray-600 mb-2">Sắp xếp:</span>
+                    <div class="flex flex-wrap gap-2">
+                        <button class="vh-sort-btn active" data-sort="newest">Mới nhất</button>
+                        <button class="vh-sort-btn" data-sort="oldest">Cũ nhất</button>
+                    </div>
                 </div>
             </div>
             
-            <div class="flex items-center">
-                <span class="text-gray-600 mr-3">Sắp xếp:</span>
-                <div class="flex flex-wrap gap-2">
-                    <button class="sort-btn active" data-sort="newest">Mới nhất</button>
-                    <button class="sort-btn" data-sort="oldest">Cũ nhất</button>
-                </div>
+            <div class="mt-6 flex justify-end">
+                <button id="clear-history" class="vh-clear-btn px-5 py-3 rounded-lg font-medium flex items-center">
+                    <i class="fas fa-trash-alt mr-2"></i> Xóa toàn bộ lịch sử
+                </button>
             </div>
-        </div>
-        
-        <div class="mt-4 flex justify-end">
-            <button id="clear-history" class="clear-history-btn px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200">
-                <i class="fas fa-trash-alt mr-2"></i> Xóa toàn bộ lịch sử
-            </button>
         </div>
     </div>
             
     <!-- Products List -->
-    <div id="history-container">
-        <!-- Loading Indicator -->
-        <div class="text-center py-12" id="loading-indicator">
-            <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
-            <p class="text-gray-600">Đang tải lịch sử xem...</p>
-        </div>
-        
-        <!-- Empty State -->
-        <div id="empty-state" class="empty-history bg-white rounded-lg shadow-md p-8 text-center hidden">
-            <div class="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                <i class="fas fa-eye-slash text-3xl text-gray-400"></i>
+    <div class="w-full px-4 sm:px-6 py-6">
+        <div class="max-w-7xl mx-auto">
+            <!-- Products Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="history-list">
+                <!-- History Item 1 -->
+                <div class="vh-history-card">
+                    <div class="relative">
+                        <div class="aspect-w-1 aspect-h-1 bg-gray-100 rounded-t-xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1605236453806-6ff36851218e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="iPhone 15 Pro Max" class="vh-product-image">
+                        </div>
+                        
+                        <div class="vh-delete-btn" data-id="1">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="p-5">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-gray-500 text-sm mb-1">Apple</div>
+                                <h3 class="font-bold text-gray-800 mb-2 truncate">iPhone 15 Pro Max 256GB</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-3">
+                            <div class="font-bold text-primary text-lg">28.990.000₫</div>
+                            <div class="ml-2 text-gray-500 text-sm line-through">31.990.000₫</div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="vh-stock-badge vh-stock-in px-3 py-1 rounded-full text-xs"><i class="fas fa-check-circle mr-1"></i> Còn hàng</span>
+                            <span class="vh-time-badge"><i class="far fa-clock mr-1"></i> 3 phút trước</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- History Item 2 -->
+                <div class="vh-history-card">
+                    <div class="relative">
+                        <div class="aspect-w-1 aspect-h-1 bg-gray-100 rounded-t-xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Máy ảnh Sony" class="vh-product-image">
+                        </div>
+                        
+                        <div class="vh-delete-btn" data-id="2">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="p-5">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-gray-500 text-sm mb-1">Sony</div>
+                                <h3 class="font-bold text-gray-800 mb-2 truncate">Máy ảnh Sony Alpha A7 III</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-3">
+                            <div class="font-bold text-primary text-lg">35.990.000₫</div>
+                            <div class="ml-2 text-gray-500 text-sm line-through">38.990.000₫</div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="vh-stock-badge vh-stock-low px-3 py-1 rounded-full text-xs"><i class="fas fa-exclamation-triangle mr-1"></i> Sắp hết</span>
+                            <span class="vh-time-badge"><i class="far fa-clock mr-1"></i> 1 giờ trước</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- History Item 3 -->
+                <div class="vh-history-card">
+                    <div class="relative">
+                        <div class="aspect-w-1 aspect-h-1 bg-gray-100 rounded-t-xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="PlayStation 5" class="vh-product-image">
+                        </div>
+                        
+                        <div class="vh-delete-btn" data-id="3">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="p-5">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-gray-500 text-sm mb-1">Sony</div>
+                                <h3 class="font-bold text-gray-800 mb-2 truncate">Máy chơi game PlayStation 5</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-3">
+                            <div class="font-bold text-primary text-lg">13.990.000₫</div>
+                            <div class="ml-2 text-gray-500 text-sm line-through">14.990.000₫</div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="vh-stock-badge vh-stock-low px-3 py-1 rounded-full text-xs"><i class="fas fa-exclamation-triangle mr-1"></i> Sắp hết</span>
+                            <span class="vh-time-badge"><i class="far fa-clock mr-1"></i> Hôm qua</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- History Item 4 -->
+                <div class="vh-history-card">
+                    <div class="relative">
+                        <div class="aspect-w-1 aspect-h-1 bg-gray-100 rounded-t-xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="MacBook Pro" class="vh-product-image">
+                        </div>
+                        
+                        <div class="vh-delete-btn" data-id="4">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="p-5">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-gray-500 text-sm mb-1">Apple</div>
+                                <h3 class="font-bold text-gray-800 mb-2 truncate">MacBook Pro M2 14-inch 512GB</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-3">
+                            <div class="font-bold text-primary text-lg">38.990.000₫</div>
+                            <div class="ml-2 text-gray-500 text-sm line-through">42.990.000₫</div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="vh-stock-badge vh-stock-in px-3 py-1 rounded-full text-xs"><i class="fas fa-check-circle mr-1"></i> Còn hàng</span>
+                            <span class="vh-time-badge"><i class="far fa-clock mr-1"></i> Hôm qua</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- History Item 5 -->
+                <div class="vh-history-card">
+                    <div class="relative">
+                        <div class="aspect-w-1 aspect-h-1 bg-gray-100 rounded-t-xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Tai nghe Sony" class="vh-product-image">
+                        </div>
+                        
+                        <div class="vh-delete-btn" data-id="5">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="p-5">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-gray-500 text-sm mb-1">Sony</div>
+                                <h3 class="font-bold text-gray-800 mb-2 truncate">Tai nghe Sony WH-1000XM5</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-3">
+                            <div class="font-bold text-primary text-lg">6.990.000₫</div>
+                            <div class="ml-2 text-gray-500 text-sm line-through">7.990.000₫</div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="vh-stock-badge vh-stock-in px-3 py-1 rounded-full text-xs"><i class="fas fa-check-circle mr-1"></i> Còn hàng</span>
+                            <span class="vh-time-badge"><i class="far fa-clock mr-1"></i> 2 ngày trước</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- History Item 6 -->
+                <div class="vh-history-card">
+                    <div class="relative">
+                        <div class="aspect-w-1 aspect-h-1 bg-gray-100 rounded-t-xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Bàn phím Keychron" class="vh-product-image">
+                        </div>
+                        
+                        <div class="vh-delete-btn" data-id="6">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="p-5">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-gray-500 text-sm mb-1">Keychron</div>
+                                <h3 class="font-bold text-gray-800 mb-2 truncate">Bàn phím cơ Keychron K2</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-3">
+                            <div class="font-bold text-primary text-lg">1.890.000₫</div>
+                            <div class="ml-2 text-gray-500 text-sm line-through">2.190.000₫</div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="vh-stock-badge vh-stock-in px-3 py-1 rounded-full text-xs"><i class="fas fa-check-circle mr-1"></i> Còn hàng</span>
+                            <span class="vh-time-badge"><i class="far fa-clock mr-1"></i> 3 ngày trước</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- History Item 7 -->
+                <div class="vh-history-card">
+                    <div class="relative">
+                        <div class="aspect-w-1 aspect-h-1 bg-gray-100 rounded-t-xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Apple Watch" class="vh-product-image">
+                        </div>
+                        
+                        <div class="vh-delete-btn" data-id="7">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="p-5">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-gray-500 text-sm mb-1">Apple</div>
+                                <h3 class="font-bold text-gray-800 mb-2 truncate">Đồng hồ Apple Watch Series 8</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-3">
+                            <div class="font-bold text-primary text-lg">12.990.000₫</div>
+                            <div class="ml-2 text-gray-500 text-sm line-through">14.990.000₫</div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="vh-stock-badge vh-stock-out px-3 py-1 rounded-full text-xs"><i class="fas fa-times-circle mr-1"></i> Hết hàng</span>
+                            <span class="vh-time-badge"><i class="far fa-clock mr-1"></i> 4 ngày trước</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- History Item 8 -->
+                <div class="vh-history-card">
+                    <div class="relative">
+                        <div class="aspect-w-1 aspect-h-1 bg-gray-100 rounded-t-xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Loa Marshall" class="vh-product-image">
+                        </div>
+                        
+                        <div class="vh-delete-btn" data-id="8">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="p-5">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-gray-500 text-sm mb-1">Marshall</div>
+                                <h3 class="font-bold text-gray-800 mb-2 truncate">Loa Marshall Stanmore II</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-3">
+                            <div class="font-bold text-primary text-lg">7.990.000₫</div>
+                            <div class="ml-2 text-gray-500 text-sm line-through">8.990.000₫</div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="vh-stock-badge vh-stock-in px-3 py-1 rounded-full text-xs"><i class="fas fa-check-circle mr-1"></i> Còn hàng</span>
+                            <span class="vh-time-badge"><i class="far fa-clock mr-1"></i> 6 ngày trước</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <h3 class="text-xl font-bold text-gray-700 mb-2">Không có lịch sử xem</h3>
-            <p class="text-gray-500 mb-6">Bạn chưa xem sản phẩm nào gần đây. Hãy bắt đầu khám phá sản phẩm!</p>
-            <a href="/" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-300">
-                Khám phá ngay
-            </a>
         </div>
         
-        <!-- Products Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="history-list">
-            <!-- History items will be loaded here dynamically -->
+        <!-- Pagination -->
+        <div class="w-full mt-10 flex justify-center">
+            <div class="flex items-center gap-3">
+                <button class="px-4 py-2 bg-gray-100 rounded-lg text-gray-600 hover:bg-gray-200">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <button class="px-4 py-2 bg-primary text-white rounded-lg">1</button>
+                <button class="px-4 py-2 bg-gray-100 rounded-lg text-gray-600 hover:bg-gray-200">2</button>
+                <button class="px-4 py-2 bg-gray-100 rounded-lg text-gray-600 hover:bg-gray-200">3</button>
+                
+                <button class="px-4 py-2 bg-gray-100 rounded-lg text-gray-600 hover:bg-gray-200">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
         </div>
     </div>
     
-    <!-- Pagination -->
-    <div id="pagination-container" class="mt-8 flex justify-center hidden">
-        <div class="flex items-center gap-1">
-            <button id="prev-page" class="pagination-btn disabled text-gray-300">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            
-            <button class="pagination-btn active">1</button>
-            
-            <button id="next-page" class="pagination-btn">
-                <i class="fas fa-chevron-right"></i>
-            </button>
+    <!-- Empty State -->
+    <div id="empty-state" class="w-full hidden">
+        <div class="max-w-3xl mx-auto py-16 px-4 text-center">
+            <div class="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                <i class="fas fa-eye-slash text-3xl text-gray-400"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-700 mb-2">Không có lịch sử xem</h3>
+            <p class="text-gray-500 mb-8 max-w-md mx-auto">Bạn chưa xem sản phẩm nào gần đây. Hãy bắt đầu khám phá sản phẩm!</p>
+            <a href="/" class="inline-block bg-primary hover:bg-secondary text-white px-8 py-3 rounded-lg font-medium">
+                Khám phá ngay
+            </a>
         </div>
     </div>
 
     <script>
-            // Hàm gửi chiều cao về trang chủ
-        function sendHeightToParent() {
-            const height = Math.max(
-                document.body.scrollHeight,
-                document.body.offsetHeight,
-                document.documentElement.scrollHeight,
-                document.documentElement.offsetHeight
-            );
+        // Toggle active state for time filter buttons
+        document.querySelectorAll('.vh-time-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.vh-time-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+        
+        // Toggle active state for sort buttons
+        document.querySelectorAll('.vh-sort-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.vh-sort-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+        
+        // Delete history item
+        document.querySelectorAll('.vh-delete-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const card = this.closest('.vh-history-card');
+                const historyCount = document.getElementById('history-count');
+                
+                // Add exit animation
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                // Remove after animation
+                setTimeout(() => {
+                    card.remove();
+                    
+                    // Update history count
+                    const currentCount = parseInt(historyCount.textContent);
+                    historyCount.textContent = currentCount - 1;
+                    
+                    // Show empty state if no items left
+                    if (currentCount - 1 === 0) {
+                        document.getElementById('empty-state').classList.remove('hidden');
+                    }
+                    
+                }, 300);
+            });
+        });
+        
+        // Clear all history
+        document.getElementById('clear-history').addEventListener('click', function() {
+            if (confirm('Bạn có chắc chắn muốn xóa toàn bộ lịch sử xem?')) {
+                const historyCards = document.querySelectorAll('.vh-history-card');
+                const historyCount = document.getElementById('history-count');
+                
+                // Hide all cards with animation
+                historyCards.forEach(card => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                });
+                
+                // Remove all cards after animation
+                setTimeout(() => {
+                    historyCards.forEach(card => card.remove());
+                    
+                    // Update history count
+                    historyCount.textContent = '0';
+                    
+                    // Show empty state
+                    document.getElementById('empty-state').classList.remove('hidden');
+                    
+                }, 300);
+            }
+        });
+        
+        //Hàm gửi chiều cao về trang chủ
+        function updateParentHeight() {
+            const height = document.documentElement.scrollHeight;
             
-            // Gửi chiều cao về trang chủ
             window.parent.postMessage({
-                type: 'resize',
+                type: 'resizeIframe',
                 height: height
             }, '*');
         }
 
-        // Sử dụng requestAnimationFrame để giới hạn tần suất gửi
-        let lastSentHeight = 0;
-        function throttledSendHeight() {
-            const currentHeight = Math.max(
-                document.body.scrollHeight,
-                document.documentElement.scrollHeight
-            );
+        // Gọi khi tải trang
+        document.addEventListener('DOMContentLoaded', function() {
+            updateParentHeight();
             
-            // Chỉ gửi nếu chiều cao thay đổi đáng kể
-            if (Math.abs(currentHeight - lastSentHeight) > 50) {
-                sendHeightToParent();
-                lastSentHeight = currentHeight;
-            }
-            requestAnimationFrame(throttledSendHeight);
-        }
-
-        // Bắt đầu theo dõi
-        throttledSendHeight();
-
-        // Gửi chiều cao khi trang tải xong
-        window.addEventListener('load', () => {
-            setTimeout(sendHeightToParent, 300);
-        });
-
-        // Trả lời khi nhận được yêu cầu từ trang chủ
-        window.addEventListener('message', (event) => {
-            if (event.data === 'getHeight') {
-                throttledSendHeight();
-            }
-        });
-
-        // Theo dõi thay đổi nội dung với MutationObserver
-        const observer = new MutationObserver(() => {
-            throttledSendHeight();
-        });
-
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-            attributes: false,
-            characterData: false
-        });
-  
-        // Sample history data
-        const sampleHistory = [
-            {
-                id: 1,
-                product: {
-                    id: 101,
-                    name: "iPhone 15 Pro Max 256GB",
-                    price: 28990000,
-                    originalPrice: 31990000,
-                    image: "https://cdn2.cellphones.com.vn/x/media/catalog/product/i/p/iphone-15-pro-max_3.png?_gl=1*12v7n5o*_gcl_au*MTEwMDUwOTc1Mi4xNzUwODg4NjM2*_ga*NTA4ODkwNjg0LjE3NTA4ODg2MzY.*_ga_QLK8WFHNK9*czE3NTA4ODg2MzYkbzEkZzEkdDE3NTA4ODg2MzgkajU4JGwwJGgxNjE4ODA2NzEx",
-                    category: "Điện thoại & Phụ kiện",
-                    brand: "Apple",
-                    stock: 15
-                },
-                viewedAt: "2025-06-26 14:30",
-                viewTime: "3 phút trước"
-            },
-            {
-                id: 2,
-                product: {
-                    id: 205,
-                    name: "Máy ảnh Sony Alpha A7 III",
-                    price: 35990000,
-                    originalPrice: 38990000,
-                    image: "https://via.placeholder.com/300x300?text=Sony+Camera",
-                    category: "Máy ảnh",
-                    brand: "Sony",
-                    stock: 5
-                },
-                viewedAt: "2025-06-26 13:45",
-                viewTime: "1 giờ trước"
-            },
-            {
-                id: 3,
-                product: {
-                    id: 307,
-                    name: "Máy chơi game PlayStation 5",
-                    price: 13990000,
-                    originalPrice: 14990000,
-                    image: "https://via.placeholder.com/300x300?text=PlayStation+5",
-                    category: "Đồ chơi & Game",
-                    brand: "Sony",
-                    stock: 3
-                },
-                viewedAt: "2025-06-25 19:20",
-                viewTime: "Hôm qua"
-            },
-            {
-                id: 4,
-                product: {
-                    id: 402,
-                    name: "MacBook Pro M2 14-inch 512GB",
-                    price: 38990000,
-                    originalPrice: 42990000,
-                    image: "https://via.placeholder.com/300x300?text=MacBook+Pro",
-                    category: "Máy tính & Laptop",
-                    brand: "Apple",
-                    stock: 8
-                },
-                viewedAt: "2025-06-25 11:15",
-                viewTime: "Hôm qua"
-            },
-            {
-                id: 5,
-                product: {
-                    id: 503,
-                    name: "Tai nghe Sony WH-1000XM5",
-                    price: 6990000,
-                    originalPrice: 7990000,
-                    image: "https://via.placeholder.com/300x300?text=Sony+Headphones",
-                    category: "Điện thoại & Phụ kiện",
-                    brand: "Sony",
-                    stock: 22
-                },
-                viewedAt: "2025-06-24 16:40",
-                viewTime: "2 ngày trước"
-            },
-            {
-                id: 6,
-                product: {
-                    id: 608,
-                    name: "Bàn phím cơ Keychron K2",
-                    price: 1890000,
-                    originalPrice: 2190000,
-                    image: "https://via.placeholder.com/300x300?text=Keychron+K2",
-                    category: "Máy tính & Laptop",
-                    brand: "Keychron",
-                    stock: 30
-                },
-                viewedAt: "2025-06-23 09:30",
-                viewTime: "3 ngày trước"
-            },
-            {
-                id: 7,
-                product: {
-                    id: 704,
-                    name: "Đồng hồ thông minh Apple Watch Series 8",
-                    price: 12990000,
-                    originalPrice: 14990000,
-                    image: "https://via.placeholder.com/300x300?text=Apple+Watch",
-                    category: "Phụ kiện",
-                    brand: "Apple",
-                    stock: 0
-                },
-                viewedAt: "2025-06-22 18:15",
-                viewTime: "4 ngày trước"
-            },
-            {
-                id: 8,
-                product: {
-                    id: 806,
-                    name: "Loa Marshall Stanmore II",
-                    price: 7990000,
-                    originalPrice: 8990000,
-                    image: "https://via.placeholder.com/300x300?text=Marshall+Speaker",
-                    category: "Âm thanh",
-                    brand: "Marshall",
-                    stock: 12
-                },
-                viewedAt: "2025-06-20 14:00",
-                viewTime: "6 ngày trước"
-            }
-        ];
-        
-        // DOM Elements
-        const historyList = document.getElementById('history-list');
-        const loadingIndicator = document.getElementById('loading-indicator');
-        const emptyState = document.getElementById('empty-state');
-        const paginationContainer = document.getElementById('pagination-container');
-        const loadingOverlay = document.getElementById('loading-overlay');
-        const historyCountElement = document.getElementById('history-count');
-        const sortButtons = document.querySelectorAll('.sort-btn');
-        const timeFilterButtons = document.querySelectorAll('.time-filter-btn');
-        const clearHistoryBtn = document.getElementById('clear-history');
-        
-        // Format currency
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('vi-VN', {
-                style: 'currency',
-                currency: 'VND'
-            }).format(amount);
-        }
-        
-        // Format date
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('vi-VN', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-        }
-        
-        // Render history
-        function renderHistory(historyItems) {
-            loadingIndicator.classList.add('hidden');
-            
-            if (historyItems.length === 0) {
-                emptyState.classList.remove('hidden');
-                historyList.innerHTML = '';
-                paginationContainer.classList.add('hidden');
-                historyCountElement.textContent = '0';
-                return;
-            }
-            
-            emptyState.classList.add('hidden');
-            historyList.innerHTML = '';
-            
-            historyItems.forEach(item => {
-                const product = item.product;
-                const hasDiscount = product.originalPrice > product.price;
-                
-                let stockBadge = '';
-                if (product.stock === 0) {
-                    stockBadge = '<span class="stock-badge out-of-stock"><i class="fas fa-times-circle mr-1"></i> Hết hàng</span>';
-                } else if (product.stock < 5) {
-                    stockBadge = `<span class="stock-badge low-stock"><i class="fas fa-exclamation-triangle mr-1"></i> Sắp hết (${product.stock})</span>`;
-                } else {
-                    stockBadge = '<span class="stock-badge in-stock"><i class="fas fa-check-circle mr-1"></i> Còn hàng</span>';
-                }
-                
-                const historyItem = document.createElement('div');
-                historyItem.className = 'history-item bg-white rounded-lg shadow-md overflow-hidden history-card';
-                historyItem.dataset.id = item.id;
-                
-                historyItem.innerHTML = `
-                    <div class="flex">
-                        <div class="w-1/3 relative">
-                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover vht-product-image">
-                        </div>
-                        
-                        <div class="w-2/3 p-4 flex flex-col">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <div class="text-gray-500 text-sm mb-1">${product.brand}</div>
-                                    <h3 class="font-bold text-gray-800 mb-2">${product.name}</h3>
-                                </div>
-                                <button class="delete-btn text-gray-500 hover:text-red-500" data-id="${item.id}">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                            
-                            <div class="mt-auto">
-                                <div class="flex items-center mb-2">
-                                    <div class="font-bold text-red-600">${formatCurrency(product.price)}</div>
-                                    ${hasDiscount ? `
-                                        <div class="ml-2 text-gray-500 text-sm line-through">${formatCurrency(product.originalPrice)}</div>
-                                    ` : ''}
-                                </div>
-                                
-                                <div class="flex justify-between items-center">
-                                    ${stockBadge}
-                                    <div class="view-time">
-                                        <i class="far fa-clock mr-1"></i> ${item.viewTime}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                historyList.appendChild(historyItem);
+            // Thêm ResizeObserver để tự động cập nhật
+            const resizeObserver = new ResizeObserver(entries => {
+                updateParentHeight();
             });
             
-            attachEventListeners();
-            
-            // Update history count
-            historyCountElement.textContent = historyItems.length;
-            
-            // Show pagination if needed
-            paginationContainer.classList.toggle('hidden', historyItems.length <= 8);
-        }
-        
-        // Attach event listeners
-        function attachEventListeners() {
-            // Delete buttons
-            document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const historyId = this.dataset.id;
-                    removeHistoryItem(historyId);
-                });
-            });
-            
-            // Click on history item
-            document.querySelectorAll('.history-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    const productId = this.dataset.id;
-                    // In a real app, this would navigate to the product page
-                    alert(`Chuyển hướng đến trang sản phẩm ${productId}`);
-                });
-            });
-        }
-        
-        // Remove history item
-        function removeHistoryItem(historyId) {
-            const historyItem = document.querySelector(`.history-item[data-id="${historyId}"]`);
-            
-            if (!historyItem) return;
-            
-            // Show loading overlay
-            showLoading();
-            
-            // Add removing class for animation
-            historyItem.classList.add('removing');
-            
-            // Simulate API call delay
-            setTimeout(() => {
-                // Remove from UI
-                historyItem.remove();
-                
-                // Update history count
-                const items = document.querySelectorAll('.history-item');
-                historyCountElement.textContent = items.length;
-                
-                // Show empty state if no items left
-                if (items.length === 0) {
-                    emptyState.classList.remove('hidden');
-                }
-                
-                hideLoading();
-            }, 500);
-        }
-        
-        // Clear all history
-        function clearAllHistory() {
-            if (confirm('Bạn có chắc chắn muốn xóa toàn bộ lịch sử xem?')) {
-                showLoading();
-                
-                // Simulate API call delay
-                setTimeout(() => {
-                    // Remove all items from UI
-                    document.querySelectorAll('.history-item').forEach(item => {
-                        item.classList.add('removing');
-                    });
-                    
-                    setTimeout(() => {
-                        historyList.innerHTML = '';
-                        emptyState.classList.remove('hidden');
-                        historyCountElement.textContent = '0';
-                        hideLoading();
-                    }, 500);
-                }, 800);
-            }
-        }
-        
-        // Show/hide loading overlay
-        function showLoading() {
-            loadingOverlay.classList.add('active');
-        }
-        
-        function hideLoading() {
-            loadingOverlay.classList.remove('active');
-        }
-        
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            // Sort buttons
-            sortButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    sortButtons.forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    // In a real app, you would sort the history
-                });
-            });
-            
-            // Time filter buttons
-            timeFilterButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    timeFilterButtons.forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    // In a real app, you would filter the history
-                });
-            });
-            
-            // Clear history button
-            clearHistoryBtn.addEventListener('click', clearAllHistory);
-            
-            // Simulate loading history from API
-            setTimeout(() => {
-                renderHistory(sampleHistory);
-            }, 1200);
+            resizeObserver.observe(document.body);
         });
     </script>
 </body>

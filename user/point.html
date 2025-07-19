@@ -7,9 +7,31 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/user.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff424f',
+                        secondary: '#c43a43',
+                        accent: '#ff6b78',
+                        light: '#f8f9fa',
+                        dark: '#1a202c',
+                        sidebarActive: '#fff5f5'
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(0,0,0,0.08)'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body class="min-h-screen bg-gray-50">
-    <div class="point-container p-4 md:p-6">
+    <div class="point-container">
         <!-- Header -->
         <div class="mb-8">
             <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Điểm Tích Lũy</h1>
@@ -17,7 +39,7 @@
         </div>
         
         <!-- Summary Card -->
-        <div class="point-card bg-gradient-to-r from-amber-500 to-yellow-400 text-white mb-8">
+        <div class="bg-gradient-to-r from-amber-500 to-yellow-400 text-white rounded-xl shadow-lg mb-8 overflow-hidden">
             <div class="p-6 md:p-8">
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                     <div class="mb-4 md:mb-0">
@@ -46,15 +68,15 @@
                     <span class="font-medium">Tiến trình lên cấp Vàng</span>
                     <span class="font-bold">250/1000 điểm</span>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-fill bg-white" style="width: 25%"></div>
+                <div class="w-full h-2 bg-white bg-opacity-30 rounded-full overflow-hidden">
+                    <div class="progress-fill bg-white rounded-full" style="width: 25%"></div>
                 </div>
             </div>
         </div>
         
         <!-- Points Value -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="point-card bg-white p-6">
+            <div class="bg-white rounded-xl shadow-md p-6">
                 <div class="flex items-center mb-4">
                     <div class="bg-blue-100 text-blue-600 p-3 rounded-lg mr-4">
                         <i class="fas fa-coins text-xl"></i>
@@ -67,7 +89,7 @@
                 </div>
             </div>
             
-            <div class="point-card bg-white p-6">
+            <div class="bg-white rounded-xl shadow-md p-6">
                 <div class="flex items-center mb-4">
                     <div class="bg-green-100 text-green-600 p-3 rounded-lg mr-4">
                         <i class="fas fa-gift text-xl"></i>
@@ -76,13 +98,13 @@
                 </div>
                 <p class="text-gray-600 mb-4">Sử dụng điểm để đổi voucher và quà tặng độc quyền</p>
                 <div class="text-center">
-                    <button id="view-gifts-btn" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
-                        Xem quà tặng
+                    <button id="view-gifts-btn" class="point-btn point-btn-primary">
+                        <i class="fas fa-gift mr-2"></i> Xem quà tặng
                     </button>
                 </div>
             </div>
             
-            <div class="point-card bg-white p-6">
+            <div class="bg-white rounded-xl shadow-md p-6">
                 <div class="flex items-center mb-4">
                     <div class="bg-purple-100 text-purple-600 p-3 rounded-lg mr-4">
                         <i class="fas fa-clock text-xl"></i>
@@ -100,15 +122,15 @@
         </div>
         
         <!-- Membership Levels -->
-        <div class="point-card bg-white mb-8 overflow-hidden">
+        <div class="bg-white rounded-xl shadow-md mb-8 overflow-hidden">
             <div class="bg-indigo-600 text-white p-5">
-                <div class="flex justify-between items-center">
-                    <div>
+                <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+                    <div class="mb-4 md:mb-0">
                         <h2 class="text-xl font-bold">Cấp độ thành viên</h2>
-                        <p class="opacity-90">Các đặc quyền theo từng cấp độ thành viên</p>
+                        <p>Các đặc quyền theo từng cấp độ thành viên</p>
                     </div>
-                    <button id="view-benefits-btn" class="px-4 py-2 bg-white text-indigo-600 rounded-lg font-medium">
-                        Xem tất cả đặc quyền
+                    <button id="view-privileges-btn" class="point-btn bg-white text-indigo-600 rounded-lg font-medium hover:bg-gray-100">
+                        <i class="fas fa-crown mr-2"></i> Xem đặc quyền
                     </button>
                 </div>
             </div>
@@ -117,7 +139,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                     <!-- Bronze Level -->
                     <div class="text-center p-4 border-2 border-amber-500 rounded-lg relative">
-                        <div class="absolute top-0 right-0 bg-amber-500 text-white px-3 py-1 rounded-bl-lg text-sm">
+                        <div class="absolute top-0 right-0 bg-amber-500 text-white px-3 py-1 rounded-bl-lg text-xs font-medium">
                             Hiện tại
                         </div>
                         <div class="level-icon inline-block bg-amber-100 text-amber-600 p-4 rounded-full mb-3">
@@ -138,7 +160,7 @@
                     </div>
                     
                     <!-- Silver Level -->
-                    <div class="text-center p-4 border-2 border-gray-300 rounded-lg">
+                    <div class="text-center p-4 border-2 border-gray-200 rounded-lg">
                         <div class="level-icon inline-block bg-gray-100 text-gray-600 p-4 rounded-full mb-3">
                             <i class="fas fa-medal text-3xl"></i>
                         </div>
@@ -161,7 +183,7 @@
                     </div>
                     
                     <!-- Gold Level -->
-                    <div class="text-center p-4 border-2 border-gray-300 rounded-lg">
+                    <div class="text-center p-4 border-2 border-gray-200 rounded-lg">
                         <div class="level-icon inline-block bg-gray-100 text-gray-600 p-4 rounded-full mb-3">
                             <i class="fas fa-medal text-3xl"></i>
                         </div>
@@ -184,7 +206,7 @@
                     </div>
                     
                     <!-- Platinum Level -->
-                    <div class="text-center p-4 border-2 border-gray-300 rounded-lg">
+                    <div class="text-center p-4 border-2 border-gray-200 rounded-lg">
                         <div class="level-icon inline-block bg-gray-100 text-gray-600 p-4 rounded-full mb-3">
                             <i class="fas fa-crown text-3xl"></i>
                         </div>
@@ -210,24 +232,24 @@
         </div>
         
         <!-- Points History -->
-        <div class="point-card bg-white mb-8">
+        <div class="bg-white rounded-xl shadow-md mb-8 overflow-hidden">
             <div class="bg-teal-600 text-white p-5">
-                <div class="flex justify-between items-center">
-                    <div>
+                <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+                    <div class="mb-4 md:mb-0">
                         <h2 class="text-xl font-bold">Lịch sử điểm</h2>
-                        <p class="opacity-90">Các giao dịch tích điểm và sử dụng điểm gần đây</p>
+                        <p>Các giao dịch tích điểm và sử dụng điểm gần đây</p>
                     </div>
-                    <button id="view-history-btn" class="px-4 py-2 bg-white text-teal-600 rounded-lg font-medium">
-                        Xem thêm lịch sử
+                    <button id="view-history-btn" class="point-btn bg-white text-teal-600 rounded-lg font-medium hover:bg-gray-100">
+                        <i class="fas fa-history mr-2"></i> Xem lịch sử
                     </button>
                 </div>
             </div>
             
             <div class="p-5">
-                <div class="flex space-x-4 mb-6">
-                    <button class="tab-button px-4 py-2 bg-teal-600 text-white rounded-lg" data-tab="all">Tất cả</button>
-                    <button class="tab-button px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50" data-tab="earned">Kiếm điểm</button>
-                    <button class="tab-button px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50" data-tab="used">Dùng điểm</button>
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <button class="filter-btn active" data-filter="all">Tất cả</button>
+                    <button class="filter-btn" data-filter="earn">Kiếm điểm</button>
+                    <button class="filter-btn" data-filter="use">Dùng điểm</button>
                 </div>
                 
                 <div class="overflow-x-auto">
@@ -241,116 +263,56 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Tab Content: All -->
-                            <tbody class="tab-content active" id="tab-all">
-                                <tr class="point-history-item">
-                                    <td class="p-3">25/06/2024</td>
-                                    <td class="p-3">
-                                        <div class="flex items-center">
-                                            <div class="bg-green-100 text-green-600 p-2 rounded-lg mr-3">
-                                                <i class="fas fa-shopping-cart"></i>
-                                            </div>
-                                            <div>
-                                                <p>Mua hàng - Đơn #DH20240625001</p>
-                                                <p class="text-gray-500 text-xs">Hoàn thành đơn hàng</p>
-                                            </div>
+                            <tr class="point-history-item" data-type="earn">
+                                <td class="p-3">25/06/2024</td>
+                                <td class="p-3">
+                                    <div class="flex items-center">
+                                        <div class="bg-green-100 text-green-600 p-2 rounded-lg mr-3">
+                                            <i class="fas fa-shopping-cart"></i>
                                         </div>
-                                    </td>
-                                    <td class="p-3 text-right text-green-600 font-semibold">+250</td>
-                                    <td class="p-3 text-right font-medium">1,250</td>
-                                </tr>
-                                
-                                <tr class="point-history-item">
-                                    <td class="p-3">20/06/2024</td>
-                                    <td class="p-3">
-                                        <div class="flex items-center">
-                                            <div class="bg-blue-100 text-blue-600 p-2 rounded-lg mr-3">
-                                                <i class="fas fa-comment-alt"></i>
-                                            </div>
-                                            <div>
-                                                <p>Đánh giá sản phẩm</p>
-                                                <p class="text-gray-500 text-xs">iPhone 13 Pro Max</p>
-                                            </div>
+                                        <div>
+                                            <p>Mua hàng - Đơn #DH20240625001</p>
+                                            <p class="text-gray-500 text-xs">Hoàn thành đơn hàng</p>
                                         </div>
-                                    </td>
-                                    <td class="p-3 text-right text-green-600 font-semibold">+50</td>
-                                    <td class="p-3 text-right font-medium">1,000</td>
-                                </tr>
-                                
-                                <tr class="point-history-item">
-                                    <td class="p-3">15/06/2024</td>
-                                    <td class="p-3">
-                                        <div class="flex items-center">
-                                            <div class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
-                                                <i class="fas fa-ticket-alt"></i>
-                                            </div>
-                                            <div>
-                                                <p>Đổi điểm lấy voucher</p>
-                                                <p class="text-gray-500 text-xs">Voucher giảm 10%</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="p-3 text-right text-red-600 font-semibold">-200</td>
-                                    <td class="p-3 text-right font-medium">950</td>
-                                </tr>
-                            </tbody>
+                                    </div>
+                                </td>
+                                <td class="p-3 text-right text-green-600 font-semibold">+250</td>
+                                <td class="p-3 text-right font-medium">1,250</td>
+                            </tr>
                             
-                            <!-- Tab Content: Earned -->
-                            <tbody class="tab-content" id="tab-earned">
-                                <tr class="point-history-item">
-                                    <td class="p-3">25/06/2024</td>
-                                    <td class="p-3">
-                                        <div class="flex items-center">
-                                            <div class="bg-green-100 text-green-600 p-2 rounded-lg mr-3">
-                                                <i class="fas fa-shopping-cart"></i>
-                                            </div>
-                                            <div>
-                                                <p>Mua hàng - Đơn #DH20240625001</p>
-                                                <p class="text-gray-500 text-xs">Hoàn thành đơn hàng</p>
-                                            </div>
+                            <tr class="point-history-item" data-type="earn">
+                                <td class="p-3">20/06/2024</td>
+                                <td class="p-3">
+                                    <div class="flex items-center">
+                                        <div class="bg-blue-100 text-blue-600 p-2 rounded-lg mr-3">
+                                            <i class="fas fa-comment-alt"></i>
                                         </div>
-                                    </td>
-                                    <td class="p-3 text-right text-green-600 font-semibold">+250</td>
-                                    <td class="p-3 text-right font-medium">1,250</td>
-                                </tr>
-                                
-                                <tr class="point-history-item">
-                                    <td class="p-3">20/06/2024</td>
-                                    <td class="p-3">
-                                        <div class="flex items-center">
-                                            <div class="bg-blue-100 text-blue-600 p-2 rounded-lg mr-3">
-                                                <i class="fas fa-comment-alt"></i>
-                                            </div>
-                                            <div>
-                                                <p>Đánh giá sản phẩm</p>
-                                                <p class="text-gray-500 text-xs">iPhone 13 Pro Max</p>
-                                            </div>
+                                        <div>
+                                            <p>Đánh giá sản phẩm</p>
+                                            <p class="text-gray-500 text-xs">iPhone 13 Pro Max</p>
                                         </div>
-                                    </td>
-                                    <td class="p-3 text-right text-green-600 font-semibold">+50</td>
-                                    <td class="p-3 text-right font-medium">1,000</td>
-                                </tr>
-                            </tbody>
+                                    </div>
+                                </td>
+                                <td class="p-3 text-right text-green-600 font-semibold">+50</td>
+                                <td class="p-3 text-right font-medium">1,000</td>
+                            </tr>
                             
-                            <!-- Tab Content: Used -->
-                            <tbody class="tab-content" id="tab-used">
-                                <tr class="point-history-item">
-                                    <td class="p-3">15/06/2024</td>
-                                    <td class="p-3">
-                                        <div class="flex items-center">
-                                            <div class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
-                                                <i class="fas fa-ticket-alt"></i>
-                                            </div>
-                                            <div>
-                                                <p>Đổi điểm lấy voucher</p>
-                                                <p class="text-gray-500 text-xs">Voucher giảm 10%</p>
-                                            </div>
+                            <tr class="point-history-item" data-type="use">
+                                <td class="p-3">15/06/2024</td>
+                                <td class="p-3">
+                                    <div class="flex items-center">
+                                        <div class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
+                                            <i class="fas fa-ticket-alt"></i>
                                         </div>
-                                    </td>
-                                    <td class="p-3 text-right text-red-600 font-semibold">-200</td>
-                                    <td class="p-3 text-right font-medium">950</td>
-                                </tr>
-                            </tbody>
+                                        <div>
+                                            <p>Đổi điểm lấy voucher</p>
+                                            <p class="text-gray-500 text-xs">Voucher giảm 10%</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="p-3 text-right text-red-600 font-semibold">-200</td>
+                                <td class="p-3 text-right font-medium">950</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -358,54 +320,54 @@
         </div>
         
         <!-- Earn More Points -->
-        <div class="point-card bg-white">
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
             <div class="bg-orange-500 text-white p-5">
                 <h2 class="text-xl font-bold">Cách kiếm thêm điểm</h2>
-                <p class="opacity-90">Tăng điểm tích lũy của bạn với các hoạt động đơn giản</p>
+                <p>Tăng điểm tích lũy của bạn với các hoạt động đơn giản</p>
             </div>
             
             <div class="p-5">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="earn-point-card bg-white border border-gray-200 rounded-lg p-5 text-center hover:border-orange-300">
+                    <div class="earn-point-card bg-white border border-gray-200 rounded-lg p-5 text-center transition-all duration-300">
                         <div class="bg-blue-100 text-blue-600 p-4 rounded-full inline-block mb-4">
                             <i class="fas fa-shopping-cart text-3xl"></i>
                         </div>
                         <h3 class="font-bold text-lg mb-2">Mua hàng</h3>
                         <p class="text-gray-600 mb-4">Nhận 1 điểm cho mỗi 10,000 VNĐ chi tiêu</p>
-                        <div class="badge bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium inline-block">
+                        <div class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium inline-block">
                             <i class="fas fa-bolt mr-1"></i> +20% điểm cho thành viên Bạc
                         </div>
                     </div>
                     
-                    <div class="earn-point-card bg-white border border-gray-200 rounded-lg p-5 text-center hover:border-orange-300">
+                    <div class="earn-point-card bg-white border border-gray-200 rounded-lg p-5 text-center transition-all duration-300">
                         <div class="bg-green-100 text-green-600 p-4 rounded-full inline-block mb-4">
                             <i class="fas fa-comment-alt text-3xl"></i>
                         </div>
                         <h3 class="font-bold text-lg mb-2">Đánh giá sản phẩm</h3>
                         <p class="text-gray-600 mb-4">50 điểm cho mỗi đánh giá chất lượng</p>
-                        <div class="badge bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium inline-block">
+                        <div class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium inline-block">
                             Tối đa 5 đánh giá/tuần
                         </div>
                     </div>
                     
-                    <div class="earn-point-card bg-white border border-gray-200 rounded-lg p-5 text-center hover:border-orange-300">
+                    <div class="earn-point-card bg-white border border-gray-200 rounded-lg p-5 text-center transition-all duration-300">
                         <div class="bg-purple-100 text-purple-600 p-4 rounded-full inline-block mb-4">
                             <i class="fas fa-user-plus text-3xl"></i>
                         </div>
                         <h3 class="font-bold text-lg mb-2">Giới thiệu bạn bè</h3>
                         <p class="text-gray-600 mb-4">500 điểm khi bạn bè đăng ký và mua hàng đầu tiên</p>
-                        <div class="badge bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium inline-block">
+                        <div class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium inline-block">
                             <i class="fas fa-gift mr-1"></i> Nhận thêm 200 điểm khi họ mua lần 2
                         </div>
                     </div>
                     
-                    <div class="earn-point-card bg-white border border-gray-200 rounded-lg p-5 text-center hover:border-orange-300">
+                    <div class="earn-point-card bg-white border border-gray-200 rounded-lg p-5 text-center transition-all duration-300">
                         <div class="bg-yellow-100 text-yellow-600 p-4 rounded-full inline-block mb-4">
                             <i class="fas fa-birthday-cake text-3xl"></i>
                         </div>
                         <h3 class="font-bold text-lg mb-2">Điểm sinh nhật</h3>
                         <p class="text-gray-600 mb-4">100 điểm miễn phí vào ngày sinh nhật của bạn</p>
-                        <div class="badge bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-medium inline-block">
+                        <div class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-medium inline-block">
                             Chỉ cần cập nhật thông tin
                         </div>
                     </div>
@@ -418,487 +380,470 @@
                             Bạn có thể kiếm thêm tới 1,000 điểm/tháng từ các hoạt động này!
                         </p>
                     </div>
+                    <div class="flex justify-center gap-4">
+                        <button id="earn-points-btn" class="point-btn point-btn-primary">
+                            <i class="fas fa-plus-circle mr-2"></i> Kiếm điểm
+                        </button>
+                        <button id="use-points-btn" class="point-btn point-btn-outline">
+                            <i class="fas fa-coins mr-2"></i> Dùng điểm
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- Modal: View Gifts -->
-    <div id="gifts-modal" class="modal">
+
+    <!-- Gift Modal -->
+    <div class="modal-overlay" id="gift-modal">
         <div class="modal-content">
-            <div class="bg-green-600 text-white p-5">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-xl font-bold">Quà Tặng Đổi Điểm</h2>
-                    <button class="close-modal text-white text-2xl">&times;</button>
-                </div>
+            <div class="modal-header">
+                <h2 class="modal-title">Quà Tặng Đổi Điểm</h2>
+                <button class="modal-close">&times;</button>
             </div>
-            
-            <div class="p-5">
-                <div class="flex flex-wrap gap-3 mb-6">
-                    <button class="px-4 py-2 bg-green-600 text-white rounded-full">Tất cả</button>
-                    <button class="px-4 py-2 bg-white border border-gray-300 rounded-full hover:bg-gray-50">Voucher</button>
-                    <button class="px-4 py-2 bg-white border border-gray-300 rounded-full hover:bg-gray-50">Sản phẩm</button>
-                    <button class="px-4 py-2 bg-white border border-gray-300 rounded-full hover:bg-gray-50">Đặc quyền</button>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Gift 1 -->
-                    <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
-                        <div class="relative">
-                            <img src="https://images.unsplash.com/photo-1585155770447-2f66e2a397b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
-                                 alt="Voucher 10%" class="w-full h-48 object-cover">
-                            <div class="absolute top-3 right-3 bg-green-600 text-white px-3 py-1 rounded-full text-sm">
-                                Voucher
+            <div class="modal-body">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="gift-card">
+                        <div class="bg-purple-100 p-4">
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-bold text-lg">Voucher Giảm 10%</h3>
+                                <div class="bg-purple-600 text-white px-2 py-1 rounded-full text-xs">100 điểm</div>
                             </div>
+                            <p class="text-gray-600 text-sm mt-2">Giảm 10% cho đơn hàng từ 500.000đ</p>
                         </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-2">Voucher giảm 10%</h3>
-                            <p class="text-gray-600 mb-4">Giảm 10% cho đơn hàng từ 500.000 VNĐ</p>
-                            <div class="flex justify-between items-center">
-                                <div class="font-bold text-xl text-green-600">300 điểm</div>
-                                <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Đổi ngay</button>
-                            </div>
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="text-sm text-gray-500">HSD: 30/07/2024</div>
+                            <button class="point-btn point-btn-primary text-sm">Đổi ngay</button>
                         </div>
                     </div>
                     
-                    <!-- Gift 2 -->
-                    <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
-                        <div class="relative">
-                            <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
-                                 alt="Tai nghe Bluetooth" class="w-full h-48 object-cover">
-                            <div class="absolute top-3 right-3 bg-green-600 text-white px-3 py-1 rounded-full text-sm">
-                                Sản phẩm
+                    <div class="gift-card">
+                        <div class="bg-blue-100 p-4">
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-bold text-lg">Voucher Freeship</h3>
+                                <div class="bg-blue-600 text-white px-2 py-1 rounded-full text-xs">80 điểm</div>
                             </div>
+                            <p class="text-gray-600 text-sm mt-2">Miễn phí vận chuyển toàn quốc</p>
                         </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-2">Tai nghe Bluetooth</h3>
-                            <p class="text-gray-600 mb-4">Tai nghe không dây chất lượng cao</p>
-                            <div class="flex justify-between items-center">
-                                <div class="font-bold text-xl text-green-600">1,200 điểm</div>
-                                <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Đổi ngay</button>
-                            </div>
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="text-sm text-gray-500">HSD: 25/07/2024</div>
+                            <button class="point-btn point-btn-primary text-sm">Đổi ngay</button>
                         </div>
                     </div>
                     
-                    <!-- Gift 3 -->
-                    <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
-                        <div class="relative">
-                            <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
-                                 alt="Miễn phí vận chuyển" class="w-full h-48 object-cover">
-                            <div class="absolute top-3 right-3 bg-green-600 text-white px-3 py-1 rounded-full text-sm">
-                                Đặc quyền
+                    <div class="gift-card">
+                        <div class="bg-green-100 p-4">
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-bold text-lg">Tai nghe Bluetooth</h3>
+                                <div class="bg-green-600 text-white px-2 py-1 rounded-full text-xs">500 điểm</div>
                             </div>
+                            <p class="text-gray-600 text-sm mt-2">Tai nghe không dây cao cấp</p>
                         </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-2">Miễn phí vận chuyển</h3>
-                            <p class="text-gray-600 mb-4">Miễn phí vận chuyển cho đơn hàng tiếp theo</p>
-                            <div class="flex justify-between items-center">
-                                <div class="font-bold text-xl text-green-600">150 điểm</div>
-                                <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Đổi ngay</button>
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="text-sm text-gray-500">Còn 20 sản phẩm</div>
+                            <button class="point-btn point-btn-primary text-sm">Đổi ngay</button>
+                        </div>
+                    </div>
+                    
+                    <div class="gift-card">
+                        <div class="bg-yellow-100 p-4">
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-bold text-lg">Túi xách thời trang</h3>
+                                <div class="bg-yellow-600 text-white px-2 py-1 rounded-full text-xs">400 điểm</div>
                             </div>
+                            <p class="text-gray-600 text-sm mt-2">Túi xách da cao cấp</p>
+                        </div>
+                        <div class="p-4 flex justify-between items-center">
+                            <div class="text-sm text-gray-500">Còn 15 sản phẩm</div>
+                            <button class="point-btn point-btn-primary text-sm">Đổi ngay</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- Modal: View Benefits -->
-    <div id="benefits-modal" class="modal">
+
+    <!-- Privileges Modal -->
+    <div class="modal-overlay" id="privileges-modal">
         <div class="modal-content">
-            <div class="bg-indigo-600 text-white p-5">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-xl font-bold">Tất Cả Đặc Quyền</h2>
-                    <button class="close-modal text-white text-2xl">&times;</button>
-                </div>
+            <div class="modal-header">
+                <h2 class="modal-title">Đặc Quyền Thành Viên</h2>
+                <button class="modal-close">&times;</button>
             </div>
-            
-            <div class="p-5">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                    <div class="bg-indigo-50 p-5 rounded-lg">
-                        <h3 class="font-bold text-lg text-indigo-800 mb-3">Cấp độ Bạc</h3>
-                        <ul class="space-y-2">
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Tích lũy 1.2x điểm</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Giảm thêm 5% khi có voucher</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Quà tặng sinh nhật</span>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-amber-50 p-5 rounded-lg">
-                        <h3 class="font-bold text-lg text-amber-800 mb-3">Cấp độ Vàng</h3>
-                        <ul class="space-y-2">
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Tích lũy 1.5x điểm</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Giảm thêm 10% khi có voucher</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Miễn phí vận chuyển</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Quà tặng sinh nhật</span>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-gray-100 p-5 rounded-lg">
-                        <h3 class="font-bold text-lg text-gray-800 mb-3">Cấp độ Bạch Kim</h3>
-                        <ul class="space-y-2">
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Tích lũy 2x điểm</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Giảm thêm 15% khi có voucher</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Miễn phí vận chuyển</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Hỗ trợ 24/7</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Quà tặng sinh nhật</span>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-purple-50 p-5 rounded-lg">
-                        <h3 class="font-bold text-lg text-purple-800 mb-3">Cấp độ Kim Cương</h3>
-                        <ul class="space-y-2">
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Tích lũy 2.5x điểm</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Giảm thêm 20% khi có voucher</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Miễn phí vận chuyển</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Hỗ trợ 24/7 VIP</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Quà tặng sinh nhật đặc biệt</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Tham gia sự kiện đặc biệt</span>
-                            </li>
-                        </ul>
+            <div class="modal-body">
+                <div class="mb-6">
+                    <h3 class="text-lg font-bold mb-3">Cấp độ hiện tại: <span class="text-amber-600">Bạc</span></h3>
+                    <div class="bg-amber-50 p-4 rounded-lg">
+                        <p>Bạn đang ở cấp độ thành viên Bạc. Hãy tích lũy thêm điểm để lên cấp độ cao hơn và nhận nhiều đặc quyền hơn!</p>
                     </div>
                 </div>
                 
-                <div class="bg-blue-50 p-5 rounded-lg">
-                    <h3 class="font-bold text-lg text-blue-800 mb-3">Lợi ích bổ sung</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="p-3 bg-white rounded-lg">
-                            <div class="flex items-center mb-2">
-                                <div class="bg-blue-100 text-blue-600 p-2 rounded-lg mr-3">
-                                    <i class="fas fa-gift"></i>
-                                </div>
-                                <h4 class="font-bold">Quà tặng sinh nhật</h4>
-                            </div>
-                            <p class="text-gray-600">Nhận điểm hoặc voucher đặc biệt vào ngày sinh nhật của bạn</p>
-                        </div>
-                        
-                        <div class="p-3 bg-white rounded-lg">
-                            <div class="flex items-center mb-2">
-                                <div class="bg-blue-100 text-blue-600 p-2 rounded-lg mr-3">
-                                    <i class="fas fa-ticket-alt"></i>
-                                </div>
-                                <h4 class="font-bold">Voucher độc quyền</h4>
-                            </div>
-                            <p class="text-gray-600">Nhận voucher chỉ dành cho thành viên cao cấp</p>
-                        </div>
-                        
-                        <div class="p-3 bg-white rounded-lg">
-                            <div class="flex items-center mb-2">
-                                <div class="bg-blue-100 text-blue-600 p-2 rounded-lg mr-3">
-                                    <i class="fas fa-shipping-fast"></i>
-                                </div>
-                                <h4 class="font-bold">Giao hàng ưu tiên</h4>
-                            </div>
-                            <p class="text-gray-600">Giao hàng nhanh chóng và ưu tiên cho đơn hàng của bạn</p>
-                        </div>
+                <h3 class="text-lg font-bold mb-3">Đặc quyền theo cấp độ:</h3>
+                
+                <div class="privilege-item">
+                    <div class="bg-amber-100 text-amber-600 p-3 rounded-full mr-3">
+                        <i class="fas fa-medal"></i>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal: View History -->
-    <div id="history-modal" class="modal">
-        <div class="modal-content">
-            <div class="bg-teal-600 text-white p-5">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-xl font-bold">Toàn Bộ Lịch Sử Điểm</h2>
-                    <button class="close-modal text-white text-2xl">&times;</button>
-                </div>
-            </div>
-            
-            <div class="p-5">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
                     <div>
-                        <h3 class="font-bold text-lg mb-2">Bộ lọc lịch sử</h3>
-                        <div class="flex flex-wrap gap-3">
-                            <button class="px-4 py-2 bg-teal-600 text-white rounded-lg">Tất cả</button>
-                            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Kiếm điểm</button>
-                            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Dùng điểm</button>
-                            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Sắp hết hạn</button>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-4 md:mt-0">
-                        <label class="text-gray-600 mb-2">Khoảng thời gian</label>
-                        <div class="flex gap-3">
-                            <select class="px-4 py-2 border border-gray-300 rounded-lg bg-white">
-                                <option>30 ngày gần đây</option>
-                                <option>3 tháng gần đây</option>
-                                <option>6 tháng gần đây</option>
-                                <option>Năm 2024</option>
-                                <option>Tất cả thời gian</option>
-                            </select>
-                            <button class="px-4 py-2 bg-teal-600 text-white rounded-lg">
-                                <i class="fas fa-filter mr-2"></i> Lọc
-                            </button>
-                        </div>
+                        <h4 class="font-bold">Cấp Bạc (250-999 điểm)</h4>
+                        <ul class="list-disc pl-5 mt-2 text-gray-600">
+                            <li>Tích lũy điểm nhanh hơn (1.2x)</li>
+                            <li>Giảm thêm 5% khi sử dụng voucher</li>
+                            <li>Ưu tiên hỗ trợ khách hàng</li>
+                        </ul>
                     </div>
                 </div>
                 
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
-                        <thead class="bg-gray-50 text-gray-600">
-                            <tr>
-                                <th class="p-3 text-left">Ngày</th>
-                                <th class="p-3 text-left">Mô tả</th>
-                                <th class="p-3 text-left">Chi tiết</th>
-                                <th class="p-3 text-right">Điểm</th>
-                                <th class="p-3 text-right">Tổng điểm</th>
-                                <th class="p-3 text-right">Hạn sử dụng</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- 10 history items -->
-                            <tr class="point-history-item">
-                                <td class="p-3">25/06/2024</td>
-                                <td class="p-3 font-medium">Mua hàng</td>
-                                <td class="p-3">Đơn #DH20240625001</td>
-                                <td class="p-3 text-right text-green-600 font-semibold">+250</td>
-                                <td class="p-3 text-right font-medium">1,250</td>
-                                <td class="p-3 text-right">25/06/2025</td>
-                            </tr>
-                            
-                            <tr class="point-history-item">
-                                <td class="p-3">20/06/2024</td>
-                                <td class="p-3 font-medium">Đánh giá sản phẩm</td>
-                                <td class="p-3">iPhone 13 Pro Max</td>
-                                <td class="p-3 text-right text-green-600 font-semibold">+50</td>
-                                <td class="p-3 text-right font-medium">1,000</td>
-                                <td class="p-3 text-right">20/06/2025</td>
-                            </tr>
-                            
-                            <tr class="point-history-item">
-                                <td class="p-3">15/06/2024</td>
-                                <td class="p-3 font-medium">Đổi điểm</td>
-                                <td class="p-3">Voucher giảm 10%</td>
-                                <td class="p-3 text-right text-red-600 font-semibold">-200</td>
-                                <td class="p-3 text-right font-medium">950</td>
-                                <td class="p-3 text-right">-</td>
-                            </tr>
-                            
-                            <tr class="point-history-item">
-                                <td class="p-3">10/06/2024</td>
-                                <td class="p-3 font-medium">Điểm sinh nhật</td>
-                                <td class="p-3">Chúc mừng sinh nhật</td>
-                                <td class="p-3 text-right text-green-600 font-semibold">+100</td>
-                                <td class="p-3 text-right font-medium">1,150</td>
-                                <td class="p-3 text-right">10/06/2025</td>
-                            </tr>
-                            
-                            <tr class="point-history-item">
-                                <td class="p-3">05/06/2024</td>
-                                <td class="p-3 font-medium">Mua hàng</td>
-                                <td class="p-3">Đơn #DH20240605001</td>
-                                <td class="p-3 text-right text-green-600 font-semibold">+150</td>
-                                <td class="p-3 text-right font-medium">1,050</td>
-                                <td class="p-3 text-right">05/06/2025</td>
-                            </tr>
-                            
-                            <!-- More items... -->
-                        </tbody>
-                    </table>
+                <div class="privilege-item">
+                    <div class="bg-yellow-100 text-yellow-600 p-3 rounded-full mr-3">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold">Cấp Vàng (1,000-4,999 điểm)</h4>
+                        <ul class="list-disc pl-5 mt-2 text-gray-600">
+                            <li>Tích lũy điểm nhanh hơn (1.5x)</li>
+                            <li>Giảm thêm 10% khi sử dụng voucher</li>
+                            <li>Miễn phí vận chuyển toàn quốc</li>
+                            <li>Quà tặng sinh nhật đặc biệt</li>
+                        </ul>
+                    </div>
                 </div>
                 
-                <!-- Pagination -->
-                <div class="mt-6 flex justify-center">
-                    <nav class="inline-flex rounded-md shadow">
-                        <a href="#" class="py-2 px-4 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50">
-                            <i class="fas fa-chevron-left"></i>
-                        </a>
-                        <a href="#" class="py-2 px-4 bg-teal-600 text-white border border-gray-300 hover:bg-teal-700">1</a>
-                        <a href="#" class="py-2 px-4 bg-white border border-gray-300 hover:bg-gray-50">2</a>
-                        <a href="#" class="py-2 px-4 bg-white border border-gray-300 hover:bg-gray-50">3</a>
-                        <a href="#" class="py-2 px-4 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50">
-                            <i class="fas fa-chevron-right"></i>
-                        </a>
-                    </nav>
+                <div class="privilege-item">
+                    <div class="bg-gray-100 text-gray-600 p-3 rounded-full mr-3">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold">Cấp Bạch Kim (5,000-9,999 điểm)</h4>
+                        <ul class="list-disc pl-5 mt-2 text-gray-600">
+                            <li>Tích lũy điểm nhanh hơn (2x)</li>
+                            <li>Giảm thêm 15% khi sử dụng voucher</li>
+                            <li>Hỗ trợ khách hàng 24/7</li>
+                            <li>Quà tặng đặc biệt hàng tháng</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="privilege-item">
+                    <div class="bg-blue-100 text-blue-600 p-3 rounded-full mr-3">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold">Cấp Kim Cương (10,000+ điểm)</h4>
+                        <ul class="list-disc pl-5 mt-2 text-gray-600">
+                            <li>Tích lũy điểm nhanh hơn (2.5x)</li>
+                            <li>Giảm thêm 20% khi sử dụng voucher</li>
+                            <li>Dịch vụ chăm sóc VIP</li>
+                            <li>Quà tặng cao cấp hàng quý</li>
+                            <li>Tham gia sự kiện đặc biệt</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
+    <!-- History Modal -->
+    <div class="modal-overlay" id="history-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Lịch Sử Điểm Chi Tiết</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-4 flex gap-2">
+                    <button class="filter-btn active">Tất cả</button>
+                    <button class="filter-btn">Kiếm điểm</button>
+                    <button class="filter-btn">Dùng điểm</button>
+                    <button class="filter-btn">30 ngày qua</button>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-sm">
+                    <div class="history-item">
+                        <div>
+                            <div class="font-bold">Mua hàng - Đơn #DH20240625001</div>
+                            <div class="text-gray-500 text-sm">25/06/2024</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="point-badge point-earn">+250 điểm</div>
+                            <div class="font-medium mt-1">1,250 điểm</div>
+                        </div>
+                    </div>
+                    
+                    <div class="history-item">
+                        <div>
+                            <div class="font-bold">Đánh giá sản phẩm</div>
+                            <div class="text-gray-500 text-sm">20/06/2024</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="point-badge point-earn">+50 điểm</div>
+                            <div class="font-medium mt-1">1,000 điểm</div>
+                        </div>
+                    </div>
+                    
+                    <div class="history-item">
+                        <div>
+                            <div class="font-bold">Đổi điểm lấy voucher</div>
+                            <div class="text-gray-500 text-sm">15/06/2024</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="point-badge point-use">-200 điểm</div>
+                            <div class="font-medium mt-1">950 điểm</div>
+                        </div>
+                    </div>
+                    
+                    <div class="history-item">
+                        <div>
+                            <div class="font-bold">Giới thiệu bạn bè</div>
+                            <div class="text-gray-500 text-sm">10/06/2024</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="point-badge point-earn">+500 điểm</div>
+                            <div class="font-medium mt-1">1,150 điểm</div>
+                        </div>
+                    </div>
+                    
+                    <div class="history-item">
+                        <div>
+                            <div class="font-bold">Sinh nhật thành viên</div>
+                            <div class="text-gray-500 text-sm">01/06/2024</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="point-badge point-earn">+100 điểm</div>
+                            <div class="font-medium mt-1">650 điểm</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earn Points Modal -->
+    <div class="modal-overlay" id="earn-points-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Cách Kiếm Thêm Điểm</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-lg mb-2">Tổng điểm hiện có: <span class="text-primary">1,250 điểm</span></h3>
+                    <p>Hoàn thành các nhiệm vụ dưới đây để kiếm thêm điểm tích lũy!</p>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="task-item">
+                        <div class="bg-green-100 text-green-600 p-3 rounded-full mr-4">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold">Mua hàng trên E-Shop</h4>
+                            <p class="text-gray-600 text-sm">Nhận 1 điểm cho mỗi 10,000 VNĐ chi tiêu</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="point-badge point-earn">+250 điểm</div>
+                            <button class="point-btn point-btn-primary mt-2 text-sm">Thực hiện</button>
+                        </div>
+                    </div>
+                    
+                    <div class="task-item">
+                        <div class="bg-blue-100 text-blue-600 p-3 rounded-full mr-4">
+                            <i class="fas fa-comment-alt"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold">Viết đánh giá sản phẩm</h4>
+                            <p class="text-gray-600 text-sm">50 điểm cho mỗi đánh giá chất lượng</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="point-badge point-earn">+50 điểm</div>
+                            <button class="point-btn point-btn-primary mt-2 text-sm">Thực hiện</button>
+                        </div>
+                    </div>
+                    
+                    <div class="task-item">
+                        <div class="bg-purple-100 text-purple-600 p-3 rounded-full mr-4">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold">Giới thiệu bạn bè</h4>
+                            <p class="text-gray-600 text-sm">500 điểm khi bạn bè đăng ký và mua hàng đầu tiên</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="point-badge point-earn">+500 điểm</div>
+                            <button class="point-btn point-btn-primary mt-2 text-sm">Chia sẻ</button>
+                        </div>
+                    </div>
+                    
+                    <div class="task-item">
+                        <div class="bg-yellow-100 text-yellow-600 p-3 rounded-full mr-4">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold">Đăng nhập 7 ngày liên tiếp</h4>
+                            <p class="text-gray-600 text-sm">Nhận 100 điểm khi đăng nhập 7 ngày liên tiếp</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="point-badge point-earn">+100 điểm</div>
+                            <div class="text-sm text-gray-500 mt-2">3/7 ngày</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Use Points Modal -->
+    <div class="modal-overlay" id="use-points-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Dùng Điểm Tích Lũy</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-6 bg-purple-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-lg mb-2">Số điểm có thể dùng: <span class="text-primary">1,250 điểm</span></h3>
+                    <p>1 điểm = 1.000 VNĐ khi thanh toán</p>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="flex items-start border-b pb-4">
+                        <div class="bg-red-100 text-red-600 p-3 rounded-full mr-4">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold">Thanh toán đơn hàng</h4>
+                            <p class="text-gray-600 text-sm">Sử dụng điểm để giảm trực tiếp vào giá trị đơn hàng</p>
+                        </div>
+                        <button class="point-btn point-btn-primary">Sử dụng</button>
+                    </div>
+                    
+                    <div class="flex items-start border-b pb-4">
+                        <div class="bg-green-100 text-green-600 p-3 rounded-full mr-4">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold">Đổi điểm lấy voucher</h4>
+                            <p class="text-gray-600 text-sm">Đổi điểm để nhận voucher giảm giá đặc biệt</p>
+                        </div>
+                        <button class="point-btn point-btn-primary">Đổi ngay</button>
+                    </div>
+                    
+                    <div class="flex items-start border-b pb-4">
+                        <div class="bg-blue-100 text-blue-600 p-3 rounded-full mr-4">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold">Đổi quà tặng</h4>
+                            <p class="text-gray-600 text-sm">Chọn từ danh sách quà tặng hấp dẫn</p>
+                        </div>
+                        <button class="point-btn point-btn-primary">Xem quà</button>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="bg-yellow-100 text-yellow-600 p-3 rounded-full mr-4">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold">Quy đổi thành tiền mặt</h4>
+                            <p class="text-gray-600 text-sm">Chuyển điểm thành tiền mặt vào ví điện tử</p>
+                        </div>
+                        <button class="point-btn point-btn-primary">Quy đổi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-            // Hàm gửi chiều cao về trang chủ
-        function sendHeightToParent() {
-            const height = Math.max(
-                document.body.scrollHeight,
-                document.body.offsetHeight,
-                document.documentElement.scrollHeight,
-                document.documentElement.offsetHeight
-            );
+        // Modal control functions
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            sendHeightToParent();
+        }
+        
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            sendHeightToParent();
+        }
+        
+        // Modal event listeners
+        document.getElementById('view-gifts-btn').addEventListener('click', () => openModal('gift-modal'));
+        document.getElementById('view-privileges-btn').addEventListener('click', () => openModal('privileges-modal'));
+        document.getElementById('view-history-btn').addEventListener('click', () => openModal('history-modal'));
+        document.getElementById('earn-points-btn').addEventListener('click', () => openModal('earn-points-modal'));
+        document.getElementById('use-points-btn').addEventListener('click', () => openModal('use-points-modal'));
+        
+        // Close modals when clicking close button
+        document.querySelectorAll('.modal-close').forEach(button => {
+            button.addEventListener('click', function() {
+                const modal = this.closest('.modal-overlay');
+                closeModal(modal.id);
+            });
+        });
+        
+        // Close modals when clicking outside
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal(this.id);
+                }
+            });
+        });
+        
+        // Filter history items
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const historyItems = document.querySelectorAll('.point-history-item');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+                
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Filter history items
+                historyItems.forEach(item => {
+                    if (filter === 'all') {
+                        item.style.display = 'table-row';
+                    } else {
+                        if (item.getAttribute('data-type') === filter) {
+                            item.style.display = 'table-row';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+        
+        //Hàm gửi chiều cao về trang chủ
+        function updateParentHeight() {
+            const height = document.documentElement.scrollHeight;
             
-            // Gửi chiều cao về trang chủ
             window.parent.postMessage({
-                type: 'resize',
+                type: 'resizeIframe',
                 height: height
             }, '*');
         }
 
-        // Sử dụng requestAnimationFrame để giới hạn tần suất gửi
-        let lastSentHeight = 0;
-        function throttledSendHeight() {
-            const currentHeight = Math.max(
-                document.body.scrollHeight,
-                document.documentElement.scrollHeight
-            );
-            
-            // Chỉ gửi nếu chiều cao thay đổi đáng kể
-            if (Math.abs(currentHeight - lastSentHeight) > 50) {
-                sendHeightToParent();
-                lastSentHeight = currentHeight;
-            }
-            requestAnimationFrame(throttledSendHeight);
-        }
-
-        // Bắt đầu theo dõi
-        throttledSendHeight();
-
-        // Gửi chiều cao khi trang tải xong
-        window.addEventListener('load', () => {
-            setTimeout(sendHeightToParent, 300);
-        });
-
-        // Trả lời khi nhận được yêu cầu từ trang chủ
-        window.addEventListener('message', (event) => {
-            if (event.data === 'getHeight') {
-                throttledSendHeight();
-            }
-        });
-
-        // Theo dõi thay đổi nội dung với MutationObserver
-        const observer = new MutationObserver(() => {
-            throttledSendHeight();
-        });
-
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-            attributes: false,
-            characterData: false
-        });
-  
-        // Animation for progress bar
+        // Gọi khi tải trang
         document.addEventListener('DOMContentLoaded', function() {
-            // Simulate progress bar animation
-            setTimeout(() => {
-                const progressFill = document.querySelector('.progress-fill');
-                progressFill.style.width = '25%';
-            }, 300);
+            updateParentHeight();
             
-            // Add animation to badges
-            const badges = document.querySelectorAll('.badge');
-            badges.forEach((badge, index) => {
-                setTimeout(() => {
-                    badge.style.animation = 'pulse 2s infinite';
-                }, 500 + (index * 200));
+            // Thêm ResizeObserver để tự động cập nhật
+            const resizeObserver = new ResizeObserver(entries => {
+                updateParentHeight();
             });
             
-            // Tab functionality
-            const tabButtons = document.querySelectorAll('.tab-button');
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    // Remove active class from all buttons
-                    tabButtons.forEach(btn => btn.classList.remove('bg-teal-600', 'text-white'));
-                    
-                    // Add active class to clicked button
-                    button.classList.add('bg-teal-600', 'text-white');
-                    
-                    // Hide all tab contents
-                    document.querySelectorAll('.tab-content').forEach(tab => {
-                        tab.classList.remove('active');
-                    });
-                    
-                    // Show selected tab content
-                    const tabId = button.getAttribute('data-tab');
-                    document.getElementById(`tab-${tabId}`).classList.add('active');
-                });
-            });
-            
-            // Modal functionality
-            const modals = {
-                'view-gifts-btn': 'gifts-modal',
-                'view-benefits-btn': 'benefits-modal',
-                'view-history-btn': 'history-modal'
-            };
-            
-            // Open modals
-            Object.keys(modals).forEach(buttonId => {
-                document.getElementById(buttonId).addEventListener('click', () => {
-                    document.getElementById(modals[buttonId]).style.display = 'flex';
-                });
-            });
-            
-            // Close modals
-            document.querySelectorAll('.close-modal').forEach(button => {
-                button.addEventListener('click', () => {
-                    document.querySelectorAll('.modal').forEach(modal => {
-                        modal.style.display = 'none';
-                    });
-                });
-            });
-            
-            // Close modal when clicking outside
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.style.display = 'none';
-                    }
-                });
-            });
+            resizeObserver.observe(document.body);
         });
     </script>
 </body>

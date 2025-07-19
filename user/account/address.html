@@ -630,29 +630,26 @@
             });
         });
 
-        // Update iframe height
-        function updateAddressHeight() {
-            const height = document.documentElement.scrollHeight;
-            window.parent.postMessage({
-                type: 'resizeIframe',
-                height: height
-            }, '*');
-        }
+        function updateParentHeight() {
+    const height = document.documentElement.scrollHeight;
+    
+    window.parent.postMessage({
+        type: 'resizeIframe',
+        height: height
+    }, '*');
+}
 
-        // Call on load and when content changes
-        window.addEventListener('load', updateAddressHeight);
-        window.addEventListener('resize', updateAddressHeight);
-        
-        // Use MutationObserver for content changes
-        const observer = new MutationObserver(() => {
-            updateAddressHeight();
-        });
-
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-            attributes: true
-        });
+// Gọi khi tải trang
+document.addEventListener('DOMContentLoaded', function() {
+    updateParentHeight();
+    
+    // Thêm ResizeObserver để tự động cập nhật
+    const resizeObserver = new ResizeObserver(entries => {
+        updateParentHeight();
+    });
+    
+    resizeObserver.observe(document.body);
+});
     </script>
 </body>
 </html>

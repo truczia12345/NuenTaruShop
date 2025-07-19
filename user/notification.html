@@ -7,309 +7,333 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/user.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff424f',
+                        secondary: '#c43a43',
+                        accent: '#ff6b78',
+                        light: '#f8f9fa',
+                        dark: '#1a202c',
+                        sidebarActive: '#fff5f5'
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(0,0,0,0.08)'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body class="bg-gray-50 min-h-screen">
-    <!-- Profile Header -->
-    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-800">Thông báo</h1>
-                <p class="text-gray-600 mt-1">Cập nhật mới nhất về đơn hàng, khuyến mãi và hệ thống</p>
-            </div>
-            <div class="mt-4 md:mt-0">
-                <button class="mark-all-read flex items-center text-blue-600">
-                    <i class="fas fa-check-circle mr-2"></i>
-                    <span>Đánh dấu tất cả đã đọc</span>
-                </button>
-            </div>
-        </div>
-    </div>
-            
-    <!-- Notification Tabs -->
-    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
-        <div class="flex overflow-x-auto space-x-6 pb-2">
-            <div class="tab-item active flex items-center px-2 py-3 cursor-pointer" data-tab="all">
-                <i class="fas fa-bell mr-2"></i>
-                <span>Tất cả</span>
-                <span class="count-badge">15</span>
-            </div>
-            
-            <div class="tab-item flex items-center px-2 py-3 cursor-pointer" data-tab="order">
-                <i class="fas fa-shopping-bag mr-2"></i>
-                <span>Cập nhật đơn hàng</span>
-                <span class="count-badge">7</span>
-            </div>
-            
-            <div class="tab-item flex items-center px-2 py-3 cursor-pointer" data-tab="promotion">
-                <i class="fas fa-percentage mr-2"></i>
-                <span>Khuyến mãi</span>
-                <span class="count-badge">5</span>
-            </div>
-            
-            <div class="tab-item flex items-center px-2 py-3 cursor-pointer" data-tab="wallet">
-                <i class="fas fa-wallet mr-2"></i>
-                <span>Cập nhật ví</span>
-                <span class="count-badge">2</span>
-            </div>
-            
-            <div class="tab-item flex items-center px-2 py-3 cursor-pointer" data-tab="system">
-                <i class="fas fa-cog mr-2"></i>
-                <span>Cập nhật hệ thống</span>
-                <span class="count-badge">1</span>
+    <div id="nt-content" class="mx-auto mb-4">
+        <!-- Profile Header -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">Thông báo</h1>
+                    <p class="text-gray-600 mt-1">Cập nhật mới nhất về đơn hàng, khuyến mãi và hệ thống</p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <button id="mark-all-read" class="flex items-center text-primary hover:text-secondary">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <span>Đánh dấu tất cả đã đọc</span>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-            
-    <!-- Filter Controls -->
-    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
-        <div class="flex flex-wrap gap-2">
-            <button class="filter-btn active" data-filter="all">Tất cả</button>
-            <button class="filter-btn" data-filter="unread">Chưa đọc</button>
-            <button class="filter-btn" data-filter="today">Hôm nay</button>
-            <button class="filter-btn" data-filter="week">Tuần này</button>
-        </div>
-    </div>
-            
-    <!-- Notifications List -->
-    <div id="notifications-container" class="bg-white rounded-lg shadow-md">
-        <!-- Empty State -->
-        <div id="empty-state" class="empty-notifications p-8 text-center hidden">
-            <div class="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                <i class="fas fa-bell-slash text-3xl text-gray-400"></i>
+        
+        <!-- Notification Tabs -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6 overflow-x-auto">
+            <div class="flex space-x-6 pb-2 min-w-max">
+                <div class="nt-tab-item flex items-center px-2 py-3 cursor-pointer active" data-tab="all">
+                    <i class="fas fa-bell mr-2"></i>
+                    <span>Tất cả</span>
+                    <span class="nt-count-badge ml-2 flex items-center justify-center">15</span>
+                </div>
+                
+                <div class="nt-tab-item flex items-center px-2 py-3 cursor-pointer" data-tab="order">
+                    <i class="fas fa-shopping-bag mr-2"></i>
+                    <span>Cập nhật đơn hàng</span>
+                    <span class="nt-count-badge ml-2 flex items-center justify-center">7</span>
+                </div>
+                
+                <div class="nt-tab-item flex items-center px-2 py-3 cursor-pointer" data-tab="promotion">
+                    <i class="fas fa-percentage mr-2"></i>
+                    <span>Khuyến mãi</span>
+                    <span class="nt-count-badge ml-2 flex items-center justify-center">5</span>
+                </div>
+                
+                <div class="nt-tab-item flex items-center px-2 py-3 cursor-pointer" data-tab="wallet">
+                    <i class="fas fa-wallet mr-2"></i>
+                    <span>Cập nhật ví</span>
+                    <span class="nt-count-badge ml-2 flex items-center justify-center">2</span>
+                </div>
+                
+                <div class="nt-tab-item flex items-center px-2 py-3 cursor-pointer" data-tab="system">
+                    <i class="fas fa-cog mr-2"></i>
+                    <span>Cập nhật hệ thống</span>
+                    <span class="nt-count-badge ml-2 flex items-center justify-center">1</span>
+                </div>
             </div>
-            <h3 class="text-xl font-bold text-gray-700 mb-2">Không có thông báo nào</h3>
-            <p class="text-gray-500 mb-6">Bạn không có thông báo nào trong danh mục này</p>
+        </div>
+        
+        <!-- Filter Controls -->
+        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+            <div class="flex flex-wrap gap-2">
+                <button class="nt-filter-btn px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200" data-filter="all">Tất cả</button>
+                <button class="nt-filter-btn px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200" data-filter="unread">Chưa đọc</button>
+                <button class="nt-filter-btn px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200" data-filter="today">Hôm nay</button>
+                <button class="nt-filter-btn px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200" data-filter="week">Tuần này</button>
+            </div>
         </div>
         
         <!-- Notifications List -->
-        <div class="content-container" id="notifications-list">
-            <!-- Order Notifications -->
-            <div class="notification-card unread p-4 border-b border-gray-100" data-type="order">
-                <div class="flex items-start">
-                    <div class="notification-icon order">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <div class="flex items-center">
-                                    <span class="notification-badge"></span>
-                                    <h3 class="font-bold text-gray-800">Đơn hàng #DH230625 đang trên đường giao đến bạn</h3>
+        <div id="notifications-container" class="bg-white rounded-lg shadow-md">
+            <!-- Empty State -->
+            <div id="empty-state" class="nt-empty-notifications p-8 text-center">
+                <div class="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-bell-slash text-3xl text-gray-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-700 mb-2">Không có thông báo nào</h3>
+                <p class="text-gray-500 mb-6">Bạn không có thông báo nào trong danh mục này</p>
+            </div>
+            
+            <!-- Notifications List -->
+            <div id="notifications-list">
+                <!-- Order Notifications -->
+                <div class="nt-notification-card unread p-4 border-b border-gray-100" data-type="order">
+                    <div class="flex items-start">
+                        <div class="nt-notification-icon order">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="flex items-center">
+                                        <span class="nt-notification-badge mr-2"></span>
+                                        <h3 class="font-bold text-gray-800">Đơn hàng #DH230625 đang trên đường giao đến bạn</h3>
+                                    </div>
+                                    <p class="text-gray-600 mt-1">Đơn hàng của bạn đã được giao cho đơn vị vận chuyển. Dự kiến giao hàng: 28/06/2025</p>
                                 </div>
-                                <p class="text-gray-600 mt-1">Đơn hàng của bạn đã được giao cho đơn vị vận chuyển. Dự kiến giao hàng: 28/06/2025</p>
+                                <span class="text-gray-500 text-sm whitespace-nowrap">10 phút trước</span>
                             </div>
-                            <span class="time-ago">10 phút trước</span>
-                        </div>
-                        
-                        <div class="mt-3 flex space-x-2">
-                            <button class="text-sm px-3 py-1 bg-blue-100 text-blue-800 rounded-full hover:bg-blue-200">
-                                Theo dõi đơn hàng
-                            </button>
+                            
+                            <div class="mt-3 flex space-x-2">
+                                <button class="text-sm px-3 py-1 bg-blue-100 text-blue-800 rounded-full hover:bg-blue-200">
+                                    Theo dõi đơn hàng
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="notification-card unread p-4 border-b border-gray-100" data-type="order">
-                <div class="flex items-start">
-                    <div class="notification-icon order">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <div class="flex items-center">
-                                    <span class="notification-badge"></span>
-                                    <h3 class="font-bold text-gray-800">Đơn hàng #DH230624 đã giao thành công</h3>
+                
+                <div class="nt-notification-card unread p-4 border-b border-gray-100" data-type="order">
+                    <div class="flex items-start">
+                        <div class="nt-notification-icon order">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="flex items-center">
+                                        <span class="nt-notification-badge mr-2"></span>
+                                        <h3 class="font-bold text-gray-800">Đơn hàng #DH230624 đã giao thành công</h3>
+                                    </div>
+                                    <p class="text-gray-600 mt-1">Đơn hàng iPhone 15 Pro Max 256GB của bạn đã được giao thành công lúc 15:23 ngày 25/06/2025</p>
                                 </div>
-                                <p class="text-gray-600 mt-1">Đơn hàng iPhone 15 Pro Max 256GB của bạn đã được giao thành công lúc 15:23 ngày 25/06/2025</p>
+                                <span class="text-gray-500 text-sm whitespace-nowrap">2 giờ trước</span>
                             </div>
-                            <span class="time-ago">2 giờ trước</span>
-                        </div>
-                        
-                        <div class="mt-3 flex space-x-2">
-                            <button class="text-sm px-3 py-1 bg-blue-100 text-blue-800 rounded-full hover:bg-blue-200">
-                                Đánh giá sản phẩm
-                            </button>
+                            
+                            <div class="mt-3 flex space-x-2">
+                                <button class="text-sm px-3 py-1 bg-blue-100 text-blue-800 rounded-full hover:bg-blue-200">
+                                    Đánh giá sản phẩm
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Promotion Notifications -->
-            <div class="notification-card unread p-4 border-b border-gray-100" data-type="promotion">
-                <div class="flex items-start">
-                    <div class="notification-icon promotion">
-                        <i class="fas fa-tag"></i>
-                    </div>
-                    
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <div class="flex items-center">
-                                    <span class="notification-badge"></span>
-                                    <h3 class="font-bold text-gray-800">MÃ SHOPEE CHOICE VỀ VÍ</h3>
+                
+                <!-- Promotion Notifications -->
+                <div class="nt-notification-card unread p-4 border-b border-gray-100" data-type="promotion">
+                    <div class="flex items-start">
+                        <div class="nt-notification-icon promotion">
+                            <i class="fas fa-tag"></i>
+                        </div>
+                        
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="flex items-center">
+                                        <span class="nt-notification-badge mr-2"></span>
+                                        <h3 class="font-bold text-gray-800">MÃ SHOPEE CHOICE VỀ VÍ</h3>
+                                    </div>
+                                    <p class="text-gray-600 mt-1">Bạn đã nhận voucher giảm ngay 25% khi mua hàng tại Shopee Choice! Hiệu lực từ ngày: 27-06-2025 → Bấm để xem Shopee Choice!</p>
                                 </div>
-                                <p class="text-gray-600 mt-1">Bạn đã nhận voucher giảm ngay 25% khi mua hàng tại Shopee Choice! Hiệu lực từ ngày: 27-06-2025 → Bấm để xem Shopee Choice!</p>
+                                <span class="text-gray-500 text-sm whitespace-nowrap">5 giờ trước</span>
                             </div>
-                            <span class="time-ago">5 giờ trước</span>
-                        </div>
-                        
-                        <div class="mt-3 flex space-x-2">
-                            <button class="text-sm px-3 py-1 bg-orange-100 text-orange-800 rounded-full hover:bg-orange-200">
-                                Sử dụng ngay
-                            </button>
+                            
+                            <div class="mt-3 flex space-x-2">
+                                <button class="text-sm px-3 py-1 bg-orange-100 text-orange-800 rounded-full hover:bg-orange-200">
+                                    Sử dụng ngay
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="notification-card p-4 border-b border-gray-100" data-type="promotion">
-                <div class="flex items-start">
-                    <div class="notification-icon promotion">
-                        <i class="fas fa-gift"></i>
-                    </div>
-                    
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h3 class="font-bold text-gray-800">Siêu Sale Cuối Tuần - Giảm đến 50%</h3>
-                                <p class="text-gray-600 mt-1">Cơ hội cuối cùng! Hàng ngàn sản phẩm giảm giá sâu, đặc biệt điện thoại, laptop, đồ gia dụng. Chương trình kết thúc 23:59 ngày 27/06/2025</p>
-                            </div>
-                            <span class="time-ago">1 ngày trước</span>
+                
+                <div class="nt-notification-card p-4 border-b border-gray-100" data-type="promotion">
+                    <div class="flex items-start">
+                        <div class="nt-notification-icon promotion">
+                            <i class="fas fa-gift"></i>
                         </div>
                         
-                        <div class="mt-3 flex space-x-2">
-                            <button class="text-sm px-3 py-1 bg-orange-100 text-orange-800 rounded-full hover:bg-orange-200">
-                Xem sản phẩm
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Wallet Notifications -->
-            <div class="notification-card unread p-4 border-b border-gray-100" data-type="wallet">
-                <div class="flex items-start">
-                    <div class="notification-icon wallet">
-                        <i class="fas fa-coins"></i>
-                    </div>
-                    
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <div class="flex items-center">
-                                    <span class="notification-badge"></span>
-                                    <h3 class="font-bold text-gray-800">Giao dịch hoàn tiền thành công</h3>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-bold text-gray-800">Siêu Sale Cuối Tuần - Giảm đến 50%</h3>
+                                    <p class="text-gray-600 mt-1">Cơ hội cuối cùng! Hàng ngàn sản phẩm giảm giá sâu, đặc biệt điện thoại, laptop, đồ gia dụng. Chương trình kết thúc 23:59 ngày 27/06/2025</p>
                                 </div>
-                                <p class="text-gray-600 mt-1">Hoàn tiền đơn hàng #DH230623 đã thành công. Số tiền 350.000đ đã được chuyển vào ví E-Shop của bạn</p>
+                                <span class="text-gray-500 text-sm whitespace-nowrap">1 ngày trước</span>
                             </div>
-                            <span class="time-ago">1 ngày trước</span>
-                        </div>
-                        
-                        <div class="mt-3 flex space-x-2">
-                            <button class="text-sm px-3 py-1 bg-green-100 text-green-800 rounded-full hover:bg-green-200">
-                                Xem chi tiết
-                            </button>
+                            
+                            <div class="mt-3 flex space-x-2">
+                                <button class="text-sm px-3 py-1 bg-orange-100 text-orange-800 rounded-full hover:bg-orange-200">
+                                    Xem sản phẩm
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="notification-card p-4 border-b border-gray-100" data-type="wallet">
-                <div class="flex items-start">
-                    <div class="notification-icon wallet">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h3 class="font-bold text-gray-800">Liên kết ngân hàng thành công</h3>
-                                <p class="text-gray-600 mt-1">Bạn đã liên kết thành công tài khoản ngân hàng Vietcombank với ví E-Shop. Giờ đây bạn có thể rút tiền dễ dàng</p>
-                            </div>
-                            <span class="time-ago">3 ngày trước</span>
+                
+                <!-- Wallet Notifications -->
+                <div class="nt-notification-card unread p-4 border-b border-gray-100" data-type="wallet">
+                    <div class="flex items-start">
+                        <div class="nt-notification-icon wallet">
+                            <i class="fas fa-coins"></i>
                         </div>
                         
-                        <div class="mt-3 flex space-x-2">
-                            <button class="text-sm px-3 py-1 bg-green-100 text-green-800 rounded-full hover:bg-green-200">
-                                Quản lý ví
-                            </button>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="flex items-center">
+                                        <span class="nt-notification-badge mr-2"></span>
+                                        <h3 class="font-bold text-gray-800">Giao dịch hoàn tiền thành công</h3>
+                                    </div>
+                                    <p class="text-gray-600 mt-1">Hoàn tiền đơn hàng #DH230623 đã thành công. Số tiền 350.000đ đã được chuyển vào ví E-Shop của bạn</p>
+                                </div>
+                                <span class="text-gray-500 text-sm whitespace-nowrap">1 ngày trước</span>
+                            </div>
+                            
+                            <div class="mt-3 flex space-x-2">
+                                <button class="text-sm px-3 py-1 bg-green-100 text-green-800 rounded-full hover:bg-green-200">
+                                    Xem chi tiết
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- System Notifications -->
-            <div class="notification-card p-4 border-b border-gray-100" data-type="system">
-                <div class="flex items-start">
-                    <div class="notification-icon system">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </div>
-                    
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h3 class="font-bold text-gray-800">Cập nhật chính sách bảo mật</h3>
-                                <p class="text-gray-600 mt-1">Chúng tôi đã cập nhật Điều khoản dịch vụ và Chính sách bảo mật. Vui lòng xem lại để hiểu rõ hơn về cách chúng tôi bảo vệ thông tin của bạn</p>
-                            </div>
-                            <span class="time-ago">5 ngày trước</span>
+                
+                <div class="nt-notification-card p-4 border-b border-gray-100" data-type="wallet">
+                    <div class="flex items-start">
+                        <div class="nt-notification-icon wallet">
+                            <i class="fas fa-shield-alt"></i>
                         </div>
                         
-                        <div class="mt-3 flex space-x-2">
-                            <button class="text-sm px-3 py-1 bg-purple-100 text-purple-800 rounded-full hover:bg-purple-200">
-                                Xem chính sách
-                            </button>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-bold text-gray-800">Liên kết ngân hàng thành công</h3>
+                                    <p class="text-gray-600 mt-1">Bạn đã liên kết thành công tài khoản ngân hàng Vietcombank với ví E-Shop. Giờ đây bạn có thể rút tiền dễ dàng</p>
+                                </div>
+                                <span class="text-gray-500 text-sm whitespace-nowrap">3 ngày trước</span>
+                            </div>
+                            
+                            <div class="mt-3 flex space-x-2">
+                                <button class="text-sm px-3 py-1 bg-green-100 text-green-800 rounded-full hover:bg-green-200">
+                                    Quản lý ví
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="notification-card p-4 border-b border-gray-100" data-type="promotion">
-                <div class="flex items-start">
-                    <div class="notification-icon promotion">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h3 class="font-bold text-gray-800">Flash Sale 0Đ - 21H HÔM NAY</h3>
-                                <p class="text-gray-600 mt-1">Săn ngay sản phẩm giá 0Đ tại Flash Sale 21H hôm nay. Đừng bỏ lỡ cơ hội mua hàng giá tốt!</p>
-                            </div>
-                            <span class="time-ago">1 tuần trước</span>
+                
+                <!-- System Notifications -->
+                <div class="nt-notification-card p-4 border-b border-gray-100" data-type="system">
+                    <div class="flex items-start">
+                        <div class="nt-notification-icon system">
+                            <i class="fas fa-exclamation-triangle"></i>
                         </div>
                         
-                        <div class="mt-3 flex space-x-2">
-                            <button class="text-sm px-3 py-1 bg-orange-100 text-orange-800 rounded-full hover:bg-orange-200">
-                Tham gia ngay
-                            </button>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-bold text-gray-800">Cập nhật chính sách bảo mật</h3>
+                                    <p class="text-gray-600 mt-1">Chúng tôi đã cập nhật Điều khoản dịch vụ và Chính sách bảo mật. Vui lòng xem lại để hiểu rõ hơn về cách chúng tôi bảo vệ thông tin của bạn</p>
+                                </div>
+                                <span class="text-gray-500 text-sm whitespace-nowrap">5 ngày trước</span>
+                            </div>
+                            
+                            <div class="mt-3 flex space-x-2">
+                                <button class="text-sm px-3 py-1 bg-purple-100 text-purple-800 rounded-full hover:bg-purple-200">
+                                    Xem chính sách
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="notification-card p-4 border-b border-gray-100" data-type="order">
-                <div class="flex items-start">
-                    <div class="notification-icon order">
-                        <i class="fas fa-box-open"></i>
-                    </div>
-                    
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h3 class="font-bold text-gray-800">Đơn hàng #DH230618 đã được xác nhận</h3>
-                                <p class="text-gray-600 mt-1">Đơn hàng của bạn đang được chuẩn bị. Chúng tôi sẽ thông báo khi đơn hàng sẵn sàng giao</p>
-                            </div>
-                            <span class="time-ago">1 tuần trước</span>
+                
+                <div class="nt-notification-card p-4 border-b border-gray-100" data-type="promotion">
+                    <div class="flex items-start">
+                        <div class="nt-notification-icon promotion">
+                            <i class="fas fa-bolt"></i>
                         </div>
                         
-                        <div class="mt-3 flex space-x-2">
-                            <button class="text-sm px-3 py-1 bg-blue-100 text-blue-800 rounded-full hover:bg-blue-200">
-                                Xem chi tiết
-                            </button>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-bold text-gray-800">Flash Sale 0Đ - 21H HÔM NAY</h3>
+                                    <p class="text-gray-600 mt-1">Săn ngay sản phẩm giá 0Đ tại Flash Sale 21H hôm nay. Đừng bỏ lỡ cơ hội mua hàng giá tốt!</p>
+                                </div>
+                                <span class="text-gray-500 text-sm whitespace-nowrap">1 tuần trước</span>
+                            </div>
+                            
+                            <div class="mt-3 flex space-x-2">
+                                <button class="text-sm px-3 py-1 bg-orange-100 text-orange-800 rounded-full hover:bg-orange-200">
+                                    Tham gia ngay
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nt-notification-card p-4 border-b border-gray-100" data-type="order">
+                    <div class="flex items-start">
+                        <div class="nt-notification-icon order">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-bold text-gray-800">Đơn hàng #DH230618 đã được xác nhận</h3>
+                                    <p class="text-gray-600 mt-1">Đơn hàng của bạn đang được chuẩn bị. Chúng tôi sẽ thông báo khi đơn hàng sẵn sàng giao</p>
+                                </div>
+                                <span class="text-gray-500 text-sm whitespace-nowrap">1 tuần trước</span>
+                            </div>
+                            
+                            <div class="mt-3 flex space-x-2">
+                                <button class="text-sm px-3 py-1 bg-blue-100 text-blue-800 rounded-full hover:bg-blue-200">
+                                    Xem chi tiết
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -318,166 +342,137 @@
     </div>
 
     <script>
-        // Hàm gửi chiều cao về trang chủ
-        function sendHeightToParent() {
-            const height = Math.max(
-                document.body.scrollHeight,
-                document.body.offsetHeight,
-                document.documentElement.scrollHeight,
-                document.documentElement.offsetHeight
-            );
+        //Hàm gửi chiều cao về trang chủ
+        function updateParentHeight() {
+            const height = document.documentElement.scrollHeight;
             
-            // Gửi chiều cao về trang chủ
             window.parent.postMessage({
-                type: 'resize',
+                type: 'resizeIframe',
                 height: height
             }, '*');
         }
 
-        // Sử dụng requestAnimationFrame để giới hạn tần suất gửi
-        let lastSentHeight = 0;
-        function throttledSendHeight() {
-            const currentHeight = Math.max(
-                document.body.scrollHeight,
-                document.documentElement.scrollHeight
-            );
+        // Gọi khi tải trang
+        document.addEventListener('DOMContentLoaded', function() {
+            updateParentHeight();
             
-            // Chỉ gửi nếu chiều cao thay đổi đáng kể
-            if (Math.abs(currentHeight - lastSentHeight) > 50) {
-                sendHeightToParent();
-                lastSentHeight = currentHeight;
-            }
-            requestAnimationFrame(throttledSendHeight);
-        }
-
-        // Bắt đầu theo dõi
-        throttledSendHeight();
-
-        // Gửi chiều cao khi trang tải xong
-        window.addEventListener('load', () => {
-            setTimeout(sendHeightToParent, 300);
-        });
-
-        // Trả lời khi nhận được yêu cầu từ trang chủ
-        window.addEventListener('message', (event) => {
-            if (event.data === 'getHeight') {
-                throttledSendHeight();
-            }
-        });
-
-        // Theo dõi thay đổi nội dung với MutationObserver
-        const observer = new MutationObserver(() => {
-            throttledSendHeight();
-        });
-
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-            attributes: false,
-            characterData: false
+            // Thêm ResizeObserver để tự động cập nhật
+            const resizeObserver = new ResizeObserver(entries => {
+                updateParentHeight();
+            });
+            
+            resizeObserver.observe(document.body);
         });
     
-        // Tab Switching
-        document.querySelectorAll('.tab-item').forEach(tab => {
-            tab.addEventListener('click', function() {
-                // Remove active class from all tabs
-                document.querySelectorAll('.tab-item').forEach(t => {
-                    t.classList.remove('active');
+        // SỬA LẠI PHẦN QUAN TRỌNG - XỬ LÝ SỰ KIỆN TAB
+        document.addEventListener('DOMContentLoaded', () => {
+            // Tab Switching - SỬA LẠI CÁCH GẮN SỰ KIỆN
+            const tabItems = document.querySelectorAll('.nt-tab-item');
+            tabItems.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabItems.forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    filterNotifications();
                 });
-                
-                // Add active class to clicked tab
-                this.classList.add('active');
-                
-                const tabType = this.dataset.tab;
-                filterNotifications();
-            });
-        });
-        
-        // Filter buttons
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                // Remove active class from all filter buttons
-                document.querySelectorAll('.filter-btn').forEach(b => {
-                    b.classList.remove('active');
-                });
-                
-                // Add active class to clicked button
-                this.classList.add('active');
-                
-                filterNotifications();
-            });
-        });
-        
-        // Mark all as read
-        document.querySelector('.mark-all-read').addEventListener('click', function() {
-            document.querySelectorAll('.notification-card.unread').forEach(card => {
-                card.classList.remove('unread');
             });
             
-            // Update badge counts
-            document.querySelectorAll('.count-badge').forEach(badge => {
-                badge.textContent = '0';
+            // Filter buttons
+            const filterButtons = document.querySelectorAll('.nt-filter-btn');
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all filter buttons
+                    filterButtons.forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    filterNotifications();
+                });
             });
-        });
-        
-        // Mark single notification as read
-        document.querySelectorAll('.notification-card').forEach(card => {
-            card.addEventListener('click', function() {
-                this.classList.remove('unread');
+            
+            // Mark all as read
+            document.getElementById('mark-all-read').addEventListener('click', function() {
+                document.querySelectorAll('.nt-notification-card.unread').forEach(card => {
+                    card.classList.remove('unread');
+                });
                 
-                // Update badge count for the tab
-                const type = this.dataset.type;
-                const tab = document.querySelector(`.tab-item[data-tab="${type}"]`);
-                if (tab) {
-                    const badge = tab.querySelector('.count-badge');
-                    if (badge) {
-                        const count = parseInt(badge.textContent);
-                        if (count > 0) {
-                            badge.textContent = (count - 1).toString();
+                // Update badge counts
+                document.querySelectorAll('.nt-count-badge').forEach(badge => {
+                    badge.textContent = '0';
+                });
+                
+                // Send updated height to parent
+                setTimeout(sendHeightToParent, 100);
+            });
+            
+            // Mark single notification as read
+            document.querySelectorAll('.nt-notification-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    this.classList.remove('unread');
+                    
+                    // Update badge count for the tab
+                    const type = this.dataset.type;
+                    const tab = document.querySelector(`.nt-tab-item[data-tab="${type}"]`);
+                    if (tab) {
+                        const badge = tab.querySelector('.nt-count-badge');
+                        if (badge) {
+                            const count = parseInt(badge.textContent);
+                            if (count > 0) {
+                                badge.textContent = (count - 1).toString();
+                            }
                         }
                     }
-                }
-                
-                // Also update "All" tab
-                const allTab = document.querySelector('.tab-item[data-tab="all"]');
-                if (allTab) {
-                    const badge = allTab.querySelector('.count-badge');
-                    if (badge) {
-                        const count = parseInt(badge.textContent);
-                        if (count > 0) {
-                            badge.textContent = (count - 1).toString();
+                    
+                    // Also update "All" tab
+                    const allTab = document.querySelector('.nt-tab-item[data-tab="all"]');
+                    if (allTab) {
+                        const badge = allTab.querySelector('.nt-count-badge');
+                        if (badge) {
+                            const count = parseInt(badge.textContent);
+                            if (count > 0) {
+                                badge.textContent = (count - 1).toString();
+                            }
                         }
                     }
-                }
+                    
+                    // Send updated height to parent
+                    setTimeout(sendHeightToParent, 100);
+                });
             });
+            
+            // Initialize
+            filterNotifications();
+            sendHeightToParent();
         });
         
-        // Filter notifications
+        // Filter notifications - ĐƠN GIẢN HÓA LOGIC LỌC
         function filterNotifications() {
-            const activeTab = document.querySelector('.tab-item.active').dataset.tab;
-            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            const activeTab = document.querySelector('.nt-tab-item.active')?.dataset.tab || 'all';
+            const activeFilter = document.querySelector('.nt-filter-btn.active')?.dataset.filter || 'all';
             
             let visibleCount = 0;
             
-            document.querySelectorAll('.notification-card').forEach(card => {
+            document.querySelectorAll('.nt-notification-card').forEach(card => {
                 const type = card.dataset.type;
                 const isUnread = card.classList.contains('unread');
                 
                 // Filter by tab
                 const tabMatch = (activeTab === 'all') || (activeTab === type);
                 
-                // Filter by status
+                // Filter by status - Đơn giản hóa
                 let filterMatch = true;
                 if (activeFilter === 'unread') {
                     filterMatch = isUnread;
-                } else if (activeFilter === 'today') {
-                    // In a real app, this would check actual dates
-                    filterMatch = card.querySelector('.time-ago').textContent.includes('giờ') || 
-                                  card.querySelector('.time-ago').textContent.includes('phút');
-                } else if (activeFilter === 'week') {
-                    // Show all for demo
-                    filterMatch = true;
                 }
+                // Bỏ qua các bộ lọc phức tạp khác
                 
                 if (tabMatch && filterMatch) {
                     card.style.display = 'flex';
@@ -490,14 +485,16 @@
             // Show empty state if no notifications match
             const emptyState = document.getElementById('empty-state');
             if (visibleCount === 0) {
-                emptyState.classList.remove('hidden');
+                emptyState.classList.remove('nt-empty-notifications');
+                emptyState.classList.add('block');
             } else {
-                emptyState.classList.add('hidden');
+                emptyState.classList.add('nt-empty-notifications');
+                emptyState.classList.remove('block');
             }
+            
+            // Send updated height to parent
+            setTimeout(sendHeightToParent, 100);
         }
-        
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', filterNotifications);
     </script>
 </body>
 </html>

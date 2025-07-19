@@ -7,34 +7,55 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/user.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff424f',
+                        secondary: '#c43a43',
+                        accent: '#ff6b78',
+                        light: '#f8f9fa',
+                        dark: '#1a202c',
+                        sidebarActive: '#fff5f5'
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 4px 20px rgba(0,0,0,0.08)'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body class="bg-gray-50 min-h-screen">
 
     <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loading-overlay">
+    <div class="vc-loading-overlay hidden" id="loading-overlay">
         <div class="vc-loading-spinner"></div>
     </div>
 
-    <!-- Profile Header -->
-    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-800">Voucher của tôi</h1>
-                <p class="text-gray-600 mt-1">Quản lý voucher, mã giảm giá và ưu đãi dành riêng cho bạn</p>
-            </div>
-            <div class="mt-4 md:mt-0 flex items-center">
-                <div class="points-badge bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-sm font-medium flex items-center">
-                    <i class="fas fa-coins mr-2"></i> <span id="points-count">3,250</span> điểm
+    <div class="mx-auto mb-4">
+        <!-- Profile Header -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">Voucher của tôi</h1>
+                    <p class="text-gray-600 mt-1">Quản lý voucher, mã giảm giá và ưu đãi dành riêng cho bạn</p>
                 </div>
-                <a href="/doi-diem" class="ml-3 text-sm text-blue-600 hover:text-blue-800 hover:underline">
-                    <i class="fas fa-exchange-alt mr-1"></i> Đổi điểm
-                </a>
+                <div class="mt-4 md:mt-0 flex items-center">
+                    <div class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-sm font-medium flex items-center">
+                        <i class="fas fa-coins mr-2"></i> <span id="points-count" class="vc-points-count">3,250</span> điểm
+                    </div>
+                    <a href="/doi-diem" class="ml-3 text-sm text-blue-600 hover:text-blue-800 hover:underline">
+                        <i class="fas fa-exchange-alt mr-1"></i> Đổi điểm
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="content-container p-4 md:p-6 max-w-6xl mx-auto">
-        
         <!-- Redeem Voucher Section -->
         <div class="bg-white rounded-xl shadow-md p-6 mb-8">
             <h2 class="text-xl font-bold text-gray-800 mb-4">Nhập mã voucher</h2>
@@ -42,14 +63,14 @@
             
             <div class="flex flex-col md:flex-row gap-4">
                 <div class="flex-1">
-                    <div class="redeem-input flex border border-gray-300 rounded-lg overflow-hidden">
+                    <div class="flex border border-gray-300 rounded-lg overflow-hidden">
                         <input type="text" id="voucher-code" placeholder="Nhập mã voucher..." class="w-full p-3 focus:outline-none">
                         <button class="px-4 bg-gray-100 text-gray-600 border-l">
                             <i class="fas fa-ticket-alt"></i>
                         </button>
                     </div>
                 </div>
-                <button id="redeem-btn" class="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium flex items-center justify-center">
+                <button id="redeem-btn" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-secondary font-medium flex items-center justify-center transition-colors">
                     <span id="redeem-text">Áp dụng</span>
                 </button>
             </div>
@@ -61,34 +82,34 @@
         
         <!-- Tabs -->
         <div class="flex border-b border-gray-200 mb-6 overflow-x-auto">
-            <button class="tab-btn active whitespace-nowrap" data-tab="available">Có thể dùng (3)</button>
-            <button class="tab-btn whitespace-nowrap" data-tab="used">Đã sử dụng (2)</button>
-            <button class="tab-btn whitespace-nowrap" data-tab="expired">Hết hạn (1)</button>
-            <button class="tab-btn whitespace-nowrap" data-tab="all">Tất cả (6)</button>
+            <button class="vc-tab-btn active whitespace-nowrap px-4 py-3 font-medium" data-tab="available">Có thể dùng <span class="ml-1 bg-primary text-white px-2 py-0.5 rounded-full text-xs">3</span></button>
+            <button class="vc-tab-btn whitespace-nowrap px-4 py-3 font-medium" data-tab="used">Đã sử dụng <span class="ml-1 bg-gray-300 text-gray-700 px-2 py-0.5 rounded-full text-xs">2</span></button>
+            <button class="vc-tab-btn whitespace-nowrap px-4 py-3 font-medium" data-tab="expired">Hết hạn <span class="ml-1 bg-gray-300 text-gray-700 px-2 py-0.5 rounded-full text-xs">1</span></button>
+            <button class="vc-tab-btn whitespace-nowrap px-4 py-3 font-medium" data-tab="all">Tất cả <span class="ml-1 bg-gray-300 text-gray-700 px-2 py-0.5 rounded-full text-xs">6</span></button>
         </div>
         
         <!-- Tab Content -->
         <div id="tab-content">
             <!-- Available Vouchers -->
-            <div class="tab-pane active" id="available-tab">
+            <div class="vc-tab-pane active" id="available-tab">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Voucher 1 -->
-                    <div class="voucher-card rounded-lg shadow-md overflow-hidden voucher-enter">
-                        <div class="voucher-ribbon">Mới</div>
-                        <div class="voucher-counter">1</div>
+                    <div class="vc-voucher-card bg-white rounded-xl shadow-md overflow-hidden relative vc-voucher-enter">
+                        <div class="vc-ribbon">Mới</div>
+                        <div class="vc-counter">1</div>
                         <div class="p-6">
                             <div class="flex justify-between items-start mb-4">
                                 <div>
-                                    <div class="flex items-center">
-                                        <span class="voucher-type type-discount mr-2">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="vc-type vc-type-discount text-xs px-3 py-1 rounded-full">
                                             <i class="fas fa-tag mr-1"></i> Giảm giá
                                         </span>
-                                        <span class="voucher-status status-available">
+                                        <span class="vc-status vc-status-available text-xs px-3 py-1 rounded-full">
                                             Có thể dùng
                                         </span>
                                     </div>
-                                    <h3 class="text-xl font-bold text-gray-800 mt-2">Giảm 50K cho đơn từ 300K</h3>
-                                    <div class="text-sm text-gray-700 mt-1">Mã: <span class="voucher-code">VOUCHER50K</span></div>
+                                    <h3 class="text-xl font-bold text-gray-800">Giảm 50K cho đơn từ 300K</h3>
+                                    <div class="text-sm text-gray-700 mt-1">Mã: <span class="vc-voucher-code font-mono cursor-pointer hover:text-primary">VOUCHER50K</span></div>
                                 </div>
                                 <div class="bg-gray-100 rounded-full p-2">
                                     <i class="fas fa-gift text-red-600 text-xl"></i>
@@ -96,24 +117,24 @@
                             </div>
                             
                             <div class="flex items-center justify-between mb-4">
-                                <div class="text-2xl font-bold text-red-600">50.000₫</div>
+                                <div class="text-2xl font-bold text-primary">50.000₫</div>
                                 <div class="text-sm text-gray-500">Còn <span class="font-bold">3</span> ngày</div>
                             </div>
                             
                             <div class="mb-4">
                                 <div class="text-sm text-gray-500 mb-1">Đơn tối thiểu: <span class="font-medium">300.000₫</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress-value" style="width: 65%"></div>
+                                <div class="vc-progress-bar">
+                                    <div class="vc-progress-value" style="width: 65%"></div>
                                 </div>
                             </div>
                             
                             <div class="border-t border-gray-100 pt-4">
-                                <div class="terms-toggle cursor-pointer">
+                                <div class="vc-terms-toggle cursor-pointer">
                                     <div class="flex justify-between items-center">
                                         <span class="text-sm font-medium text-gray-700">Điều kiện sử dụng</span>
                                         <i class="fas fa-chevron-down text-gray-500"></i>
                                     </div>
-                                    <div class="terms-content text-sm text-gray-500 mt-2">
+                                    <div class="vc-terms-content text-sm text-gray-500 mt-2 hidden">
                                         <ul class="list-disc pl-5 space-y-1">
                                             <li>Áp dụng cho tất cả sản phẩm (trừ sản phẩm đặc biệt)</li>
                                             <li>Giảm tối đa 50.000đ</li>
@@ -128,28 +149,28 @@
                         
                         <div class="bg-gray-50 px-6 py-4 flex justify-between items-center">
                             <div class="text-sm text-gray-500">HSD: 30/06/2025</div>
-                            <button class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium">
+                            <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-secondary font-medium transition-colors">
                                 Sử dụng ngay
                             </button>
                         </div>
                     </div>
                     
                     <!-- Voucher 2 -->
-                    <div class="voucher-card rounded-lg shadow-md overflow-hidden voucher-enter" style="animation-delay: 0.1s">
-                        <div class="voucher-counter">2</div>
+                    <div class="vc-voucher-card bg-white rounded-xl shadow-md overflow-hidden relative vc-voucher-enter" style="animation-delay: 0.1s">
+                        <div class="vc-counter">2</div>
                         <div class="p-6">
                             <div class="flex justify-between items-start mb-4">
                                 <div>
-                                    <div class="flex items-center">
-                                        <span class="voucher-type type-free-ship mr-2">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="vc-type vc-type-free-ship text-xs px-3 py-1 rounded-full">
                                             <i class="fas fa-shipping-fast mr-1"></i> Freeship
                                         </span>
-                                        <span class="voucher-status status-available">
+                                        <span class="vc-status vc-status-available text-xs px-3 py-1 rounded-full">
                                             Có thể dùng
                                         </span>
                                     </div>
-                                    <h3 class="text-xl font-bold text-gray-800 mt-2">Freeship đơn từ 150K</h3>
-                                    <div class="text-sm text-gray-700 mt-1">Mã: <span class="voucher-code">FREESHIP150</span></div>
+                                    <h3 class="text-xl font-bold text-gray-800">Freeship đơn từ 150K</h3>
+                                    <div class="text-sm text-gray-700 mt-1">Mã: <span class="vc-voucher-code font-mono cursor-pointer hover:text-primary">FREESHIP150</span></div>
                                 </div>
                                 <div class="bg-gray-100 rounded-full p-2">
                                     <i class="fas fa-truck text-blue-500 text-xl"></i>
@@ -163,18 +184,18 @@
                             
                             <div class="mb-4">
                                 <div class="text-sm text-gray-500 mb-1">Đơn tối thiểu: <span class="font-medium">150.000₫</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress-value" style="width: 25%"></div>
+                                <div class="vc-progress-bar">
+                                    <div class="vc-progress-value" style="width: 25%"></div>
                                 </div>
                             </div>
                             
                             <div class="border-t border-gray-100 pt-4">
-                                <div class="terms-toggle cursor-pointer">
+                                <div class="vc-terms-toggle cursor-pointer">
                                     <div class="flex justify-between items-center">
                                         <span class="text-sm font-medium text-gray-700">Điều kiện sử dụng</span>
                                         <i class="fas fa-chevron-down text-gray-500"></i>
                                     </div>
-                                    <div class="terms-content text-sm text-gray-500 mt-2">
+                                    <div class="vc-terms-content text-sm text-gray-500 mt-2 hidden">
                                         <ul class="list-disc pl-5 space-y-1">
                                             <li>Áp dụng cho tất cả sản phẩm</li>
                                             <li>Miễn phí vận chuyển toàn quốc</li>
@@ -189,29 +210,29 @@
                         
                         <div class="bg-gray-50 px-6 py-4 flex justify-between items-center">
                             <div class="text-sm text-gray-500">HSD: 15/07/2025</div>
-                            <button class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium">
+                            <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-secondary font-medium transition-colors">
                                 Sử dụng ngay
                             </button>
                         </div>
                     </div>
                     
                     <!-- Voucher 3 -->
-                    <div class="voucher-card rounded-lg shadow-md overflow-hidden voucher-enter" style="animation-delay: 0.2s">
-                        <div class="voucher-ribbon">Hot</div>
-                        <div class="voucher-counter">3</div>
+                    <div class="vc-voucher-card bg-white rounded-xl shadow-md overflow-hidden relative vc-voucher-enter" style="animation-delay: 0.2s">
+                        <div class="vc-ribbon">Hot</div>
+                        <div class="vc-counter">3</div>
                         <div class="p-6">
                             <div class="flex justify-between items-start mb-4">
                                 <div>
-                                    <div class="flex items-center">
-                                        <span class="voucher-type type-cashback mr-2">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="vc-type vc-type-cashback text-xs px-3 py-1 rounded-full">
                                             <i class="fas fa-money-bill-wave mr-1"></i> Hoàn tiền
                                         </span>
-                                        <span class="voucher-status status-available">
+                                        <span class="vc-status vc-status-available text-xs px-3 py-1 rounded-full">
                                             Có thể dùng
                                         </span>
                                     </div>
-                                    <h3 class="text-xl font-bold text-gray-800 mt-2">Hoàn 10% tối đa 100K</h3>
-                                    <div class="text-sm text-gray-700 mt-1">Mã: <span class="voucher-code">CASHBACK10</span></div>
+                                    <h3 class="text-xl font-bold text-gray-800">Hoàn 10% tối đa 100K</h3>
+                                    <div class="text-sm text-gray-700 mt-1">Mã: <span class="vc-voucher-code font-mono cursor-pointer hover:text-primary">CASHBACK10</span></div>
                                 </div>
                                 <div class="bg-gray-100 rounded-full p-2">
                                     <i class="fas fa-percentage text-yellow-600 text-xl"></i>
@@ -225,18 +246,18 @@
                             
                             <div class="mb-4">
                                 <div class="text-sm text-gray-500 mb-1">Đơn tối thiểu: <span class="font-medium">500.000₫</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress-value" style="width: 80%"></div>
+                                <div class="vc-progress-bar">
+                                    <div class="vc-progress-value" style="width: 80%"></div>
                                 </div>
                             </div>
                             
                             <div class="border-t border-gray-100 pt-4">
-                                <div class="terms-toggle cursor-pointer">
+                                <div class="vc-terms-toggle cursor-pointer">
                                     <div class="flex justify-between items-center">
                                         <span class="text-sm font-medium text-gray-700">Điều kiện sử dụng</span>
                                         <i class="fas fa-chevron-down text-gray-500"></i>
                                     </div>
-                                    <div class="terms-content text-sm text-gray-500 mt-2">
+                                    <div class="vc-terms-content text-sm text-gray-500 mt-2 hidden">
                                         <ul class="list-disc pl-5 space-y-1">
                                             <li>Áp dụng cho sản phẩm điện tử</li>
                                             <li>Hoàn tiền tối đa 100.000đ</li>
@@ -251,7 +272,7 @@
                         
                         <div class="bg-gray-50 px-6 py-4 flex justify-between items-center">
                             <div class="text-sm text-gray-500">HSD: 20/07/2025</div>
-                            <button class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium">
+                            <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-secondary font-medium transition-colors">
                                 Sử dụng ngay
                             </button>
                         </div>
@@ -260,23 +281,23 @@
             </div>
             
             <!-- Used Vouchers -->
-            <div class="tab-pane hidden" id="used-tab">
+            <div class="vc-tab-pane hidden" id="used-tab">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Used Voucher 1 -->
-                    <div class="voucher-card rounded-lg shadow-md overflow-hidden opacity-80">
+                    <div class="vc-voucher-card bg-white rounded-xl shadow-md overflow-hidden relative opacity-80">
                         <div class="p-6">
                             <div class="flex justify-between items-start mb-4">
                                 <div>
-                                    <div class="flex items-center">
-                                        <span class="voucher-type type-discount mr-2">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="vc-type vc-type-discount text-xs px-3 py-1 rounded-full">
                                             <i class="fas fa-tag mr-1"></i> Giảm giá
                                         </span>
-                                        <span class="voucher-status status-used">
+                                        <span class="vc-status vc-status-used text-xs px-3 py-1 rounded-full">
                                             Đã sử dụng
                                         </span>
                                     </div>
-                                    <h3 class="text-xl font-bold text-gray-800 mt-2">Giảm 30% tối đa 100K</h3>
-                                    <div class="text-sm text-gray-700 mt-1">Mã: <span class="voucher-code">DISCOUNT30</span></div>
+                                    <h3 class="text-xl font-bold text-gray-800">Giảm 30% tối đa 100K</h3>
+                                    <div class="text-sm text-gray-700 mt-1">Mã: <span class="font-mono">DISCOUNT30</span></div>
                                 </div>
                                 <div class="bg-gray-100 rounded-full p-2">
                                     <i class="fas fa-gift text-gray-500 text-xl"></i>
@@ -290,18 +311,18 @@
                             
                             <div class="mb-4">
                                 <div class="text-sm text-gray-500 mb-1">Đơn tối thiểu: <span class="font-medium">200.000₫</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress-value" style="width: 100%"></div>
+                                <div class="vc-progress-bar">
+                                    <div class="vc-progress-value" style="width: 100%"></div>
                                 </div>
                             </div>
                             
                             <div class="border-t border-gray-100 pt-4">
-                                <div class="terms-toggle cursor-pointer">
+                                <div class="vc-terms-toggle cursor-pointer">
                                     <div class="flex justify-between items-center">
                                         <span class="text-sm font-medium text-gray-700">Điều kiện sử dụng</span>
                                         <i class="fas fa-chevron-down text-gray-500"></i>
                                     </div>
-                                    <div class="terms-content text-sm text-gray-500 mt-2">
+                                    <div class="vc-terms-content text-sm text-gray-500 mt-2 hidden">
                                         <ul class="list-disc pl-5 space-y-1">
                                             <li>Áp dụng cho tất cả sản phẩm thời trang</li>
                                             <li>Giảm tối đa 100.000đ</li>
@@ -321,20 +342,20 @@
                     </div>
                     
                     <!-- Used Voucher 2 -->
-                    <div class="voucher-card rounded-lg shadow-md overflow-hidden opacity-80">
+                    <div class="vc-voucher-card bg-white rounded-xl shadow-md overflow-hidden relative opacity-80">
                         <div class="p-6">
                             <div class="flex justify-between items-start mb-4">
                                 <div>
-                                    <div class="flex items-center">
-                                        <span class="voucher-type type-free-ship mr-2">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="vc-type vc-type-free-ship text-xs px-3 py-1 rounded-full">
                                             <i class="fas fa-shipping-fast mr-1"></i> Freeship
                                         </span>
-                                        <span class="voucher-status status-used">
+                                        <span class="vc-status vc-status-used text-xs px-3 py-1 rounded-full">
                                             Đã sử dụng
                                         </span>
                                     </div>
-                                    <h3 class="text-xl font-bold text-gray-800 mt-2">Freeship đơn bất kỳ</h3>
-                                    <div class="text-sm text-gray-700 mt-1">Mã: <span class="voucher-code">FREESHIPALL</span></div>
+                                    <h3 class="text-xl font-bold text-gray-800">Freeship đơn bất kỳ</h3>
+                                    <div class="text-sm text-gray-700 mt-1">Mã: <span class="font-mono">FREESHIPALL</span></div>
                                 </div>
                                 <div class="bg-gray-100 rounded-full p-2">
                                     <i class="fas fa-truck text-gray-500 text-xl"></i>
@@ -348,18 +369,18 @@
                             
                             <div class="mb-4">
                                 <div class="text-sm text-gray-500 mb-1">Không yêu cầu tối thiểu</div>
-                                <div class="progress-bar">
-                                    <div class="progress-value" style="width: 100%"></div>
+                                <div class="vc-progress-bar">
+                                    <div class="vc-progress-value" style="width: 100%"></div>
                                 </div>
                             </div>
                             
                             <div class="border-t border-gray-100 pt-4">
-                                <div class="terms-toggle cursor-pointer">
+                                <div class="vc-terms-toggle cursor-pointer">
                                     <div class="flex justify-between items-center">
                                         <span class="text-sm font-medium text-gray-700">Điều kiện sử dụng</span>
                                         <i class="fas fa-chevron-down text-gray-500"></i>
                                     </div>
-                                    <div class="terms-content text-sm text-gray-500 mt-2">
+                                    <div class="vc-terms-content text-sm text-gray-500 mt-2 hidden">
                                         <ul class="list-disc pl-5 space-y-1">
                                             <li>Áp dụng cho đơn hàng bất kỳ</li>
                                             <li>Miễn phí vận chuyển toàn quốc</li>
@@ -381,23 +402,23 @@
             </div>
             
             <!-- Expired Vouchers -->
-            <div class="tab-pane hidden" id="expired-tab">
+            <div class="vc-tab-pane hidden" id="expired-tab">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Expired Voucher -->
-                    <div class="voucher-card rounded-lg shadow-md overflow-hidden opacity-70">
+                    <div class="vc-voucher-card bg-white rounded-xl shadow-md overflow-hidden relative opacity-70">
                         <div class="p-6">
                             <div class="flex justify-between items-start mb-4">
                                 <div>
-                                    <div class="flex items-center">
-                                        <span class="voucher-type type-discount mr-2">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="vc-type vc-type-discount text-xs px-3 py-1 rounded-full">
                                             <i class="fas fa-tag mr-1"></i> Giảm giá
                                         </span>
-                                        <span class="voucher-status status-expired">
+                                        <span class="vc-status vc-status-expired text-xs px-3 py-1 rounded-full">
                                             Hết hạn
                                         </span>
                                     </div>
-                                    <h3 class="text-xl font-bold text-gray-800 mt-2">Giảm 20% đơn 500K</h3>
-                                    <div class="text-sm text-gray-700 mt-1">Mã: <span class="voucher-code">SAVE20</span></div>
+                                    <h3 class="text-xl font-bold text-gray-800">Giảm 20% đơn 500K</h3>
+                                    <div class="text-sm text-gray-700 mt-1">Mã: <span class="font-mono">SAVE20</span></div>
                                 </div>
                                 <div class="bg-gray-100 rounded-full p-2">
                                     <i class="fas fa-gift text-gray-500 text-xl"></i>
@@ -411,18 +432,18 @@
                             
                             <div class="mb-4">
                                 <div class="text-sm text-gray-500 mb-1">Đơn tối thiểu: <span class="font-medium">500.000₫</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress-value" style="width: 0%"></div>
+                                <div class="vc-progress-bar">
+                                    <div class="vc-progress-value" style="width: 0%"></div>
                                 </div>
                             </div>
                             
                             <div class="border-t border-gray-100 pt-4">
-                                <div class="terms-toggle cursor-pointer">
+                                <div class="vc-terms-toggle cursor-pointer">
                                     <div class="flex justify-between items-center">
                                         <span class="text-sm font-medium text-gray-700">Điều kiện sử dụng</span>
                                         <i class="fas fa-chevron-down text-gray-500"></i>
                                     </div>
-                                    <div class="terms-content text-sm text-gray-500 mt-2">
+                                    <div class="vc-terms-content text-sm text-gray-500 mt-2 hidden">
                                         <ul class="list-disc pl-5 space-y-1">
                                             <li>Áp dụng cho tất cả sản phẩm</li>
                                             <li>Giảm tối đa 150.000đ</li>
@@ -446,7 +467,7 @@
             </div>
             
             <!-- All Vouchers -->
-            <div class="tab-pane hidden" id="all-tab">
+            <div class="vc-tab-pane hidden" id="all-tab">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Tất cả voucher sẽ được hiển thị ở đây -->
                 </div>
@@ -454,83 +475,46 @@
         </div>
         
         <!-- Empty State -->
-        <div class="hidden empty-state bg-white rounded-lg shadow-md p-8 text-center">
+        <div class="hidden vc-empty-state bg-white rounded-lg shadow-md p-8 text-center">
             <div class="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                 <i class="fas fa-ticket-alt text-3xl text-gray-400"></i>
             </div>
             <h3 class="text-xl font-bold text-gray-700 mb-2">Chưa có voucher nào</h3>
             <p class="text-gray-500 mb-6">Bạn chưa có voucher nào trong mục này. Hãy tham gia các chương trình khuyến mãi để nhận voucher!</p>
-            <button class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg">
+            <button class="bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg transition-colors">
                 Xem khuyến mãi
             </button>
         </div>
     </div>
 
     <script>
-            // Hàm gửi chiều cao về trang chủ
-        function sendHeightToParent() {
-            const height = Math.max(
-                document.body.scrollHeight,
-                document.body.offsetHeight,
-                document.documentElement.scrollHeight,
-                document.documentElement.offsetHeight
-            );
+        // Hàm gửi chiều cao về trang chủ
+        function updateParentHeight() {
+            const height = document.documentElement.scrollHeight;
             
-            // Gửi chiều cao về trang chủ
             window.parent.postMessage({
-                type: 'resize',
+                type: 'resizeIframe',
                 height: height
             }, '*');
         }
 
-        // Sử dụng requestAnimationFrame để giới hạn tần suất gửi
-        let lastSentHeight = 0;
-        function throttledSendHeight() {
-            const currentHeight = Math.max(
-                document.body.scrollHeight,
-                document.documentElement.scrollHeight
-            );
+        // Gọi khi tải trang
+        document.addEventListener('DOMContentLoaded', function() {
+            updateParentHeight();
             
-            // Chỉ gửi nếu chiều cao thay đổi đáng kể
-            if (Math.abs(currentHeight - lastSentHeight) > 50) {
-                sendHeightToParent();
-                lastSentHeight = currentHeight;
-            }
-            requestAnimationFrame(throttledSendHeight);
-        }
-
-        // Bắt đầu theo dõi
-        throttledSendHeight();
-
-        // Gửi chiều cao khi trang tải xong
-        window.addEventListener('load', () => {
-            setTimeout(sendHeightToParent, 300);
-        });
-
-        // Trả lời khi nhận được yêu cầu từ trang chủ
-        window.addEventListener('message', (event) => {
-            if (event.data === 'getHeight') {
-                throttledSendHeight();
-            }
-        });
-
-        // Theo dõi thay đổi nội dung với MutationObserver
-        const observer = new MutationObserver(() => {
-            throttledSendHeight();
-        });
-
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-            attributes: false,
-            characterData: false
+            // Thêm ResizeObserver để tự động cập nhật
+            const resizeObserver = new ResizeObserver(entries => {
+                updateParentHeight();
+            });
+            
+            resizeObserver.observe(document.body);
         });
   
         // Tab switching
-        document.querySelectorAll('.tab-btn').forEach(button => {
+        document.querySelectorAll('.vc-tab-btn').forEach(button => {
             button.addEventListener('click', function() {
                 // Remove active class from all buttons
-                document.querySelectorAll('.tab-btn').forEach(btn => {
+                document.querySelectorAll('.vc-tab-btn').forEach(btn => {
                     btn.classList.remove('active');
                 });
                 
@@ -541,28 +525,30 @@
                 const tabId = this.getAttribute('data-tab');
                 
                 // Hide all tab panes
-                document.querySelectorAll('.tab-pane').forEach(pane => {
+                document.querySelectorAll('.vc-tab-pane').forEach(pane => {
                     pane.classList.remove('active');
                     pane.classList.add('hidden');
                 });
                 
                 // Show target tab pane
-                document.getElementById(`${tabId}-tab`).classList.remove('hidden');
-                document.getElementById(`${tabId}-tab`).classList.add('active');
+                const targetPane = document.getElementById(`${tabId}-tab`);
+                targetPane.classList.remove('hidden');
+                targetPane.classList.add('active');
             });
         });
         
         // Terms toggle
-        document.querySelectorAll('.terms-toggle').forEach(toggle => {
+        document.querySelectorAll('.vc-terms-toggle').forEach(toggle => {
             toggle.addEventListener('click', function() {
-                this.classList.toggle('expanded');
-                
-                // Rotate icon
+                const content = this.querySelector('.vc-terms-content');
                 const icon = this.querySelector('i');
-                if (icon.classList.contains('fa-chevron-down')) {
+                
+                if (content.classList.contains('hidden')) {
+                    content.classList.remove('hidden');
                     icon.classList.remove('fa-chevron-down');
                     icon.classList.add('fa-chevron-up');
                 } else {
+                    content.classList.add('hidden');
                     icon.classList.remove('fa-chevron-up');
                     icon.classList.add('fa-chevron-down');
                 }
@@ -583,7 +569,7 @@
             
             // Simulate API call
             redeemBtn.disabled = true;
-            redeemText.innerHTML = '<div class="vc-loading-spinner"></div> Đang kiểm tra...';
+            redeemText.innerHTML = '<div class="vc-loading-spinner inline-block w-4 h-4 mr-2"></div> Đang kiểm tra...';
             
             // Simulate loading
             setTimeout(() => {
@@ -603,10 +589,10 @@
                     pointsElement.textContent = newPoints.toLocaleString();
                     
                     // Add animation
-                    pointsElement.classList.add('points-badge');
+                    pointsElement.classList.add('vc-points-animate');
                     setTimeout(() => {
-                        pointsElement.classList.remove('points-badge');
-                    }, 2000);
+                        pointsElement.classList.remove('vc-points-animate');
+                    }, 1000);
                 } else {
                     showMessage(`Mã voucher "${voucherCode}" không hợp lệ hoặc đã hết hạn. Vui lòng kiểm tra lại.`, 'error');
                 }
@@ -634,7 +620,7 @@
         
         // Simulate voucher enter animation
         document.addEventListener('DOMContentLoaded', function() {
-            const vouchers = document.querySelectorAll('.voucher-enter');
+            const vouchers = document.querySelectorAll('.vc-voucher-enter');
             vouchers.forEach((voucher, index) => {
                 voucher.style.animationDelay = `${index * 0.1}s`;
                 setTimeout(() => {
@@ -644,7 +630,7 @@
             });
             
             // Add copy functionality to voucher codes
-            document.querySelectorAll('.voucher-code').forEach(code => {
+            document.querySelectorAll('.vc-voucher-code').forEach(code => {
                 code.addEventListener('click', function() {
                     const text = this.textContent;
                     navigator.clipboard.writeText(text).then(() => {

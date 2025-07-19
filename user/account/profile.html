@@ -354,36 +354,26 @@
                 }, 3000);
             }
 
-            // Hàm cập nhật chiều cao cho iframe
             function updateParentHeight() {
                 const height = document.documentElement.scrollHeight;
                 
-                if (window.parent) {
-                    window.parent.postMessage({
-                        type: 'resizeIframe',
-                        height: height
-                    }, '*');
-                }
+                window.parent.postMessage({
+                    type: 'resizeIframe',
+                    height: height
+                }, '*');
             }
 
-            // Gọi khi tải trang và khi có thay đổi
             // Gọi khi tải trang
-            updateParentHeight();
-
-            // Theo dõi thay đổi DOM - CHỈ CẦN 1 LẦN
-            const observer = new MutationObserver(function() {
+            document.addEventListener('DOMContentLoaded', function() {
                 updateParentHeight();
+                
+                // Thêm ResizeObserver để tự động cập nhật
+                const resizeObserver = new ResizeObserver(entries => {
+                    updateParentHeight();
+                });
+                
+                resizeObserver.observe(document.body);
             });
-
-            observer.observe(document.body, {
-                childList: true,
-                subtree: true,
-                attributes: true,
-                characterData: true
-            });
-
-            // Cập nhật khi thay đổi kích thước cửa sổ
-            window.addEventListener('resize', updateParentHeight);
         });
     </script>
 </body>
